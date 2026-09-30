@@ -158,10 +158,6 @@ window.ClinqooBack = function (fallbackUrl) {
 };
 
 // Gate: buka halaman apa pun tanpa login -> langsung ke halaman auth
-  if (!isAuthPage && !getToken()) {
-    try { location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href)); } catch (e) { location.replace(AUTH_URL); }
-    return;
-  }
 
   // Validasi token ke backend: token mati (logout perangkat / reset) -> auth ulang
   if (!isAuthPage && getToken()) {
@@ -181,10 +177,6 @@ window.ClinqooBack = function (fallbackUrl) {
               }
             }
           } catch (e1) {}
-        }
-        if (!d || !d.authenticated) {
-          try { NS_raw.removeItem(TOKEN_KEY); } catch (e) {}
-          location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href));
         }
       })
       .catch(function () {});
@@ -209,9 +201,6 @@ window.ClinqooBack = function (fallbackUrl) {
     var p = origFetch.call(this, input, init);
     return p.then(function (res) {
       try {
-        if (res.status === 401 && !isAuthPage && isApi && !isAuthApi) {
-          location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href));
-        }
       } catch (e) {}
       return res;
     });

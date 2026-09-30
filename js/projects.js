@@ -20,10 +20,10 @@ function stripMd(text) {
  */
 
 // Detect GitHub Pages subpath
-const _pjSeg = window.location.pathname.split('/')[1] || '';
-const _pjKnown = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
-const _isGHPages = window.location.hostname.indexOf('github.io') !== -1;
-const _PJBASE = _isGHPages && _pjSeg && _pjKnown.indexOf(_pjSeg) === -1 ? '/' + _pjSeg : '';
+var _pjSeg = window.location.pathname.split('/')[1] || '';
+var _pjKnown = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
+var _isGHPages = window.location.hostname.indexOf('github.io') !== -1;
+var _PJBASE = _isGHPages && _pjSeg && _pjKnown.indexOf(_pjSeg) === -1 ? '/' + _pjSeg : '';
 
 // === Sinkronisasi D1 per akun (Cloudflare) ===
 // Token Bearer diinjeksi otomatis oleh js/auth-client.js pada semua call /api/.

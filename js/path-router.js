@@ -5,10 +5,10 @@
  */
 
 // Detect if we're on GitHub Pages (subpath) vs Cloudflare Pages (root)
-const _seg = window.location.pathname.split('/')[1] || '';
-const _known = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
-const _isGitHubPages = window.location.hostname.indexOf('github.io') !== -1;
-const _BASE = _isGitHubPages && _seg && _known.indexOf(_seg) === -1 ? '/' + _seg : '';
+var _seg = window.location.pathname.split('/')[1] || '';
+var _known = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
+var _isGitHubPages = window.location.hostname.indexOf('github.io') !== -1;
+var _BASE = _isGitHubPages && _seg && _known.indexOf(_seg) === -1 ? '/' + _seg : '';
 
 const PathRouter = {
     getSegments() {
