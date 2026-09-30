@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+<script src="../../js/auth-client.js?v=2"></script>
+  <script src="../../js/accent-init.js"></script>
+<script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon.png">
+    <link rel="manifest" href="../../manifest.json">
+    <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+    <title>Build & Deployment — Clincoo</title>
+    <meta name="description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Clincoo">
+    <meta property="og:title" content="Build & Deployment — Clincoo">
+    <meta property="og:description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Clincoo">
+    <meta property="og:url" content="https://app.clincoo.buzz/">
+    <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Build & Deployment — Clincoo">
+    <meta name="twitter:description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f9;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark Mode Configuration */
+        body.dark-mode { background-color: #000000; color: #ffffff; }
+        body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+        
+        /* Header Buttons Dark Mode */
+        body.dark-mode button[onclick="history.back()"],
+        body.dark-mode header button[onclick] {
+            background-color: #000000 !important;
+            border: 1.5px solid rgba(255,255,255,0.4) !important;
+            color: #ffffff !important;
+        }
+        body.dark-mode button[onclick="history.back()"] svg,
+        body.dark-mode header button[onclick] svg { stroke: #ffffff !important; }
+        body.dark-mode button[onclick="history.back()"]:hover,
+        body.dark-mode header button[onclick]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+        
+        /* Typography & Borders Dark Mode */
+        body.dark-mode .text-gray-900, body.dark-mode .text-gray-800, body.dark-mode .text-black { color: #ffffff !important; }
+        body.dark-mode .text-gray-700, body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
+        body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray-300 { border-color: #222222 !important; }
+        body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
+        body.dark-mode .bg-\[#f7f7f9\], body.dark-mode .bg-gray-50 { background-color: #000000 !important; }
+        body.dark-mode .bg-gray-100 { background-color: #111111 !important; }
+        body.dark-mode .hover\:bg-gray-50:hover, body.dark-mode .hover\:bg-gray-100:hover { background-color: #1a1a1a !important; }
+        
+        /* Inputs & Buttons Custom Dark Mode */
+        body.dark-mode input[type="text"], body.dark-mode .custom-select-trigger, body.dark-mode .dropdown-menu { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+        body.dark-mode input[type="text"]:focus { border-color: #222222; }
+        body.dark-mode .bg-black.text-white { background-color: #ffffff !important; color: #000000 !important; }
+        body.dark-mode .hover\:bg-gray-800:hover { background-color: #dddddd !important; }
+        body.dark-mode .custom-domain-btn { background-color: #111111 !important; color: #ffffff !important; border-color: #444444 !important; }
+        body.dark-mode .custom-domain-btn:hover { background-color: #222222 !important; }
+
+        /* Animation Utilities */
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Shimmer Loading Effect */
+        .shimmer {
+            background: #f6f7f8;
+            background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+            background-repeat: no-repeat;
+            background-size: 800px 100%; 
+            display: inline-block;
+            position: relative;
+            animation-duration: 1.5s;
+            animation-fill-mode: forwards; 
+            animation-iteration-count: infinite;
+            animation-name: placeholderShimmer;
+            animation-timing-function: linear;
+            border-radius: 4px;
+        }
+        
+        body.dark-mode .shimmer {
+            background: #111;
+            background-image: linear-gradient(to right, #111 0%, #222 20%, #111 40%, #111 100%);
+        }
+
+        @keyframes placeholderShimmer {
+            0% { background-position: -468px 0; }
+            100% { background-position: 468px 0; }
+        }
+
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+
+    <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
+(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<2;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
+    </script>
+<!-- Google tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KMQ8WBZF6E');
+</script>
+<!-- End Google tag -->
+<script src="../../js/i18n-dict.js" defer></script>
+<script src="../../js/i18n.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col text-gray-900 pt-16 relative">
+    <script>
+        (function(){
+            var t=localStorage.getItem("clinqoo_theme");
+            var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+            if(isDark){document.body.classList.add("dark-mode");}
+        })();
+    </script>
+    
+    <header class="bg-[#f7f7f9] flex justify-between items-center px-3 py-2 fixed top-0 w-full z-40 transition-colors">
+        <button onclick="history.back()" class="top-2 left-5 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-100 hover:bg-gray-100 transition-all cursor-pointer text-gray-700 hover:text-black">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <h1 class="font-extrabold text-lg text-gray-900 tracking-tight">Deployment</h1>
+        <div class="w-10"></div>
+    </header>
+
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-8 pb-24 relative overflow-x-hidden">
+                <!-- VIEW 0: Loading — cek data deployment dulu sebelum menampilkan state -->
+        <div id="view-loading" class="flex flex-col items-center justify-center min-h-[70vh] fade-in">
+            <div class="text-center">
+                <i data-lucide="loader-2" class="w-9 h-9 animate-spin text-gray-400 mx-auto"></i>
+            </div>
+        </div>
+                <!-- VIEW 1: CTA Awal (Gaya Elegan) — muncul hanya jika belum ada deployment -->
+        <div id="view-cta" class="hidden flex-col items-center justify-center min-h-[70vh] fade-in">
+            <div class="text-center w-full max-w-sm mx-auto">
+                <div class="w-20 h-20 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="rocket" class="w-10 h-10 text-gray-900"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">Siap untuk Rilis?</h2>
+                <p class="text-sm text-gray-500 mb-8 leading-relaxed">
+                    Mulai proses konfigurasi untuk mempublikasikan pembaruan terbaru aplikasi Anda ke server publik.
+                </p>
+                <button onclick="window.location.href='../build-deployment/config/'" class="w-full py-3.5 px-6 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white rounded-xl font-semibold text-sm hover:from-black hover:to-gray-900 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.25)] flex items-center justify-center gap-3 group border border-gray-800/80 active:scale-[0.99]">
+                    <span>Mulai Konfigurasi</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 opacity-90"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Render Icons Awal
+        lucide.createIcons();
+
+        // ===================== DEPLOY ASLI (Cloudflare Pages) =====================
+        // API deploy engine: same-origin di Cloudflare Pages; be2 hanya utk GitHub Pages
+        // (konsisten dgn dashboard & js/api.js — mencegah data domain terpecah antar backend)
+        const API = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
+        const pid = () => localStorage.getItem('clinqoo_current_project_id') || '';
+        let deployState = { pages_url: '', pollTimer: null, domainTimer: null, deploying: false };
+
+        // ===================== SESI DEPLOY (klik deploy cukup sekali) =====================
+        // Sesi per proyek tersimpan di localStorage: halaman langsung membuka dashboard
+        // situs yang sudah dideploy tanpa harus menekan tombol Deploy lagi.
+        const DEPLOY_SESSION_KEY = 'clinqoo_deploy_session';
+        function readDeploySession() {
+            try {
+                const ses = JSON.parse(localStorage.getItem(DEPLOY_SESSION_KEY) || 'null');
+                return (ses && ses.project_id && ses.project_id === pid()) ? ses : null;
+            } catch (e) { return null; }
+        }
+        function writeDeploySession(patch) {
+            try {
+                const cur = readDeploySession() || { project_id: pid() };
+                localStorage.setItem(DEPLOY_SESSION_KEY, JSON.stringify(Object.assign(cur, patch)));
+            } catch (e) {}
+        }
+        function clearDeploySession() {
+            try { localStorage.removeItem(DEPLOY_SESSION_KEY); } catch (e) {}
+        }
+
+        async function apiFetch(path, opts = {}) {
+            const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+            const res = await fetch(API + path, {
+                ...opts,
+                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(opts.headers || {}) }
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+            return data;
+        }
+
+        function timeAgoIso(iso) {
+            if (!iso) return 'baru saja';
+            const t = new Date(iso + (iso.endsWith('Z') ? '' : 'Z')).getTime();
+            return timeAgo(t);
+        }
+
+        async function fetchStatus() {
+            return apiFetch('/deploy?project_id=' + encodeURIComponent(pid()));
+        }
+
+        // Kalau situs sudah aktif / deploy sedang berjalan -> langsung ke dashboard.
+        // Selama pengecekan, halaman menampilkan icon loading (view-loading);
+        // CTA "Mulai Konfigurasi" hanya muncul jika benar-benar belum ada deployment,
+        // jadi user tidak perlu klik konfigurasi ulang setiap kali membuka halaman ini.
+        document.addEventListener("DOMContentLoaded", async () => {
+            const showCTA = () => {
+                const loading = document.getElementById('view-loading');
+                if (loading) loading.remove();
+                const cta = document.getElementById('view-cta');
+                if (cta) cta.classList.remove('hidden');
+            };
+            // 1) INSTAN dari cache sesi lokal — tampilkan dashboard deploy tanpa
+            //    nunggu server. Dulu urutannya kebalik: fetchStatus() jalan duluan,
+            //    jadi masuk halaman deployment selalu loading dulu walau sudah deploy.
+            const ses = readDeploySession();
+            if (ses && (ses.status === 'done' || ses.status === 'deploying')) {
+                window.location.replace('../build-deployment/dashboard/');
+                return;
+            }
+            // 2) Tanpa sesi lokal: cek server (deploy dari device lain / cache hilang)
+            try {
+                const st = await fetchStatus();
+                if (st && (st.last_deployment || st.deployed === true || (st.domains || []).length)) {
+                    window.location.replace('../build-deployment/dashboard/'); return;
+                }
+            } catch (e) {}
+            showCTA();
+        });
+
+    </script>
+
+    <script>/* clinqoo-sw-register */
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js').catch(function () {}); }); }
+    </script>
+</body>
+</html>

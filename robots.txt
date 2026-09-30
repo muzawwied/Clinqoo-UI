@@ -1,0 +1,5 @@
+# Clinqoo — robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://app.clincoo.buzz/sitemap.xml

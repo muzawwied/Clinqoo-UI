@@ -1,0 +1,394 @@
+// Escape HTML — wajib untuk semua data user/server sebelum masuk innerHTML (anti-XSS)
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function stripMd(text) {
+    if (!text) return '';
+    return String(text)
+        .replace(/```[\s\S]*?```/g, ' ')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/(\*|_)(.*?)\1/g, '$2')
+        .replace(/~~(.*?)~~/g, '$1')
+        .replace(/^\s*[-*+]\s+/gm, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+/**
+ * Clincoo Project Management
+ */
+
+// Detect GitHub Pages subpath
+const _isGHPages = window.location.pathname.includes('/Clincoo');
+const _BASE = _isGHPages ? '/Clincoo.' : '';
+
+// === Sinkronisasi D1 per akun (Cloudflare) ===
+// Token Bearer diinjeksi otomatis oleh js/auth-client.js pada semua call /api/.
+const PROJECTS_API = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api') + '/projects';
+let _pushTimer = null;
+
+// Modal batas proyek per paket langganan (server menolak sinkronisasi karena limit)
+function showPlanLimitModal(d) {
+    if (!d || !d.upgrade_needed) return;
+    if (document.getElementById('plan-limit-modal')) return;
+    var m = document.createElement('div');
+    m.id = 'plan-limit-modal';
+    var base = (location.pathname.indexOf('/Clincoo') !== -1) ? '/Clincoo.' : '';
+    m.innerHTML =
+        '<div class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="background:rgba(0,0,0,0.45)">' +
+        '<div class="bg-white rounded-2xl w-full max-w-xs px-5 pt-5 pb-4 text-center">' +
+        '<h3 class="text-base font-semibold text-gray-900">Batas proyek paket ' + esc(d.plan || 'Starter') + '</h3>' +
+        '<p class="text-sm text-gray-500 mt-1.5 leading-snug px-1">Paket kamu hanya bisa menyimpan maksimal <span class="font-semibold text-gray-700">' + (d.limit || 0) + ' proyek</span>. Proyek baru tetap tersimpan di perangkat ini, tapi tidak tersinkron ke akun.</p>' +
+        '<a href="' + base + '/akun/langganan/upgrade/" class="mt-4 block w-full py-2.5 text-sm font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Upgrade Paket</a>' +
+        '<button id="plan-limit-close" class="mt-2 w-full py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors">Nanti saja</button>' +
+        '</div></div>';
+    document.body.appendChild(m);
+    var btn = m.querySelector('#plan-limit-close');
+    if (btn) btn.addEventListener('click', function () { m.remove(); });
+}
+
+function pushProjectsToServer(projects) {
+    if (_pushTimer) clearTimeout(_pushTimer);
+    _pushTimer = setTimeout(function () {
+        try {
+            fetch(PROJECTS_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'replace_all', projects: projects })
+            }).then(function (res) {
+                if (!res.ok) return res.json().then(function (d) { showPlanLimitModal(d); }).catch(function () {});
+            }).catch(function () {});
+        } catch (e) {}
+    }, 700);
+}
+
+// Tarik daftar proyek milik akun dari D1; migrasi otomatis data lokal lama.
+async function syncProjectsFromServer() {
+    try {
+        const res = await fetch(PROJECTS_API);
+        if (!res.ok) return;
+        const d = await res.json();
+        const list = Array.isArray(d.projects) ? d.projects : [];
+        const local = getProjects();
+        if (list.length === 0 && local.length > 0) {
+            // migrasi pertama: dorong proyek lokal ke akun yang login
+            try {
+                await fetch(PROJECTS_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'replace_all', projects: local })
+                });
+            } catch (e) {}
+            return;
+        }
+        if (JSON.stringify(list) !== JSON.stringify(local)) {
+            try { localStorage.setItem('clinqoo_projects', JSON.stringify(list)); } catch (e) {}
+            renderProjects();
+        }
+    } catch (e) {}
+}
+
+function toggleOption(btn, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    document.querySelectorAll('.option-popup').forEach(popup => {
+        if (popup !== btn.nextElementSibling) {
+            popup.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            popup.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        }
+    });
+    const popup = btn.nextElementSibling;
+    if (popup.classList.contains('opacity-100')) {
+        popup.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        popup.classList.add('opacity-0', 'invisible', 'translate-y-2');
+    } else {
+        popup.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+        popup.classList.add('opacity-100', 'visible', 'translate-y-0');
+    }
+}
+
+function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    if (days > 0) return 'Diperbarui ' + days + ' hari lalu';
+    if (hours > 0) return 'Diperbarui ' + hours + ' jam lalu';
+    return 'Diperbarui baru saja';
+}
+
+function getProjects() {
+    let projects = [];
+    try {
+        const stored = localStorage.getItem('clinqoo_projects');
+        if (stored) projects = JSON.parse(stored);
+    } catch(e) {}
+    return projects;
+}
+
+function saveProjects(projects) {
+    try { localStorage.setItem('clinqoo_projects', JSON.stringify(projects)); } catch(e) {}
+    pushProjectsToServer(projects); // simpan per akun di D1
+}
+
+function renderProjects() {
+    const projects = getProjects();
+    const homeList = document.getElementById('home-projects-list');
+    const allList = document.getElementById('all-projects-list');
+
+    function createHomeCard(proj) {
+        const title = esc(stripMd(proj.aiName || proj.title || 'Proyek Tanpa Nama'));
+        const desc = esc(stripMd(proj.aiDesc || proj.prompt || ''));
+        return '<div class="w-56 sm:w-60 flex-shrink-0 border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group" onclick="openProject(\'' + esc(proj.id) + '\')">' +
+            '<div class="w-full h-28 bg-[#F9FAFB] rounded-xl mb-3.5 p-3 flex flex-col justify-between border border-gray-100 group-hover:border-gray-200 transition-colors">' +
+            '<div class="flex items-center justify-between"><div class="w-12 h-2 bg-gray-200 rounded-full"></div><div class="w-3 h-3 rounded-full bg-black/10"></div></div>' +
+            '<div class="grid grid-cols-2 gap-2 my-auto"><div class="h-10 rounded-lg border border-gray-100 p-1.5 flex flex-col justify-between"><div class="w-6 h-1.5 bg-gray-200 rounded"></div><div class="w-10 h-2 bg-gray-900 rounded"></div></div><div class="h-10 rounded-lg border border-gray-100 p-1.5 flex flex-col justify-between"><div class="w-6 h-1.5 bg-gray-200 rounded"></div><div class="w-8 h-2 bg-gray-400 rounded"></div></div></div>' +
+            '<div class="w-full h-1.5 bg-gray-200 rounded-full"></div></div>' +
+            '<h3 class="font-semibold text-gray-900 text-sm group-hover:text-black truncate">' + title + '</h3>' +
+            '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + desc.substring(0, 40) + '</p>' +
+            '<p class="text-xs text-gray-400 mt-1.5">' + timeAgo(proj.updatedAt) + '</p></div>';
+    }
+
+    function createAllCard(proj) {
+        const title = esc(stripMd(proj.aiName || proj.title || 'Proyek Tanpa Nama'));
+        const desc = esc(stripMd(proj.aiDesc || proj.prompt || ''));
+        return '<div data-proj-id="' + esc(proj.id) + '" class="relative w-full bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex items-center gap-4" onclick="openProject(\'' + esc(proj.id) + '\')">' +
+            '<div class="w-20 h-20 shrink-0 bg-[#F9FAFB] rounded-xl p-2.5 flex flex-col justify-between border border-gray-100 group-hover:border-gray-200 transition-colors">' +
+            '<div class="w-full h-1.5 bg-gray-200 rounded-full"></div><div class="w-full h-1.5 bg-gray-200 rounded-full"></div><div class="w-full h-1.5 bg-gray-200 rounded-full"></div></div>' +
+            '<div class="flex-1 min-w-0"><h3 class="font-semibold text-gray-900 text-base group-hover:text-black truncate">' + title + '</h3>' +
+            '<p class="text-[13px] text-gray-500 mt-0.5 truncate">' + desc.substring(0, 60) + '</p>' +
+            '<p class="text-sm text-gray-400 mt-1">' + timeAgo(proj.updatedAt) + '</p></div>' +
+            '<div class="relative flex-shrink-0"><button class="p-2 text-gray-400 hover:text-black rounded-lg transition-colors" onclick="toggleOption(this, event)"><i data-lucide="more-vertical" class="w-5 h-5"></i></button>' +
+            '<div class="option-popup absolute top-full right-0 mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.08)] py-2 opacity-0 invisible translate-y-2 transition-all duration-200 z-20 origin-top-right" onclick="event.stopPropagation()">' +
+            '<button class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="openProject(\'' + esc(proj.id) + '\')">Lanjutkan</button>' +
+            '<button class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="duplicateProject(\'' + proj.id + '\')">Duplikat</button>' +
+            '<button class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="shareProject(\'' + proj.id + '\')">Bagikan</button>' +
+            '<button class="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-gray-50 transition-colors" onclick="deleteProject(\'' + proj.id + '\')">Hapus</button>' +
+            '</div></div></div>';
+    }
+
+    if (homeList) {
+        if (projects.length === 0) {
+            homeList.innerHTML = '<p class="text-sm text-gray-400 py-8 text-center w-full">Belum ada proyek. Buat proyek baru untuk memulai!</p>';
+        } else {
+            homeList.innerHTML = projects.slice(0, 6).map(createHomeCard).join('');
+        }
+    }
+    if (allList) {
+        if (projects.length === 0) {
+            allList.innerHTML = '<p class="text-sm text-gray-400 py-8 text-center w-full">Belum ada proyek. Buat proyek baru untuk memulai!</p>';
+        } else {
+            allList.innerHTML = projects.map(createAllCard).join('');
+        }
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function openProject(id) {
+    const projects = getProjects();
+    const proj = projects.find(p => p.id === id);
+    if (proj) {
+        localStorage.setItem('clinqoo_current_chat_msg', proj.prompt || '');
+        localStorage.setItem('clinqoo_current_project_id', id);
+        if (_isGHPages) {
+            window.location.href = _BASE + '/proyek/workspace/?id=' + encodeURIComponent(id);
+        } else {
+            window.location.href = _BASE + '/workspace/' + id;
+        }
+    }
+}
+
+// Popup konfirmasi hapus proyek (CTA teks saja, radius kecil) — disuntik sekali per halaman
+// Toast teks sederhana (preferensi notifikasi teks-saja)
+function _showToast(msg, kind) {
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);z-index:999;' +
+        'padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;color:#fff;' +
+        'background:' + (kind === 'error' ? '#dc2626' : '#111') + ';box-shadow:0 8px 24px rgba(0,0,0,.18);' +
+        'opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.style.opacity = '1'; t.style.transform = 'translate(-50%,0)'; });
+    setTimeout(function () { t.style.opacity = '0'; t.style.transform = 'translate(-50%,12px)'; setTimeout(function () { t.remove(); }, 350); }, 2200);
+}
+function _ensureDeleteModal() {
+    if (document.getElementById('confirm-delete-modal')) return;
+    if (!document.getElementById('clinqoo-delete-spin-css')) {
+        const st = document.createElement('style');
+        st.id = 'clinqoo-delete-spin-css';
+        st.textContent = '.cc-spin{animation:cc-spin .8s linear infinite}@keyframes cc-spin{to{transform:rotate(360deg)}}.cc-deleting{opacity:.45;pointer-events:none;filter:grayscale(.3)}';
+        document.head.appendChild(st);
+    }
+    const div = document.createElement('div');
+    div.innerHTML =
+        '<div id="confirm-delete-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.45)">' +
+        '<div class="bg-white rounded-md w-full max-w-xs px-5 pt-5 pb-4 text-center">' +
+        '<h3 class="text-base font-semibold text-gray-900">Hapus proyek ini?</h3>' +
+        '<p id="confirm-delete-name" class="text-sm text-gray-500 mt-1 px-2 truncate"></p>' +
+        '<p class="text-[13px] text-gray-400 mt-2 leading-snug">Semua data proyek akan dihapus, <span class="text-gray-500">termasuk situs yang sudah dipublish dan link publiknya</span>.</p>' +
+        '<p id="confirm-delete-error" class="text-xs text-red-600 mt-2 hidden">Gagal menghapus proyek. Periksa koneksi lalu coba lagi.</p>' +
+        '<div class="flex items-center justify-center gap-10 mt-5">' +
+        '<button type="button" id="confirm-delete-cancel" class="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors px-1 py-0.5">Batal</button>' +
+        '<button type="button" id="confirm-delete-ok" class="text-sm font-semibold text-red-600 hover:text-red-700 transition-colors px-1 py-0.5">Hapus</button>' +
+        '</div></div></div>';
+    document.body.appendChild(div.firstElementChild);
+    const modal = document.getElementById('confirm-delete-modal');
+    modal.addEventListener('click', function (e) { if (e.target === modal) _closeDeleteModal(); });
+    document.getElementById('confirm-delete-cancel').addEventListener('click', _closeDeleteModal);
+    document.getElementById('confirm-delete-ok').addEventListener('click', async function () {
+        const id = _pendingDeleteId;
+        if (!id) { _closeDeleteModal(); return; }
+        const okBtn = document.getElementById('confirm-delete-ok');
+        const cancelBtn = document.getElementById('confirm-delete-cancel');
+        // status menghapus: tombol berputar, kartu proyek diredupkan + spinner
+        okBtn.disabled = true;
+        okBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 inline-block align-[-3px] cc-spin"></i> Menghapus...';
+        if (cancelBtn) cancelBtn.style.visibility = 'hidden';
+        document.querySelectorAll('[data-proj-id="' + id + '"]').forEach(function (el) {
+            el.classList.add('cc-deleting');
+            el.insertAdjacentHTML('beforeend', '<div class="cc-del-overlay absolute inset-0 flex items-center justify-center"><i data-lucide="loader-2" class="w-6 h-6 text-gray-900 cc-spin"></i></div>');
+        });
+        try { lucide.createIcons(); } catch (e) {}
+        let ok = false;
+        try { ok = await _doDeleteProject(id); } catch (e) { ok = false; }
+        if (ok) {
+            _closeDeleteModal();
+            _showToast('Proyek dihapus', 'success');
+        } else {
+            const errEl = document.getElementById('confirm-delete-error');
+            if (errEl) errEl.classList.remove('hidden');
+            if (okBtn) { okBtn.disabled = false; okBtn.innerHTML = 'Coba Lagi'; }
+            document.querySelectorAll('.cc-del-overlay').forEach(function (ov) { ov.remove(); });
+            document.querySelectorAll('.cc-deleting').forEach(function (el) { el.classList.remove('cc-deleting'); });
+        }
+    });
+}
+function _resetDeleteModalUI() {
+    const okBtn = document.getElementById('confirm-delete-ok');
+    const cancelBtn = document.getElementById('confirm-delete-cancel');
+    const errEl = document.getElementById('confirm-delete-error');
+    if (okBtn) { okBtn.disabled = false; okBtn.innerHTML = 'Hapus'; }
+    if (cancelBtn) cancelBtn.style.visibility = '';
+    if (errEl) errEl.classList.add('hidden');
+    document.querySelectorAll('.cc-del-overlay').forEach(function (ov) { ov.remove(); });
+    document.querySelectorAll('.cc-deleting').forEach(function (el) { el.classList.remove('cc-deleting'); });
+}
+function _closeDeleteModal() {
+    const modal = document.getElementById('confirm-delete-modal');
+    if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    _pendingDeleteId = null;
+    _resetDeleteModalUI();
+}
+let _pendingDeleteId = null;
+function deleteProject(id) {
+    _ensureDeleteModal();
+    const proj = getProjects().find(p => p.id === id);
+    _pendingDeleteId = id;
+    const nameEl = document.getElementById('confirm-delete-name');
+    if (nameEl) nameEl.textContent = (proj && (proj.aiName || proj.title)) ? '"' + esc(proj.aiName || proj.title) + '"' : 'Proyek ini';
+    const modal = document.getElementById('confirm-delete-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+async function _doDeleteProject(id) {
+    // tarik publish-an: situs + link publik (Cloudflare Pages) ikut dihapus (non-fatal)
+    const tok = (function () { try { return localStorage.getItem('clinqoo_auth_token') || ''; } catch (e) { return ''; } })();
+    const hdrs = { 'Content-Type': 'application/json' };
+    if (tok) hdrs['Authorization'] = 'Bearer ' + tok;
+    const apiRoot = PROJECTS_API.replace(/\/projects$/, '');
+    try { await fetch(apiRoot + '/deploy', { method: 'POST', headers: hdrs, body: JSON.stringify({ project_id: id, action: 'unpublish' }) }); } catch (e) {}
+    let serverOk = true;
+    try {
+        const res = await fetch(PROJECTS_API, { method: 'POST', headers: hdrs, body: JSON.stringify({ action: 'delete', id: id }) });
+        if (!res.ok) serverOk = false;
+        else { const d = await res.json().catch(() => null); if (d && d.success === false) serverOk = false; }
+    } catch (e) { serverOk = false; }
+    if (!serverOk) return false; // server gagal -> kartu TETAP ada, pelanggan diberi tahu
+
+    // data lokal proyek (chat, file workspace, penunjuk aktif)
+    try {
+        localStorage.removeItem('clinqoo_ls_chat_' + id);
+        localStorage.removeItem('clinqoo_workspace_files_' + id);
+        if (localStorage.getItem('clinqoo_current_project_id') === id) localStorage.removeItem('clinqoo_current_project_id');
+    } catch (e) {}
+
+    let projects = getProjects();
+    projects = projects.filter(p => p.id !== id);
+    try { localStorage.setItem('clinqoo_projects', JSON.stringify(projects)); } catch (e) {}
+
+    try {
+        fetch('https://clincoo-be2.pages.dev/api/activity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete_project', details: 'Proyek dihapus' })
+        }).catch(function(){});
+    } catch(e) {}
+
+    renderProjects();
+    return true;
+}
+
+function duplicateProject(id) {
+    let projects = getProjects();
+    const proj = projects.find(p => p.id === id);
+    if (proj) {
+        const copy = Object.assign({}, proj, { id: 'proj_' + Date.now(), title: proj.title + ' (Copy)', updatedAt: new Date().toISOString() });
+        projects.unshift(copy);
+        saveProjects(projects);
+        renderProjects();
+    }
+}
+
+function shareProject(id) {
+    const projects = getProjects();
+    const proj = projects.find(p => p.id === id);
+    if (proj && navigator.share) {
+        navigator.share({ title: proj.title, text: proj.prompt }).catch(function(){});
+    }
+}
+
+function processPromptSubmission() {
+    const mainPromptInput = document.getElementById('main-prompt-input');
+    if (!mainPromptInput) return;
+    const prompt = mainPromptInput.value.trim();
+    if (!prompt) return;
+    
+    try {
+        localStorage.removeItem('clinqoo_current_chat_msg');
+        localStorage.removeItem('clinqoo_current_project_id');
+        localStorage.removeItem('clinqoo_current_attachments');
+    } catch(e) {}
+    
+    const projectId = 'proj_' + Date.now();
+    let titleParts = prompt.split(' ');
+    let title = titleParts.slice(0, 4).join(' ');
+    if (titleParts.length > 4) title += '...';
+    
+    const newProject = { id: projectId, title: title, prompt: prompt, updatedAt: new Date().toISOString() };
+    let projects = getProjects();
+    projects.unshift(newProject);
+    
+    try {
+        saveProjects(projects);
+        localStorage.setItem('clinqoo_current_chat_msg', prompt);
+        localStorage.setItem('clinqoo_current_project_id', projectId);
+        const filePreviewContainer = document.getElementById('file-preview-container');
+        const fileChips = filePreviewContainer ? filePreviewContainer.querySelectorAll('.file-chip') : [];
+        if (fileChips.length > 0) {
+            const attachments = Array.from(fileChips).map(function(chip) {
+                const nameEl = chip.querySelector('span');
+                return { name: nameEl ? nameEl.textContent : 'file', type: 'document' };
+            });
+            localStorage.setItem('clinqoo_current_attachments', JSON.stringify(attachments));
+        }
+    } catch(e) {}
+    if (_isGHPages) {
+        window.location.href = _BASE + '/proyek/chat/?id=' + encodeURIComponent(projectId);
+    } else {
+        window.location.href = _BASE + '/workspace/' + projectId + '/chat';
+    }
+}
+
+// Sinkron dengan database per akun saat halaman dibuka
+document.addEventListener('DOMContentLoaded', function () { syncProjectsFromServer(); });
+if (document.readyState !== 'loading') syncProjectsFromServer();

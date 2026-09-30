@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+    <script src="../js/auth-client.js?v=4"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Plugin - Clincoo AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%0A%20%20%0A%20%20%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2216%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%3Cg%20fill%3D%22%23000000%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M10%2016C7%2010%209%207%2012%207C14%207%2015%2011%2013%2016Z%22%2F%3E%3Cpath%20d%3D%22M12%209C10.5%2011%2011%2013%2012%2014.5C13%2013%2013.5%2011%2012%209Z%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.25%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M22%2016C25%2010%2023%207%2020%207C18%207%2017%2011%2019%2016Z%22%2F%3E%3Cpath%20d%3D%22M20%209C21.5%2011%2021%2013%2020%2014.5C19%2013%2018.5%2011%2020%209Z%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.25%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M16%2027C24%2027%2028%2022.5%2028%2017C28%2012.5%2021%2011.5%2016%2011.5C11%2011.5%204%2012.5%204%2017C4%2022.5%208%2027%2016%2027Z%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2212.5%22%20cy%3D%2217%22%20r%3D%221.5%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.6%22%2F%3E%3Ccircle%20cx%3D%2219.5%22%20cy%3D%2217%22%20r%3D%221.5%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.6%22%2F%3E%3Cpolygon%20points%3D%2216%2C20%2015%2C18.5%2017%2C18.5%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.5%22%2F%3E%0A%3C%2Fsvg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        html, body {
+            height: 100dvh;
+            height: -webkit-fill-available;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff; 
+            color: #000000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .cta-capsule {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        body.dark-mode .cta-capsule {
+            background: #ffffff;
+            color: #000000;
+        }
+
+
+        /* Theme parity with Chat, Workspace, and Settings */
+        html, body { background-color: #ffffff; }
+        main { background: transparent !important; }
+        body.dark-mode { background: #000000 !important; color: #ffffff !important; }
+        body.dark-mode main { background: transparent !important; }
+        body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+        body.dark-mode .bg-white\/90 { background-color: rgba(10,10,10,.9) !important; }
+        body.dark-mode .bg-gray-50 { background-color: #0a0a0a !important; }
+        body.dark-mode .sidebar-nav-link.bg-gray-50 { background-color: #222222 !important; }
+        body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
+        body.dark-mode .text-gray-900, body.dark-mode .text-black { color: #ffffff !important; }
+        body.dark-mode .text-gray-800 { color: #e0e0e0 !important; }
+        body.dark-mode .text-gray-700 { color: #b0b0b0 !important; }
+        body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
+        body.dark-mode .text-gray-400 { color: #666666 !important; }
+        body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray { border-color: #222222 !important; }
+        body.dark-mode .border-gray-300 { border-color: #333333 !important; }
+        body.dark-mode .hover\:bg-gray-50:hover { background-color: #222222 !important; }
+        body.dark-mode .hover\:bg-gray-100:hover { background-color: #333333 !important; }
+        body.dark-mode #sidebar { background-color: #0a0a0a !important; opacity: 1 !important; }
+        body.dark-mode .plugin-new-badge { background-color: #171717 !important; border-color: #333333 !important; color: #a3a3a3 !important; }
+        body.dark-mode .text-\[\#181717\], body.dark-mode .text-\[\#222222\] { color: #f5f5f5 !important; }
+        body.dark-mode .bg-gray-50\/50, body.dark-mode .bg-gray-50\/60, body.dark-mode .bg-gray-50\/80 { background-color: #111111 !important; }
+        #sidebar-toggle span { background-color: #111111 !important; }
+        #sidebar-toggle #header-back-icon { color: #111111 !important; }
+        body.dark-mode #sidebar-toggle { background-color: #0a0a0a !important; border-color: #222222 !important; color: #ffffff !important; }
+        body.dark-mode #sidebar-toggle span { background-color: #ffffff !important; }
+        body.dark-mode #sidebar-toggle #header-back-icon { color: #ffffff !important; }
+        body.dark-mode .integration-card { background-color: #0a0a0a !important; border-color: #222222 !important; }
+        body.dark-mode .integration-card:hover { border-color: #333333 !important; box-shadow: 0 10px 30px rgba(0,0,0,.5) !important; }
+        body.dark-mode input { background-color: #0a0a0a !important; color: #e0e0e0 !important; border-color: #222222 !important; }
+        body.dark-mode input::placeholder { color: #666666 !important; }
+        body.dark-mode .filter-inline-btn.active, body.dark-mode .filter-dropdown-btn.active,
+        body.dark-mode .bg-\[\#0f1115\] { background-color: #ffffff !important; color: #000000 !important; }
+        body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
+        body.dark-mode ::-webkit-scrollbar-thumb { background: #222222; }
+    </style>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KMQ8WBZF6E');
+</script>
+</head>
+<body class="h-[100dvh] flex flex-col overflow-hidden selection:bg-gray-200">
+    <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var d=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.body.classList.add("dark-mode");})();</script>
+    
+    <div id="session-options-popup" class="hidden fixed bg-white rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[100] w-40 p-1.5 text-[13px] text-gray-700 pointer-events-auto">
+        <button id="btn-edit-session" class="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2.5 font-medium transition-none"><i class="ph-bold ph-pencil-simple text-gray-500 text-base"></i> Edit</button>
+        <button id="btn-delete-session" class="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2.5 font-medium transition-none text-red-600"><i class="ph-bold ph-trash text-red-500 text-base"></i> Hapus</button>
+    </div>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/20 opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[260px] bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 flex flex-col pointer-events-auto">
+        <div class="h-16 border-b border-gray-100 flex items-center px-4 justify-between flex-shrink-0">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                    <img src="https://app.clincoo.buzz/assets/logo-clinqoo.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <span class="font-bold font-montserrat text-lg text-gray-800">Clincoo</span>
+            </div>
+        </div>
+        
+        <div class="px-3 py-4 flex flex-col gap-1" id="sidebar-nav">
+            <a href="/" data-page="app" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+                <span class="font-medium text-[14px]">Beranda</span>
+            </a>
+            <a href="/proyek/chat/" data-page="chat" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="8" rx="2"/><path d="M12 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 5v3"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M10 18h4"/></svg>
+                <span class="font-medium text-[14px]">Agent</span>
+            </a>
+            <a href="/proyek/workspace/" data-page="workspace" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                <span class="font-medium text-[14px]">Workspace</span>
+            </a>
+            <a href="/editor/" data-page="editor" id="sidebar-editor-link" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+                <span class="font-medium text-[14px]">Editor</span>
+                <span class="clinqoo-editor-crown text-amber-500 shrink-0 cursor-pointer hover:text-amber-600 transition-colors ml-auto" style="display:none" title="Lihat daftar paket" onclick="event.preventDefault(); event.stopPropagation(); clinqooOpenPlansPopup();"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/></svg></span>
+            </a>
+            <a href="/integrasi/" data-page="plugin" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg>
+                <span class="font-medium text-[14px]">Plugin</span>
+                <span class="plugin-new-badge ml-auto rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-[0.08em] text-gray-500">NEW</span>
+            </a>
+        </div>
+    </aside>
+    
+    <header class="fixed top-0 inset-x-0 z-30 p-4 sm:p-5 pointer-events-none flex items-start">
+        <button id="sidebar-toggle" class="w-10 h-10 bg-white rounded-full flex justify-center items-center shadow-[0_2px_12px_rgba(0,0,0,0.1)] border border-gray-200/50 pointer-events-auto transition-transform active:scale-95">
+            <div id="hamburger-icon" class="flex flex-col items-start gap-[4px] w-full pl-3">
+                <span class="w-[14px] h-[2px] bg-gray-800 rounded-full"></span>
+                <span class="w-[8px] h-[2px] bg-gray-800 rounded-full"></span>
+            </div>
+            <i id="header-back-icon" class="ph-bold ph-arrow-left text-lg text-gray-800 hidden"></i>
+        </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto px-4 sm:px-8 lg:px-12 pt-24 pb-12 w-full max-w-[1600px] mx-auto hide-scrollbar">
+        
+        <div id="main-view">
+            <div class="mb-6 md:mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat tracking-tight mb-2">Plugin</h1>
+                <p class="text-base text-gray-500 max-w-2xl">Hubungkan Clincoo dengan alat dan platform favorit Anda untuk memperluas kemampuan AI Agent dalam alur kerja Anda.</p>
+            </div>
+
+            <div class="relative w-full mb-4">
+                <i class="ph ph-magnifying-glass absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" id="search-integrations" placeholder="Cari plugin..." class="w-full pl-12 pr-5 py-2.5 bg-white border border-gray rounded-full text-[14px] focus:outline-none  transition-all placeholder-gray-400 font-medium shadow-sm">
+            </div>
+
+            <div class="w-full border-t border-gray-100 mb-4"></div>
+
+            <div class="mb-6">
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar -mx-1 px-1">
+                    <button data-filter="all" class="filter-inline-btn active px-4 py-1.5 rounded-full bg-[#0f1115] text-white text-[13px] font-semibold whitespace-nowrap transition-all">Semua</button>
+                    <button data-filter="developer" class="filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all">Developer</button>
+                    <button data-filter="komunikasi" class="filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all">Komunikasi</button>
+                    <button data-filter="cloud" class="filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all">Cloud</button>
+                    <button data-filter="produktivitas" class="filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all">Produktivitas</button>
+                    <button data-filter="email" class="filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all">Email</button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3 sm:gap-4" id="integrations-grid">
+
+                <div id="github-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="github" data-category="developer" role="button" tabindex="0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-8 h-8 text-[#181717]"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"></path></svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">GitHub</h3>
+                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Developer &middot; Resmi</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span id="github-status-badge" class="hidden items-center text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Terhubung</span>
+                            <button onclick="event.stopPropagation(); openGitHubModal()" id="github-connect-btn" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Hubungkan</button>
+                        </div>
+                    </div>
+                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Analisis kode, review Pull Request, dan kelola repositori langsung dari chat.</p>
+                </div>
+
+                <!-- Plugin Drive disembunyikan sementara (belum diverifikasi Google, muncul peringatan "tidak aman"): hapus wrapper display:none untuk mengaktifkan kembali. -->
+                <div style="display:none">
+                <div id="drive-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="drive" data-category="cloud" role="button" tabindex="0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
+                            <svg viewBox="0 0 87.3 78" aria-hidden="true" class="w-8 h-8"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">Google Drive</h3>
+                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Cloud &middot; Resmi</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span id="drive-status-badge" class="hidden items-center text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Terhubung</span>
+                            <button onclick="event.stopPropagation(); openDriveModal()" id="drive-connect-btn" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Hubungkan</button>
+                        </div>
+                    </div>
+                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Cari, baca, dan kelola file Google Drive Anda langsung dari chat.</p>
+                </div>
+                </div>
+
+                <div id="notion-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="notion" data-category="produktivitas" role="button" tabindex="0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8"><svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-full h-full"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">Notion</h3>
+                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Produktivitas &middot; Resmi</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span id="notion-status-badge" class="hidden items-center text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Terhubung</span>
+                            <button onclick="event.stopPropagation(); openNotionModal()" id="notion-connect-btn" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Hubungkan</button>
+                        </div>
+                    </div>
+                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Kirim jawaban AI Clincoo langsung ke halaman Notion Anda.</p>
+                </div>
+
+                <!-- Plugin Calendar disembunyikan sementara (belum diverifikasi Google): hapus wrapper display:none untuk mengaktifkan kembali. -->
+                <div style="display:none">
+                <div id="calendar-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="calendar" data-category="cloud" role="button" tabindex="0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
+                            <svg viewBox="0 0 52 52" aria-hidden="true" class="w-8 h-8"><rect x="4" y="4" width="44" height="44" rx="8" fill="#fff" stroke="#dadce0" stroke-width="1.5"/><path d="M4 12c0-4.42 3.58-8 8-8h28c4.42 0 8 3.58 8 8v4H4z" fill="#4285f4" rx="8"/><path d="M4 12c0-4.42 3.58-8 8-8h28c4.42 0 8 3.58 8 8v4H4z" fill="none"/><text x="26" y="37" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="500" fill="#4285f4" text-anchor="middle">31</text></svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">Google Calendar</h3>
+                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Cloud &middot; Resmi</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span id="calendar-status-badge" class="hidden items-center text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Terhubung</span>
+                            <button onclick="event.stopPropagation(); openCalendarModal()" id="calendar-connect-btn" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Hubungkan</button>
+                        </div>
+                    </div>
+                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Lihat jadwal, dan buat event Google Calendar Anda langsung dari chat.</p>
+                </div>
+                </div>
+
+
+                <div id="empty-state" class="hidden flex-col items-center justify-center py-16 px-4 text-center w-full">
+                    <i class="ph ph-magnifying-glass text-5xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-900 font-montserrat mb-2">Tidak ada plugin</h3>
+                    <p class="text-[14.5px] text-gray-500 max-w-sm mx-auto">Kami tidak dapat menemukan plugin yang cocok dengan pencarian Anda.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="whatsapp-connect-view" class="hidden max-w-3xl mx-auto pt-4 md:pt-6">
+            <div class="w-full">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="w-7 h-7 text-[#25D366]"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 font-montserrat">Hubungkan WhatsApp</h2>
+                        <p class="text-xs text-gray-500">Pilih metode koneksi perangkat WhatsApp Anda</p>
+                    </div>
+                </div>
+
+                <div class="flex border-b border-gray-100 mb-6">
+                    <button onclick="switchWaTab('qr')" id="tab-qr-btn" class="flex-1 pb-3 text-sm font-semibold text-black border-b-2 border-black transition-colors">QR Code</button>
+                    <button onclick="switchWaTab('pairing')" id="tab-pairing-btn" class="flex-1 pb-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-colors">Kode Tautan</button>
+                </div>
+
+                <div id="content-qr" class="flex flex-col items-center justify-center py-6">
+                    <div class="w-56 h-56 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-4 mb-4 relative group">
+                        <div class="absolute inset-2 bg-white flex items-center justify-center rounded-xl shadow-inner">
+                            <div class="grid grid-cols-5 gap-2 p-4">
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-white rounded border border-gray-200"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                                <div class="w-8 h-8 bg-black rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 text-center max-w-xs">Buka WhatsApp di ponsel Anda, ketuk Menu atau Pengaturan dan pilih Perangkat Tertaut, lalu ketuk Tautkan Perangkat.</p>
+                </div>
+
+                <div id="content-pairing" class="hidden flex flex-col items-center justify-center py-8">
+                    <p class="text-xs text-gray-500 mb-4 text-center">Masukkan nomor WhatsApp Anda untuk mendapatkan kode tautan.</p>
+                    <div class="w-full max-w-sm space-y-4">
+                        <div class="flex gap-2 relative">
+                            <input type="text" id="wa-country-code" value="🇮🇩 +62" onclick="openCountryModal()" readonly class="w-[5.8rem] px-2 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-700 text-center focus:outline-none focus:border-gray-200 focus:ring-0 transition cursor-pointer hover:bg-gray-50">
+                            <input type="tel" id="wa-phone-input" placeholder="81234567890" class="flex-1 px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-medium focus:outline-none focus:border-gray-200 focus:ring-0 transition">
+                        </div>
+                        <p id="wa-phone-error" class="hidden text-xs text-red-500 font-medium text-left pl-1"></p>
+                        <button onclick="generatePairingCode()" class="w-full py-3 bg-black text-white rounded-2xl text-sm font-semibold hover:bg-gray-800 transition">Dapatkan Kode Tautan</button>
+                        <div id="pairing-code-display" class="hidden mt-4 p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center relative group">
+                            <p class="text-xs text-gray-500 mb-1">Kode Tautan Anda:</p>
+                            <p id="code-text" class="text-2xl font-bold tracking-widest text-black font-montserrat">X7K9-M2L4</p>
+                            <button id="copy-pairing-btn" onclick="copyPairingCode()" class="absolute top-2 right-2 text-[10px] bg-white border border-gray-200 px-2 py-1 rounded text-gray-600 hover:bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">Salin</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="country-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl flex flex-col max-h-[80vh]">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-gray-900 font-montserrat">Pilih Negara</h3>
+                <button onclick="closeCountryModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition">
+                    <i class="ph-bold ph-x text-lg"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto custom-scrollbar flex-1 space-y-1">
+                <button onclick="selectCountry('🇮🇩 +62')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇮🇩</span> <span class="font-medium text-sm text-gray-700">+62 Indonesia</span></button>
+                <button onclick="selectCountry('🇺🇸 +1')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇺🇸</span> <span class="font-medium text-sm text-gray-700">+1 Amerika Serikat</span></button>
+                <button onclick="selectCountry('🇬🇧 +44')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇬🇧</span> <span class="font-medium text-sm text-gray-700">+44 Inggris</span></button>
+                <button onclick="selectCountry('🇸🇬 +65')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇸🇬</span> <span class="font-medium text-sm text-gray-700">+65 Singapura</span></button>
+                <button onclick="selectCountry('🇲🇾 +60')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇲🇾</span> <span class="font-medium text-sm text-gray-700">+60 Malaysia</span></button>
+                <button onclick="selectCountry('🇦🇺 +61')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇦🇺</span> <span class="font-medium text-sm text-gray-700">+61 Australia</span></button>
+                <button onclick="selectCountry('🇯🇵 +81')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇯🇵</span> <span class="font-medium text-sm text-gray-700">+81 Jepang</span></button>
+                <button onclick="selectCountry('🇸🇦 +966')" class="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition flex items-center gap-3"><span class="text-xl">🇸🇦</span> <span class="font-medium text-sm text-gray-700">+966 Arab Saudi</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const escapeHTML = (str) => {
+            if (typeof str !== 'string') return str;
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag));
+        };
+
+        const STORAGE_KEY = 'clincoo_chats_v1';
+        let chatSessions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        let newChatBtnTimer = null;
+
+        function toggleSidebar() {
+            const isOpen = sidebar.classList.contains('translate-x-0');
+            if (isOpen) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+                sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
+                
+                if (newChatBtnTimer) {
+                    clearTimeout(newChatBtnTimer);
+                    newChatBtnTimer = null;
+                }
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                sidebarOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                sidebarOverlay.classList.add('opacity-100', 'pointer-events-auto');
+
+                const textEl = document.getElementById('new-chat-text');
+                const btnEl = document.getElementById('new-chat-btn');
+                
+                if (textEl) textEl.classList.remove('collapsed');
+                if (btnEl) btnEl.classList.remove('collapsed-btn');
+                
+                if (newChatBtnTimer) clearTimeout(newChatBtnTimer);
+                newChatBtnTimer = setTimeout(() => {
+                    if (textEl) textEl.classList.add('collapsed');
+                    if (btnEl) btnEl.classList.add('collapsed-btn');
+                }, 3000);
+            }
+        }
+
+        if(sidebarToggle) sidebarToggle.onclick = toggleSidebar;
+        if(sidebarOverlay) sidebarOverlay.onclick = toggleSidebar;
+
+        let activeSessionIdForOptions = null;
+        
+        window.openSessionOptions = function(e, sessionId, btnElement) {
+            e.stopPropagation();
+            activeSessionIdForOptions = sessionId;
+            const popup = document.getElementById('session-options-popup');
+            
+            popup.classList.remove('hidden');
+            
+            const rect = btnElement.getBoundingClientRect();
+            const popupHeight = popup.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (rect.bottom + popupHeight + 10 > windowHeight) {
+                popup.style.top = `${rect.top - popupHeight - 4}px`;
+            } else {
+                popup.style.top = `${rect.bottom + 4}px`;
+            }
+            
+            popup.style.left = `${Math.max(10, rect.left - 110)}px`;
+        };
+
+        document.addEventListener('click', (e) => {
+            const sessionPopup = document.getElementById('session-options-popup');
+            if (sessionPopup && !sessionPopup.classList.contains('hidden') && !e.target.closest('#session-options-popup') && !e.target.closest('.session-actions')) {
+                sessionPopup.classList.add('hidden');
+            }
+        });
+
+        function renderChatHistory() {
+            const container = document.getElementById('chat-history-list');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            if (chatSessions.length === 0) {
+                container.innerHTML = '<p class="text-[13px] text-gray-400 text-center mt-4">Belum ada riwayat</p>';
+                return;
+            }
+
+            const orderedSessions = [...chatSessions].sort((a, b) => b.updatedAt - a.updatedAt);
+
+            orderedSessions.forEach(session => {
+                const div = document.createElement('div');
+                div.className = `group flex items-center justify-between p-2 mb-1 rounded-xl cursor-pointer transition-colors bg-transparent hover:bg-gray-50`;
+                
+                div.onclick = (e) => {
+                    if(!e.target.closest('.session-actions')) {
+                         window.location.href = 'index.html';
+                    }
+                };
+                
+                const dotHtml = `<span class="w-2 h-2 rounded-full bg-transparent flex-shrink-0"></span>`;
+
+                div.innerHTML = `
+                    <div class="flex items-center gap-2.5 overflow-hidden flex-1 pl-1.5">
+                        ${dotHtml}
+                        <i class="ph ph-chat-teardrop-text text-gray-500 text-lg flex-shrink-0"></i>
+                        <span id="session-title-${session.id}" class="text-[13px] font-medium text-gray-700 truncate flex-1 min-w-0">${escapeHTML(session.title || 'Percakapan Baru')}</span>
+                    </div>
+                    <div class="session-actions opacity-0 group-hover:opacity-100 flex-shrink-0 relative ml-1">
+                        <button onclick="openSessionOptions(event, '${session.id}', this)" class="p-1.5 text-gray-400 hover:text-black rounded-lg transition-none" title="Opsi">
+                            <i class="ph-bold ph-dots-three-vertical text-base"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.addEventListener('load', () => {
+            renderChatHistory();
+
+            const popup = document.getElementById('session-options-popup');
+            if(!popup) return;
+            
+            document.getElementById('btn-edit-session').addEventListener('click', (e) => {
+                e.stopPropagation();
+                popup.classList.add('hidden');
+                if(activeSessionIdForOptions) {
+                    const titleSpan = document.getElementById(`session-title-${activeSessionIdForOptions}`);
+                    if(titleSpan) {
+                        const currentTitle = titleSpan.innerText;
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = currentTitle;
+                        input.className = 'text-[13px] font-semibold text-black bg-white border border-gray-300 rounded px-1.5 py-0.5 w-full outline-none focus:border-gray-500 flex-1 min-w-0';
+                        
+                        input.onblur = () => {
+                            const newTitle = input.value.trim() || 'Percakapan Baru';
+                            const session = chatSessions.find(s => s.id === activeSessionIdForOptions);
+                            if(session) {
+                                session.title = newTitle;
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(chatSessions));
+                                renderChatHistory(); 
+                            }
+                        };
+                        input.onkeydown = (ev) => {
+                            if(ev.key === 'Enter') {
+                                ev.preventDefault();
+                                input.blur();
+                            }
+                        };
+                        
+                        titleSpan.replaceWith(input);
+                        input.focus();
+                        input.select();
+                    }
+                }
+            });
+
+            document.getElementById('btn-delete-session').addEventListener('click', (e) => {
+                e.stopPropagation();
+                popup.classList.add('hidden');
+                if(activeSessionIdForOptions) {
+                    chatSessions = chatSessions.filter(s => s.id !== activeSessionIdForOptions);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(chatSessions));
+                    activeSessionIdForOptions = null;
+                    renderChatHistory();
+                }
+            });
+        });
+
+    </script>
+
+    <div id="github-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden">
+            <div class="px-6 pt-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="w-6 h-6 text-[#181717]"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"></path></svg>
+                    </div>
+                    <button onclick="closeGitHubModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Hubungkan GitHub</h3>
+                <p class="text-[13px] text-gray-500 leading-relaxed">Clincoo AI akan terhubung ke akun GitHub Anda melalui OAuth resmi GitHub. Koneksi dapat diputuskan kapan saja.</p>
+                <p id="gh-oauth-error" class="hidden mt-3 text-[12px] font-medium text-red-500 bg-red-50 border border-red-100 rounded-xl px-3.5 py-2.5 leading-relaxed"></p>
+            </div>
+
+            <div class="px-6 mt-5">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">Izin yang diminta</p>
+                <div class="border border-gray-100 rounded-2xl divide-y divide-gray-100 bg-gray-50/50">
+                    <div class="flex items-center gap-3 px-4 py-3">
+                        <i class="ph ph-github-logo text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membaca dan mengelola repositori publik &amp; private</p>
+                    </div>
+                    <div class="flex items-center gap-3 px-4 py-3">
+                        <i class="ph ph-git-branch text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membuat, memperbarui, dan me-review Pull Request</p>
+                    </div>
+                    <div class="flex items-center gap-3 px-4 py-3">
+                        <i class="ph ph-trash text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Menghapus repository yang sudah tidak digunakan</p>
+                    </div>
+                </div>
+
+                <label class="flex items-start gap-2.5 mt-4 cursor-pointer select-none">
+                    <input type="checkbox" id="gh-permission-check" class="mt-0.5 w-4 h-4 accent-black flex-shrink-0">
+                    <span class="text-[11.5px] text-gray-500 leading-relaxed">Saya menyetujui pemberian akses di atas dan Kebijakan Privasi Clincoo.</span>
+                </label>
+            </div>
+
+            <div class="px-6 pt-5 pb-6 flex items-center gap-2.5">
+                <button onclick="closeGitHubModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="startOAuth()" id="gh-connect-cta" disabled class="flex-1 py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all opacity-40 pointer-events-none">Hubungkan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="github-loading" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-sm shadow-2xl text-center">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-gray-100 border-t-black animate-spin"></div>
+            <p class="text-sm font-medium text-gray-700">Menghubungkan ke GitHub...</p>
+        </div>
+    </div>
+
+    <div id="github-connected-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center relative">
+            <button onclick="closeConnectedModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition absolute top-4 right-4">
+                <i class="ph-bold ph-x text-lg"></i>
+            </button>
+            <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+                <i class="ph-fill ph-check-circle text-3xl text-emerald-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1">GitHub Terhubung</h3>
+            <p class="text-[12.5px] text-gray-500 mb-5">Akun GitHub Anda berhasil dihubungkan ke Clincoo.</p>
+            <div id="gh-user-info" class="space-y-1 mb-5"></div>
+            <button onclick="closeConnectedModal()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all cursor-pointer mb-3">Selesai</button>
+            <button onclick="confirmDisconnectGitHub()" class="text-[12.5px] font-semibold text-gray-400 hover:text-red-500 transition-colors">Putuskan koneksi</button>
+        </div>
+    </div>
+
+    <div id="github-disconnect-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-red-50 border border-red-100 flex items-center justify-center">
+                <i class="ph-fill ph-x-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1">Putuskan GitHub?</h3>
+            <p class="text-[12.5px] text-gray-500 mb-6 leading-relaxed">Clincoo AI tidak akan bisa lagi mengakses repositori Anda. Anda dapat menghubungkan ulang kapan saja.</p>
+            <div class="flex items-center gap-2.5">
+                <button onclick="closeDisconnectModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="disconnectGitHub()" class="flex-1 py-3 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition active:scale-[0.98]">Putuskan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL GOOGLE DRIVE ===== -->
+    <div id="drive-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 relative">
+            <button onclick="closeDriveModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Hubungkan Google Drive</h3>
+            <p class="text-[13px] text-gray-500 leading-relaxed mb-4">Clincoo AI akan terhubung ke Google Drive Anda melalui OAuth resmi Google (akun Google yang sedang login). Koneksi dapat diputuskan kapan saja.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-4">
+                <p class="text-[12px] font-semibold text-gray-700 mb-3">Clincoo AI akan bisa:</p>
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-file-magnifying-glass text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Melihat, mencari, dan membaca isi file di Drive Anda</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-file-plus text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membuat file dan folder baru di Drive Anda</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-trash text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Menghapus file Drive atas permintaan Anda</p>
+                    </div>
+                </div>
+
+                <label class="flex items-start gap-2.5 mt-4 cursor-pointer select-none">
+                    <input type="checkbox" id="drive-permission-check" class="mt-0.5 w-4 h-4 accent-black flex-shrink-0">
+                    <span class="text-[11.5px] text-gray-500 leading-relaxed">Saya menyetujui pemberian akses di atas dan Kebijakan Privasi Clincoo.</span>
+                </label>
+            </div>
+
+            <div id="drive-oauth-error" class="hidden mt-3 text-[12px] text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2 leading-relaxed"></div>
+
+            <div class="px-6 pt-5 pb-6 flex items-center gap-2.5 -mx-6">
+                <button onclick="closeDriveModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="startDriveOAuth()" id="drive-connect-cta" disabled class="flex-1 py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all opacity-40 pointer-events-none">Hubungkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL NOTION ===== -->
+    <div id="notion-connect-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 relative">
+            <button onclick="closeNotionModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Hubungkan Notion</h3>
+            <p class="text-[13px] text-gray-500 leading-relaxed mb-4">Clincoo akan terhubung ke workspace Notion Anda melalui OAuth resmi Notion. Anda memilih halaman tujuan, koneksi dapat diputuskan kapan saja.</p>
+            <div class="bg-gray-50 rounded-2xl p-4">
+                <p class="text-[12px] font-semibold text-gray-700 mb-3">Clincoo AI akan bisa:</p>
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-file-text text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membaca daftar halaman Notion yang Anda beri akses</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-[18px] h-[18px] text-gray-700 flex-shrink-0"><svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-full h-full"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg></div>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membuat halaman baru berisi jawaban AI atas perintah Anda</p>
+                    </div>
+                </div>
+                <label class="flex items-start gap-2.5 mt-4 cursor-pointer select-none">
+                    <input type="checkbox" id="notion-permission-check" class="mt-0.5 w-4 h-4 accent-black flex-shrink-0">
+                    <span class="text-[11.5px] text-gray-500 leading-relaxed">Saya menyetujui pemberian akses di atas dan Kebijakan Privasi Clincoo.</span>
+                </label>
+            </div>
+            <div id="notion-oauth-error" class="hidden mt-3 text-[12px] text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2 leading-relaxed"></div>
+            <div class="px-6 pt-5 pb-6 flex items-center gap-2.5 -mx-6">
+                <button onclick="closeNotionModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="startNotionOAuth()" id="notion-connect-cta" disabled class="flex-1 py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all opacity-40 pointer-events-none">Hubungkan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notion-loading" class="hidden fixed inset-0 z-[200] flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="w-12 h-12 rounded-full border-4 border-white/20 border-t-white animate-spin" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));"></div>
+        <p class="text-sm font-medium text-white mt-4">Menghubungkan ke Notion...</p>
+    </div>
+
+    <div id="notion-connected-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center relative">
+            <button onclick="closeNotionConnectedModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <div class="w-16 h-16 mx-auto mb-4" style="filter: drop-shadow(0 6px 14px rgba(16,185,129,0.45));">
+                <svg viewBox="0 0 64 64" aria-hidden="true" class="w-16 h-16">
+                    <defs>
+                        <radialGradient id="nt3dgrad" cx="35%" cy="30%" r="80%">
+                            <stop offset="0%" stop-color="#6ee7b7"/>
+                            <stop offset="55%" stop-color="#10b981"/>
+                            <stop offset="100%" stop-color="#047857"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="32" cy="32" r="30" fill="url(#nt3dgrad)"/>
+                    <ellipse cx="27" cy="21" rx="17" ry="9" fill="#ffffff" opacity="0.28"/>
+                    <path d="M20 33.5 28.5 42 44 25" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Notion Terhubung</h3>
+            <p class="text-[12.5px] text-gray-500 mb-3">Pilih halaman tujuan untuk jawaban AI Clincoo.</p>
+            <div id="notion-workspace-info" class="mb-4"></div>
+            <div class="text-left mb-2">
+                <label class="text-[12px] font-semibold text-gray-700">Halaman tujuan</label>
+                <select id="notion-page-select" class="w-full mt-1.5 px-3 py-2.5 rounded-xl border border-gray-200 text-[13.5px] text-gray-800 bg-white focus:outline-none focus:border-gray-400">
+                    <option value="">Memuat daftar halaman...</option>
+                </select>
+                <button onclick="loadNotionPages(true)" class="text-[12px] font-semibold text-gray-400 hover:text-black transition-colors mt-2">Muat ulang daftar halaman</button>
+            </div>
+            <button onclick="closeNotionConnectedModal()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Selesai</button>
+            <button onclick="confirmDisconnectNotion()" class="text-[12.5px] font-semibold text-gray-400 hover:text-red-500 transition-colors mt-3">Putuskan koneksi</button>
+        </div>
+    </div>
+
+    <div id="notion-disconnect-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-red-50 flex items-center justify-center">
+                <i class="ph ph-warning-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1">Putuskan Notion?</h3>
+            <p class="text-[12.5px] text-gray-500 mb-6 leading-relaxed">Clincoo AI tidak akan bisa lagi mengirim halaman ke Notion Anda. Anda dapat menghubungkan ulang kapan saja.</p>
+            <div class="flex items-center gap-2.5">
+                <button onclick="closeNotionDisconnectModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="disconnectNotion()" class="flex-1 py-3 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition active:scale-[0.98]">Putuskan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="drive-loading" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-sm shadow-2xl text-center">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-gray-100 border-t-black animate-spin"></div>
+            <p class="text-sm font-medium text-gray-700">Menghubungkan ke Google Drive...</p>
+        </div>
+    </div>
+
+    <div id="drive-connected-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center relative">
+            <button onclick="closeDriveConnectedModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center">
+                <i class="ph ph-check-circle text-3xl text-emerald-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Google Drive Terhubung</h3>
+            <p class="text-[12.5px] text-gray-500 mb-5">Drive Anda berhasil dihubungkan ke Clincoo.</p>
+            <div id="drive-user-info" class="mb-5"></div>
+            <button onclick="closeDriveConnectedModal()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Selesai</button>
+            <button onclick="confirmDisconnectDrive()" class="text-[12.5px] font-semibold text-gray-400 hover:text-red-500 transition-colors mt-3">Putuskan koneksi</button>
+        </div>
+    </div>
+
+    <div id="drive-disconnect-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-red-50 flex items-center justify-center">
+                <i class="ph ph-warning-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1">Putuskan Google Drive?</h3>
+            <p class="text-[12.5px] text-gray-500 mb-6 leading-relaxed">Clincoo AI tidak akan bisa lagi mengakses Drive Anda. Anda dapat menghubungkan ulang kapan saja.</p>
+            <div class="flex items-center gap-2.5">
+                <button onclick="closeDriveDisconnectModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="disconnectDrive()" class="flex-1 py-3 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition active:scale-[0.98]">Putuskan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL GOOGLE CALENDAR ===== -->
+    <div id="calendar-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 relative">
+            <button onclick="closeCalendarModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Hubungkan Google Calendar</h3>
+            <p class="text-[13px] text-gray-500 leading-relaxed mb-4">Clincoo AI akan terhubung ke Google Calendar Anda melalui OAuth resmi Google (akun Google yang sedang login). Koneksi dapat diputuskan kapan saja.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-4">
+                <p class="text-[12px] font-semibold text-gray-700 mb-3">Clincoo AI akan bisa:</p>
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-calendar-dot text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Melihat jadwal dan event di Calendar Anda</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-calendar-plus text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Membuat event baru atas permintaan Anda</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="ph ph-calendar-x text-lg text-gray-700 flex-shrink-0"></i>
+                        <p class="text-[12.5px] text-gray-600 leading-snug">Mengubah atau menghapus event atas permintaan Anda</p>
+                    </div>
+                </div>
+
+                <label class="flex items-start gap-2.5 mt-4 cursor-pointer select-none">
+                    <input type="checkbox" id="calendar-permission-check" class="mt-0.5 w-4 h-4 accent-black flex-shrink-0">
+                    <span class="text-[11.5px] text-gray-500 leading-relaxed">Saya menyetujui pemberian akses di atas dan Kebijakan Privasi Clincoo.</span>
+                </label>
+            </div>
+
+            <div id="calendar-oauth-error" class="hidden mt-3 text-[12px] text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2 leading-relaxed"></div>
+
+            <div class="px-6 pt-5 pb-6 flex items-center gap-2.5 -mx-6">
+                <button onclick="closeCalendarModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="startCalendarOAuth()" id="calendar-connect-cta" disabled class="flex-1 py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all opacity-40 pointer-events-none">Hubungkan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="calendar-loading" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-sm shadow-2xl text-center">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-gray-100 border-t-black animate-spin"></div>
+            <p class="text-sm font-medium text-gray-700">Menghubungkan ke Google Calendar...</p>
+        </div>
+    </div>
+
+    <div id="calendar-connected-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center relative">
+            <button onclick="closeCalendarConnectedModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors absolute top-4 right-4">
+                <i class="ph ph-x text-lg"></i>
+            </button>
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center">
+                <i class="ph ph-check-circle text-3xl text-emerald-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Google Calendar Terhubung</h3>
+            <p class="text-[12.5px] text-gray-500 mb-5">Calendar Anda berhasil dihubungkan ke Clincoo.</p>
+            <div id="calendar-user-info" class="mb-5"></div>
+            <button onclick="closeCalendarConnectedModal()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Selesai</button>
+            <button onclick="confirmDisconnectCalendar()" class="text-[12.5px] font-semibold text-gray-400 hover:text-red-500 transition-colors mt-3">Putuskan koneksi</button>
+        </div>
+    </div>
+
+    <div id="calendar-disconnect-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl px-6 pt-6 pb-6 text-center">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-red-50 flex items-center justify-center">
+                <i class="ph ph-warning-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1">Putuskan Google Calendar?</h3>
+            <p class="text-[12.5px] text-gray-500 mb-6 leading-relaxed">Clincoo AI tidak akan bisa lagi mengakses Calendar Anda. Anda dapat menghubungkan ulang kapan saja.</p>
+            <div class="flex items-center gap-2.5">
+                <button onclick="closeCalendarDisconnectModal()" class="flex-1 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition active:scale-[0.98]">Batal</button>
+                <button onclick="disconnectCalendar()" class="flex-1 py-3 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition active:scale-[0.98]">Putuskan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WORKER_URL = ""; // sinkron /db/gh-token (worker terpisah) tidak dipakai — token cukup di perangkat ini
+        // Client ID AKTIF Clincoo (lama Ov23li... sudah basi) — sama dengan fitur impor GitHub workspace.
+        const GITHUB_CLIENT_ID = "Ov23ctIBGjQBolR5PS2C";
+        const GH_API_BASE = (function(){ try { return localStorage.getItem('clinqoo_tool_api') || ''; } catch(e){ return ''; } })();
+        function clinqooAuthToken() {
+            try { return localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) { return ''; }
+        }
+
+        async function syncGitHubFromDB() {
+            if (!WORKER_URL) return;
+            try {
+                const res = await fetch(WORKER_URL + '/db/gh-token');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.token) {
+                    localStorage.setItem('clincoo_gh_token', data.token);
+                    if (data.user_data) updateConnectedUI(data.user_data);
+                }
+            } catch(e) {}
+        }
+
+        function getRedirectUri() {
+            return window.location.origin + window.location.pathname;
+        }
+
+        function startOAuth() {
+            const scope = "repo user:email delete_repo";
+            const redirectUri = getRedirectUri();
+            let targetRedirect = redirectUri;
+            // Di domain luar (GitHub Pages dll) tidak ada /api/github-oauth Clincoo —
+            // pakai redirect-dance: GitHub -> /api/github-oauth Clincoo -> balik ke sini
+            // dengan ?gh_token=... (pola yang sama dengan connector lama, client ID baru).
+            if (location.hostname.indexOf('clincoo') === -1) {
+                targetRedirect = "https://app.clincoo.buzz/api/github-oauth?redirect_uri=" + encodeURIComponent(redirectUri);
+            }
+            const authUrl = "https://github.com/login/oauth/authorize?client_id=" + GITHUB_CLIENT_ID + "&scope=" + encodeURIComponent(scope) + "&redirect_uri=" + encodeURIComponent(targetRedirect);
+            window.location.href = authUrl;
+        }
+        async function exchangeCodeForToken(code) {
+            const res = await fetch('/api/github-oauth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                body: JSON.stringify({ code: code, redirect_uri: getRedirectUri() })
+            });
+            const data = await res.json().catch(function () { return {}; });
+            if (data && data.upgrade_needed) throw new Error(data.error || 'Fitur ini tersedia di paket Pro & Bisnis.');
+            if (res.status === 401) throw new Error('Silakan login Clincoo dulu, lalu buka halaman Plugin lagi untuk menghubungkan GitHub.');
+            if (!res.ok || !data.access_token) throw new Error(data.error || 'Gagal mendapatkan token GitHub (HTTP ' + res.status + ').');
+            return data.access_token;
+        }
+
+        function openGitHubModal() {
+            const saved = localStorage.getItem('clincoo_gh_token');
+            if (saved) {
+                showConnectedState(saved);
+                return;
+            }
+            const chk = document.getElementById('gh-permission-check');
+            const cta = document.getElementById('gh-connect-cta');
+            const errEl = document.getElementById('gh-oauth-error');
+            if (chk) chk.checked = false;
+            if (cta) {
+                cta.disabled = true;
+                cta.classList.add('opacity-40', 'pointer-events-none');
+            }
+            if (errEl) {
+                errEl.classList.add('hidden');
+                errEl.textContent = '';
+            }
+            document.getElementById('github-modal').classList.remove('hidden');
+        }
+
+        function closeGitHubModal() {
+            document.getElementById('github-modal').classList.add('hidden');
+        }
+
+        function closeConnectedModal() {
+            document.getElementById('github-connected-modal').classList.add('hidden');
+        }
+
+        function closeDisconnectModal() {
+            document.getElementById('github-disconnect-modal').classList.add('hidden');
+        }
+
+        function confirmDisconnectGitHub() {
+            closeConnectedModal();
+            document.getElementById('github-disconnect-modal').classList.remove('hidden');
+        }
+
+        function setGitHubBadge(connected) {
+            const badge = document.getElementById('github-status-badge');
+            if (!badge) return;
+            badge.classList.toggle('hidden', !connected);
+            badge.classList.toggle('flex', connected);
+        }
+
+        async function handleOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ghToken = urlParams.get('gh_token');
+            const ghUser = urlParams.get('gh_user');
+            const errParam = urlParams.get('error');
+
+            // ALUR BARU: GitHub balik ke halaman ini dengan ?code=... — tukar via backend Clincoo.
+            const codeParam = urlParams.get('code');
+            if (!ghToken && codeParam && !notionStateMatches(urlParams.get('state'))) {
+                window.history.replaceState({}, document.title, getRedirectUri());
+                document.getElementById('github-loading').classList.remove('hidden');
+                try {
+                    const token = await exchangeCodeForToken(codeParam);
+                    localStorage.setItem('clincoo_gh_token', token);
+                    let userData = null;
+                    try {
+                        const ures = await fetch('https://api.github.com/user', { headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' } });
+                        userData = await ures.json();
+                    } catch (e) {}
+                    if (userData) localStorage.setItem('clincoo_gh_user', JSON.stringify(userData));
+                    document.getElementById('github-loading').classList.add('hidden');
+                    updateConnectedUI(userData || { login: 'Terhubung', avatar_url: '', name: 'GitHub', public_repos: 0 });
+                    window.location.href = location.hostname === 'muzawwied.github.io' ? 'github.html' : '/integrasi/github/';
+                    return;
+                } catch (ex) {
+                    document.getElementById('github-loading').classList.add('hidden');
+                    const errEl = document.getElementById('gh-oauth-error');
+                    if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (ex && ex.message ? ex.message : String(ex)); errEl.classList.remove('hidden'); }
+                    document.getElementById('github-modal').classList.remove('hidden');
+                }
+                return;
+            }
+
+            if (errParam && !notionStateMatches(urlParams.get('state'))) {
+                window.history.replaceState({}, document.title, getRedirectUri());
+                const errEl = document.getElementById('gh-oauth-error');
+                if (errEl) {
+                    errEl.textContent = 'Gagal menghubungkan: ' + (urlParams.get('description') || errParam);
+                    errEl.classList.remove('hidden');
+                }
+                document.getElementById('github-modal').classList.remove('hidden');
+                return;
+            }
+
+            if (!ghToken) return;
+
+            window.history.replaceState({}, document.title, getRedirectUri());
+            document.getElementById('github-loading').classList.remove('hidden');
+
+            localStorage.setItem('clincoo_gh_token', ghToken);
+            const userData = ghUser ? JSON.parse(ghUser) : null;
+            if (userData) localStorage.setItem('clincoo_gh_user', JSON.stringify(userData));
+
+            if (WORKER_URL && userData) {
+                fetch(WORKER_URL + '/db/gh-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: ghToken, user_data: userData })
+                }).catch(() => {});
+            }
+
+            if (userData) updateConnectedUI(userData);
+            document.getElementById('github-loading').classList.add('hidden');
+        }
+
+        function updateConnectedUI(user) {
+            document.getElementById('github-loading').classList.add('hidden');
+            const btn = document.getElementById('github-connect-btn');
+            if (btn) btn.classList.add('hidden');
+            setGitHubBadge(true);
+        }
+
+        async function showConnectedState(token, cachedUser) {
+            let user = cachedUser;
+            if (!user) {
+                token = token || localStorage.getItem('clincoo_gh_token');
+                try {
+                    const res = await fetch('https://api.github.com/user', {
+                        headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+                    });
+                    user = await res.json();
+                } catch(e) {
+                    user = { login: 'Unknown', public_repos: 0 };
+                }
+            }
+
+            let repoCount = user.public_repos || 0;
+            const infoDiv = document.getElementById('gh-user-info');
+            infoDiv.innerHTML = 
+                '<div class="flex items-center gap-3">' +
+                    '<img src="' + (user.avatar_url || '') + '" alt="" class="w-10 h-10 rounded-full flex-shrink-0">' +
+                    '<div class="min-w-0 text-left">' +
+                        '<p class="font-semibold text-gray-900 text-[14px] truncate">' + (user.name || user.login) + '</p>' +
+                        '<p class="text-xs text-gray-500 truncate">@' + user.login + ' \u00b7 ' + repoCount + ' repositori publik</p>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="flex items-center justify-center gap-2 mt-3">' +
+                    '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>' +
+                    '<p class="text-[11.5px] text-emerald-600 leading-relaxed">Token aktif dengan akses ke repositori publik dan private.</p>' +
+                '</div>';
+
+            document.getElementById('github-connected-modal').classList.remove('hidden');
+        }
+
+        function disconnectGitHub() {
+            localStorage.removeItem('clincoo_gh_token');
+            localStorage.removeItem('clincoo_gh_user');
+            if (WORKER_URL) {
+                fetch(WORKER_URL + '/db/gh-token', { method: 'DELETE' }).catch(() => {});
+            }
+            closeDisconnectModal();
+            closeConnectedModal();
+            const btn = document.getElementById('github-connect-btn');
+            if (btn) {
+                btn.className = 'px-4 py-2 bg-[#0f1115] text-white rounded-lg text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.08)] active:scale-[0.97] whitespace-nowrap';
+                btn.innerHTML = 'Hubungkan';
+            }
+            setGitHubBadge(false);
+        }
+
+        function openWhatsAppConnect() {
+            const mainView = document.getElementById('main-view');
+            const waView = document.getElementById('whatsapp-connect-view');
+            if (mainView && waView) {
+                mainView.classList.add('hidden');
+                waView.classList.remove('hidden');
+            }
+            
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const hamburger = document.getElementById('hamburger-icon');
+            const backIcon = document.getElementById('header-back-icon');
+            
+            if (toggleBtn) {
+                if (hamburger) hamburger.classList.add('hidden');
+                if (backIcon) backIcon.classList.remove('hidden');
+                toggleBtn.onclick = closeWhatsAppConnect;
+            }
+        }
+
+        function closeWhatsAppConnect() {
+            const mainView = document.getElementById('main-view');
+            const waView = document.getElementById('whatsapp-connect-view');
+            if (mainView && waView) {
+                waView.classList.add('hidden');
+                mainView.classList.remove('hidden');
+            }
+            
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const hamburger = document.getElementById('hamburger-icon');
+            const backIcon = document.getElementById('header-back-icon');
+            
+            if (toggleBtn) {
+                if (hamburger) hamburger.classList.remove('hidden');
+                if (backIcon) backIcon.classList.add('hidden');
+                toggleBtn.onclick = toggleSidebar;
+            }
+        }
+
+        function switchWaTab(tab) {
+            const qrBtn = document.getElementById('tab-qr-btn');
+            const pairingBtn = document.getElementById('tab-pairing-btn');
+            const qrContent = document.getElementById('content-qr');
+            const pairingContent = document.getElementById('content-pairing');
+
+            if (tab === 'qr') {
+                qrBtn.className = 'flex-1 pb-3 text-sm font-semibold text-black border-b-2 border-black transition-colors';
+                pairingBtn.className = 'flex-1 pb-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-colors';
+                qrContent.classList.remove('hidden');
+                pairingContent.classList.add('hidden');
+            } else {
+                pairingBtn.className = 'flex-1 pb-3 text-sm font-semibold text-black border-b-2 border-black transition-colors';
+                qrBtn.className = 'flex-1 pb-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-colors';
+                pairingContent.classList.remove('hidden');
+                qrContent.classList.add('hidden');
+            }
+        }
+
+        function openCountryModal() {
+            document.getElementById('country-modal').classList.remove('hidden');
+        }
+
+        function closeCountryModal() {
+            document.getElementById('country-modal').classList.add('hidden');
+        }
+
+        function selectCountry(code) {
+            document.getElementById('wa-country-code').value = code;
+            closeCountryModal();
+        }
+
+        function generatePairingCode() {
+            const input = document.getElementById('wa-phone-input')?.value.trim() || '';
+            const display = document.getElementById('pairing-code-display');
+            const errorEl = document.getElementById('wa-phone-error');
+
+            if (input.length < 8) {
+                if (errorEl) {
+                    errorEl.textContent = 'Nomor WhatsApp tidak valid (minimal 8 digit).';
+                    errorEl.classList.remove('hidden');
+                }
+                if (display) display.classList.add('hidden');
+                return;
+            }
+
+            if (errorEl) errorEl.classList.add('hidden');
+
+            if (display) {
+                display.classList.remove('hidden');
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let code = '';
+                for (let i = 0; i < 8; i++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                    if (i === 3) code += '-';
+                }
+                const codeEl = document.getElementById('code-text');
+                if (codeEl) codeEl.textContent = code;
+            }
+        }
+
+        function copyPairingCode() {
+            const codeText = document.getElementById('code-text')?.textContent;
+            if (!codeText) return;
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                const copyBtn = document.getElementById('copy-pairing-btn');
+                if (copyBtn) {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'Tersalin!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                }
+            } catch (err) {
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        async function validateSavedGitHubConnection() {
+            const token = localStorage.getItem('clincoo_gh_token');
+            const btn = document.getElementById('github-connect-btn');
+            if (!token) { if (btn) btn.classList.remove('hidden'); setGitHubBadge(false); return false; }
+            // Jangan tampilkan "Terhubung" hanya karena string token ada di localStorage.
+            // Badge hijau baru muncul setelah GitHub /user menerima token tersebut.
+            try {
+                const r = await fetch('https://api.github.com/user', { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                if (!r.ok) {
+                    if (r.status === 401) {
+                        localStorage.removeItem('clincoo_gh_token');
+                        localStorage.removeItem('clincoo_gh_user');
+                    }
+                    if (btn) btn.classList.remove('hidden');
+                    setGitHubBadge(false);
+                    return false;
+                }
+                const user = await r.json();
+                localStorage.setItem('clincoo_gh_user', JSON.stringify(user));
+                if (btn) btn.classList.add('hidden');
+                setGitHubBadge(true);
+                return true;
+            } catch (e) {
+                // Gangguan jaringan bukan bukti token dicabut; jangan hapus token,
+                // tetapi juga jangan klaim "Terhubung" tanpa verifikasi.
+                if (btn) btn.classList.remove('hidden');
+                setGitHubBadge(false);
+                return false;
+            }
+        }
+
+        // ===== PLUGIN GOOGLE DRIVE =====
+        // Alur: Plugin -> Google (redirect_uri = /auth/ yang SUDAH terdaftar di Google
+        // Console, ditandai cookie state khusus) -> /auth/ kirim ulang code ke sini ->
+        // tukar di /api/drive-oauth -> token disimpan per-akun (proxy namespace auth-client).
+        const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
+
+        function driveRedirectUri() { return window.location.origin + '/auth/'; }
+
+        function setDriveBadge(connected) {
+            const badge = document.getElementById('drive-status-badge');
+            if (badge) {
+                badge.classList.toggle('hidden', !connected);
+                badge.classList.toggle('flex', !!connected);
+            }
+        }
+
+        function setDriveConnectedUI(connected) {
+            const btn = document.getElementById('drive-connect-btn');
+            if (btn) btn.classList.toggle('hidden', connected);
+            setDriveBadge(connected);
+        }
+
+        function openDriveModal() {
+            const chk = document.getElementById('drive-permission-check');
+            const cta = document.getElementById('drive-connect-cta');
+            if (chk) chk.checked = false;
+            if (cta) { cta.disabled = true; cta.classList.add('opacity-40', 'pointer-events-none'); }
+            const errEl = document.getElementById('drive-oauth-error');
+            if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+            document.getElementById('drive-modal').classList.remove('hidden');
+        }
+
+        function closeDriveModal() { document.getElementById('drive-modal').classList.add('hidden'); }
+        function closeDriveConnectedModal() { document.getElementById('drive-connected-modal').classList.add('hidden'); }
+        function closeDriveDisconnectModal() { document.getElementById('drive-disconnect-modal').classList.add('hidden'); }
+        function confirmDisconnectDrive() {
+            closeDriveConnectedModal();
+            document.getElementById('drive-disconnect-modal').classList.remove('hidden');
+        }
+
+        async function driveRefreshAccessToken() {
+            const refresh = localStorage.getItem('clincoo_drive_refresh');
+            const current = localStorage.getItem('clincoo_drive_token') || '';
+            const expiry = parseInt(localStorage.getItem('clincoo_drive_expiry') || '0', 10);
+            if (!refresh || (current && expiry && Date.now() < expiry - 60000)) return current;
+            try {
+                const res = await fetch('/api/drive-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ refresh_token: refresh })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.ok && data.access_token) {
+                    localStorage.setItem('clincoo_drive_token', data.access_token);
+                    localStorage.setItem('clincoo_drive_expiry', String(Date.now() + (data.expires_in || 3600) * 1000));
+                    return data.access_token;
+                }
+            } catch (e) {}
+            return current;
+        }
+
+        async function startDriveOAuth() {
+            const chk = document.getElementById('drive-permission-check');
+            if (chk && !chk.checked) return;
+            // Domain luar (GitHub Pages dll) tidak punya /api Clincoo — pakai domain utama.
+            if (location.hostname.indexOf('clincoo') === -1 && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                window.location.href = 'https://app.clincoo.buzz/integrasi/';
+                return;
+            }
+            document.getElementById('drive-modal').classList.add('hidden');
+            document.getElementById('drive-loading').classList.remove('hidden');
+            let clientId = null;
+            try {
+                const r = await fetch('/api/auth/google');
+                const d = await r.json();
+                clientId = d.client_id;
+            } catch (e) {}
+            if (!clientId) {
+                document.getElementById('drive-loading').classList.add('hidden');
+                const errEl = document.getElementById('drive-oauth-error');
+                if (errEl) { errEl.textContent = 'Client ID Google Clincoo tidak tersedia. Coba lagi sebentar.'; errEl.classList.remove('hidden'); }
+                document.getElementById('drive-modal').classList.remove('hidden');
+                return;
+            }
+            const st = (crypto.randomUUID ? crypto.randomUUID() : ('d' + Date.now() + Math.random())).replace(/-/g, '');
+            const back = window.location.origin + window.location.pathname;
+            // Cookie Path=/ supaya bisa dibaca oleh halaman /auth/ yang menerima callback.
+            document.cookie = 'clinqoo_drive_state=' + encodeURIComponent(JSON.stringify({ v: st, back: back, t: Date.now() })) + '; Max-Age=900; Path=/; SameSite=Lax; Secure';
+            window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' + encodeURIComponent(clientId) +
+                '&redirect_uri=' + encodeURIComponent(driveRedirectUri()) +
+                '&response_type=code&scope=' + encodeURIComponent(DRIVE_SCOPE) +
+                '&access_type=offline&prompt=consent&state=' + st;
+        }
+
+        async function handleDriveCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('drive_code');
+            const errParam = urlParams.get('drive_error');
+            if (!codeParam && !errParam) return;
+            window.history.replaceState({}, document.title, window.location.pathname);
+            const errEl = document.getElementById('drive-oauth-error');
+            if (errParam) {
+                if (errEl) { errEl.textContent = 'Gagal menghubungkan Google Drive: ' + errParam; errEl.classList.remove('hidden'); }
+                document.getElementById('drive-modal').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('drive-loading').classList.remove('hidden');
+            try {
+                const res = await fetch('/api/drive-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ code: codeParam, redirect_uri: driveRedirectUri() })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.status === 401) throw new Error('Silakan login Clincoo dulu, lalu buka halaman Plugin lagi.');
+                if (!res.ok || !data.access_token) throw new Error(data.error || 'Gagal menghubungkan Google Drive (HTTP ' + res.status + ').');
+                localStorage.setItem('clincoo_drive_token', data.access_token);
+                if (data.refresh_token) localStorage.setItem('clincoo_drive_refresh', data.refresh_token);
+                localStorage.setItem('clincoo_drive_expiry', String(Date.now() + (data.expires_in || 3600) * 1000));
+                if (data.user) localStorage.setItem('clincoo_drive_user', JSON.stringify(data.user));
+                setDriveConnectedUI(true);
+                showDriveConnected(data.user || null);
+            } catch (ex) {
+                document.getElementById('drive-loading').classList.add('hidden');
+                if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (ex && ex.message ? ex.message : String(ex)); errEl.classList.remove('hidden'); }
+                document.getElementById('drive-modal').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('drive-loading').classList.add('hidden');
+        }
+
+        async function validateSavedDriveConnection() {
+            const token = localStorage.getItem('clincoo_drive_token');
+            if (!token) { setDriveConnectedUI(false); return false; }
+            const fresh = await driveRefreshAccessToken();
+            if (!fresh) { setDriveConnectedUI(false); return false; }
+            try {
+                const r = await fetch('https://www.googleapis.com/drive/v3/about?fields=user', { headers: { Authorization: 'Bearer ' + fresh } });
+                if (r.status === 401) {
+                    ['clincoo_drive_token', 'clincoo_drive_refresh', 'clincoo_drive_user', 'clincoo_drive_expiry'].forEach(k => localStorage.removeItem(k));
+                    setDriveConnectedUI(false);
+                    return false;
+                }
+                if (!r.ok) { setDriveConnectedUI(false); return false; }
+                const d = await r.json();
+                if (d && d.user) {
+                    localStorage.setItem('clincoo_drive_user', JSON.stringify({ name: d.user.displayName || d.user.emailAddress, email: d.user.emailAddress || '', picture: d.user.photoLink || '' }));
+                }
+                setDriveConnectedUI(true);
+                return true;
+            } catch (e) {
+                setDriveConnectedUI(false);
+                return false;
+            }
+        }
+
+        async function showDriveConnected(user) {
+            let u = user;
+            if (!u) { try { u = JSON.parse(localStorage.getItem('clincoo_drive_user') || 'null'); } catch (e) {} }
+            if (!u) {
+                try {
+                    const tok = await driveRefreshAccessToken();
+                    const r = await fetch('https://www.googleapis.com/drive/v3/about?fields=user', { headers: { Authorization: 'Bearer ' + tok } });
+                    const d = await r.json();
+                    if (d && d.user) u = { name: d.user.displayName || d.user.emailAddress, email: d.user.emailAddress || '', picture: d.user.photoLink || '' };
+                } catch (e) {}
+            }
+            const info = document.getElementById('drive-user-info');
+            if (info && u) {
+                info.innerHTML =
+                    '<div class="flex items-center gap-3">' +
+                        '<img src="' + (u.picture || '') + '" alt="" class="w-10 h-10 rounded-full flex-shrink-0">' +
+                        '<div class="min-w-0 text-left">' +
+                            '<p class="font-semibold text-gray-900 text-[14px] truncate">' + (u.name || 'Drive') + '</p>' +
+                            '<p class="text-xs text-gray-500 truncate">' + (u.email || '') + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="flex items-center justify-center gap-2 mt-3">' +
+                        '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>' +
+                        '<p class="text-[11.5px] text-emerald-600 leading-relaxed">Token aktif dengan akses ke file Drive Anda.</p>' +
+                    '</div>';
+            }
+            document.getElementById('drive-connected-modal').classList.remove('hidden');
+        }
+
+        function disconnectDrive() {
+            ['clincoo_drive_token', 'clincoo_drive_refresh', 'clincoo_drive_user', 'clincoo_drive_expiry'].forEach(k => localStorage.removeItem(k));
+            closeDriveDisconnectModal();
+            closeDriveConnectedModal();
+            setDriveConnectedUI(false);
+        }
+        // ===== PLUGIN GOOGLE CALENDAR =====
+        // Alur identik Drive: Plugin -> Google (redirect_uri = /auth/, cookie state
+        // clinqoo_calendar_state) -> /auth/ kirim ulang code (calendar_code) -> tukar
+        // di /api/calendar-oauth -> token per-akun di localStorage.
+        const CALENDAR_SCOPE = 'https://www.googleapis.com/auth/calendar';
+
+        function calendarRedirectUri() { return window.location.origin + '/auth/'; }
+
+        function setCalendarBadge(connected) {
+            const badge = document.getElementById('calendar-status-badge');
+            if (badge) {
+                badge.classList.toggle('hidden', !connected);
+                badge.classList.toggle('flex', !!connected);
+            }
+        }
+
+        function setCalendarConnectedUI(connected) {
+            const btn = document.getElementById('calendar-connect-btn');
+            if (btn) btn.classList.toggle('hidden', connected);
+            setCalendarBadge(connected);
+        }
+
+        function openCalendarModal() {
+            const chk = document.getElementById('calendar-permission-check');
+            const cta = document.getElementById('calendar-connect-cta');
+            if (chk) chk.checked = false;
+            if (cta) { cta.disabled = true; cta.classList.add('opacity-40', 'pointer-events-none'); }
+            const errEl = document.getElementById('calendar-oauth-error');
+            if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+            document.getElementById('calendar-modal').classList.remove('hidden');
+        }
+
+        function closeCalendarModal() { document.getElementById('calendar-modal').classList.add('hidden'); }
+        function closeCalendarConnectedModal() { document.getElementById('calendar-connected-modal').classList.add('hidden'); }
+        function closeCalendarDisconnectModal() { document.getElementById('calendar-disconnect-modal').classList.add('hidden'); }
+        function confirmDisconnectCalendar() {
+            closeCalendarConnectedModal();
+            document.getElementById('calendar-disconnect-modal').classList.remove('hidden');
+        }
+
+        async function calendarRefreshAccessToken() {
+            const refresh = localStorage.getItem('clincoo_calendar_refresh');
+            const current = localStorage.getItem('clincoo_calendar_token') || '';
+            const expiry = parseInt(localStorage.getItem('clincoo_calendar_expiry') || '0', 10);
+            if (!refresh || (current && expiry && Date.now() < expiry - 60000)) return current;
+            try {
+                const res = await fetch('/api/calendar-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ refresh_token: refresh })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.ok && data.access_token) {
+                    localStorage.setItem('clincoo_calendar_token', data.access_token);
+                    localStorage.setItem('clincoo_calendar_expiry', String(Date.now() + (data.expires_in || 3600) * 1000));
+                    return data.access_token;
+                }
+            } catch (e) {}
+            return current;
+        }
+
+        async function startCalendarOAuth() {
+            const chk = document.getElementById('calendar-permission-check');
+            if (chk && !chk.checked) return;
+            if (location.hostname.indexOf('clincoo') === -1 && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                window.location.href = 'https://app.clincoo.buzz/integrasi/';
+                return;
+            }
+            document.getElementById('calendar-modal').classList.add('hidden');
+            document.getElementById('calendar-loading').classList.remove('hidden');
+            let clientId = null;
+            try {
+                const r = await fetch('/api/auth/google');
+                const d = await r.json();
+                clientId = d.client_id;
+            } catch (e) {}
+            if (!clientId) {
+                document.getElementById('calendar-loading').classList.add('hidden');
+                const errEl = document.getElementById('calendar-oauth-error');
+                if (errEl) { errEl.textContent = 'Client ID Google Clincoo tidak tersedia. Coba lagi sebentar.'; errEl.classList.remove('hidden'); }
+                document.getElementById('calendar-modal').classList.remove('hidden');
+                return;
+            }
+            const st = (crypto.randomUUID ? crypto.randomUUID() : ('c' + Date.now() + Math.random())).replace(/-/g, '');
+            const back = window.location.origin + window.location.pathname;
+            document.cookie = 'clinqoo_calendar_state=' + encodeURIComponent(JSON.stringify({ v: st, back: back, t: Date.now() })) + '; Max-Age=900; Path=/; SameSite=Lax; Secure';
+            window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' + encodeURIComponent(clientId) +
+                '&redirect_uri=' + encodeURIComponent(calendarRedirectUri()) +
+                '&response_type=code&scope=' + encodeURIComponent(CALENDAR_SCOPE) +
+                '&access_type=offline&prompt=consent&state=' + st;
+        }
+
+        async function handleCalendarCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('calendar_code');
+            const errParam = urlParams.get('calendar_error');
+            if (!codeParam && !errParam) return;
+            window.history.replaceState({}, document.title, window.location.pathname);
+            const errEl = document.getElementById('calendar-oauth-error');
+            if (errParam) {
+                if (errEl) { errEl.textContent = 'Gagal menghubungkan Google Calendar: ' + errParam; errEl.classList.remove('hidden'); }
+                document.getElementById('calendar-modal').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('calendar-loading').classList.remove('hidden');
+            try {
+                const res = await fetch('/api/calendar-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ code: codeParam, redirect_uri: calendarRedirectUri() })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.status === 401) throw new Error('Silakan login Clincoo dulu, lalu buka halaman Plugin lagi.');
+                if (!res.ok || !data.access_token) throw new Error(data.error || 'Gagal menghubungkan Google Calendar (HTTP ' + res.status + ').');
+                localStorage.setItem('clincoo_calendar_token', data.access_token);
+                if (data.refresh_token) localStorage.setItem('clincoo_calendar_refresh', data.refresh_token);
+                localStorage.setItem('clincoo_calendar_expiry', String(Date.now() + (data.expires_in || 3600) * 1000));
+                if (data.user) localStorage.setItem('clincoo_calendar_user', JSON.stringify(data.user));
+                setCalendarConnectedUI(true);
+                showCalendarConnected(data.user || null);
+            } catch (ex) {
+                document.getElementById('calendar-loading').classList.add('hidden');
+                if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (ex && ex.message ? ex.message : String(ex)); errEl.classList.remove('hidden'); }
+                document.getElementById('calendar-modal').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('calendar-loading').classList.add('hidden');
+        }
+
+        async function validateSavedCalendarConnection() {
+            const token = localStorage.getItem('clincoo_calendar_token');
+            if (!token) { setCalendarConnectedUI(false); return false; }
+            const fresh = await calendarRefreshAccessToken();
+            if (!fresh) { setCalendarConnectedUI(false); return false; }
+            try {
+                const r = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary?fields=summary', { headers: { Authorization: 'Bearer ' + fresh } });
+                if (r.status === 401) {
+                    ['clincoo_calendar_token', 'clincoo_calendar_refresh', 'clincoo_calendar_user', 'clincoo_calendar_expiry'].forEach(k => localStorage.removeItem(k));
+                    setCalendarConnectedUI(false);
+                    return false;
+                }
+                if (!r.ok) { setCalendarConnectedUI(false); return false; }
+                setCalendarConnectedUI(true);
+                return true;
+            } catch (e) {
+                setCalendarConnectedUI(false);
+                return false;
+            }
+        }
+
+        async function showCalendarConnected(user) {
+            let u = user;
+            if (!u) { try { u = JSON.parse(localStorage.getItem('clincoo_calendar_user') || 'null'); } catch (e) {} }
+            if (!u) {
+                try {
+                    const tok = await calendarRefreshAccessToken();
+                    const r = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', { headers: { Authorization: 'Bearer ' + tok } });
+                    const d = await r.json();
+                    if (d && (d.email || d.name)) u = { name: d.name || d.email, email: d.email || '', picture: d.picture || '' };
+                } catch (e) {}
+            }
+            const info = document.getElementById('calendar-user-info');
+            if (info && u) {
+                info.innerHTML =
+                    '<div class="flex items-center gap-3">' +
+                        '<img src="' + (u.picture || '') + '" alt="" class="w-10 h-10 rounded-full flex-shrink-0">' +
+                        '<div class="min-w-0 text-left">' +
+                            '<p class="font-semibold text-gray-900 text-[14px] truncate">' + (u.name || 'Calendar') + '</p>' +
+                            '<p class="text-xs text-gray-500 truncate">' + (u.email || '') + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="flex items-center justify-center gap-2 mt-3">' +
+                        '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>' +
+                        '<p class="text-[11.5px] text-emerald-600 leading-relaxed">Token aktif dengan akses ke Calendar Anda.</p>' +
+                    '</div>';
+            }
+            document.getElementById('calendar-connected-modal').classList.remove('hidden');
+        }
+
+        function disconnectCalendar() {
+            ['clincoo_calendar_token', 'clincoo_calendar_refresh', 'clincoo_calendar_user', 'clincoo_calendar_expiry'].forEach(k => localStorage.removeItem(k));
+            closeCalendarDisconnectModal();
+            closeCalendarConnectedModal();
+            setCalendarConnectedUI(false);
+        }
+
+
+        // ===== PLUGIN NOTION (OAuth resmi, token hanya di perangkat user) =====
+        function notionStateMatches(st) {
+            if (!st) return false;
+            try {
+                const m = document.cookie.match(/clinqoo_notion_state=([^;]+)/);
+                if (!m) return false;
+                const v = decodeURIComponent(m[1]);
+                return v === st;
+            } catch (e) { return false; }
+        }
+
+        function openNotionModal() {
+            const chk = document.getElementById('notion-permission-check');
+            if (chk) { chk.checked = false; }
+            const cta = document.getElementById('notion-connect-cta');
+            if (cta) { cta.disabled = true; cta.classList.add('opacity-40', 'pointer-events-none'); }
+            const errEl = document.getElementById('notion-oauth-error');
+            if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
+            document.getElementById('notion-connect-modal').classList.remove('hidden');
+        }
+        function closeNotionModal() { document.getElementById('notion-connect-modal').classList.add('hidden'); }
+        function closeNotionConnectedModal() { document.getElementById('notion-connected-modal').classList.add('hidden'); }
+        function closeNotionDisconnectModal() { document.getElementById('notion-disconnect-modal').classList.add('hidden'); }
+        function confirmDisconnectNotion() {
+            closeNotionConnectedModal();
+            document.getElementById('notion-disconnect-modal').classList.remove('hidden');
+        }
+        function setNotionConnectedUI(connected) {
+            const badge = document.getElementById('notion-status-badge');
+            const btn = document.getElementById('notion-connect-btn');
+            if (!badge || !btn) return;
+            if (connected) {
+                badge.classList.remove('hidden'); badge.classList.add('flex');
+                btn.classList.add('hidden');
+            } else {
+                badge.classList.add('hidden'); badge.classList.remove('flex');
+                btn.classList.remove('hidden');
+                btn.textContent = 'Hubungkan';
+            }
+        }
+
+        async function startNotionOAuth() {
+            const chk = document.getElementById('notion-permission-check');
+            if (chk && !chk.checked) return;
+            if (location.hostname.indexOf('clincoo') === -1 && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                window.location.href = 'https://app.clincoo.buzz/integrasi/';
+                return;
+            }
+            document.getElementById('notion-connect-modal').classList.add('hidden');
+            document.getElementById('notion-loading').classList.remove('hidden');
+            let clientId = null, redirectUri = null;
+            try {
+                const r = await fetch('/api/notion-oauth', { headers: { 'Authorization': 'Bearer ' + clinqooAuthToken() } });
+                const d = await r.json();
+                clientId = d.client_id; redirectUri = d.redirect_uri;
+            } catch (e) {}
+            if (!clientId) {
+                document.getElementById('notion-loading').classList.add('hidden');
+                const errEl = document.getElementById('notion-oauth-error');
+                if (errEl) { errEl.textContent = 'Konektor Notion belum dikonfigurasi di server Clincoo. Coba lagi sebentar.'; errEl.classList.remove('hidden'); }
+                document.getElementById('notion-connect-modal').classList.remove('hidden');
+                return;
+            }
+            const st = 'n' + (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()).replace(/-/g, '');
+            document.cookie = 'clinqoo_notion_state=' + encodeURIComponent(st) + '; Max-Age=900; Path=/; SameSite=Lax; Secure';
+            window.location.href = 'https://api.notion.com/v1/oauth/authorize?client_id=' + encodeURIComponent(clientId) +
+                '&redirect_uri=' + encodeURIComponent(redirectUri || (window.location.origin + '/integrasi/')) +
+                '&response_type=code&owner=user&state=' + encodeURIComponent(st);
+        }
+
+        function handleNotionCancel() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('error') || !notionStateMatches(urlParams.get('state'))) return;
+            window.history.replaceState({}, document.title, '/integrasi/');
+            document.cookie = 'clinqoo_notion_state=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+            const errEl = document.getElementById('notion-oauth-error');
+            if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (urlParams.get('description') || 'dibatalkan'); errEl.classList.remove('hidden'); }
+            document.getElementById('notion-connect-modal').classList.remove('hidden');
+        }
+
+        async function handleNotionCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            const st = urlParams.get('state');
+            if (!codeParam || !notionStateMatches(st)) return; // bukan callback Notion -> abaikan
+            window.history.replaceState({}, document.title, '/integrasi/');
+            document.cookie = 'clinqoo_notion_state=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+            document.getElementById('notion-loading').classList.remove('hidden');
+            const errEl = document.getElementById('notion-oauth-error');
+            try {
+                const res = await fetch('/api/notion-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ code: codeParam })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.status === 401) throw new Error('Silakan login Clincoo dulu, lalu hubungkan Notion lagi.');
+                if (!res.ok || !data.access_token) throw new Error(data.error || 'Gagal menghubungkan Notion (HTTP ' + res.status + ').');
+                localStorage.setItem('clincoo_notion_token', data.access_token);
+                if (data.refresh_token) localStorage.setItem('clincoo_notion_refresh', data.refresh_token);
+                const user = { workspace_name: data.workspace_name || '', owner_name: data.owner_name || '' };
+                localStorage.setItem('clincoo_notion_user', JSON.stringify(user));
+                setNotionConnectedUI(true);
+                showNotionConnected(user);
+            } catch (ex) {
+                document.getElementById('notion-loading').classList.add('hidden');
+                if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (ex && ex.message ? ex.message : String(ex)); errEl.classList.remove('hidden'); }
+                document.getElementById('notion-connect-modal').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('notion-loading').classList.add('hidden');
+        }
+
+        async function notionRefreshAccessToken() {
+            const refresh = localStorage.getItem('clincoo_notion_refresh');
+            if (!refresh) return localStorage.getItem('clincoo_notion_token') || '';
+            try {
+                const res = await fetch('/api/notion-oauth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ refresh_token: refresh })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (res.ok && data.access_token) {
+                    localStorage.setItem('clincoo_notion_token', data.access_token);
+                    return data.access_token;
+                }
+            } catch (e) {}
+            return localStorage.getItem('clincoo_notion_token') || '';
+        }
+
+        function showNotionConnected(user) {
+            const infoEl = document.getElementById('notion-workspace-info');
+            if (infoEl && user) {
+                infoEl.innerHTML = '<div class="inline-flex items-center gap-1.5 bg-gray-50 rounded-full px-3 py-1.5 text-[12px] text-gray-600 font-medium">' +
+                    '<i class="ph ph-neighborhood"></i> ' + (user.workspace_name || user.owner_name || 'Workspace') + '</div>';
+            }
+            document.getElementById('notion-connected-modal').classList.remove('hidden');
+            loadNotionPages(false);
+        }
+
+        async function loadNotionPages(force) {
+            const sel = document.getElementById('notion-page-select');
+            if (!sel) return;
+            const token = await notionRefreshAccessToken();
+            if (!token) return;
+            sel.innerHTML = '<option value="">Memuat daftar halaman...</option>';
+            try {
+                const res = await fetch('/api/notion-proxy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Notion-Token': token, 'Authorization': 'Bearer ' + clinqooAuthToken() },
+                    body: JSON.stringify({ action: 'search' })
+                });
+                const data = await res.json().catch(function () { return {}; });
+                const pages = (data && data.pages) || [];
+                const saved = localStorage.getItem('clincoo_notion_page') || '';
+                sel.innerHTML = pages.length
+                    ? pages.map(function (pg) { return '<option value="' + pg.id + '"' + (pg.id === saved ? ' selected' : '') + '>' + (pg.title || 'Tanpa judul') + '</option>'; }).join('')
+                    : '<option value="">Tidak ada halaman — share halaman Notion ke Clincoo dulu</option>';
+                sel.onchange = function () {
+                    if (sel.value) localStorage.setItem('clincoo_notion_page', sel.value);
+                };
+            } catch (e) {
+                sel.innerHTML = '<option value="">Gagal memuat daftar halaman</option>';
+            }
+        }
+
+        function disconnectNotion() {
+            ['clincoo_notion_token', 'clincoo_notion_refresh', 'clincoo_notion_user', 'clincoo_notion_page'].forEach(k => localStorage.removeItem(k));
+            closeNotionDisconnectModal();
+            closeNotionConnectedModal();
+            setNotionConnectedUI(false);
+        }
+
+        function validateSavedNotionConnection() {
+            if (localStorage.getItem('clincoo_notion_token')) setNotionConnectedUI(true);
+        }
+
+        window.addEventListener('load', () => {
+            handleNotionCancel();
+            handleOAuthCallback();
+            syncGitHubFromDB();
+            validateSavedGitHubConnection();
+            handleDriveCallback();
+            validateSavedDriveConnection();
+            handleCalendarCallback();
+            validateSavedCalendarConnection();
+            handleNotionCallback();
+            validateSavedNotionConnection();
+
+            const nPermCheck = document.getElementById('notion-permission-check');
+            const nCta = document.getElementById('notion-connect-cta');
+            if (nPermCheck && nCta) {
+                nPermCheck.addEventListener('change', () => {
+                    nCta.disabled = !nPermCheck.checked;
+                    if (nPermCheck.checked) { nCta.classList.remove('opacity-40', 'pointer-events-none'); }
+                    else { nCta.classList.add('opacity-40', 'pointer-events-none'); }
+                });
+            }
+
+            const permCheck = document.getElementById('gh-permission-check');
+            const ghCta = document.getElementById('gh-connect-cta');
+            if (permCheck && ghCta) {
+                permCheck.addEventListener('change', () => {
+                    ghCta.disabled = !permCheck.checked;
+                    ghCta.classList.toggle('opacity-40', !permCheck.checked);
+                    ghCta.classList.toggle('pointer-events-none', !permCheck.checked);
+                });
+            }
+            const drivePermCheck = document.getElementById('drive-permission-check');
+            const driveCta = document.getElementById('drive-connect-cta');
+            if (drivePermCheck && driveCta) {
+                drivePermCheck.addEventListener('change', () => {
+                    driveCta.disabled = !drivePermCheck.checked;
+                    driveCta.classList.toggle('opacity-40', !drivePermCheck.checked);
+                    driveCta.classList.toggle('pointer-events-none', !drivePermCheck.checked);
+                });
+            }
+            const calPermCheck = document.getElementById('calendar-permission-check');
+            const calCta = document.getElementById('calendar-connect-cta');
+            if (calPermCheck && calCta) {
+                calPermCheck.addEventListener('change', () => {
+                    calCta.disabled = !calPermCheck.checked;
+                    calCta.classList.toggle('opacity-40', !calPermCheck.checked);
+                    calCta.classList.toggle('pointer-events-none', !calPermCheck.checked);
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const githubCard = document.getElementById('github-integration-card');
+            if (githubCard) {
+                const openGitHub = () => {
+                    if (localStorage.getItem('clincoo_gh_token')) window.location.href = location.hostname === 'muzawwied.github.io' ? 'github.html' : '/integrasi/github/';
+                    else openGitHubModal();
+                };
+                githubCard.addEventListener('click', openGitHub);
+                githubCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openGitHub(); } });
+            }
+            const notionCard = document.getElementById('notion-integration-card');
+            if (notionCard) {
+                const openNotion = () => {
+                    if (localStorage.getItem('clincoo_notion_token')) window.location.href = '/integrasi/notion/';
+                    else openNotionModal();
+                };
+                notionCard.addEventListener('click', openNotion);
+                notionCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNotion(); } });
+            }
+            const driveCard = document.getElementById('drive-integration-card');
+            if (driveCard) {
+                const openDrive = () => {
+                    if (localStorage.getItem('clincoo_drive_token')) showDriveConnected(null);
+                    if (localStorage.getItem('clincoo_calendar_token')) showCalendarConnected(null);
+                    else openDriveModal();
+                };
+                driveCard.addEventListener('click', openDrive);
+                driveCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrive(); } });
+
+                const calendarCard = document.getElementById('calendar-integration-card');
+                if (calendarCard) {
+                    const openCalendar = () => {
+                        if (localStorage.getItem('clincoo_calendar_token')) showCalendarConnected(null);
+                        else openCalendarModal();
+                    };
+                    calendarCard.addEventListener('click', openCalendar);
+                    calendarCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCalendar(); } });
+                }
+            }
+            const searchInput = document.getElementById('search-integrations');
+            const filterDropdownBtn = document.getElementById('filter-modal-toggle');
+            const filterDropdown = document.getElementById('filter-dropdown');
+            const dropdownBtns = document.querySelectorAll('.filter-dropdown-btn');
+            const inlineBtns = document.querySelectorAll('.filter-inline-btn');
+            const integrationCards = document.querySelectorAll('.integration-card');
+            const emptyState = document.getElementById('empty-state');
+            let currentFilter = 'all';
+
+            if (filterDropdownBtn && filterDropdown) {
+                filterDropdownBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filterDropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!filterDropdown.contains(e.target) && !filterDropdownBtn.contains(e.target)) {
+                        filterDropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            function applyFilters() {
+                if (!searchInput) return;
+                const searchTerm = searchInput.value.toLowerCase();
+                let visibleCount = 0;
+                
+                integrationCards.forEach(card => {
+                    // Perbaikan bug: lewati kartu yang disembunyikan sengaja (plugin
+                    // belum dipublikasikan, wrapper display:none) — jangan dihitung
+                    // dan jangan dimunculkan oleh filter/pencarian.
+                    if (card.closest('[hidden], [style*="display:none"], [style*="display: none"]')) return;
+
+                    const title = card.getAttribute('data-title').toLowerCase();
+                    const category = card.getAttribute('data-category');
+                    const matchesSearch = title.includes(searchTerm);
+                    const matchesFilter = currentFilter === 'all' || category === currentFilter;
+
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (emptyState) {
+                    if (visibleCount === 0) {
+                        emptyState.classList.remove('hidden');
+                        emptyState.classList.add('flex');
+                    } else {
+                        emptyState.classList.add('hidden');
+                        emptyState.classList.remove('flex');
+                    }
+                }
+            }
+
+            function setActiveFilterUI(filterValue) {
+                currentFilter = filterValue;
+                
+                dropdownBtns.forEach(btn => {
+                    if (btn.getAttribute('data-filter') === filterValue) {
+                        btn.className = 'filter-dropdown-btn active py-2 px-3 rounded-xl bg-[#0f1115] text-white text-[12px] font-semibold text-center transition-colors';
+                    } else {
+                        btn.className = 'filter-dropdown-btn py-2 px-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-gray-100 text-[12px] font-semibold text-center border border-gray-100 transition-colors';
+                    }
+                });
+
+                inlineBtns.forEach(btn => {
+                    if (btn.getAttribute('data-filter') === filterValue) {
+                        btn.className = 'filter-inline-btn active px-4 py-1.5 rounded-full bg-[#0f1115] text-white text-[13px] font-semibold whitespace-nowrap transition-all';
+                    } else {
+                        btn.className = 'filter-inline-btn px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 hover:text-gray-800 text-[13px] font-semibold whitespace-nowrap transition-all';
+                    }
+                });
+
+                applyFilters();
+            }
+
+            dropdownBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setActiveFilterUI(btn.getAttribute('data-filter'));
+                    if (filterDropdown) filterDropdown.classList.add('hidden');
+                });
+            });
+
+            inlineBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setActiveFilterUI(btn.getAttribute('data-filter'));
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', applyFilters);
+            }
+        });
+    </script>
+
+
+<script>
+(function(){
+  var seg=location.pathname.split('/').filter(Boolean), path=(seg.pop()||'').replace(/\.html$/,'');
+  document.querySelectorAll('.sidebar-nav-link').forEach(function(link){
+    var href=link.getAttribute('href')||'', hrefSeg=(href.split('?')[0].split('/').filter(Boolean).pop()||'').replace(/\.html$/,'');
+    var current=hrefSeg===path || (link.dataset.page==='plugin' && path==='app' && location.hostname==='muzawwied.github.io');
+    if(!current) return;
+    link.classList.add('bg-gray-50','text-gray-900');
+    link.classList.remove('hover:bg-gray-50','text-gray-700');
+    var svg=link.querySelector('svg'); if(svg){svg.classList.remove('text-gray-500');svg.classList.add('text-gray-900');}
+  });
+})();
+</script>
+</body>
+</html>
