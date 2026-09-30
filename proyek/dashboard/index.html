@@ -1,55 +1,195 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+  <script src="../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon.png">
     <link rel="manifest" href="../../manifest.json">
+    <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
     <title>Dashboard — Clincoo</title>
+    <meta name="description" content="Pengaturan: Umum — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
-    <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Clincoo">
+    <meta property="og:title" content="Pengaturan: Umum — Clincoo">
+    <meta property="og:description" content="Pengaturan: Umum — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Clincoo">
+    <meta property="og:url" content="https://app.clincoo.buzz/">
+    <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pengaturan: Umum — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Umum — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Inter', sans-serif; background: #ffffff; }
-        #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body.dark-mode { background-color: #000000; color: #ffffff; }
+        body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+        
+        body.dark-mode button[onclick="history.back()"],
+        body.dark-mode header button[onclick] {
+            background-color: #000000 !important;
+            border: 1.5px solid rgba(255,255,255,0.4) !important;
+            color: #ffffff !important;
+        }
+        body.dark-mode button[onclick="history.back()"] svg,
+        body.dark-mode header button[onclick] svg { stroke: #ffffff !important; }
+        body.dark-mode button[onclick="history.back()"]:hover,
+        body.dark-mode header button[onclick]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+        
+        body.dark-mode .text-gray-900, body.dark-mode .text-gray-800, body.dark-mode .text-black { color: #ffffff !important; }
+        body.dark-mode .text-gray-700, body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
+        body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray-300 { border-color: #222222 !important; }
+        body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
+        body.dark-mode .bg-\[#ffffff\], body.dark-mode .bg-gray-50 { background-color: #000000 !important; }
+        body.dark-mode .bg-gray-100 { background-color: #111111 !important; }
+        body.dark-mode .hover\:bg-gray-50:hover, body.dark-mode .hover\:bg-gray-100:hover { background-color: #1a1a1a !important; }
+        
+        body.dark-mode input[type="text"], 
+        body.dark-mode textarea, 
+        body.dark-mode .custom-select-trigger, 
+        body.dark-mode .dropdown-menu { 
+            background-color: #0a0a0a; 
+            color: #ffffff; 
+            border-color: #222222; 
+        }
+        body.dark-mode input[type="text"]:focus, body.dark-mode textarea:focus { border-color: #555555; }
+        body.dark-mode .bg-black.text-white { background-color: #ffffff !important; color: #000000 !important; }
+        body.dark-mode .hover\:bg-gray-800:hover { background-color: #dddddd !important; }
+
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* auto-dark-fix v1 */
+    body.dark-mode .bg-gray-50\/80 { background-color: #141414 !important; }
+    body.dark-mode .bg-gray-200 { background-color: #262626 !important; }
+    body.dark-mode .bg-gray-300 { background-color: #333333 !important; }
+    body.dark-mode .bg-gray-400 { background-color: #444444 !important; }
+    body.dark-mode .border-gray-50 { border-color: #0a0a0a !important; }
+    body.dark-mode .border-gray-200\/50,
+    body.dark-mode .border-gray-200\/60,
+    body.dark-mode .border-gray-200\/70 { border-color: #222222 !important; }
+    body.dark-mode .border-gray-300 { border-color: #333333 !important; }
+    body.dark-mode .border-gray-400 { border-color: #444444 !important; }
+    body.dark-mode .bg-blue-50,
+    body.dark-mode .bg-blue-50\/50 { background-color: #0d1a26 !important; }
+    body.dark-mode .border-blue-100,
+    body.dark-mode .border-blue-200 { border-color: #1e3a52 !important; }
+    body.dark-mode .bg-red-50,
+    body.dark-mode .bg-red-50\/50 { background-color: #2a1414 !important; }
+    body.dark-mode .bg-red-100 { background-color: #3a1a1a !important; }
+    body.dark-mode .border-red-100,
+    body.dark-mode .border-red-200 { border-color: #4a2020 !important; }
+    body.dark-mode .bg-green-100 { background-color: #14301c !important; }
+    body.dark-mode .bg-white\/95 { background-color: rgba(10,10,10,0.95) !important; }
+    body.dark-mode .hover\:bg-gray-50:hover,
+    body.dark-mode .hover\:bg-gray-50\/50:hover,
+    body.dark-mode .hover\:bg-gray-50\/80:hover { background-color: #1a1a1a !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #262626 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover,
+    body.dark-mode .hover\:bg-gray-200\/50:hover { background-color: #333333 !important; }
+    body.dark-mode .hover\:bg-blue-50:hover,
+    body.dark-mode .hover\:bg-blue-100:hover { background-color: #163247 !important; }
+    body.dark-mode .hover\:bg-red-50:hover,
+    body.dark-mode .hover\:bg-red-100:hover { background-color: #3a1a1a !important; }
+    body.dark-mode .hover\:border-gray-300:hover,
+    body.dark-mode .hover\:border-gray-400:hover,
+    body.dark-mode .hover\:border-gray-900:hover { border-color: #555555 !important; }
+    body.dark-mode .focus\:border-gray-400:focus,
+    body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
+    body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
+        /* Shimmer skeleton saat data server loading */
+        .skel { position: relative; overflow: hidden; background-color: #f3f4f6; }
+        .skel::after {
+            content: '';
+            position: absolute; inset: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.05), transparent);
+            animation: clinqoo-shimmer 1.4s ease infinite;
+        }
+        @keyframes clinqoo-shimmer { 100% { transform: translateX(100%); } }
+        body.dark-mode .skel { background-color: #1a1a1a; }
+        body.dark-mode .skel::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+    #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         #chat-nav-pill { background: #e9e9ec; }
         .chat-nav-link.is-active { color: #111111; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { cursor: pointer; }
-        body.dark-mode { background: #0a0a0a; }
+        #settings-menu-pop.open { display: flex; }
+        .settings-menu-item { cursor: pointer; }
         body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-        body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
-        body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
-        body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
         body.dark-mode #chat-nav-pill { background: #232327; }
         body.dark-mode .chat-nav-link { color: #9ca3af; }
         body.dark-mode .chat-nav-link.is-active { color: #ffffff; }
+        body.dark-mode .chat-nav-link:hover { color: #ffffff; }
+        body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+        body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
+        body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
         body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
         body.dark-mode .header-menu-item { color: #e5e7eb; }
         body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
-        body.dark-mode .dash-card { background-color: #0a0a0a; border-color: rgba(255,255,255,0.1); }
-        body.dark-mode .dash-value { color: #ffffff; }
-        body.dark-mode .dash-label { color: #6b7280; }
-        body.dark-mode .dash-title { color: #e5e7eb; }
-        body.dark-mode .dash-desc { color: #6b7280; }
-        body.dark-mode .proj-row { background-color: #0a0a0a; border-color: rgba(255,255,255,0.1); }
-        body.dark-mode .proj-row:hover { border-color: rgba(255,255,255,0.25); }
-        body.dark-mode .proj-name { color: #e5e7eb; }
-        body.dark-mode .proj-meta { color: #6b7280; }
+        body.dark-mode #settings-menu-btn { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); color: #e5e7eb; }
+        body.dark-mode #settings-menu-pop { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
+        body.dark-mode .settings-menu-item:hover { background-color: #1a1a1a; }
+        body.dark-mode .settings-menu-item .block.text-sm { color: #e5e7eb !important; }
+        body.dark-mode .settings-menu-item .block.text-xs { color: #6b7280 !important; }
+        @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
+        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
     </style>
+<!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+
+    <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
+(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<3;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
+    </script>
+<!-- Google tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KMQ8WBZF6E');
+</script>
+<!-- End Google tag -->
+<script src="../../js/i18n-dict.js" defer></script>
+<script src="../../js/i18n.js" defer></script>
 </head>
-<body class="min-h-screen">
-  <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
+<body class="min-h-screen flex flex-col text-gray-900 pt-[84px] relative hide-scrollbar">
+    <script>
+        (function(){
+            var t=localStorage.getItem("clinqoo_theme");
+            var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+            if(isDark){document.body.classList.add("dark-mode");}
+        })();
+    </script>
+    
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
-        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
         <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 py-1.5" id="chat-header-capsule">
             <nav id="chat-top-nav" class="relative inline-flex items-center p-1">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none transition-all duration-300 ease-out" style="top:0;left:0;width:0;height:0"></div>
@@ -58,143 +198,404 @@
                 <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Dashboard</a>
             </nav>
         </div>
-        <div class="relative flex-shrink-0 pointer-events-auto">
-                <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
-                    </svg>
+        <div class="relative flex items-center gap-1.5 flex-shrink-0 pointer-events-auto"><div id="save-indicator" onclick="savePending()" title="Simpan perubahan" class="absolute right-[52px] flex items-center justify-center w-8 h-8 rounded-full cursor-pointer opacity-0 transition-opacity duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"></div>
+            <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
+                </svg>
+            </button>
+            <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
+                <a href="/proyek/workspace/editor/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
+                    Live preview
+                </a>
+                <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+                    Eksport zip
                 </button>
-                <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
-                    <a href="/proyek/workspace/editor/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
-                        Live preview
-                    </a>
-                    <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
-                        Eksport zip
-                    </button>
-                    <a href="/integrasi/github/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                        Koneksi git
-                    </a>
-                    <a href="/akun/tentang/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"></path></svg>
-                        Pusat bantuan
-                    </a>
-                </div>
+                <a href="/integrasi/github/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                    Koneksi git
+                </a>
+                <a href="/akun/tentang/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"></path></svg>
+                    Pusat bantuan
+                </a>
             </div>
+        </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 pt-[92px] pb-16">
-        <div class="mb-6">
-            <h1 class="text-xl font-bold text-gray-900" id="page-title">Dashboard</h1>
-            <p class="text-sm text-gray-500 mt-1">Ringkasan umum proyek</p>
-        </div>
-        <div id="dash-project" class="rounded-2xl border border-gray-100 px-5 py-4 mb-4">
-            <p class="dash-title text-base font-bold text-gray-900" id="proj-title">Proyek aktif</p>
-            <p class="dash-desc text-sm text-gray-500 mt-0.5" id="proj-desc">Tidak ada deskripsi</p>
-        </div>
-        <div class="grid grid-cols-3 gap-3 mb-8">
-            <div class="dash-card rounded-2xl border border-gray-100 px-4 py-4 text-center">
-                <p class="dash-value text-lg font-bold text-gray-900" id="stat-files">0</p>
-                <p class="dash-label text-[11px] text-gray-400 mt-0.5">File code</p>
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-4 pb-20 relative">
+        <div class="relative mb-5" id="settings-menu-wrap">
+            <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
+                <span class="flex items-center gap-2.5">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Menu pengaturan lainnya
+                </span>
+                <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="settings-menu-pop" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 z-40 hidden">
+                <a href="/proyek/build-deployment/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Build &amp; Deployment</span><span class="block text-xs text-gray-400 truncate">Sumber branch dan konfigurasi deployment</span></span>
+                </a>
+                <a href="/proyek/build-deployment/domain-kustom/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Domain Kustom</span><span class="block text-xs text-gray-400 truncate">Atur domain kustom untuk situs</span></span>
+                </a>
+                <a href="/proyek/pengaturan/keamanan-https/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Keamanan &amp; HTTPS</span><span class="block text-xs text-gray-400 truncate">Sertifikat SSL dan protokol HTTPS</span></span>
+                </a>
+                <a href="/proyek/pengaturan/visibilitas-akses/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Visibilitas Akses</span><span class="block text-xs text-gray-400 truncate">Atur hak akses dan visibilitas</span></span>
+                </a>
+                <a href="/proyek/pengaturan/integrasi-webhook/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17H7a5 5 0 1 1 0-10h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Integrasi &amp; Webhook</span><span class="block text-xs text-gray-400 truncate">Integrasi layanan luar dan webhooks</span></span>
+                </a>
+                <a href="/proyek/pengaturan/zona-bahaya/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-red-50/60 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-red-600">Zona Bahaya</span><span class="block text-xs text-red-500/70 truncate">Hapus situs atau proyek</span></span>
+                </a>
             </div>
-            <div class="dash-card rounded-2xl border border-gray-100 px-4 py-4 text-center">
-                <p class="dash-value text-lg font-bold text-gray-900" id="stat-size">0 B</p>
-                <p class="dash-label text-[11px] text-gray-400 mt-0.5">Ukuran code</p>
-            </div>
-            <div class="dash-card rounded-2xl border border-gray-100 px-4 py-4 text-center">
-                <p class="dash-value text-lg font-bold text-gray-900" id="stat-chats">0</p>
-                <p class="dash-label text-[11px] text-gray-400 mt-0.5">Pesan chat</p>
-            </div>
         </div>
-        <h2 class="text-sm font-bold text-gray-900 mb-3">Semua proyek</h2>
-        <div id="proj-list" class="flex flex-col gap-2"></div>
+
+        <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-gray-800">
+            
+            <!-- 1. Nama Aplikasi -->
+            <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Nama Aplikasi</h4>
+                    <p class="text-sm text-gray-500 mt-1">Nama ini menentukan subdomain situs saat deploy pertama</p>
+                </div>
+                <div class="w-full sm:w-80">
+                    <input type="text" id="input-app-name" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
+                    <div id="skel-app-name" class="skel hidden w-full h-[42px] rounded-xl"></div>
+                    <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
+                </div>
+            </div>
+
+            <!-- 2. Deskripsi Aplikasi -->
+            <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Deskripsi Aplikasi</h4>
+                    <p class="text-sm text-gray-500 mt-1">Catatan internal singkat mengenai tujuan atau status aplikasi ini</p>
+                </div>
+                <div class="w-full sm:w-80">
+                    <textarea rows="3" id="input-app-desc" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
+                    <div id="skel-app-desc" class="skel hidden w-full h-[76px] rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- 3. Lingkungan Runtime -->
+            <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Lingkungan Runtime</h4>
+                    <p class="text-sm text-gray-500 mt-1">Engine utama yang digunakan untuk menjalankan aplikasi ini</p>
+                </div>
+                <div class="w-full sm:w-80 relative">
+                    <div id="runtime-trigger" class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleDropdown(this, 'runtime', ['Node.js 20.x (LTS)', 'Node.js 18.x', 'Python 3.11', 'PHP 8.2', 'Static HTML/JS/CSS'])">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <i data-lucide="cpu" class="w-4 h-4 text-gray-500 shrink-0"></i>
+                            <span id="label-runtime" class="font-medium truncate">Node.js 20.x (LTS)</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 pointer-events-none shrink-0"></i>
+                    </div>
+                    <div id="skel-runtime" class="skel hidden w-full h-[46px] rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- 4. Mode Pemeliharaan -->
+            <div class="py-4 sm:py-5 flex items-center justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Mode Pemeliharaan</h4>
+                    <p class="text-sm text-gray-500 mt-1">Tutup sementara akses publik dan tampilkan halaman pemeliharaan</p>
+                </div>
+                <button type="button" id="maintenance-toggle-btn" onclick="onMaintenanceToggle('maintenance')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
+                    <div id="maintenance-bg" class="w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full transition-colors duration-200 ease-in-out"></div>
+                    <div id="maintenance-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out"></div>
+                </button>
+                <div id="skel-maintenance" class="skel hidden w-11 h-6 rounded-full"></div>
+            </div>
+
+        </div>
     </main>
 
-    <script>
-        var currentProjectId = (function(){ try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch(e) { return ''; } })();
-        function wsFilesKey() { return 'clinqoo_workspace_files_' + (currentProjectId || 'global'); }
-        function wsLoad() {
-            try {
-                var raw = localStorage.getItem(wsFilesKey());
-                if (!raw) {
-                    var legacy = localStorage.getItem('clinqoo_workspace_files');
-                    if (legacy) { localStorage.setItem(wsFilesKey(), legacy); raw = legacy; }
-                }
-                var d = JSON.parse(raw);
-                if (d && typeof d === 'object') return d;
-            } catch (e) {}
-            return {};
-        }
-        function wsFlatten(data) {
-            var files = [];
-            Object.keys(data || {}).forEach(function(k) {
-                (data[k] || []).forEach(function(it) {
-                    if (!it || !it.path) return;
-                    if (it.type === 'file') files.push({ path: it.path, content: it.content || '' });
-                    else {
-                        var hasChildren = Object.keys(data).some(function(x) { return x === it.path || x.indexOf(it.path + '/') === 0; });
-                        if (!hasChildren) files.push({ path: it.path + '/', content: '', folder: true });
-                    }
-                });
-            });
-            return files;
-        }
-        function wsProjectId() { return currentProjectId || ''; }
-        function getProjects() {
-            try { var l = JSON.parse(localStorage.getItem('clinqoo_projects') || '[]'); return Array.isArray(l) ? l : []; } catch (e) { return []; }
-        }
-        function fmtSize(n) {
-            if (n < 1024) return n + ' B';
-            if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
-            return (n / 1048576).toFixed(1) + ' MB';
-        }
-        function render() {
-            var projects = getProjects();
-            var cur = null;
-            for (var i = 0; i < projects.length; i++) { if (String(projects[i].id) === String(currentProjectId)) { cur = projects[i]; break; } }
-            var umum = {};
-            try { umum = JSON.parse(localStorage.getItem('clinqoo_umum_' + currentProjectId) || '{}') || {}; } catch (e) {}
-            var title = (cur && (cur.title || cur.aiName)) || umum.app_name || (currentProjectId ? 'Proyek ' + currentProjectId : 'Proyek aktif');
-            var desc = (cur && cur.aiDesc) || umum.app_desc || 'Tidak ada deskripsi';
-            document.getElementById('proj-title').textContent = title;
-            document.getElementById('proj-desc').textContent = desc;
-            var files = wsFlatten(wsLoad());
-            var totalBytes = 0;
-            files.forEach(function(f) { if (!f.folder) totalBytes += (f.content || '').length; });
-            document.getElementById('stat-files').textContent = files.filter(function(f) { return !f.folder; }).length;
-            document.getElementById('stat-size').textContent = fmtSize(totalBytes);
-            var chatCount = 0;
-            try {
-                var log = JSON.parse(localStorage.getItem('clinqoo_ls_chat_' + (currentProjectId || 'global')) || '[]');
-                if (Array.isArray(log)) chatCount = log.length;
-            } catch (e) {}
-            document.getElementById('stat-chats').textContent = chatCount;
-            var list = document.getElementById('proj-list');
-            if (!projects.length) {
-                list.innerHTML = '<div class="rounded-2xl border border-gray-100 px-5 py-10 text-center text-sm text-gray-400">Belum ada proyek. Mulai dari Agent.</div>';
-                return;
-            }
-            list.innerHTML = projects.map(function(p) {
-                var isCur = String(p.id) === String(currentProjectId);
-                var updated = p.updatedAt ? new Date(p.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-                return '<a href="/proyek/chat/?id=' + encodeURIComponent(p.id) + '" class="proj-row flex items-center gap-3 rounded-2xl border border-gray-100 px-4 py-3.5 hover:border-gray-200 hover:bg-gray-50/50 transition-all">' +
-                    '<span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600 shrink-0">' + ((p.title || p.aiName || 'P').charAt(0) || 'P').toUpperCase() + '</span>' +
-                    '<span class="min-w-0 flex-1"><span class="proj-name block text-sm font-semibold text-gray-800 truncate">' + (p.title || p.aiName || 'Proyek ' + p.id) + '</span>' +
-                    '<span class="proj-meta block text-xs text-gray-400">' + (isCur ? 'Sedang aktif' : 'Buka proyek') + (updated ? ' · ' + updated : '') + '</span></span>' +
-                    (isCur ? '<span class="text-[10px] font-bold text-gray-500 bg-gray-100 rounded-full px-2 py-0.5 shrink-0">AKTIF</span>' : '') + '</a>';
-            }).join('');
-        }
-        render();
+    <div id="system-modal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="bg-white dark:bg-[#0a0a0a] rounded-2xl p-6 w-full max-w-sm relative z-10 shadow-2xl border border-gray-100 dark:border-gray-800">
+            <h3 id="modal-title" class="text-lg font-bold text-gray-900 dark:text-white mb-2"></h3>
+            <p id="modal-message" class="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed"></p>
+            <button onclick="closeModal()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl font-semibold text-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">Tutup</button>
+        </div>
+    </div>
 
+    <script>
+        lucide.createIcons();
+
+        // ================= PENGATURAN UMUM -> DB (per proyek) =================
+        const API = 'https://clincoo-be2.pages.dev/api';
+        const pid = () => localStorage.getItem('clinqoo_current_project_id') || '';
+        const authHeaders = () => { const t = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; return t ? { Authorization: 'Bearer ' + t } : {}; };
+
+        // ---- Tombol simpan di pojok kanan header ----
+        // Ada perubahan -> icon centang muncul. Diklik -> loading. Tersimpan -> icon hilang.
+        const pending = {};              // perubahan yang belum disimpan
+        const savedVals = { app_name: '', app_desc: '', runtime: '', maintenance: 'false' };
+        let _saving = false;
+
+        function setIndicator(state) {
+            const el = document.getElementById('save-indicator');
+            if (!el) return;
+            const icons = {
+                dirty: '<i data-lucide="check" class="w-5 h-5 text-gray-900 dark:text-white"></i>',
+                saving: '<i data-lucide="loader-2" class="w-4 h-4 text-gray-500 animate-spin"></i>',
+                error: '<i data-lucide="alert-circle" class="w-4 h-4 text-red-500"></i>'
+            };
+            if (state) {
+                el.innerHTML = icons[state] || '';
+                try { lucide.createIcons(); } catch (e) {}
+                el.classList.remove('opacity-0');
+            } else {
+                el.classList.add('opacity-0');
+            }
+        }
+
+        function markPending(key, value) {
+            if (savedVals[key] === value) delete pending[key];
+            else pending[key] = value;
+            setIndicator(Object.keys(pending).length ? 'dirty' : null);
+        }
+
+        // ---- Cache lokal per proyek: nilai tampil instan saat refresh (tanpa flash placeholder) ----
+        const _cacheKey = 'clinqoo_umum_' + (pid() || 'default');
+        function readCache() { try { return JSON.parse(localStorage.getItem(_cacheKey) || '{}'); } catch (e) { return {}; } }
+        function writeCache(patch) {
+            try { localStorage.setItem(_cacheKey, JSON.stringify(Object.assign(readCache(), patch))); } catch (e) {}
+        }
+
+        // Set posisi toggle maintenance secara idempoten (aman dipanggil berkali-kali)
+        function setMaintenance(on) {
+            const bg = document.getElementById('maintenance-bg');
+            if (!bg) return;
+            const isOn = bg.classList.contains('bg-black');
+            if (on !== isOn) toggleSwitch('maintenance');
+        }
+
+        // Hydrate seketika dari cache sebelum data server datang
+        (function hydrateFromCache() {
+            const c = readCache();
+            if (c.app_name) document.getElementById('input-app-name').value = c.app_name;
+            if (c.app_desc) document.getElementById('input-app-desc').value = c.app_desc;
+            if (c.runtime) { const l = document.getElementById('label-runtime'); if (l) l.textContent = c.runtime; }
+            if (c.maintenance === 'true') setMaintenance(true);
+            updateNamePreview();
+        })();
+
+        // ---- Shimmer: hanya saat belum ada cache (kunjungan pertama), sampai data server datang ----
+        function showSkeletons(on) {
+            ['skel-app-name', 'skel-app-desc', 'skel-runtime', 'skel-maintenance'].forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', !on);
+            });
+            ['input-app-name', 'input-app-desc', 'runtime-trigger', 'maintenance-toggle-btn'].forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', on);
+            });
+        }
+        if (!Object.keys(readCache()).length) showSkeletons(true);
+
+        async function loadUmum() {
+            try {
+                const res = await fetch(API + '/project-settings?project_id=' + encodeURIComponent(pid()), { headers: authHeaders() });
+                const data = await res.json();
+                if (data.error) return;
+                const st = data;
+                const nameEl = document.getElementById('input-app-name');
+                const descEl = document.getElementById('input-app-desc');
+                // jangan menimpa kalau user sedang mengetik (race saat load lambat)
+                if (st.app_name && document.activeElement !== nameEl) { nameEl.value = st.app_name; savedVals.app_name = st.app_name; }
+                if (st.app_desc && document.activeElement !== descEl) { descEl.value = st.app_desc; savedVals.app_desc = st.app_desc; }
+                if (st.runtime) { savedVals.runtime = st.runtime; const l = document.getElementById('label-runtime'); if (l) l.textContent = st.runtime; }
+                if (st.maintenance) { savedVals.maintenance = st.maintenance; setMaintenance(st.maintenance === 'true'); }
+                writeCache({ app_name: st.app_name || '', app_desc: st.app_desc || '', runtime: st.runtime || '', maintenance: st.maintenance || 'false' });
+            } catch (e) {}
+            updateNamePreview();
+            showSkeletons(false);
+        }
+
+        async function savePending() {
+            if (_saving) return;
+            const keys = Object.keys(pending);
+            if (!keys.length) { setIndicator(null); return; }
+            _saving = true;
+            setIndicator('saving');
+            try {
+                const res = await fetch(API + '/project-settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+                    body: JSON.stringify({ project_id: pid(), ...pending })
+                });
+                const data = await res.json();
+                if (data.error) { setIndicator('error'); return false; }
+                const patch = {};
+                keys.forEach(function (k) { savedVals[k] = pending[k]; patch[k] = pending[k]; delete pending[k]; });
+                writeCache(patch);
+                setIndicator(null); // tersimpan -> icon hilang
+                return true;
+            } catch (e) { setIndicator('error'); return false; }
+            finally { _saving = false; }
+        }
+
+        // Pengaman: refresh / tutup tab saat masih ada perubahan -> tetap tersimpan
+        function flushPending() {
+            if (!Object.keys(pending).length) return;
+            try {
+                fetch(API + '/project-settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+                    body: JSON.stringify({ project_id: pid(), ...pending }),
+                    keepalive: true
+                });
+            } catch (e) {}
+        }
+        window.addEventListener('pagehide', flushPending);
+        document.addEventListener('visibilitychange', function () { if (document.hidden) flushPending(); });
+
+        // ---- Preview subdomain (aturan slug sama persis dengan deploy.js di backend) ----
+        function slugifyName(v) {
+            return String(v || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        }
+        function updateNamePreview() {
+            const pv = document.getElementById('app-name-preview');
+            if (!pv) return;
+            const v = (document.getElementById('input-app-name').value || '').trim();
+            if (!v) { pv.textContent = ''; return; }
+            var pvSlug = slugifyName(v).replace(/-/g, '').slice(0, 12);
+            pv.textContent = 'Deploy pertama: ' + (pvSlug || 'proyek') + '-xxxx.clinqoo.biz.id';
+        }
+
+        // ---- Perubahan input hanya menandai pending (simpan via tombol centang) ----
+        [['input-app-name', 'app_name'], ['input-app-desc', 'app_desc']].forEach(function (pair) {
+            const el = document.getElementById(pair[0]), key = pair[1];
+            el.addEventListener('input', function () {
+                updateNamePreview();
+                markPending(key, el.value.trim());
+            });
+        });
+
+        // ---- Mode pemeliharaan: tandai pending saat di-toggle ----
+        function onMaintenanceToggle(idPrefix) {
+            toggleSwitch(idPrefix);
+            const bg = document.getElementById(idPrefix + '-bg');
+            const on = bg.classList.contains('bg-black');
+            markPending('maintenance', on ? 'true' : 'false');
+        }
+
+        loadUmum();
+
+        function toggleDropdown(element, targetId, optionsArray) {
+            const wrapper = element.parentElement;
+            const existingDropdown = wrapper.querySelector('.custom-dropdown-menu');
+            
+            closeAllDropdowns();
+
+            if (existingDropdown) return; 
+
+            const labelEl = document.getElementById('label-' + targetId);
+            const currentValue = labelEl ? labelEl.textContent.trim() : '';
+            
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown-menu absolute top-full left-0 w-full mt-1 z-50 bg-white dark:bg-[#111] border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl overflow-hidden flex flex-col fade-in';
+            
+            let optionsHtml = '';
+            optionsArray.forEach(option => {
+                const isActive = option === currentValue;
+                optionsHtml += `
+                    <div class="w-full px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer flex items-center justify-between ${isActive ? 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}" onclick="selectOption(event, '${targetId}', '${option}')">
+                        <span>${option}</span>
+                        ${isActive ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
+                    </div>
+                `;
+            });
+            
+            dropdown.innerHTML = optionsHtml;
+            wrapper.appendChild(dropdown);
+            
+            const chevron = element.querySelector('[data-lucide="chevron-down"]');
+            if(chevron) chevron.classList.add('rotate-180');
+            
+            lucide.createIcons();
+
+            setTimeout(() => {
+                document.addEventListener('click', outsideClickListener);
+            }, 10);
+        }
+
+        function closeAllDropdowns() {
+            const openDropdowns = document.querySelectorAll('.custom-dropdown-menu');
+            openDropdowns.forEach(dropdown => {
+                const chevron = dropdown.parentElement.querySelector('.rotate-180');
+                if(chevron) chevron.classList.remove('rotate-180');
+                dropdown.remove();
+            });
+            document.removeEventListener('click', outsideClickListener);
+        }
+
+        function outsideClickListener(e) {
+            if (!e.target.closest('.custom-select-trigger') && !e.target.closest('.custom-dropdown-menu')) {
+                closeAllDropdowns();
+            }
+        }
+
+        async function selectOption(event, targetId, value) {
+            event.stopPropagation();
+            const label = document.getElementById('label-' + targetId);
+            if (label) {
+                label.textContent = value;
+            }
+            closeAllDropdowns();
+            if (targetId === 'runtime') markPending('runtime', value);
+        }
+
+        function toggleSwitch(idPrefix) {
+            const bg = document.getElementById(idPrefix + '-bg');
+            const knob = document.getElementById(idPrefix + '-knob');
+            
+            if (bg.classList.contains('bg-black') || bg.classList.contains('bg-emerald-500')) {
+                bg.className = 'w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full transition-colors duration-200 ease-in-out';
+                knob.classList.remove('translate-x-5');
+            } else {
+                bg.className = 'w-11 h-6 bg-black dark:bg-white rounded-full transition-colors duration-200 ease-in-out';
+                knob.classList.add('translate-x-5');
+            }
+        }
+
+        function showModal(title, message) {
+        return;
+    }
+
+        function closeModal() {
+            const modal = document.getElementById('system-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+
+    <script>/* clinqoo-sw-register */
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js').catch(function () {}); }); }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
+    <script>
         var chatNav = document.getElementById('chat-top-nav');
         var chatNavPill = document.getElementById('chat-nav-pill');
         var chatNavLinks = Array.prototype.slice.call(chatNav.querySelectorAll('.chat-nav-link'));
-        var chatNavActive = chatNavLinks.filter(function(l) { return l.dataset.nav === 'dashboard'; })[0] || chatNavLinks[0];
+        var chatNavActive = chatNavLinks.filter(function(l) { return l.dataset.nav === 'dashboard'; })[0] || null;
         if (chatNavActive) chatNavActive.classList.add('is-active');
         function chatNavMovePill(el) {
-            if (!el) return;
+            if (!el) { chatNavPill.style.top = '0px'; chatNavPill.style.left = '0px'; chatNavPill.style.width = '0px'; chatNavPill.style.height = '0px'; return; }
             chatNavPill.style.top = el.offsetTop + 'px';
             chatNavPill.style.left = el.offsetLeft + 'px';
             chatNavPill.style.width = el.offsetWidth + 'px';
@@ -207,7 +608,6 @@
         });
         chatNav.addEventListener('mouseleave', function() { chatNavMovePill(chatNavActive); });
         window.addEventListener('resize', function() { chatNavMovePill(chatNavActive); });
-
         document.getElementById('sidebar-toggle').addEventListener('click', function() { window.location.href = '/'; });
         var headerMoreBtn = document.getElementById('header-more-btn');
         var headerMoreMenu = document.getElementById('header-more-menu');
@@ -216,20 +616,45 @@
             e.stopPropagation();
             headerMoreMenu.classList.contains('open') ? closeHeaderMenu() : headerMoreMenu.classList.add('open');
         }
+        var settingsMenuBtn = document.getElementById('settings-menu-btn');
+        var settingsMenuPop = document.getElementById('settings-menu-pop');
+        var settingsMenuChev = document.getElementById('settings-menu-chev');
+        window.toggleSettingsMenu = function(e) {
+            e.stopPropagation();
+            var open = settingsMenuPop.classList.toggle('open');
+            settingsMenuChev.style.transform = open ? 'rotate(180deg)' : '';
+        }
         document.addEventListener('click', function(e) {
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
+            if (settingsMenuPop.classList.contains('open') && !settingsMenuPop.contains(e.target) && !settingsMenuBtn.contains(e.target)) { settingsMenuPop.classList.remove('open'); settingsMenuChev.style.transform = ''; }
         });
         window.chatExportZip = function() {
             closeHeaderMenu();
-            var files = wsFlatten(wsLoad());
-            if (!files || !files.length) return;
+            var pid = '';
+            try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+            var key = 'clinqoo_workspace_files_' + (pid || 'global');
+            var raw = null;
+            try { raw = localStorage.getItem(key); } catch (e) {}
+            if (!raw) {
+                try { var legacy = localStorage.getItem('clinqoo_workspace_files'); if (legacy) { localStorage.setItem(key, legacy); raw = legacy; } } catch (e) {}
+            }
+            var d = {};
+            try { d = JSON.parse(raw) || {}; } catch (e) { d = {}; }
+            var files = [];
+            Object.keys(d).forEach(function(k) {
+                (d[k] || []).forEach(function(it) {
+                    if (!it || !it.path || it.type !== 'file') return;
+                    files.push({ path: it.path, content: it.content || '' });
+                });
+            });
+            if (!files.length) return;
             var run = function() {
                 var zip = new window.JSZip();
                 files.forEach(function(f) { zip.file(f.path, f.content || ''); });
                 zip.generateAsync({ type: 'blob' }).then(function(blob) {
                     var a = document.createElement('a');
                     a.href = URL.createObjectURL(blob);
-                    a.download = (wsProjectId() || 'clincoo') + '.zip';
+                    a.download = (pid || 'clincoo') + '.zip';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -242,7 +667,6 @@
             sc.onload = run;
             document.head.appendChild(sc);
         }
-        if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('../../sw.js').catch(function() {}); }); }
     </script>
 </body>
 </html>

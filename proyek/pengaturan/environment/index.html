@@ -174,7 +174,26 @@
     body.dark-mode .focus\:border-gray-400:focus,
     body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
-</style>
+#chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        #chat-nav-pill { background: #e9e9ec; }
+        .chat-nav-link.is-active { color: #111111; }
+        #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .header-menu-item { cursor: pointer; }
+        body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+        body.dark-mode #chat-nav-pill { background: #232327; }
+        body.dark-mode .chat-nav-link { color: #9ca3af; }
+        body.dark-mode .chat-nav-link.is-active { color: #ffffff; }
+        body.dark-mode .chat-nav-link:hover { color: #ffffff; }
+        body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+        body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
+        body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
+        body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
+        body.dark-mode .header-menu-item { color: #e5e7eb; }
+        body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
+        body.dark-mode .header-menu-item svg { color: #9ca3af; }
+        @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
+        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
+    </style>
   <script>
     (function() {
       var t = localStorage.getItem('clinqoo_theme') || 'Sistem (Default)';
@@ -203,31 +222,49 @@
 <body class="text-gray-900 antialiased fixed inset-0 w-full h-full overflow-hidden flex flex-col bg-white">
   <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
 
-  <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col relative min-w-0">
-
-    <header class="w-full max-w-5xl z-30 p-3 sm:px-6 flex justify-between items-center flex-shrink-0">
-      <div class="flex items-center gap-2">
-        <button onclick="toggleSidebar()" class="flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:text-black hover:bg-gray-50 transition-all rounded-full w-10 h-10" aria-label="Buka Menu">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10h14M5 15h8" />
-          </svg>
+  <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
+        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
         </button>
-        <div class="flex items-center gap-1.5 sm:gap-2 relative min-w-0">
-          <h2 class="text-xl font-bold text-gray-800 tracking-tight whitespace-nowrap">Environment</h2>
+        <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 py-1.5" id="chat-header-capsule">
+            <nav id="chat-top-nav" class="relative inline-flex items-center p-1">
+                <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none transition-all duration-300 ease-out" style="top:0;left:0;width:0;height:0"></div>
+                <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Agent</a>
+                <a href="/proyek/code/" data-nav="code" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Code</a>
+                <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Dashboard</a>
+            </nav>
         </div>
-      </div>
-      
-      <div class="flex items-center justify-center gap-1.5 sm:gap-2">
-        <button onclick="toggleNotifications(event)" class="relative p-1.5 text-gray-500 hover:text-black hover:bg-gray-100 rounded-full transition-colors focus:outline-none" aria-label="Notifikasi">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </button>
-        <a href="#" class="flex items-center justify-center">
-          <img src="/assets/logo-clinqoo.png" alt="App Logo" class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white shadow-sm hover:scale-105 transition-transform cursor-pointer">
-        </a>
-      </div>
+        <div class="relative flex items-center gap-1.5 flex-shrink-0 pointer-events-auto"><button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
+                </svg>
+            </button>
+            <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
+                <a href="/proyek/workspace/editor/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
+                    Live preview
+                </a>
+                <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+                    Eksport zip
+                </button>
+                <a href="/integrasi/github/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                    Koneksi git
+                </a>
+                <a href="/akun/tentang/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"></path></svg>
+                    Pusat bantuan
+                </a>
+            </div>
+        </div>
     </header>
+
+  <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col relative min-w-0 pt-[84px]">
+
+    
 
     <div class="main-container w-full flex-1 flex flex-col items-center px-4 pb-12 pt-2 min-w-0">
       <div class="content-area hide-scrollbar w-full max-w-5xl flex flex-col min-w-0">
@@ -303,43 +340,7 @@
     </div>
   </div>
 
-  <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 opacity-0 pointer-events-auto" onclick="toggleSidebar()"></div>
-    
-  <aside id="sidebar-popup" class="fixed inset-y-0 left-0 w-[260px] bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 flex flex-col pointer-events-auto">
-      <div class="h-16 border-b border-gray-100 flex items-center px-4 justify-between flex-shrink-0">
-          <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
-                  <img src="../../../assets/logo-clinqoo.png" alt="Logo" class="w-full h-full object-cover">
-              </div>
-              <span class="font-bold text-lg text-gray-800" style="font-family: 'Montserrat', sans-serif;">Clincoo</span>
-          </div>
-      </div>
-      
-      <div class="px-3 py-4 flex flex-col gap-1" id="sidebar-nav">
-            <a href="/" data-page="app" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
-                <span class="font-medium text-[14px]">Beranda</span>
-            </a>
-            <a href="/proyek/chat/" data-page="chat" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="8" rx="2"/><path d="M12 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 5v3"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M10 18h4"/></svg>
-                <span class="font-medium text-[14px]">Agent</span>
-            </a>
-            <a href="/proyek/workspace/" data-page="workspace" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
-                <span class="font-medium text-[14px]">Workspace</span>
-            </a>
-            <a href="../../../../../proyek/workspace/editor/" data-page="editor" id="sidebar-editor-link" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
-                <span class="font-medium text-[14px]">Editor</span>
-                <span class="clinqoo-editor-crown text-amber-500 shrink-0 cursor-pointer hover:text-amber-600 transition-colors ml-auto" style="display:none" title="Lihat daftar paket" onclick="event.preventDefault(); event.stopPropagation(); clinqooOpenPlansPopup();"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/></svg></span>
-            </a>
-            <a href="/integrasi/" data-page="plugin" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg>
-                <span class="font-medium text-[14px]">Plugin</span>
-                <span class="plugin-new-badge ml-auto rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-[0.08em] text-gray-500">NEW</span>
-            </a>
-        </div>
-  </aside>
+  
 
 
   <script src="../../../js/api.js"></script>
@@ -361,7 +362,7 @@
     function toggleSidebar() {
       isSidebarOpen = !isSidebarOpen;
       try { if (window.innerWidth >= 1024) localStorage.setItem('clinqoo_sidebar_open', isSidebarOpen ? '1' : '0'); } catch (e) {}
-      if (isSidebarOpen) {
+      if (sidebarPopup && sidebarOverlay && isSidebarOpen) {
         sidebarOverlay.classList.remove('hidden');
         setTimeout(() => {
           sidebarOverlay.classList.remove('opacity-0');
@@ -389,7 +390,7 @@
     });
 
     // Terapkan keadaan awal (tersimpan/default) tanpa animasi slide
-    if (isSidebarOpen) {
+    if (sidebarPopup && sidebarOverlay && isSidebarOpen) {
       sidebarPopup.style.transition = 'none';
       sidebarOverlay.style.transition = 'none';
       sidebarOverlay.classList.remove('hidden', 'opacity-0');
@@ -790,5 +791,77 @@
   window.addEventListener('storage', function (ev) { if (ev.key === 'TM_SUB_CACHE_KEY') clinqooRefreshEditorCrown(); });
 })();
 </script>
+    <script>
+        var chatNav = document.getElementById('chat-top-nav');
+        var chatNavPill = document.getElementById('chat-nav-pill');
+        var chatNavLinks = Array.prototype.slice.call(chatNav.querySelectorAll('.chat-nav-link'));
+        var CHAT_NAV_ACTIVE = null;
+        var chatNavActive = chatNavLinks.filter(function(l) { return l.dataset.nav === CHAT_NAV_ACTIVE; })[0] || null;
+        if (chatNavActive) chatNavActive.classList.add('is-active');
+        function chatNavMovePill(el) {
+            if (!el) { chatNavPill.style.top = '0px'; chatNavPill.style.left = '0px'; chatNavPill.style.width = '0px'; chatNavPill.style.height = '0px'; return; }
+            chatNavPill.style.top = el.offsetTop + 'px';
+            chatNavPill.style.left = el.offsetLeft + 'px';
+            chatNavPill.style.width = el.offsetWidth + 'px';
+            chatNavPill.style.height = el.offsetHeight + 'px';
+        }
+        chatNavMovePill(chatNavActive);
+        chatNavLinks.forEach(function(l) {
+            l.addEventListener('mouseenter', function() { chatNavMovePill(l); });
+            l.addEventListener('click', function() { chatNavLinks.forEach(function(x) { x.classList.remove('is-active'); }); l.classList.add('is-active'); chatNavMovePill(l); });
+        });
+        chatNav.addEventListener('mouseleave', function() { chatNavMovePill(chatNavActive); });
+        window.addEventListener('resize', function() { chatNavMovePill(chatNavActive); });
+        document.getElementById('sidebar-toggle').addEventListener('click', function() { window.location.href = '/'; });
+        var headerMoreBtn = document.getElementById('header-more-btn');
+        var headerMoreMenu = document.getElementById('header-more-menu');
+        function closeHeaderMenu() { headerMoreMenu.classList.remove('open'); }
+        window.toggleHeaderMenu = function(e) {
+            e.stopPropagation();
+            headerMoreMenu.classList.contains('open') ? closeHeaderMenu() : headerMoreMenu.classList.add('open');
+        }
+        document.addEventListener('click', function(e) {
+            if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
+        });
+        window.chatExportZip = function() {
+            closeHeaderMenu();
+            var pid = '';
+            try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+            var key = 'clinqoo_workspace_files_' + (pid || 'global');
+            var raw = null;
+            try { raw = localStorage.getItem(key); } catch (e) {}
+            if (!raw) {
+                try { var legacy = localStorage.getItem('clinqoo_workspace_files'); if (legacy) { localStorage.setItem(key, legacy); raw = legacy; } } catch (e) {}
+            }
+            var d = {};
+            try { d = JSON.parse(raw) || {}; } catch (e) { d = {}; }
+            var files = [];
+            Object.keys(d).forEach(function(k) {
+                (d[k] || []).forEach(function(it) {
+                    if (!it || !it.path || it.type !== 'file') return;
+                    files.push({ path: it.path, content: it.content || '' });
+                });
+            });
+            if (!files.length) return;
+            var run = function() {
+                var zip = new window.JSZip();
+                files.forEach(function(f) { zip.file(f.path, f.content || ''); });
+                zip.generateAsync({ type: 'blob' }).then(function(blob) {
+                    var a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = (pid || 'clincoo') + '.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(function() { URL.revokeObjectURL(a.href); }, 500);
+                });
+            };
+            if (window.JSZip) { run(); return; }
+            var sc = document.createElement('script');
+            sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            sc.onload = run;
+            document.head.appendChild(sc);
+        }
+    </script>
 </body>
 </html>

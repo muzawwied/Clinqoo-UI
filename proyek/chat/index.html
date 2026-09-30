@@ -285,6 +285,8 @@
         }
 
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
+        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
         #chat-nav-pill { background: #e9e9ec; }
         .chat-nav-link.is-active { color: #111111; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
@@ -559,7 +561,7 @@
     <div id="session-options-popup" class="hidden fixed bg-white rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[100] w-40 p-1.5"></div>
 
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
-        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
+        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -573,7 +575,7 @@
             </nav>
         </div>
         <div class="relative flex-shrink-0 pointer-events-auto">
-                <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
+                <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                         <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
                     </svg>
