@@ -156,7 +156,7 @@
                 <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
                 <span class="font-medium text-[14px]">Workspace</span>
             </a>
-            <a href="/editor/" data-page="editor" id="sidebar-editor-link" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+            <a href="../../../proyek/workspace/editor/" data-page="editor" id="sidebar-editor-link" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
                 <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
                 <span class="font-medium text-[14px]">Editor</span>
                 <span class="clinqoo-editor-crown text-amber-500 shrink-0 cursor-pointer hover:text-amber-600 transition-colors ml-auto" style="display:none" title="Lihat daftar paket" onclick="event.preventDefault(); event.stopPropagation(); clinqooOpenPlansPopup();"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/></svg></span>
@@ -1261,7 +1261,7 @@
         // tukar di /api/drive-oauth -> token disimpan per-akun (proxy namespace auth-client).
         const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
 
-        function driveRedirectUri() { return window.location.origin + '/auth/'; }
+        function driveRedirectUri() { return window.location.origin + (window.CLINQOO_BASE||'') + '/auth/'; }
 
         function setDriveBadge(connected) {
             const badge = document.getElementById('drive-status-badge');
@@ -1452,7 +1452,7 @@
         // di /api/calendar-oauth -> token per-akun di localStorage.
         const CALENDAR_SCOPE = 'https://www.googleapis.com/auth/calendar';
 
-        function calendarRedirectUri() { return window.location.origin + '/auth/'; }
+        function calendarRedirectUri() { return window.location.origin + (window.CLINQOO_BASE||'') + '/auth/'; }
 
         function setCalendarBadge(connected) {
             const badge = document.getElementById('calendar-status-badge');
@@ -1699,14 +1699,14 @@
             const st = 'n' + (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()).replace(/-/g, '');
             document.cookie = 'clinqoo_notion_state=' + encodeURIComponent(st) + '; Max-Age=900; Path=/; SameSite=Lax; Secure';
             window.location.href = 'https://api.notion.com/v1/oauth/authorize?client_id=' + encodeURIComponent(clientId) +
-                '&redirect_uri=' + encodeURIComponent(redirectUri || (window.location.origin + '/integrasi/')) +
+                '&redirect_uri=' + encodeURIComponent(redirectUri || (window.location.origin + (window.CLINQOO_BASE||'') + '/integrasi/')) +
                 '&response_type=code&owner=user&state=' + encodeURIComponent(st);
         }
 
         function handleNotionCancel() {
             const urlParams = new URLSearchParams(window.location.search);
             if (!urlParams.get('error') || !notionStateMatches(urlParams.get('state'))) return;
-            window.history.replaceState({}, document.title, '/integrasi/');
+            window.history.replaceState({}, document.title, (window.CLINQOO_BASE||'') + '/integrasi/');
             document.cookie = 'clinqoo_notion_state=; Max-Age=0; Path=/; SameSite=Lax; Secure';
             const errEl = document.getElementById('notion-oauth-error');
             if (errEl) { errEl.textContent = 'Gagal menghubungkan: ' + (urlParams.get('description') || 'dibatalkan'); errEl.classList.remove('hidden'); }
@@ -1718,7 +1718,7 @@
             const codeParam = urlParams.get('code');
             const st = urlParams.get('state');
             if (!codeParam || !notionStateMatches(st)) return; // bukan callback Notion -> abaikan
-            window.history.replaceState({}, document.title, '/integrasi/');
+            window.history.replaceState({}, document.title, (window.CLINQOO_BASE||'') + '/integrasi/');
             document.cookie = 'clinqoo_notion_state=; Max-Age=0; Path=/; SameSite=Lax; Secure';
             document.getElementById('notion-loading').classList.remove('hidden');
             const errEl = document.getElementById('notion-oauth-error');
@@ -2013,5 +2013,6 @@
   });
 })();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

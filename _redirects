@@ -1,16 +1,13 @@
 /proyek /akun/proyek.html 301
-/chat /proyek/chat/ 301
+/chat /proyek/chat.html 301
 /editor /proyek/workspace/editor/ 301
 /editor/ /proyek/workspace/editor/ 301
 /keamanan /proyek/pengaturan/keamanan/ 301
 /umum /proyek/pengaturan/umum/ 301
 /environment /proyek/pengaturan/environment/ 301
-/notifikasi /akun/notifikasi/ 301
-/dompet /akun/dompet/ 301
-/langganan /akun/langganan/ 301
-/tentang /akun/tentang/ 301
-/pengaturan /proyek/pengaturan/ 301
+/notifikasi /akun/notifikasi.html 301
+/dompet /akun/dompet.html 301
+/langganan /akun/langganan.html 301
+/tentang /akun/tentang.html 301
+/pengaturan /proyek/pengaturan.html 301
 /upgrade /akun/langganan/upgrade/ 301
-# Legacy clean URLs yang sempat digenerate projects.js (belum ada file-nya)
-/workspace /proyek/workspace/ 301
-/workspace/ /proyek/workspace/ 301

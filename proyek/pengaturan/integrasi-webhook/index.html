@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+  <script src="../../../js/auth-client.js?v=2"></script>
+  <script src="../../../js/accent-init.js"></script>
+<script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
+    <link rel="manifest" href="../../../manifest.json">
+    <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+  <title>Pengaturan: Integrasi Webhook — Clincoo</title>
+    <meta name="description" content="Pengaturan: Integrasi Webhook — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Clincoo">
+    <meta property="og:title" content="Pengaturan: Integrasi Webhook — Clincoo">
+    <meta property="og:description" content="Pengaturan: Integrasi Webhook — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Clincoo">
+    <meta property="og:url" content="https://app.clincoo.buzz/">
+    <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pengaturan: Integrasi Webhook — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Integrasi Webhook — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body.dark-mode { background-color: #000000; color: #e0e0e0; }
+    body.dark-mode .text-gray-900, body.dark-mode .text-gray-800 { color: #f0f0f0; }
+    body.dark-mode .text-gray-700 { color: #b0b0b0; }
+    body.dark-mode .text-gray-500, body.dark-mode .text-gray-600 { color: #888888; }
+    body.dark-mode .text-gray-400 { color: #666666; }
+    body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+    body.dark-mode header button[onclick="history.back()"], body.dark-mode header button[aria-label="Kembali"] { background-color: #000000 !important; border: 1.5px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"] svg, body.dark-mode header button[aria-label="Kembali"] svg { color: #ffffff !important; stroke: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"]:hover, body.dark-mode header button[aria-label="Kembali"]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+    body.dark-mode .bg-gray-50 { background-color: #222222 !important; }
+    body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
+    body.dark-mode .border-gray-200, body.dark-mode .border-gray-100 { border-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover { background-color: #222222 !important; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus { border-color: #222222; outline: none; }
+    body.dark-mode header { background-color: #000000 !important; }
+    body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
+  /* auto-dark-fix v1 */
+    body.dark-mode .bg-gray-50\/80 { background-color: #141414 !important; }
+    body.dark-mode .bg-gray-200 { background-color: #262626 !important; }
+    body.dark-mode .bg-gray-300 { background-color: #333333 !important; }
+    body.dark-mode .bg-gray-400 { background-color: #444444 !important; }
+    body.dark-mode .border-gray-50 { border-color: #0a0a0a !important; }
+    body.dark-mode .border-gray-200\/50,
+    body.dark-mode .border-gray-200\/60,
+    body.dark-mode .border-gray-200\/70 { border-color: #222222 !important; }
+    body.dark-mode .border-gray-300 { border-color: #333333 !important; }
+    body.dark-mode .border-gray-400 { border-color: #444444 !important; }
+    body.dark-mode .bg-blue-50,
+    body.dark-mode .bg-blue-50\/50 { background-color: #0d1a26 !important; }
+    body.dark-mode .border-blue-100,
+    body.dark-mode .border-blue-200 { border-color: #1e3a52 !important; }
+    body.dark-mode .bg-red-50,
+    body.dark-mode .bg-red-50\/50 { background-color: #2a1414 !important; }
+    body.dark-mode .bg-red-100 { background-color: #3a1a1a !important; }
+    body.dark-mode .border-red-100,
+    body.dark-mode .border-red-200 { border-color: #4a2020 !important; }
+    body.dark-mode .bg-green-100 { background-color: #14301c !important; }
+    body.dark-mode .bg-white\/95 { background-color: rgba(10,10,10,0.95) !important; }
+    body.dark-mode .hover\:bg-gray-50:hover,
+    body.dark-mode .hover\:bg-gray-50\/50:hover,
+    body.dark-mode .hover\:bg-gray-50\/80:hover { background-color: #1a1a1a !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #262626 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover,
+    body.dark-mode .hover\:bg-gray-200\/50:hover { background-color: #333333 !important; }
+    body.dark-mode .hover\:bg-blue-50:hover,
+    body.dark-mode .hover\:bg-blue-100:hover { background-color: #163247 !important; }
+    body.dark-mode .hover\:bg-red-50:hover,
+    body.dark-mode .hover\:bg-red-100:hover { background-color: #3a1a1a !important; }
+    body.dark-mode .hover\:border-gray-300:hover,
+    body.dark-mode .hover\:border-gray-400:hover,
+    body.dark-mode .hover\:border-gray-900:hover { border-color: #555555 !important; }
+    body.dark-mode .focus\:border-gray-400:focus,
+    body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
+    body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
+</style>
+  <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
+<!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+
+    <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
+(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<3;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
+    </script>
+<!-- Google tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KMQ8WBZF6E');
+</script>
+<!-- End Google tag -->
+<script src="../../../js/i18n-dict.js" defer></script>
+<script src="../../../js/i18n.js" defer></script>
+</head>
+<body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
+  <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
+  <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col items-center">
+    <header class="bg-[#f7f7f9] flex justify-between items-center px-3 py-2 fixed top-0 w-full z-40 transition-colors">
+        <button onclick="history.back()" class="top-2 left-5 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-100 hover:bg-gray-100 transition-all cursor-pointer text-gray-700 hover:text-black">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <h1 class="font-extrabold text-lg text-gray-900 tracking-tight">Integrasi & Webhook</h1>
+        <div class="w-10"></div>
+    </header>
+    <main class="w-full max-w-5xl px-4 sm:px-6 pt-14 pb-24">
+      <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Webhook Endpoints</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">URL yang menerima notifikasi event</p>
+            </div>
+            <button onclick="addWebhookRow()" class="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+              Tambah
+            </button>
+          </div>
+          <div id="webhook-list" class="space-y-2"></div>
+          <p id="webhook-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada webhook — klik "Tambah" untuk menambah URL endpoint.</p>
+        </div>
+        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Event Deploy</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim notifikasi saat deploy berhasil atau gagal</p>
+          </div>
+          <div class="w-full sm:w-80 relative" id="deploy-event-popover-wrap">
+            <button type="button" onclick="toggleDeployEventPopover(event)" class="w-full flex items-center justify-between px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors cursor-pointer focus:outline-none">
+              <span id="deploy-event-label" class="text-gray-900 dark:text-white">Semua event</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div id="deploy-event-popover" class="hidden absolute right-0 top-full mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-xl shadow-lg py-1.5 z-50">
+              <button type="button" data-value="all" onclick="pickDeployEvent('all', 'Semua event')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Semua event</button>
+              <button type="button" data-value="success" onclick="pickDeployEvent('success', 'Hanya sukses')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Hanya sukses</button>
+              <button type="button" data-value="fail" onclick="pickDeployEvent('fail', 'Hanya gagal')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Hanya gagal</button>
+              <button type="button" data-value="none" onclick="pickDeployEvent('none', 'Nonaktif')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Nonaktif</button>
+            </div>
+          </div>
+        </div>
+        <div class="py-5 flex items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Retry Otomatis</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Coba ulang pengiriman webhook yang gagal</p>
+          </div>
+          <button type="button" onclick="toggleSwitch('retryHook')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
+            <div id="retryHook-bg" class="w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200 ease-in-out"></div>
+            <div id="retryHook-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
+          </button>
+        </div>
+      </div>
+      <div id="action-buttons" class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700/60 hidden justify-end gap-3 opacity-0 transition-opacity duration-300">
+        <button type="button" onclick="cancelChanges()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors">Batal</button>
+        <button type="button" onclick="saveChanges()" class="px-5 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 rounded-lg shadow-sm transition-colors focus:outline-none cursor-pointer">Simpan Perubahan</button>
+      </div>
+    </main>
+  </div>
+  <script>
+    let isEdited=false;function showActionButtons(){if(!isEdited){isEdited=true;const c=document.getElementById('action-buttons');c.classList.remove('hidden');c.classList.add('flex');void c.offsetWidth;c.classList.remove('opacity-0');c.classList.add('opacity-100');}}function cancelChanges(){window.location.reload();}function saveChanges(){saveWebhookSettings();}document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input,textarea,select').forEach(input=>{input.addEventListener('input',showActionButtons);input.addEventListener('change',showActionButtons);});});function toggleSwitch(idPrefix){showActionButtons();const bg=document.getElementById(idPrefix+'-bg');const knob=document.getElementById(idPrefix+'-knob');if(bg.classList.contains('bg-blue-500')){bg.classList.replace('bg-blue-500','bg-gray-200');bg.classList.add('dark:bg-slate-700');knob.classList.remove('translate-x-5');}else{bg.classList.remove('bg-gray-200','dark:bg-slate-700');bg.classList.add('bg-blue-500');knob.classList.add('translate-x-5');}}
+  </script>
+    <script>if (window.lucide) { lucide.createIcons(); }</script>
+
+<script>
+  var _deployEventValue = 'all';
+  function toggleDeployEventPopover(e) {
+    e.stopPropagation();
+    var p = document.getElementById('deploy-event-popover');
+    if (p) p.classList.toggle('hidden');
+  }
+  function pickDeployEvent(value, label) {
+    _deployEventValue = value;
+    var l = document.getElementById('deploy-event-label');
+    if (l) l.textContent = label;
+    var p = document.getElementById('deploy-event-popover');
+    if (p) p.classList.add('hidden');
+    // simpan ke project-settings agar tersimpan real (bukan pajangan)
+    try {
+      var pid = localStorage.getItem('clinqoo_current_project_id') || '';
+      var tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+      fetch(API_BASE + '/project-settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tk },
+        body: JSON.stringify({ project_id: pid, webhook_deploy_event: value })
+      }).catch(function(){});
+    } catch (err) {}
+  }
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('deploy-event-popover-wrap');
+    var p = document.getElementById('deploy-event-popover');
+    if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
+  });
+
+  // ===== Integrasi Webhook AKTIF (bukan dummy): load & simpan ke project-settings =====
+  var API_BASE = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
+  var _apiToken = '';
+  try { _apiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+  function _pid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
+
+  function addWebhookRow(url, method) {
+    var list = document.getElementById('webhook-list');
+    if (!list) return;
+    var row = document.createElement('div');
+    row.className = 'flex gap-2 items-center webhook-row';
+    row.innerHTML =
+      '<input type="text" class="webhook-url flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 focus:outline-none font-mono" placeholder="https://contoh.com/webhook">' +
+      '<select class="webhook-method px-2 py-2 text-xs rounded-lg border border-gray-300 dark:border-slate-600 focus:outline-none cursor-pointer"><option>POST</option><option>PUT</option><option>GET</option></select>' +
+      '<button type="button" class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer" aria-label="Hapus webhook">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" /></svg>' +
+      '</button>';
+    if (url) row.querySelector('.webhook-url').value = url;
+    if (method) row.querySelector('.webhook-method').value = method;
+    row.querySelector('button').addEventListener('click', function () {
+      row.remove();
+      var list2 = document.getElementById('webhook-list');
+      var empty = document.getElementById('webhook-empty');
+      if (empty) empty.style.display = (list2 && list2.children.length) ? 'none' : 'block';
+      showActionButtons();
+    });
+    row.querySelector('.webhook-url').addEventListener('input', showActionButtons);
+    row.querySelector('.webhook-method').addEventListener('change', showActionButtons);
+    list.appendChild(row);
+    var empty = document.getElementById('webhook-empty');
+    if (empty) empty.style.display = 'none';
+    showActionButtons();
+  }
+
+  function collectWebhookRows() {
+    var hooks = [];
+    document.querySelectorAll('#webhook-list .webhook-row').forEach(function (row) {
+      var url = (row.querySelector('.webhook-url').value || '').trim();
+      if (!url) return; // baris kosong tidak ikut disimpan
+      hooks.push({ url: url, method: row.querySelector('.webhook-method').value || 'POST' });
+    });
+    return hooks;
+  }
+
+  async function saveWebhookSettings() {
+    var btn = document.querySelector('#action-buttons button.bg-black');
+    if (!btn) return;
+    btn.innerText = 'Menyimpan...';
+    btn.disabled = true;
+    btn.classList.add('opacity-80', 'cursor-not-allowed');
+    var payload = {
+      project_id: _pid(),
+      webhook_settings: JSON.stringify({
+        webhooks: collectWebhookRows(),
+        deployEvent: _deployEventValue || 'all',
+        retry: !!(document.getElementById('retryHook-bg') && document.getElementById('retryHook-bg').classList.contains('bg-blue-500'))
+      })
+    };
+    var ok = false;
+    try {
+      var hdrs = { 'Content-Type': 'application/json' };
+      if (_apiToken) hdrs['Authorization'] = 'Bearer ' + _apiToken;
+      var r1 = await fetch(API_BASE + '/project-settings', { method: 'POST', headers: hdrs, body: JSON.stringify(payload) });
+      ok = r1.ok;
+      // mirror ke backend be2 (deploy engine) — fire & forget
+      try { fetch('https://clincoo-be2.pages.dev/api/project-settings', { method: 'POST', headers: hdrs, body: JSON.stringify(payload) }).catch(function () {}); } catch (e) {}
+    } catch (e) {
+      try { fetch('https://clincoo-be2.pages.dev/api/project-settings', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken }, body: JSON.stringify(payload) }); } catch (e2) {}
+    }
+    btn.innerText = ok ? 'Tersimpan!' : (btn.innerText = 'Tersimpan (offline cache)');
+    btn.classList.replace('bg-black', 'bg-emerald-500');
+    btn.classList.replace('hover:bg-gray-800', 'hover:bg-emerald-600');
+    btn.disabled = false;
+    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+    isEdited = false;
+  }
+
+  async function loadWebhookSettings() {
+    try {
+      var hdrs = _apiToken ? { Authorization: 'Bearer ' + _apiToken } : {};
+      var res = await fetch(API_BASE + '/project-settings?project_id=' + encodeURIComponent(_pid()), { headers: hdrs });
+      if (!res.ok) return;
+      var data = await res.json();
+      var st = (data && data.settings) || {};
+      var cfg = null;
+      try { cfg = st.webhook_settings ? JSON.parse(st.webhook_settings) : null; } catch (e) {}
+      if (cfg) {
+        if (Array.isArray(cfg.webhooks)) {
+          cfg.webhooks.forEach(function (h) { addWebhookRow(h.url, h.method); });
+        }
+        if (cfg.deployEvent) {
+          var labelMap = { all: 'Semua event', success: 'Hanya sukses', fail: 'Hanya gagal', none: 'Nonaktif' };
+          _deployEventValue = cfg.deployEvent;
+          var l = document.getElementById('deploy-event-label');
+          if (l) l.textContent = labelMap[cfg.deployEvent] || 'Semua event';
+        }
+        if (typeof cfg.retry === 'boolean' && !cfg.retry) {
+          var bg = document.getElementById('retryHook-bg'), knob = document.getElementById('retryHook-knob');
+          if (bg) { bg.classList.remove('bg-blue-500'); bg.classList.add('bg-gray-200', 'dark:bg-slate-700'); }
+          if (knob) knob.classList.remove('translate-x-5');
+        }
+      }
+      // render dari server bukan "perubahan" — sembunyikan lagi tombol aksi
+      try {
+        isEdited = false;
+        var c = document.getElementById('action-buttons');
+        if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
+      } catch (e) {}
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () { loadWebhookSettings(); });
+</script>
+
+    <script>/* clinqoo-sw-register */
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

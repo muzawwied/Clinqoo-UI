@@ -130,7 +130,7 @@
         </div>
     </footer>
 
-    <script>
+    <script>var _tSeg=location.pathname.split('/')[1]||'';var _tKnown=['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];window.CLINQOO_BASE=window.CLINQOO_BASE||(location.hostname.indexOf('github.io')!==-1&&_tSeg&&_tKnown.indexOf(_tSeg)===-1?'/'+_tSeg:'');
     // ===== Data template (public) — sinkron dengan js/templates-data.js =====
     var TEMPLATES = [
         { key: "portfolio", name: "Portfolio Profesional", cat: "Portfolio", desc: "Portfolio pribadi full-stack developer — desain gelap elegan dengan bagian karya, layanan, blog, dan kontak.", url: "/demo/portfolio/" },
@@ -235,7 +235,7 @@
 
             // Gambar pratinjau — aspect-video (16:9, pas sama ukuran asli 1280x720) agar tidak terpotong
             var imgWrap = document.createElement('a');
-            imgWrap.href = t.url;
+            imgWrap.href = (window.CLINQOO_BASE||'') + t.url;
             imgWrap.target = '_blank';
             imgWrap.rel = 'noopener';
             imgWrap.className = 'block relative aspect-video overflow-hidden bg-gray-100 dark:bg-[#111]';
@@ -289,7 +289,7 @@
             var actions = document.createElement('div');
             actions.className = 'flex items-center gap-2';
             var previewBtn = document.createElement('a');
-            previewBtn.href = t.url;
+            previewBtn.href = (window.CLINQOO_BASE||'') + t.url;
             previewBtn.target = '_blank';
             previewBtn.rel = 'noopener';
             previewBtn.className = 'flex-1 text-center text-sm font-medium py-2.5 rounded-lg border border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-200 hover:border-gray-400 dark:hover:border-[#444] transition-colors';
@@ -428,5 +428,6 @@
   gtag('config', 'G-KMQ8WBZF6E');
 </script>
 <!-- End Google tag -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

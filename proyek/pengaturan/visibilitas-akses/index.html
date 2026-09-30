@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+  <script src="../../../js/auth-client.js?v=2"></script>
+  <script src="../../../js/accent-init.js"></script>
+<script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
+    <link rel="manifest" href="../../../manifest.json">
+    <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+  <title>Pengaturan: Visibilitas & Akses — Clincoo</title>
+    <meta name="description" content="Pengaturan: Visibilitas & Akses — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Clincoo">
+    <meta property="og:title" content="Pengaturan: Visibilitas & Akses — Clincoo">
+    <meta property="og:description" content="Pengaturan: Visibilitas & Akses — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Clincoo">
+    <meta property="og:url" content="https://app.clincoo.buzz/">
+    <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pengaturan: Visibilitas & Akses — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Visibilitas & Akses — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    body.dark-mode { background-color: #000000; color: #e0e0e0; }
+    body.dark-mode .text-gray-900, body.dark-mode .text-gray-800 { color: #f0f0f0 !important; }
+    body.dark-mode .text-gray-700 { color: #b0b0b0 !important; }
+    body.dark-mode .text-gray-500, body.dark-mode .text-gray-600 { color: #888888 !important; }
+    body.dark-mode .text-gray-400 { color: #666666 !important; }
+    body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+    
+    body.dark-mode .custom-select-trigger, body.dark-mode .custom-dropdown-menu { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus { border-color: #444444; outline: none; }
+    
+    body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
+    body.dark-mode button[onclick="history.back()"] { background-color: #000000 !important; border: 1.5px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; }
+    body.dark-mode button[onclick="history.back()"] svg { stroke: #ffffff !important; }
+    body.dark-mode button[onclick="history.back()"]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+    
+    body.dark-mode .bg-gray-50 { background-color: #111111 !important; }
+    body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
+    body.dark-mode .border-gray-200, body.dark-mode .border-gray-100, body.dark-mode .border-gray-300 { border-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-50:hover, body.dark-mode .hover\:bg-gray-100:hover { background-color: #1a1a1a !important; }
+
+    .fade-in { animation: fadeIn 0.2s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Utility for smooth height transition */
+    .expand-collapse { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out; overflow: hidden; }
+    .collapsed { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border-top-width: 0 !important; }
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();
+  </script>
+<!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+
+    <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
+(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<3;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
+    </script>
+<!-- Google tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KMQ8WBZF6E');
+</script>
+<!-- End Google tag -->
+<script src="../../../js/i18n-dict.js" defer></script>
+<script src="../../../js/i18n.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col text-gray-900 bg-white pt-16 relative overflow-x-hidden antialiased">
+  <script>
+    (function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();
+  </script>
+  
+  <header class="bg-[#f7f7f9] flex justify-between items-center px-3 py-2 fixed top-0 w-full z-40 transition-colors">
+        <button onclick="history.back()" class="top-2 left-5 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-100 hover:bg-gray-100 transition-all cursor-pointer text-gray-700 hover:text-black">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <h1 class="font-extrabold text-lg text-gray-900 tracking-tight">Visibilitas Akses</h1>
+        <div class="w-10"></div>
+    </header>
+
+  <main class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-4 pb-24 relative">
+    <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
+      
+      <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="min-w-0 flex-1">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">Mode Visibilitas</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Siapa yang dapat mengakses situs ini</p>
+        </div>
+        <div class="relative w-full sm:w-80">
+          <div class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleDropdown(this, 'visibility', ['Publik (Semua orang)', 'Privat (Hanya anggota)', 'Dilindungi Password'])">
+            <span id="label-visibility" class="font-medium">Publik (Semua orang)</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 pointer-events-none"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Added max-height for transition purposes and collapsed class by default -->
+      <div id="password-section" class="expand-collapse collapsed py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="max-height: 500px;">
+        <div class="min-w-0 flex-1">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">Password Akses</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Atur kata sandi untuk melindungi situs Anda</p>
+          <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-1">Fitur Dilindungi Password tersedia untuk Paket Bisnis</p>
+        </div>
+        <div class="w-full sm:w-80">
+            <input type="password" id="password-input" value="" class="w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none transition-colors focus:ring-1 focus:ring-gray-300 dark:focus:ring-gray-600" placeholder="Masukkan password">
+        </div>
+      </div>
+
+      <div class="py-5 flex items-center justify-between gap-4 border-t border-gray-200 dark:border-slate-700/60">
+        <div class="min-w-0 flex-1">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">Indexasi Mesin Pencari</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Izinkan mesin pencari mengindeks situs</p>
+        </div>
+        <button type="button" onclick="toggleSwitch('indexSearch')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
+          <div id="indexSearch-bg" class="w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200 ease-in-out"></div>
+          <div id="indexSearch-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
+        </button>
+      </div>
+
+      <div class="py-5 flex items-center justify-between gap-4">
+        <div class="min-w-0 flex-1">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">Proteksi DDoS</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Filter lalu lintas berbahaya secara otomatis</p>
+        </div>
+        <button type="button" onclick="toggleSwitch('ddos')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
+          <div id="ddos-bg" class="w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200 ease-in-out"></div>
+          <div id="ddos-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../../js/api.js"></script>
+  
+  <script>
+    // ================================================================
+    // Visibilitas & Akses — penyimpanan REAL-TIME:
+    // localStorage 'clinqoo_<projectId>_visibility' (instan) + D1 project_settings
+    // key 'visibility_settings' (sinkron antar device). Deploy membaca setelan ini:
+    // - mode 'password'  -> situs digerbangi _worker.js (auth password sebelum masuk)
+    // - indexSearch = 0  -> header X-Robots-Tag: noindex disuntik saat deploy
+    // ================================================================
+    const VIS_PID = localStorage.getItem('clinqoo_current_project_id') || '';
+    const VIS_LKEY = 'clinqoo_' + VIS_PID + '_visibility';
+    const VIS_MODE_LABEL = { public: 'Publik (Semua orang)', private: 'Privat (Hanya anggota)', password: 'Dilindungi Password' };
+    const VIS_LABEL_MODE = { 'Publik (Semua orang)': 'public', 'Privat (Hanya anggota)': 'private', 'Dilindungi Password': 'password' };
+    let visState = { mode: 'public', pass_hash: '', indexSearch: 1, ddos: 1 };
+    let _visSaveTimer = null;
+
+    function visApiBase() {
+      if (typeof API_BASE !== 'undefined' && API_BASE) return API_BASE;
+      return ['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api';
+    }
+    function visAuthHeaders(extra) {
+      const hdr = Object.assign({}, extra || {});
+      const tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+      if (tok) hdr['Authorization'] = 'Bearer ' + tok;
+      return hdr;
+    }
+    async function sha256hexClient(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function loadAccessSettings() {
+      // 1) Instan dari localStorage
+      try {
+        const loc = JSON.parse(localStorage.getItem(VIS_LKEY) || 'null');
+        if (loc) { visState = Object.assign(visState, loc); paintVisUI(); }
+      } catch (e) {}
+      // 2) Segar dari server (sumber kebenaran)
+      try {
+        const res = await fetch(visApiBase() + '/project-settings?project_id=' + encodeURIComponent(VIS_PID), { headers: visAuthHeaders() });
+        const data = await res.json();
+        if (data && data.visibility_settings) {
+          const srv = JSON.parse(data.visibility_settings);
+          visState = Object.assign(visState, srv);
+          try { localStorage.setItem(VIS_LKEY, JSON.stringify(visState)); } catch (e) {}
+          paintVisUI();
+        }
+      } catch (e) { console.error('Access settings load failed:', e); }
+    }
+
+    function paintToggle(idPrefix, on) {
+      const bg = document.getElementById(idPrefix + '-bg');
+      const knob = document.getElementById(idPrefix + '-knob');
+      if (!bg || !knob) return;
+      if (on) {
+        bg.classList.remove('bg-gray-200', 'dark:bg-slate-700');
+        bg.classList.add('bg-blue-500');
+        knob.classList.add('translate-x-5');
+      } else {
+        bg.classList.replace('bg-blue-500', 'bg-gray-200');
+        bg.classList.add('dark:bg-slate-700');
+        knob.classList.remove('translate-x-5');
+      }
+    }
+    function paintVisUI() {
+      const label = document.getElementById('label-visibility');
+      if (label) label.textContent = VIS_MODE_LABEL[visState.mode] || VIS_MODE_LABEL.public;
+      const passSection = document.getElementById('password-section');
+      const passInput = document.getElementById('password-input');
+      if (passSection) {
+        if (visState.mode === 'password') passSection.classList.remove('collapsed');
+        else passSection.classList.add('collapsed');
+      }
+      if (passInput) {
+        passInput.value = '';
+        passInput.placeholder = visState.pass_hash ? '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022 (tersimpan \u2014 ketik untuk ganti)' : 'Masukkan password';
+      }
+      paintToggle('indexSearch', visState.indexSearch === 1);
+      paintToggle('ddos', visState.ddos === 1);
+    }
+
+    function queueVisSave() {
+      try { localStorage.setItem(VIS_LKEY, JSON.stringify(visState)); } catch (e) {}
+      if (_visSaveTimer) clearTimeout(_visSaveTimer);
+      _visSaveTimer = setTimeout(async function () {
+        try {
+          await fetch(visApiBase() + '/project-settings', {
+            method: 'POST',
+            headers: visAuthHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ project_id: VIS_PID, visibility_settings: JSON.stringify(visState) })
+          });
+        } catch (e) { console.error('Gagal menyimpan setelan visibilitas:', e); }
+      }, 600);
+    }
+
+    // Password: simpan HASH-nya (bukan plaintext). Deploy menyematkan hash ke gerbang situs.
+    const _passInput = document.getElementById('password-input');
+    if (_passInput) {
+      _passInput.addEventListener('input', async function () {
+        const v = _passInput.value;
+        if (!v) return; // dikosongkan -> hash lama dipertahankan
+        visState.pass_hash = await sha256hexClient('clinqoo-gate:' + v);
+        queueVisSave();
+      });
+    }
+    loadAccessSettings();
+  </script>
+
+  <script>
+    function toggleSwitch(idPrefix){
+      const bg=document.getElementById(idPrefix+'-bg');
+      const knob=document.getElementById(idPrefix+'-knob');
+      const turnOn=!bg.classList.contains('bg-blue-500');
+      paintToggle(idPrefix, turnOn);
+      // Simpan state real-time (indexSearch = izin indeks mesin pencari; ddos = proteksi Cloudflare)
+      if (idPrefix === 'indexSearch') visState.indexSearch = turnOn ? 1 : 0;
+      if (idPrefix === 'ddos') visState.ddos = turnOn ? 1 : 0;
+      queueVisSave();
+    }
+
+    // Custom Dropdown Logic
+    function toggleDropdown(element, targetId, optionsArray) {
+        const wrapper = element.parentElement;
+        const existingDropdown = wrapper.querySelector('.custom-dropdown-menu');
+        
+        closeAllDropdowns();
+
+        if (existingDropdown) return; 
+
+        const labelEl = document.getElementById('label-' + targetId);
+        const currentValue = labelEl ? labelEl.textContent.trim() : '';
+        
+        const dropdown = document.createElement('div');
+        dropdown.className = 'custom-dropdown-menu absolute top-full left-0 w-full mt-2 z-50 bg-white dark:bg-[#111] border border-gray-200 dark:border-[#222] rounded-xl shadow-xl overflow-hidden flex flex-col fade-in';
+        
+        let optionsHtml = '';
+        optionsArray.forEach(option => {
+            const isActive = option === currentValue;
+            optionsHtml += `
+                <div class="w-full px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer flex items-center justify-between ${isActive ? 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}" onclick="selectOption(event, '${targetId}', '${option}')">
+                    <span>${option}</span>
+                    ${isActive ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
+                </div>
+            `;
+        });
+        
+        dropdown.innerHTML = optionsHtml;
+        wrapper.appendChild(dropdown);
+        
+        const chevron = element.querySelector('[data-lucide="chevron-down"]');
+        if(chevron) chevron.classList.add('rotate-180');
+        
+        lucide.createIcons();
+
+        setTimeout(() => {
+            document.addEventListener('click', outsideClickListener);
+        }, 10);
+    }
+
+    function closeAllDropdowns() {
+        const openDropdowns = document.querySelectorAll('.custom-dropdown-menu');
+        openDropdowns.forEach(dropdown => {
+            const chevron = dropdown.parentElement.querySelector('.rotate-180');
+            if(chevron) chevron.classList.remove('rotate-180');
+            dropdown.remove();
+        });
+        document.removeEventListener('click', outsideClickListener);
+    }
+
+    function outsideClickListener(e) {
+        if (!e.target.closest('.custom-select-trigger') && !e.target.closest('.custom-dropdown-menu')) {
+            closeAllDropdowns();
+        }
+    }
+
+    function selectOption(event, targetId, value) {
+        event.stopPropagation();
+        
+        const label = document.getElementById('label-' + targetId);
+        if (label) {
+            label.textContent = value;
+            
+            // Logic to show/hide password section based on selection
+            if (targetId === 'visibility') {
+                const passSection = document.getElementById('password-section');
+                const passInput = document.getElementById('password-input');
+                
+                if (passSection && passInput) {
+                    const isProtected = (value === 'Dilindungi Password');
+                    
+                    if (isProtected) {
+                        passSection.classList.remove('collapsed');
+                        // Optional: focus the input shortly after animation starts
+                        setTimeout(() => passInput.focus(), 300);
+                    } else {
+                        passSection.classList.add('collapsed');
+                        passInput.value = ''; // Clear value if hidden
+                    }
+                }
+            }
+            // Simpan mode visibilitas real-time
+            if (targetId === 'visibility' && typeof visState !== 'undefined') {
+                var _nextMode = VIS_LABEL_MODE[value] || 'public';
+                if (_nextMode === 'password') {
+                    var _plan = 'Starter';
+                    try { _plan = (JSON.parse(localStorage.getItem('clinqoo_subscription_cache') || 'null') || {}).plan || 'Starter'; } catch (e) {}
+                    if (_plan !== 'Bisnis') {
+                        closeAllDropdowns();
+                        alert('Fitur Dilindungi Password hanya tersedia untuk Paket Bisnis. Upgrade paket di halaman Langganan untuk menggunakannya.');
+                        return;
+                    }
+                }
+                visState.mode = _nextMode;
+                if (visState.mode === 'password' && !visState.pass_hash) {
+                    // belum ada password -> tetap tersimpan, tapi gerbang baru aktif setelah password diisi
+                }
+                queueVisSave();
+            }
+        }
+        closeAllDropdowns();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize icons
+      lucide.createIcons();
+      // UI digambar dari data tersimpan (paintVisUI dipanggil loadAccessSettings)
+      const passSection = document.getElementById('password-section');
+      if (passSection) passSection.classList.add('collapsed');
+    });
+  </script>
+
+    <script>/* clinqoo-sw-register */
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

@@ -3,9 +3,11 @@
 (function () {
   var TOKEN_KEY = 'clinqoo_auth_token';
   var isAuthPage = /\/auth\/(index\.html)?(\?|$)|akun\/auth\.html(\?|$)/.test(location.pathname + location.search);
-  var AUTH_URL = (location.hostname.indexOf('github.io') !== -1)
-    ? '/Clincoo./auth/'
-    : '/auth/';
+  var _acSeg = location.pathname.split('/')[1] || '';
+var _acKnown = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
+var CLINQOO_BASE = location.hostname.indexOf('github.io') !== -1 && _acSeg && _acKnown.indexOf(_acSeg) === -1 ? '/' + _acSeg : '';
+var AUTH_URL = CLINQOO_BASE + '/auth/';
+window.CLINQOO_BASE = CLINQOO_BASE;
 
 // ===== NAMESPACE DATA PER AKUN =====
 // Semua kunci localStorage (kecuali clinqoo_auth_*) otomatis diawali u<id>:
@@ -156,6 +158,38 @@ window.ClinqooBack = function (fallbackUrl) {
 };
 
 // Gate: buka halaman apa pun tanpa login -> langsung ke halaman auth
+  if (!isAuthPage && !getToken()) {
+    try { location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href)); } catch (e) { location.replace(AUTH_URL); }
+    return;
+  }
+
+  // Validasi token ke backend: token mati (logout perangkat / reset) -> auth ulang
+  if (!isAuthPage && getToken()) {
+    var API = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev' : '';
+    origFetch(API + '/api/auth/me', { headers: { 'Authorization': 'Bearer ' + getToken() } })
+      .then(function (r) { return r.ok ? r.json() : { authenticated: false }; })
+      .then(function (d) {
+        if (d && d.authenticated && d.user) {
+          try {
+            var prevUser = JSON.parse(NS_raw.getItem(NS_USER_KEY) || 'null');
+            if (!prevUser || !prevUser.id || String(prevUser.id) !== String(d.user.id)) {
+              NS_raw.setItem(NS_USER_KEY, JSON.stringify(d.user));
+              // aktivasi namespace per akun butuh reload sekali
+              if (!sessionStorage.getItem('clinqoo_ns_reload')) {
+                try { sessionStorage.setItem('clinqoo_ns_reload', '1'); } catch (e2) {}
+                location.reload();
+              }
+            }
+          } catch (e1) {}
+        }
+        if (!d || !d.authenticated) {
+          try { NS_raw.removeItem(TOKEN_KEY); } catch (e) {}
+          location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href));
+        }
+      })
+      .catch(function () {});
+  }
+
   // Wrapper fetch: semua call ke backend dibawa token Bearer; 401 -> auth
   window.fetch = function (input, init) {
     init = init || {};
@@ -175,6 +209,9 @@ window.ClinqooBack = function (fallbackUrl) {
     var p = origFetch.call(this, input, init);
     return p.then(function (res) {
       try {
+        if (res.status === 401 && !isAuthPage && isApi && !isAuthApi) {
+          location.replace(AUTH_URL + '?next=' + encodeURIComponent(location.href));
+        }
       } catch (e) {}
       return res;
     });

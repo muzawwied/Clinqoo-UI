@@ -20,16 +20,4 @@
   window.addEventListener('storage', function (e) {
     if (e.key === 'clinqoo_accent') applyAccent(e.newValue || 'Hitam (Default)');
   });
-
-  // Auto-load path-router (patch sidebar URL + project_id) bila belum dimuat
-  try {
-    if (!window.PathRouter) {
-      var s = document.currentScript && document.currentScript.src;
-      var base = s ? s.replace(/\/[^\/]*$/, '/') : '/js/';
-      var sc = document.createElement('script');
-      sc.src = base + 'path-router.js';
-      sc.async = false;
-      document.head.appendChild(sc);
-    }
-  } catch (e) {}
 })();

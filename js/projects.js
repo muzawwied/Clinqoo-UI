@@ -19,14 +19,11 @@ function stripMd(text) {
  * Clincoo Project Management
  */
 
-// Detect GitHub Pages subpath (repo bisa Clincoo. / Clincoo / Clinqoo-UI)
-const _isGHPages = /github\.io$/i.test(location.hostname) || /\/Clincoo\.?(\/|$)/.test(location.pathname) || /\/Clinqoo-UI(\/|$)/.test(location.pathname);
-const _BASE = (function () {
-    var m = location.pathname.match(/^(\/(?:Clincoo\.?|Clinqoo-UI))/);
-    if (m) return m[1];
-    if (/github\.io$/i.test(location.hostname)) return '/Clinqoo-UI';
-    return '';
-})();
+// Detect GitHub Pages subpath
+const _pjSeg = window.location.pathname.split('/')[1] || '';
+const _pjKnown = ['akun','proyek','auth','templates','integrasi','assets','js','demo','sw.js','manifest.json','robots.txt','_redirects','index.html','404.html'];
+const _isGHPages = window.location.hostname.indexOf('github.io') !== -1;
+const _PJBASE = _isGHPages && _pjSeg && _pjKnown.indexOf(_pjSeg) === -1 ? '/' + _pjSeg : '';
 
 // === Sinkronisasi D1 per akun (Cloudflare) ===
 // Token Bearer diinjeksi otomatis oleh js/auth-client.js pada semua call /api/.
@@ -39,7 +36,7 @@ function showPlanLimitModal(d) {
     if (document.getElementById('plan-limit-modal')) return;
     var m = document.createElement('div');
     m.id = 'plan-limit-modal';
-    var base = _BASE;
+    var base = (location.pathname.indexOf('/Clincoo') !== -1) ? '/Clincoo.' : '';
     m.innerHTML =
         '<div class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="background:rgba(0,0,0,0.45)">' +
         '<div class="bg-white rounded-2xl w-full max-w-xs px-5 pt-5 pb-4 text-center">' +
@@ -68,6 +65,7 @@ function pushProjectsToServer(projects) {
     }, 700);
 }
 
+// Tarik daftar proyek milik akun dari D1; migrasi otomatis data lokal lama.
 async function syncProjectsFromServer() {
     try {
         const res = await fetch(PROJECTS_API);
@@ -76,6 +74,7 @@ async function syncProjectsFromServer() {
         const list = Array.isArray(d.projects) ? d.projects : [];
         const local = getProjects();
         if (list.length === 0 && local.length > 0) {
+            // migrasi pertama: dorong proyek lokal ke akun yang login
             try {
                 await fetch(PROJECTS_API, {
                     method: 'POST',
@@ -131,7 +130,7 @@ function getProjects() {
 
 function saveProjects(projects) {
     try { localStorage.setItem('clinqoo_projects', JSON.stringify(projects)); } catch(e) {}
-    pushProjectsToServer(projects);
+    pushProjectsToServer(projects); // simpan per akun di D1
 }
 
 function renderProjects() {
@@ -193,11 +192,16 @@ function openProject(id) {
     if (proj) {
         localStorage.setItem('clinqoo_current_chat_msg', proj.prompt || '');
         localStorage.setItem('clinqoo_current_project_id', id);
-        // Selalu pakai path file nyata (/proyek/...?id=)
-        window.location.href = _BASE + '/proyek/workspace/?id=' + encodeURIComponent(id);
+        if (_isGHPages) {
+            window.location.href = _PJBASE + '/proyek/workspace/?id=' + encodeURIComponent(id);
+        } else {
+            window.location.href = _PJBASE + '/workspace/' + id;
+        }
     }
 }
 
+// Popup konfirmasi hapus proyek (CTA teks saja, radius kecil) — disuntik sekali per halaman
+// Toast teks sederhana (preferensi notifikasi teks-saja)
 function _showToast(msg, kind) {
     var t = document.createElement('div');
     t.textContent = msg;
@@ -238,6 +242,7 @@ function _ensureDeleteModal() {
         if (!id) { _closeDeleteModal(); return; }
         const okBtn = document.getElementById('confirm-delete-ok');
         const cancelBtn = document.getElementById('confirm-delete-cancel');
+        // status menghapus: tombol berputar, kartu proyek diredupkan + spinner
         okBtn.disabled = true;
         okBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 inline-block align-[-3px] cc-spin"></i> Menghapus...';
         if (cancelBtn) cancelBtn.style.visibility = 'hidden';
@@ -288,6 +293,7 @@ function deleteProject(id) {
     modal.classList.add('flex');
 }
 async function _doDeleteProject(id) {
+    // tarik publish-an: situs + link publik (Cloudflare Pages) ikut dihapus (non-fatal)
     const tok = (function () { try { return localStorage.getItem('clinqoo_auth_token') || ''; } catch (e) { return ''; } })();
     const hdrs = { 'Content-Type': 'application/json' };
     if (tok) hdrs['Authorization'] = 'Bearer ' + tok;
@@ -299,28 +305,33 @@ async function _doDeleteProject(id) {
         if (!res.ok) serverOk = false;
         else { const d = await res.json().catch(() => null); if (d && d.success === false) serverOk = false; }
     } catch (e) { serverOk = false; }
-    if (!serverOk) return false;
+    if (!serverOk) return false; // server gagal -> kartu TETAP ada, pelanggan diberi tahu
+
+    // data lokal proyek (chat, file workspace, penunjuk aktif)
     try {
         localStorage.removeItem('clinqoo_ls_chat_' + id);
         localStorage.removeItem('clinqoo_workspace_files_' + id);
         if (localStorage.getItem('clinqoo_current_project_id') === id) localStorage.removeItem('clinqoo_current_project_id');
     } catch (e) {}
+
     let projects = getProjects();
     projects = projects.filter(p => p.id !== id);
     try { localStorage.setItem('clinqoo_projects', JSON.stringify(projects)); } catch (e) {}
+
     try {
         fetch('https://clincoo-be2.pages.dev/api/activity', {
             method: 'POST',
-            headers: hdrs,
-            body: JSON.stringify({ type: 'project_deleted', project_id: id })
-        });
-    } catch (e) {}
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete_project', details: 'Proyek dihapus' })
+        }).catch(function(){});
+    } catch(e) {}
+
     renderProjects();
     return true;
 }
 
 function duplicateProject(id) {
-    const projects = getProjects();
+    let projects = getProjects();
     const proj = projects.find(p => p.id === id);
     if (proj) {
         const copy = Object.assign({}, proj, { id: 'proj_' + Date.now(), title: proj.title + ' (Copy)', updatedAt: new Date().toISOString() });
@@ -343,18 +354,22 @@ function processPromptSubmission() {
     if (!mainPromptInput) return;
     const prompt = mainPromptInput.value.trim();
     if (!prompt) return;
+    
     try {
         localStorage.removeItem('clinqoo_current_chat_msg');
         localStorage.removeItem('clinqoo_current_project_id');
         localStorage.removeItem('clinqoo_current_attachments');
     } catch(e) {}
+    
     const projectId = 'proj_' + Date.now();
     let titleParts = prompt.split(' ');
     let title = titleParts.slice(0, 4).join(' ');
     if (titleParts.length > 4) title += '...';
+    
     const newProject = { id: projectId, title: title, prompt: prompt, updatedAt: new Date().toISOString() };
     let projects = getProjects();
     projects.unshift(newProject);
+    
     try {
         saveProjects(projects);
         localStorage.setItem('clinqoo_current_chat_msg', prompt);
@@ -369,8 +384,11 @@ function processPromptSubmission() {
             localStorage.setItem('clinqoo_current_attachments', JSON.stringify(attachments));
         }
     } catch(e) {}
-    // Selalu pakai path file nyata (/proyek/...?id=)
-    window.location.href = _BASE + '/proyek/chat/?id=' + encodeURIComponent(projectId);
+    if (_isGHPages) {
+        window.location.href = _PJBASE + '/proyek/chat/?id=' + encodeURIComponent(projectId);
+    } else {
+        window.location.href = _PJBASE + '/workspace/' + projectId + '/chat';
+    }
 }
 
 // Sinkron dengan database per akun saat halaman dibuka
