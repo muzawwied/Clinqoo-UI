@@ -284,6 +284,24 @@
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 0) 100%) !important;
         }
 
+        #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        #chat-nav-pill { background: #e9e9ec; }
+        .chat-nav-link.is-active { color: #111111; }
+        #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .header-menu-item { cursor: pointer; }
+        body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+        body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+        body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
+        body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
+        body.dark-mode #chat-nav-pill { background: #232327; }
+        body.dark-mode .chat-nav-link { color: #9ca3af; }
+        body.dark-mode .chat-nav-link.is-active { color: #ffffff; }
+        body.dark-mode .chat-nav-link:hover { color: #ffffff; }
+        body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
+        body.dark-mode .header-menu-item { color: #e5e7eb; }
+        body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
+        body.dark-mode .header-menu-item svg { color: #9ca3af; }
+
         .tc-spin { display: inline-block; animation: tc-spin-anim 0.9s linear infinite; }
         @keyframes tc-spin-anim { to { transform: rotate(360deg); } }
 
@@ -540,15 +558,48 @@
     
     <div id="session-options-popup" class="hidden fixed bg-white rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[100] w-40 p-1.5"></div>
 
-    <header class="fixed top-0 left-0 right-0 z-30 px-3 py-2.5 pointer-events-none flex justify-between items-center header-glass h-14">
-        <button id="sidebar-toggle" class="flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:text-black hover:bg-gray-50 transition-all rounded-full w-10 h-10 pointer-events-auto" aria-label="Buka Menu">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 10h14M5 15h8" />
-            </svg>
-        </button>
+    <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-center items-center">
+        <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 py-1.5" id="chat-header-capsule">
+            <button id="sidebar-toggle" type="button" class="flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <nav id="chat-top-nav" class="relative inline-flex items-center p-1">
+                <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none transition-all duration-300 ease-out" style="top:0;left:0;width:0;height:0"></div>
+                <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Agent</a>
+                <a href="/proyek/workspace/" data-nav="code" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-800 whitespace-nowrap transition-colors">Code</a>
+                <a href="/proyek/build-deployment/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-800 whitespace-nowrap transition-colors">Dashboard</a>
+            </nav>
+            <div class="relative flex-shrink-0">
+                <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
+                    </svg>
+                </button>
+                <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
+                    <a href="../../../../proyek/workspace/editor/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
+                        Live preview
+                    </a>
+                    <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+                        Eksport zip
+                    </button>
+                    <a href="/integrasi/github/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                        Koneksi git
+                    </a>
+                    <a href="/akun/tentang/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"></path></svg>
+                        Pusat bantuan
+                    </a>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-16 pb-32 space-y-6 w-full relative z-10">
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-[80px] pb-32 space-y-6 w-full relative z-10">
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 w-full bg-transparent px-4 py-4 z-20 pointer-events-none flex flex-col justify-end">
@@ -658,6 +709,62 @@
             sidebarOverlay.classList.add('opacity-0');
             setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
         });
+
+        const chatNav = document.getElementById('chat-top-nav');
+        const chatNavPill = document.getElementById('chat-nav-pill');
+        const chatNavLinks = Array.from(chatNav.querySelectorAll('.chat-nav-link'));
+        const chatNavActive = chatNavLinks.find(l => l.dataset.nav === 'agent') || chatNavLinks[0];
+        if (chatNavActive) chatNavActive.classList.add('is-active');
+        function chatNavMovePill(el) {
+            if (!el) return;
+            chatNavPill.style.top = el.offsetTop + 'px';
+            chatNavPill.style.left = el.offsetLeft + 'px';
+            chatNavPill.style.width = el.offsetWidth + 'px';
+            chatNavPill.style.height = el.offsetHeight + 'px';
+        }
+        chatNavMovePill(chatNavActive);
+        chatNavLinks.forEach(l => {
+            l.addEventListener('mouseenter', () => chatNavMovePill(l));
+            l.addEventListener('click', () => { chatNavLinks.forEach(x => x.classList.remove('is-active')); l.classList.add('is-active'); chatNavMovePill(l); });
+        });
+        chatNav.addEventListener('mouseleave', () => chatNavMovePill(chatNavActive));
+        window.addEventListener('resize', () => chatNavMovePill(chatNavActive));
+
+        const headerMoreBtn = document.getElementById('header-more-btn');
+        const headerMoreMenu = document.getElementById('header-more-menu');
+        function closeHeaderMenu() {
+            headerMoreMenu.classList.remove('open');
+        }
+        window.toggleHeaderMenu = function (e) {
+            e.stopPropagation();
+            headerMoreMenu.classList.contains('open') ? closeHeaderMenu() : headerMoreMenu.classList.add('open');
+        }
+        document.addEventListener('click', (e) => {
+            if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
+        });
+        window.chatExportZip = function () {
+            closeHeaderMenu();
+            const files = wsFlatten(wsLoad());
+            if (!files || !files.length) return;
+            const run = () => {
+                const zip = new window.JSZip();
+                files.forEach(f => zip.file(f.path, f.content || ''));
+                zip.generateAsync({ type: 'blob' }).then(blob => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = (wsProjectId() || 'clincoo') + '.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(a.href), 500);
+                });
+            };
+            if (window.JSZip) { run(); return; }
+            const sc = document.createElement('script');
+            sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            sc.onload = run;
+            document.head.appendChild(sc);
+        }
 
         let currentAttachments = [];
         
