@@ -9,6 +9,7 @@
     <title>Dashboard — Clincoo</title>
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
+    <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -42,6 +43,7 @@
     </style>
 </head>
 <body class="min-h-screen">
+  <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
         <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
