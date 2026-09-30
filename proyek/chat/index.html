@@ -558,20 +558,21 @@
     
     <div id="session-options-popup" class="hidden fixed bg-white rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[100] w-40 p-1.5"></div>
 
-    <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-center items-center">
-        <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 py-1.5" id="chat-header-capsule">
-            <button id="sidebar-toggle" type="button" class="flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
+    <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
+        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
+        <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 py-1.5" id="chat-header-capsule">
             <nav id="chat-top-nav" class="relative inline-flex items-center p-1">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none transition-all duration-300 ease-out" style="top:0;left:0;width:0;height:0"></div>
                 <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Agent</a>
                 <a href="/proyek/code/" data-nav="code" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-800 whitespace-nowrap transition-colors">Code</a>
                 <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-4 py-2 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-800 whitespace-nowrap transition-colors">Dashboard</a>
             </nav>
-            <div class="relative flex-shrink-0">
+        </div>
+        <div class="relative flex-shrink-0 pointer-events-auto">
                 <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                         <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
@@ -596,7 +597,6 @@
                     </a>
                 </div>
             </div>
-        </div>
     </header>
 
     <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-[80px] pb-32 space-y-6 w-full relative z-10">
