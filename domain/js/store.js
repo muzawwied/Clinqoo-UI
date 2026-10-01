@@ -33,7 +33,14 @@
     return parts.every(p => p && p.length <= 63 && /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/.test(p));
   }
 
-  const api = (path, opts) => fetch(API_BASE + path.replace(/^\/api/, ''), Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {})).then(r => r.json());
+  // Data domain kini per akun: setiap request membawa token login Clincoo (Bearer).
+  function authToken() { try { return localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) { return ''; } }
+  const api = (path, opts) => {
+    const headers = { 'Content-Type': 'application/json' };
+    const tok = authToken();
+    if (tok) headers['Authorization'] = 'Bearer ' + tok;
+    return fetch(API_BASE + path.replace(/^\/api/, ''), Object.assign({ headers: headers }, opts || {})).then(r => r.json());
+  };
 
   window.store = {
     get apiMode() { return apiMode; },
