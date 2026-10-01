@@ -1265,7 +1265,7 @@ window.chatLivePreview = function () {
             const s = String(u || '');
             return (/^(https?:|data:image\/)/i.test(s)) ? escText(s) : '';
         }
-        // Rapihin markdown "sloppy" dari model kecil (mis. GLM flash) sebelum render:
+        // Rapihin markdown "sloppy" dari model kecil (mis. model flash kecil) sebelum render:
         // penanda ** teks ** / * teks * / ~~ teks ~~ yang dipisah spasi (tidak valid
         // di CommonMark -> tampil bintang mentah), heading yang menjorok spasi, dan
         // blok JSON yang lepas tanpa fence code (tampil "keluar format json").
