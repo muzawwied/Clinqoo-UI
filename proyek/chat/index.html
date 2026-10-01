@@ -289,6 +289,17 @@
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
         #chat-nav-pill { background: #e9e9ec; view-transition-name: chat-nav-pill; }
         @view-transition { navigation: auto; }
+        /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
+        @media (prefers-reduced-motion: no-preference) {
+            ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; animation-timing-function: cubic-bezier(.2,.7,.3,1); }
+            ::view-transition-group(chat-nav-pill) { animation-duration: .18s; animation-timing-function: cubic-bezier(.2,.7,.3,1); }
+        }
+        /* fallback browser tanpa cross-doc view transition: fade-in halus (bukan pop putih keras) */
+        @keyframes clq-page-in { from { opacity: 0 } to { opacity: 1 } }
+        @media (prefers-reduced-motion: no-preference) {
+            body { animation: clq-page-in .18s cubic-bezier(.2,.7,.3,1) both; }
+            html:active-view-transition body { animation: none; }
+        }
         .chat-nav-link.is-active { color: #111111; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { -webkit-tap-highlight-color: transparent; }
@@ -506,7 +517,7 @@
     </style>
     
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
-<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
 
     <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
 (function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<2;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
