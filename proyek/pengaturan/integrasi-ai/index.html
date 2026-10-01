@@ -384,18 +384,10 @@
             <h4 class="text-base font-semibold text-gray-900 dark:text-white">Analitik &amp; Pemakaian</h4>
             <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Ringkasan pemakaian dihitung dari log proyek ini</p>
           </div>
-          <div class="grid grid-cols-5 gap-2 sm:gap-2.5">
+          <div class="grid grid-cols-3 gap-2 sm:gap-2.5">
             <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
               <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Total permintaan</p>
               <p id="ai-stat-total" class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
-            </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
-              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Sukses</p>
-              <p id="ai-stat-ok" class="text-base sm:text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">0</p>
-            </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
-              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Gagal</p>
-              <p id="ai-stat-fail" class="text-base sm:text-xl font-bold text-red-600 dark:text-red-400 mt-0.5">0</p>
             </div>
             <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
               <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Total token</p>
@@ -406,9 +398,15 @@
               <p id="ai-stat-cost" class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
             </div>
           </div>
-          <div class="mt-5">
-            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian harian (14 hari terakhir)</p>
-            <div id="ai-daily-chart-wrap" class="relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden mb-4 p-2"><canvas id="ai-daily-usage-chart"></canvas></div>
+          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Status permintaan (Sukses vs Gagal)</p>
+              <div id="ai-status-chart-wrap" class="relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden p-2"><canvas id="ai-status-chart"></canvas></div>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian harian (14 hari terakhir)</p>
+              <div id="ai-daily-chart-wrap" class="relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden p-2"><canvas id="ai-daily-usage-chart"></canvas></div>
+            </div>
           </div>
           <div class="mt-5">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian per model</p>
@@ -789,10 +787,9 @@
   function renderAiAnalytics(stats) {
     var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
     set('ai-stat-total', (stats && stats.total) || 0);
-    set('ai-stat-ok', (stats && stats.ok) || 0);
-    set('ai-stat-fail', (stats && stats.fail) || 0);
     set('ai-stat-tokens', (stats && stats.tokens) || 0);
     set('ai-stat-cost', (stats && stats.cost) || 0);
+    renderAiStatusChart((stats && stats.ok) || 0, (stats && stats.fail) || 0);
     var wrap = document.getElementById('ai-model-usage');
     var empty = document.getElementById('ai-usage-empty');
     var perModel = (stats && stats.per_model) || [];
@@ -817,6 +814,49 @@
         : '';
     }
     renderAiChart(perModel);
+  }
+
+  // --- Grafik status permintaan: doughnut Sukses vs Gagal (Chart.js) ---
+  var _aiStatusChart = { inst: null };
+  function renderAiStatusChart(ok, fail) {
+    var wrap = document.getElementById('ai-status-chart-wrap');
+    if (!wrap) return;
+    loadChartJs(function (okLoad) {
+      if (!okLoad || !window.Chart) { wrap.classList.add('hidden'); return; }
+      wrap.classList.remove('hidden');
+      if (_aiStatusChart.inst) { _aiStatusChart.inst.destroy(); _aiStatusChart.inst = null; }
+      var dark = _aiDark();
+      var tick = dark ? '#9ca3af' : '#6b7280';
+      try {
+        _aiStatusChart.inst = new Chart(document.getElementById('ai-status-chart'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Sukses', 'Gagal'],
+            datasets: [{
+              data: [ok, fail],
+              backgroundColor: [dark ? '#34d399' : '#10b981', dark ? '#f87171' : '#ef4444'],
+              borderColor: dark ? '#0a0a0a' : '#ffffff',
+              borderWidth: 2,
+              hoverOffset: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 300 },
+            cutout: '62%',
+            plugins: {
+              legend: { position: 'bottom', labels: { color: tick, boxWidth: 10, boxHeight: 10, font: { size: 11 }, padding: 12 } },
+              tooltip: { callbacks: { label: function (ctx) {
+                var total = ok + fail;
+                var pct = total ? Math.round(ctx.parsed / total * 100) : 0;
+                return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + pct + '%)';
+              } } }
+            }
+          }
+        });
+      } catch (e) { wrap.classList.add('hidden'); }
+    });
   }
 
   // --- Grafik pemakaian harian (Chart.js) ---
