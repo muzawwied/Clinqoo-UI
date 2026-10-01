@@ -30,7 +30,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script>
+/* Preflight: mulai ambil data settings + path workspace SEBELUM aset berat (Tailwind/font) diunduh */
+(function(){try{
+  var pid = localStorage.getItem('clinqoo_current_project_id') || '';
+  var tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+  var h = tk ? { Authorization: 'Bearer ' + tk } : {};
+  var base = ['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api';
+  var j = function (r) { return r.ok ? r.json() : Promise.reject(r.status); };
+  window.__clincooPrefetch = {
+    settings: fetch(base + '/project-settings?project_id=' + encodeURIComponent(pid), { headers: h }).then(j).catch(function(){ return null; }),
+    paths: fetch(base + '/project-files?project_id=' + encodeURIComponent(pid) + '&meta=1', { headers: h }).then(j).catch(function(){ return null; })
+  };
+}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://clincoo-be2.pages.dev" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -275,7 +289,7 @@
                 </div>
                 <div class="w-full sm:w-80">
                     <input type="text" id="input-app-name" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
-                    <div id="skel-app-name" class="skel hidden w-full h-[42px] rounded-xl"></div>
+                    <div id="skel-app-name" class="skel hidden w-full h-[34px] rounded-xl"></div>
                     <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
                 </div>
             </div>
@@ -288,7 +302,7 @@
                 </div>
                 <div class="w-full sm:w-80">
                     <textarea rows="3" id="input-app-desc" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
-                    <div id="skel-app-desc" class="skel hidden w-full h-[76px] rounded-xl"></div>
+                    <div id="skel-app-desc" class="skel hidden w-full h-[56px] rounded-xl"></div>
                 </div>
             </div>
 
@@ -306,7 +320,7 @@
                         </div>
                         <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 pointer-events-none shrink-0"></i>
                     </div>
-                    <div id="skel-runtime" class="skel hidden w-full h-[46px] rounded-xl"></div>
+                    <div id="skel-runtime" class="skel hidden w-full h-[40px] rounded-xl"></div>
                 </div>
             </div>
 
@@ -412,8 +426,9 @@
 
         async function loadUmum() {
             try {
-                const res = await fetch(API + '/project-settings?project_id=' + encodeURIComponent(pid()), { headers: authHeaders() });
-                const data = await res.json();
+                // pakai preflight yang sudah berjalan sejak <head> — hemat ratusan ms (Tailwind belum selesai pun data sudah jalan)
+                let data = (window.__clincooPrefetch && window.__clincooPrefetch.settings) ? await window.__clincooPrefetch.settings : null;
+                if (!data) { const res = await fetch(API + '/project-settings?project_id=' + encodeURIComponent(pid()), { headers: authHeaders() }); data = await res.json(); }
                 if (data.error) return;
                 const st = data;
                 const nameEl = document.getElementById('input-app-name');
@@ -502,9 +517,12 @@
         // ---- Lingkungan Runtime dibaca dari isi Workspace (bukan pilihan statis) ----
         async function syncRuntimeFromWorkspace() {
             try {
-                const res = await fetch(API + '/project-files?project_id=' + encodeURIComponent(pid()), { headers: authHeaders() });
-                if (!res.ok) return;
-                const data = await res.json();
+                let data = (window.__clincooPrefetch && window.__clincooPrefetch.paths) ? await window.__clincooPrefetch.paths : null;
+                if (!data) {
+                    const res = await fetch(API + '/project-files?project_id=' + encodeURIComponent(pid()) + '&meta=1', { headers: authHeaders() });
+                    if (!res.ok) return;
+                    data = await res.json();
+                }
                 const files = (data && data.files) || [];
                 const hasFunctions = files.some(function (f) { return f && f.path && (/^functions\//.test(f.path) || f.path === '_worker.js'); });
                 const runtime = hasFunctions ? 'Cloudflare Pages + Functions' : 'Static HTML/JS/CSS';
