@@ -287,6 +287,8 @@
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         /* Item popup titik-3 khusus desktop — disembunyikan di mobile */
         @media (max-width: 899.98px) { .header-desktop-only { display: none !important; } }
+        /* Mobile: rapatkan jarak pil navigasi dengan tombol titik-3 agar jadi satu grup rapi, bukan terpisah/menjempit */
+        @media (max-width: 899.98px) { #chat-header-group { gap: 8px; } }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
         #chat-nav-pill { display: none; }
@@ -586,7 +588,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-        <div class="flex items-center gap-4 flex-shrink-0">
+        <div id="chat-header-group" class="flex items-center gap-4 flex-shrink-0">
         <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 h-11" id="chat-header-capsule">
             <nav id="chat-top-nav" class="relative inline-flex items-center h-full">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none" style="top:0;left:0;width:0;height:0"></div>
