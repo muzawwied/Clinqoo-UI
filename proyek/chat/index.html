@@ -289,10 +289,10 @@
         @media (max-width: 899.98px) { .header-desktop-only { display: none !important; } }
         /* Mobile: header disamakan persis dengan halaman Workspace — X di kiri, kapsul nav di tengah, titik-3 di kanan */
         @media (max-width: 899.98px) { #chat-header-group { display: contents; } }
-        /* Mobile: beri jarak antara tombol X, kapsul, dan titik-3 */
-        @media (max-width: 899.98px) { header { gap: 8px; } }
-        @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
-        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
+        /* Mobile: beri jarak antara tombol X, kapsul, dan titik-3 — dikompensasi dengan memperlebar breakpoint pemangkasan agar titik-3 tidak terdorong keluar viewport di HP umum (360-430px) */
+        @media (max-width: 899.98px) { header { gap: 6px; } }
+        @media (max-width: 430px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
+        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
