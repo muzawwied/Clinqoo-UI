@@ -31,7 +31,13 @@
 
         /* Skeleton saat gambar pratinjau belum termuat */
         .img-skeleton { background: linear-gradient(90deg,#f3f4f6 25%,#e5e7eb 50%,#f3f4f6 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
-        body.dark-mode .img-skeleton { background: linear-gradient(90deg,#111 25%,#1c1c1c 50%,#111 75%); background-size: 200% 100%; }
+                body.dark-mode .option-popup {
+            background-color: #0a0a0a !important;
+            border-color: #222222 !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+        }
+body.dark-mode .img-skeleton { background: linear-gradient(90deg,#111 25%,#1c1c1c 50%,#111 75%); background-size: 200% 100%; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         /* Capsule CTA "+ daftarkan template" (header, hanya untuk yang sudah masuk) */
@@ -273,7 +279,7 @@
             title.className = 'text-sm font-bold mb-1';
             title.textContent = t.name;
             var desc = document.createElement('p');
-            desc.className = 'text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4';
+            desc.className = 'text-xs text-gray-500 dark:text-gray-400 leading-relaxed';
             desc.textContent = t.desc;
 
             // Meta komunitas: icon user = pencipta, icon gunakan = jumlah dipakai, icon mata = kunjungan
@@ -302,30 +308,55 @@
                 body.appendChild(meta);
             }
 
-            var actions = document.createElement('div');
-            actions.className = 'flex items-center gap-2';
-            var previewBtn = document.createElement('a');
-            previewBtn.href = (window.CLINQOO_BASE||'') + t.url;
-            previewBtn.target = '_blank';
-            previewBtn.rel = 'noopener';
-            previewBtn.className = 'flex-1 text-center text-sm font-medium py-2.5 rounded-lg border border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-200 hover:border-gray-400 dark:hover:border-[#444] transition-colors';
-            previewBtn.textContent = 'Preview';
-            if (t.community) previewBtn.addEventListener('click', function () { trackCommunity(t.id, 'view'); });
-            var useBtn = document.createElement('button');
-            useBtn.type = 'button';
-            useBtn.className = 'flex-1 text-sm font-semibold py-2.5 rounded-lg bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-opacity';
-            useBtn.textContent = 'Gunakan';
-            useBtn.addEventListener('click', function () {
+            // Titik 3 + popup opsi — mengikuti kartu template di halaman utama
+            var row = document.createElement('div');
+            row.className = 'flex justify-between items-end gap-3 mt-4';
+            var txtCol = document.createElement('div');
+            txtCol.className = 'flex flex-col flex-1 overflow-hidden';
+            txtCol.appendChild(title);
+            txtCol.appendChild(desc);
+            row.appendChild(txtCol);
+
+            var dotsWrap = document.createElement('div');
+            dotsWrap.className = 'relative flex-shrink-0';
+            var dotsBtn = document.createElement('button');
+            dotsBtn.type = 'button';
+            dotsBtn.className = 'p-1.5 text-gray-400 hover:text-black hover:bg-gray-50 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20';
+            dotsBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>';
+            dotsBtn.setAttribute('aria-label', 'Opsi template');
+            dotsBtn.setAttribute('data-dots', '');
+            dotsBtn.addEventListener('click', function (e) { toggleOption(this, e); });
+            dotsWrap.appendChild(dotsBtn);
+
+            var popup = document.createElement('div');
+            popup.className = 'option-popup absolute bottom-full right-0 mb-2 w-44 bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.08)] py-2 opacity-0 invisible translate-y-2 transition-all duration-200 z-20 origin-bottom-right';
+            function menuBtn(label, cls, handler) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = cls || 'w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-black/20 dark:focus-visible:ring-white/20';
+                b.textContent = label;
+                b.addEventListener('click', function (e) { e.stopPropagation(); closeGaleriPopups(); handler(e); });
+                popup.appendChild(b);
+            }
+            menuBtn('Gunakan Template', null, function () {
                 if (t.community) trackCommunity(t.id, 'use');
                 useTemplate(t.key);
             });
-            actions.appendChild(previewBtn);
-            actions.appendChild(useBtn);
+            menuBtn('Lihat Preview', null, function (e) {
+                if (t.community) {
+                    trackCommunity(t.id, 'view');
+                    window.open((window.CLINQOO_BASE || '') + t.url, '_blank', 'noopener');
+                } else { previewTemplate(t.key, e); }
+            });
+            if (!t.community) {
+                menuBtn('Simpan ke Favorit', null, function (e) { favoriteTemplate(t.key, e); });
+                menuBtn('Laporkan', 'w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/30', function (e) { reportTemplate(t.key, e); });
+            }
+            dotsWrap.appendChild(popup);
+            row.appendChild(dotsWrap);
 
             body.appendChild(catEl);
-            body.appendChild(title);
-            body.appendChild(desc);
-            body.appendChild(actions);
+            body.appendChild(row);
             card.appendChild(imgWrap);
             card.appendChild(body);
             grid.appendChild(card);
@@ -423,6 +454,34 @@
     }
 
     // ===== Aksi "Gunakan": simpan pilihan, arahkan ke login/app =====
+    function closeGaleriPopups() {
+        document.querySelectorAll('.option-popup').forEach(function (p) {
+            p.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            p.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        });
+    }
+    function toggleOption(btn, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.querySelectorAll('.option-popup').forEach(function (p) {
+            if (p !== btn.nextElementSibling) {
+                p.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                p.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            }
+        });
+        var p = btn.nextElementSibling;
+        if (p.classList.contains('opacity-100')) {
+            p.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            p.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        } else {
+            p.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+            p.classList.add('opacity-100', 'visible', 'translate-y-0');
+        }
+    }
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.option-popup') && !e.target.closest('[data-dots]')) closeGaleriPopups();
+    });
+
     function useTemplate(key) {
         // Simpan pilihan template; URL utama akan mendeteksi status login pengguna.
         try { localStorage.setItem('clinqoo_pending_template', key); } catch (e) {}
