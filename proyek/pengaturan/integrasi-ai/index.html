@@ -267,11 +267,11 @@
 
       <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
 
-        <!-- 1. Clinqoo Open API -->
+        <!-- 1. Clincoo Open API -->
         <div class="py-5">
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Clinqoo Open API</h4>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Clincoo Open API</h4>
               <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">API AI Clincoo — format kompatibel OpenAI. Semua model dikelola dan disediakan Clincoo di server (alokasi gratis); proyek ini cukup pakai secret sendiri.</p>
             </div>
             <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300">Aktif</span>
@@ -306,11 +306,11 @@
           <div class="flex items-center justify-between mb-3">
             <div>
               <h4 class="text-base font-semibold text-gray-900 dark:text-white">Secret API</h4>
-              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Secret dikeluarkan Clinqoo khusus untuk proyek ini — setiap proyek punya secret berbeda</p>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Secret dikeluarkan Clincoo khusus untuk proyek ini — setiap proyek punya secret berbeda</p>
             </div>
           </div>
           <div id="ai-secret-empty" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <p class="text-xs text-gray-400 dark:text-gray-500">Belum ada secret — buat secret baru untuk mulai memakai Clinqoo Open API.</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500">Belum ada secret — buat secret baru untuk mulai memakai Clincoo Open API.</p>
             <button type="button" id="ai-secret-create-btn" onclick="createAiSecret()" class="px-4 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-lg transition-colors cursor-pointer flex-shrink-0">Buat Secret Baru</button>
           </div>
           <div id="ai-secret-active" class="hidden">
@@ -353,7 +353,7 @@
         <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="min-w-0 flex-1">
             <h4 class="text-base font-semibold text-gray-900 dark:text-white">Uji Koneksi</h4>
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim satu panggilan kecil ke Clinqoo Open API dengan secret proyek ini</p>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim satu panggilan kecil ke Clincoo Open API dengan secret proyek ini</p>
           </div>
           <button type="button" id="ai-test-btn" onclick="testAiCall()" class="px-4 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-lg transition-colors cursor-pointer flex-shrink-0">Tes panggilan</button>
         </div>
@@ -363,12 +363,12 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <h4 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">Log Pemakaian <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>real-time</span></h4>
-              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Riwayat panggilan Clinqoo Open API untuk proyek ini</p>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Riwayat panggilan Clincoo Open API untuk proyek ini</p>
             </div>
             <button type="button" id="ai-log-clear" onclick="clearAiLogs()" class="px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 dark:text-red-300 dark:border-red-900 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer">Kosongkan</button>
           </div>
           <div id="ai-log-list" class="space-y-2"></div>
-          <p id="ai-log-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada log — panggilan lewat Clinqoo Open API akan tercatat di sini</p>
+          <p id="ai-log-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada log — panggilan lewat Clincoo Open API akan tercatat di sini</p>
         </div>
 
         <!-- 7. Analitik & Pemakaian -->
