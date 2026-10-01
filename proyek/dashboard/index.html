@@ -41,6 +41,7 @@
   window.__clincooPrefetch = {
     settings: fetch(base + '/project-settings?project_id=' + encodeURIComponent(pid), { headers: h }).then(j).catch(function(){ return null; }),
     paths: fetch(base + '/project-files?project_id=' + encodeURIComponent(pid) + '&meta=1', { headers: h }).then(j).catch(function(){ return null; })
+  ,projects: fetch(base + '/projects', { headers: h }).then(j).catch(function(){ return null; })
   };
 }catch(e){}})();
 </script>
@@ -436,8 +437,26 @@
                 const nameEl = document.getElementById('input-app-name');
                 const descEl = document.getElementById('input-app-desc');
                 // jangan menimpa kalau user sedang mengetik (race saat load lambat)
-                if (st.app_name && document.activeElement !== nameEl) { nameEl.value = st.app_name; savedVals.app_name = st.app_name; }
-                if (st.app_desc && document.activeElement !== descEl) { descEl.value = st.app_desc; savedVals.app_desc = st.app_desc; }
+                // ---- Nama & deskripsi diambil dari DATA PROYEK (user_projects) bila belum ada setting manual ----
+                const projectID = pid();
+                let proj = null;
+                try {
+                    let prData = (window.__clincooPrefetch && window.__clincooPrefetch.projects) ? await window.__clincooPrefetch.projects : null;
+                    if (!prData) { const r = await fetch(API + '/projects', { headers: authHeaders() }); if (r.ok) prData = await r.json(); }
+                    const list = (prData && prData.projects) || [];
+                    proj = list.find(function (p) { return p && String(p.id) === String(projectID); }) || null;
+                    if (proj) window.__clincooCurrentProject = proj;
+                } catch (e) {}
+                const nameFromProject = proj ? (proj.aiName || proj.title || '') : '';
+                const descFromProject = proj ? (proj.aiDesc || '') : '';
+                if (document.activeElement !== nameEl) {
+                    const v = st.app_name || nameFromProject;
+                    if (v) { nameEl.value = v; savedVals.app_name = v; }
+                }
+                if (document.activeElement !== descEl) {
+                    const v = st.app_desc || descFromProject;
+                    if (v) { descEl.value = v; savedVals.app_desc = v; }
+                }
                 if (st.maintenance) { savedVals.maintenance = st.maintenance; setMaintenance(st.maintenance === 'true'); }
                 writeCache({ app_name: st.app_name || '', app_desc: st.app_desc || '', maintenance: st.maintenance || 'false' });
             } catch (e) {}
@@ -462,6 +481,22 @@
                 const patch = {};
                 keys.forEach(function (k) { savedVals[k] = pending[k]; patch[k] = pending[k]; delete pending[k]; });
                 writeCache(patch);
+                if ((patch.app_name !== undefined || patch.app_desc !== undefined) && window.__clincooCurrentProject && window.__clincooCurrentProject.id) {
+                    const pr = window.__clincooCurrentProject;
+                    // upsert penuh (bawa prompt asli) supaya field lain tidak tertimpa
+                    fetch(API + '/projects', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+                        body: JSON.stringify({ project: {
+                            id: pr.id,
+                            title: patch.app_name !== undefined ? patch.app_name : (pr.title || pr.aiName || ''),
+                            prompt: pr.prompt || '',
+                            aiName: pr.aiName || pr.title || '',
+                            aiDesc: patch.app_desc !== undefined ? patch.app_desc : (pr.aiDesc || ''),
+                            updatedAt: new Date().toISOString()
+                        } })
+                    }).catch(function () {});
+                }
                 setIndicator(null); // tersimpan -> icon hilang
                 return true;
             } catch (e) { setIndicator('error'); return false; }
