@@ -164,15 +164,16 @@
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
 
 #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        #chat-nav-pill { background: #e9e9ec; }
+        #chat-nav-pill { background: #e9e9ec; view-transition-name: chat-nav-pill; }
+        @view-transition { navigation: auto; }
         .chat-nav-link.is-active { color: #111111; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { cursor: pointer; }
         body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-        body.dark-mode #chat-nav-pill { background: #232327; }
+        body.dark-mode #chat-nav-pill { background: #ffffff; }
         body.dark-mode .chat-nav-link { color: #9ca3af; }
-        body.dark-mode .chat-nav-link.is-active { color: #ffffff; }
-        body.dark-mode .chat-nav-link:hover { color: #ffffff; }
+        body.dark-mode .chat-nav-link.is-active { color: #0a0a0a; }
+        body.dark-mode .chat-nav-link:hover { color: #0a0a0a; }
         body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
         body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
         body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }

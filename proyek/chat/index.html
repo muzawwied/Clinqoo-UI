@@ -287,7 +287,8 @@
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-        #chat-nav-pill { background: #e9e9ec; }
+        #chat-nav-pill { background: #e9e9ec; view-transition-name: chat-nav-pill; }
+        @view-transition { navigation: auto; }
         .chat-nav-link.is-active { color: #111111; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { cursor: pointer; }
@@ -295,10 +296,11 @@
         body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
         body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
         body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
-        body.dark-mode #chat-nav-pill { background: #232327; }
+        body.dark-mode #chat-nav-pill { background: #ffffff; }
+        body.dark-mode #chat-input-card { border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
         body.dark-mode .chat-nav-link { color: #9ca3af; }
-        body.dark-mode .chat-nav-link.is-active { color: #ffffff; }
-        body.dark-mode .chat-nav-link:hover { color: #ffffff; }
+        body.dark-mode .chat-nav-link.is-active { color: #0a0a0a; }
+        body.dark-mode .chat-nav-link:hover { color: #0a0a0a; }
         body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
         body.dark-mode .header-menu-item { color: #e5e7eb; }
         body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
@@ -605,7 +607,7 @@
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 w-full bg-transparent px-4 py-4 z-20 pointer-events-none flex flex-col justify-end">
-        <div class="w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] p-4 sm:p-5 transition-all text-left border border-gray-100 pointer-events-auto max-w-4xl mx-auto">
+        <div id="chat-input-card" class="w-full bg-white rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.10)] p-4 sm:p-5 transition-all text-left border border-gray-100/80 pointer-events-auto max-w-4xl mx-auto">
             <div id="quota-banner" class="hidden items-center justify-between gap-3 mb-2 rounded-xl bg-gray-50 px-3 py-2">
                 <p id="quota-banner-text" class="text-[11px] sm:text-xs text-gray-500 leading-snug flex-1">Kredit habis — upgrade untuk lanjut.</p>
                 <a href="#" id="quota-retry-btn" class="text-[11px] sm:text-xs font-semibold text-gray-900 shrink-0 cursor-pointer whitespace-nowrap inline-flex items-center gap-0.5 hover:opacity-60 transition-opacity">Pilih Paket<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"></path></svg></a>
