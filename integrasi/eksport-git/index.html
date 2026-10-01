@@ -3,29 +3,34 @@
 <script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 <style>html,body{min-height:100%;margin:0}body{font-family:Inter,sans-serif;background:#fff;color:#111}.mont{font-family:Montserrat,sans-serif}.dark{background:#000;color:#fff}.dark .muted{color:#888}.dark .line{border-color:#222}.dark .surface{background:#0a0a0a}.dark .primary{background:#fff;color:#000}.dark .field{background:#0a0a0a;border-color:#222;color:#fff}.dark .pill{border-color:#222}.dark .pill.on{background:#fff;color:#000;border-color:#fff}.dark .pill.on .muted{color:#666}.field{border:1px solid #e5e7eb;background:#fff;color:#111}.pill{border:1px solid #e5e7eb}.pill.on{background:#111;color:#fff;border-color:#111}.pill.on .muted{color:#aaa}@media(max-width:640px){.page{padding-left:20px;padding-right:20px}}</style></head>
 <body><script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=t==='Gelap'||((!t||t==='Sistem (Default)')&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.body.classList.add('dark')})();</script>
-<header class="fixed inset-x-0 top-0 z-20 px-5 py-4 pointer-events-none"><a href="/integrasi/github/" class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full surface bg-white border line border-gray-200 shadow-sm" aria-label="Kembali"><i class="ph ph-arrow-left text-lg"></i></a></header>
+<header class="fixed inset-x-0 top-0 z-20 px-5 py-4 pointer-events-none"><a href="/integrasi/" class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full surface bg-white border line border-gray-200 shadow-sm" aria-label="Kembali"><i class="ph ph-arrow-left text-lg"></i></a></header>
 <main class="page mx-auto w-full max-w-2xl px-6 pt-24 pb-12">
-<div class="mb-10"><p class="muted text-xs font-semibold uppercase tracking-[.14em] text-gray-400 mb-3">Workspace</p><div><h1 class="mont text-2xl font-bold">Eksport ke Git</h1><p class="muted mt-1 text-sm text-gray-500">Kirim semua file workspace proyek ke GitHub atau GitLab</p></div></div>
 
-<!-- Pilihan platform -->
-<section class="border-y line border-gray-100 py-5">
-<h2 class="text-sm font-semibold mb-3">Pilih platform</h2>
-<div class="grid grid-cols-2 gap-3">
-<button id="tab-gh" onclick="setPlatform('github')" class="pill on flex items-center gap-3 rounded-xl px-4 py-3 text-left transition active:scale-[0.98]"><i class="ph ph-github-logo text-xl"></i><span><span class="block text-sm font-semibold">GitHub</span><span class="muted block text-xs">via koneksi Clincoo</span></span></button>
-<button id="tab-gl" onclick="setPlatform('gitlab')" class="pill flex items-center gap-3 rounded-xl px-4 py-3 text-left transition active:scale-[0.98]"><i class="ph ph-gitlab-logo text-xl"></i><span><span class="block text-sm font-semibold">GitLab</span><span class="muted block text-xs">via OAuth</span></span></button>
+<!-- Layar 1: pilih platform -->
+<section id="scr-pilih">
+<div class="mb-10"><p class="muted text-xs font-semibold uppercase tracking-[.14em] text-gray-400 mb-3">Workspace</p><div><h1 class="mont text-2xl font-bold">Hubungkan project</h1><p class="muted mt-1 text-sm text-gray-500">Pilih platform untuk mengirim file workspace proyek ini</p></div></div>
+<div class="space-y-3">
+<button onclick="showScreen('github')" class="pill w-full flex items-center gap-4 rounded-xl px-4 py-4 text-left transition active:scale-[0.98]"><i class="ph ph-github-logo text-2xl"></i><span class="flex-1"><span class="block text-sm font-semibold">GitHub</span><span class="muted block text-xs">via koneksi Clincoo</span></span><i class="ph ph-caret-right muted text-lg"></i></button>
+<button onclick="showScreen('gitlab')" class="pill w-full flex items-center gap-4 rounded-xl px-4 py-4 text-left transition active:scale-[0.98]"><i class="ph ph-gitlab-logo text-2xl"></i><span class="flex-1"><span class="block text-sm font-semibold">GitLab</span><span class="muted block text-xs">via OAuth</span></span><i class="ph ph-caret-right muted text-lg"></i></button>
 </div>
 </section>
 
-<!-- Konfigurasi GitHub -->
-<section id="cfg-gh" class="border-b line border-gray-100 py-5 space-y-4">
-<div id="gh-token-note" class="hidden rounded-xl border line border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"><span class="font-semibold">GitHub belum terhubung.</span> <a href="/integrasi/" class="underline">Hubungkan dulu di halaman konektor</a>, lalu kembali ke sini.</div>
+<!-- Layar 2: GitHub -->
+<section id="scr-gh" class="hidden">
+<button onclick="showScreen('pilih')" class="muted mb-6 inline-flex items-center gap-1.5 text-sm"><i class="ph ph-arrow-left"></i>Kembali</button>
+<div class="mb-6"><h1 class="mont text-2xl font-bold">Hubungkan project</h1><p class="muted mt-1 text-sm text-gray-500">Pilih akun GitHub untuk menyinkronkan proyek ini</p></div>
+<div id="gh-accounts" class="border-y line border-gray-100 py-4 space-y-3"></div>
+<div id="gh-config" class="hidden border-b line border-gray-100 py-5 space-y-4">
 <div><label class="block text-xs font-semibold mb-1.5">Repo tujuan (owner/nama-repo)</label><input id="gh-repo" type="text" placeholder="muzawwied/nama-repo" class="field w-full rounded-xl px-4 py-3 text-sm outline-none focus:border-gray-400 transition"></div>
 <div><label class="block text-xs font-semibold mb-1.5">Branch</label><input id="gh-branch" type="text" value="main" class="field w-full rounded-xl px-4 py-3 text-sm outline-none focus:border-gray-400 transition"></div>
 <label class="flex items-start gap-2.5 text-sm"><input id="gh-create" type="checkbox" class="mt-0.5 accent-black"><span class="muted">Buat repo baru otomatis jika belum ada (privat, atas nama akun GitHub yang terhubung)</span></label>
+</div>
 </section>
 
-<!-- Konfigurasi GitLab -->
-<section id="cfg-gl" class="hidden border-b line border-gray-100 py-5 space-y-4">
+<!-- Layar 2: GitLab -->
+<section id="scr-gl" class="hidden">
+<button onclick="showScreen('pilih')" class="muted mb-6 inline-flex items-center gap-1.5 text-sm"><i class="ph ph-arrow-left"></i>Kembali</button>
+<div class="mb-6"><h1 class="mont text-2xl font-bold">Hubungkan project</h1><p class="muted mt-1 text-sm text-gray-500">Pilih akun GitLab untuk menyinkronkan proyek ini</p></div>
 <div><label class="block text-xs font-semibold mb-1.5">URL GitLab</label><input id="gl-base" type="text" value="https://gitlab.com" class="field w-full rounded-xl px-4 py-3 text-sm outline-none focus:border-gray-400 transition"></div>
 
 <!-- Status koneksi GitLab -->
@@ -35,6 +40,7 @@
 <span class="ml-auto text-xs font-semibold text-emerald-600">Terhubung</span>
 </div>
 <div id="gl-connect" class="space-y-4">
+<p class="muted text-sm">Belum ada koneksi tersedia</p>
 <button id="gl-connect-btn" onclick="connectGitLab()" class="primary w-full rounded-xl bg-black px-4 py-3.5 text-sm font-semibold text-white transition active:scale-[0.98]">Hubungkan GitLab</button>
 <details id="gl-setup" class="rounded-xl border line px-4 py-3">
 <summary class="muted cursor-pointer text-xs font-semibold">Baru pertama kali? Buka cara setup aplikasi GitLab</summary>
@@ -55,7 +61,8 @@
 <p class="muted text-xs leading-5">Project GitLab harus sudah ada; branch tujuan akan dibuat otomatis dari default branch jika belum ada.</p>
 </section>
 
-<!-- Daftar file workspace -->
+<!-- Daftar file workspace + eksport (muncul setelah pilih platform) -->
+<div id="ws-section" class="hidden">
 <section class="border-b line border-gray-100 py-5">
 <div class="flex items-center justify-between gap-3"><h2 class="text-sm font-semibold">File workspace</h2><span id="ws-count" class="muted text-xs font-semibold">Memuat...</span></div>
 <div id="ws-list" class="mt-3 max-h-56 overflow-y-auto space-y-1.5"></div>
@@ -68,6 +75,7 @@
 <p id="progress" class="muted hidden mt-4 text-sm"></p>
 <div id="result" class="hidden mt-4 rounded-xl border line px-4 py-3 text-sm"></div>
 </section>
+</div>
 </main>
 <script>
 (function(){
@@ -75,15 +83,46 @@
   var files = [];
   var BLOCKED = { 'muzawwied/wallet': 'Repo Wallet (situs ClincooPay) dikunci dan tidak boleh dipakai sebagai tujuan eksport.' };
 
-  window.setPlatform = function (p) {
+  window.showScreen = function (p) {
     platform = p;
-    document.getElementById('tab-gh').classList.toggle('on', p === 'github');
-    document.getElementById('tab-gl').classList.toggle('on', p === 'gitlab');
-    document.getElementById('cfg-gh').classList.toggle('hidden', p !== 'github');
-    document.getElementById('cfg-gl').classList.toggle('hidden', p !== 'gitlab');
+    document.getElementById('scr-pilih').classList.toggle('hidden', p !== 'pilih');
+    document.getElementById('scr-gh').classList.toggle('hidden', p !== 'github');
+    document.getElementById('scr-gl').classList.toggle('hidden', p !== 'gitlab');
+    document.getElementById('ws-section').classList.toggle('hidden', p === 'pilih');
+    if (p === 'github') renderGhState();
+    if (p === 'gitlab') renderGlState();
+    window.scrollTo(0, 0);
   };
 
   function ghToken() { try { return localStorage.getItem('clincoo_gh_token') || localStorage.getItem('clinqoo_github_token') || ''; } catch (e) { return ''; } }
+
+  function ghUser(cb) {
+    var cached = '';
+    try { cached = localStorage.getItem('clinqoo_gh_user') || ''; } catch (e) {}
+    if (cached) { try { cb(JSON.parse(cached)); } catch (e) { cb(null); } return; }
+    gh('GET', 'https://api.github.com/user').then(function (r) {
+      if (!r.ok) { cb(null); return; }
+      r.json().then(function (u) { try { localStorage.setItem('clinqoo_gh_user', JSON.stringify(u)); } catch (e) {} cb(u); });
+    }).catch(function () { cb(null); });
+  }
+
+  function renderGhState() {
+    var box = document.getElementById('gh-accounts'), cfg = document.getElementById('gh-config');
+    if (!ghToken()) {
+      box.innerHTML = '<p class="muted text-sm">Belum ada koneksi tersedia</p><a href="/integrasi/" class="primary inline-flex items-center gap-2 rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white transition active:scale-[0.98]"><i class="ph ph-github-logo text-lg"></i>Hubungkan GitHub</a>';
+      cfg.classList.add('hidden');
+      return;
+    }
+    box.innerHTML = '<div class="pill flex items-center gap-3 rounded-xl px-4 py-3"><img id="gh-avatar" class="h-10 w-10 rounded-full bg-gray-100" alt=""><div class="min-w-0 flex-1"><p id="gh-name" class="truncate text-sm font-semibold"></p><p id="gh-meta" class="muted truncate text-xs"></p></div><span class="text-xs font-semibold text-emerald-600">Terhubung</span></div>';
+    cfg.classList.remove('hidden');
+    ghUser(function (u) {
+      var n = document.getElementById('gh-name'), m = document.getElementById('gh-meta'), a = document.getElementById('gh-avatar');
+      if (!u) { n.textContent = 'Akun GitHub Clincoo'; m.textContent = 'terhubung via Clincoo'; return; }
+      n.textContent = u.name || u.login || 'GitHub';
+      m.textContent = '@' + (u.login || '') + ' · via Clincoo';
+      a.src = u.avatar_url || '';
+    });
+  }
 
   function b64(str) {
     try { return btoa(unescape(encodeURIComponent(String(str == null ? '' : str)))); }
@@ -245,11 +284,11 @@
       ls(GL.tok, d.access_token);
       if (d.refresh_token) ls(GL.ref, d.refresh_token);
       ls(GL.exp, String(Date.now() + ((d.expires_in || 7200) * 1000) - 60000));
-      return glLoadUser().then(function () { renderGlState(); return true; });
+      return glLoadUser().then(function () { renderGlState(); showScreen('gitlab'); return true; });
     }).catch(function (e) {
       glShowErr('Gagal menukar kode OAuth: ' + (e.message || e));
-      renderGlState();
-      return false;
+      renderGlState(); showScreen('gitlab');
+      return true;
     });
   }
 
@@ -437,9 +476,9 @@
   };
 
   // init
-  if (!ghToken()) document.getElementById('gh-token-note').classList.remove('hidden');
-  renderGlState();
-  glHandleCallback();
+  glHandleCallback().then(function (handled) {
+    if (!handled) showScreen('pilih');
+  });
   collectFiles();
 })();
 </script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
