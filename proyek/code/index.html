@@ -5,6 +5,7 @@
   <script src="../../js/ws-github-sync.js"></script>
   <script src="../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+<script>/* embed=1: tanpa header (dipakai dalam split view halaman chat) */(function(){try{if(/(^|[?&])embed=1(&|$)/.test(location.search)){document.documentElement.classList.add('embed-mode');}}catch(e){}})();</script>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; img-src 'self' https: data: blob:; connect-src 'self' https: blob:;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -234,6 +235,8 @@
         body.dark-mode .header-menu-item { color: #e5e7eb; }
         body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
+  /* embed=1: sembunyikan header saat halaman ini ditampilkan dalam split view chat */
+  html.embed-mode body > header { display: none !important; }
 </style>
   <script>
     (function() {
@@ -2605,5 +2608,6 @@ window.chatLivePreview = function () {
         });
 };
     </script>
+<script>if(document.documentElement.classList.contains('embed-mode')){document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a'):null;if(a&&a.href&&a.target!=='_blank'&&!a.hasAttribute('download')){a.target='_top';}},true);}</script>
 </body>
 </html>

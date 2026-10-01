@@ -514,6 +514,16 @@
         body.dark-mode .text-accent { color: #ffffff !important; }
         body.dark-mode .border-accent { border-color: #ffffff !important; }
         body.dark-mode header { background-color: #000000 !important; }
+
+        /* ===== Split view desktop: workspace kiri 3/4 layar, chat kolom kanan 1/4 ===== */
+        #chat-ws-panel { display: none; }
+        @media (min-width: 1024px) {
+            #chat-ws-panel { display: block; }
+            #chat-container { position: fixed; left: 75%; right: 0; top: 0; bottom: 0; width: auto; border-left: 1px solid rgb(243 244 246 / 1); }
+            #chat-input-footer { left: 75%; right: 0; width: auto; }
+        }
+        body.dark-mode #chat-ws-panel { background-color: #0a0a0a; }
+        body.dark-mode #chat-container { border-left-color: rgba(255,255,255,0.10); }
     </style>
     
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
@@ -588,10 +598,16 @@
             </div>
     </header>
 
+    
+    <!-- Split view desktop: panel workspace di kiri (chat jadi kolom kanan 1/4) -->
+    <div id="chat-ws-panel" class="fixed left-0 top-0 bottom-0 right-1/4 z-0 bg-white">
+        <iframe id="chat-ws-frame" data-src="/proyek/code/?embed=1" title="Workspace" class="w-full h-full border-0" tabindex="-1"></iframe>
+    </div>
+
     <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-[80px] pb-32 space-y-6 w-full relative z-10">
     </main>
 
-    <footer class="fixed bottom-0 left-0 right-0 w-full bg-transparent px-4 py-4 z-20 pointer-events-none flex flex-col justify-end">
+    <footer id="chat-input-footer" class="fixed bottom-0 left-0 right-0 w-full bg-transparent px-4 py-4 z-20 pointer-events-none flex flex-col justify-end">
         <div id="chat-input-card" class="w-full bg-white rounded-[26px] shadow-[0_4px_24px_rgba(0,0,0,0.10)] p-4 sm:p-5 transition-all text-left border border-gray-100/80 pointer-events-auto max-w-4xl mx-auto">
             <div id="quota-banner" class="hidden items-center justify-between gap-3 mb-2 rounded-xl bg-gray-50 px-3 py-2">
                 <p id="quota-banner-text" class="text-[11px] sm:text-xs text-gray-500 leading-snug flex-1">Kredit habis — upgrade untuk lanjut.</p>
@@ -680,6 +696,16 @@
         sidebarToggle.addEventListener('click', () => {
             window.location.href = '/';
         });
+
+        // Split view desktop: muat workspace di panel kiri hanya saat layar >= 1024px (hemat di mobile)
+        (function () {
+            var frame = document.getElementById('chat-ws-frame');
+            if (!frame) return;
+            var mq = window.matchMedia('(min-width: 1024px)');
+            function load(m) { if (m.matches && !frame.getAttribute('src') && frame.dataset.src) { frame.src = frame.dataset.src; } }
+            load(mq);
+            if (mq.addEventListener) mq.addEventListener('change', load);
+        })();
 
 
         const chatNav = document.getElementById('chat-top-nav');
