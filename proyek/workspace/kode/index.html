@@ -248,11 +248,16 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
           elStCursor.textContent = 'Ln ' + e.position.lineNumber + ', Col ' + e.position.column;
         });
         monacoReady = true;
+        elFallback.classList.remove('on'); // pastikan hanya satu mode yang tampil
+        document.getElementById('kd-editor').style.display = '';
         if (cb) cb();
       }, function () { fallbackMode(); });
     } catch (e) { fallbackMode(); }
   }
-  function fallbackMode() { elFallback.classList.add('on'); }
+  function fallbackMode() {
+    elFallback.classList.add('on');
+    document.getElementById('kd-editor').style.display = 'none';
+  }
   // jaringan lambat: kalau Monaco belum juga siap 8 dtk, pakai fallback teks polos
   setTimeout(function () {
     if (!monacoReady && !document.getElementById('kd-editor').childElementCount) fallbackMode();
