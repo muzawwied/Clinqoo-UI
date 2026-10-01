@@ -217,7 +217,7 @@
                 </button>
                     <a id="header-editor" href="/proyek/workspace/editor/" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/proyek/workspace/editor/?id='+encodeURIComponent(__pid)}" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                         <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg>
-<span class="flex items-center gap-1.5">Editor <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#f59e0b" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path></svg></span>                        <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"></path></svg>
+<span class="flex items-center gap-1.5">Editor <svg class="clinqoo-premium-crown w-3.5 h-3.5 text-amber-500 shrink-0" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#f59e0b" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path></svg></span>                        <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"></path></svg>
                     </a>
                 <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                     <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
@@ -680,5 +680,126 @@ window.chatLivePreview = function () {
         });
 };
     </script>
+<script>/* clinqoo-premium-sheet: bottom sheet daftar paket untuk fitur premium (crown) */
+(function(){
+  if (window.__clinqooPremiumSheet) return; window.__clinqooPremiumSheet = true;
+  function apiBase(){ return (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname)===-1)?'https://clincoo-be2.pages.dev':''; }
+  function token(){ try{ return localStorage.getItem('clinqoo_auth_token')||localStorage.getItem('clinqoo_token')||''; }catch(e){ return ''; } }
+  function readCache(k){ try{ var c=JSON.parse(localStorage.getItem(k)||'null'); return (c&&c.plan)?c:null; }catch(e){ return null; } }
+  function cacheSub(){ return readCache('TM_SUB_CACHE_KEY')||readCache('clinqoo_subscription_cache'); }
+  function currentPlan(){ if(window.clinqooEditorPlan) return window.clinqooEditorPlan; var c=cacheSub(); return c?c.plan:null; }
+  function currentBilling(){ var c=cacheSub(); return (c&&c.billingCycle)||'Bulanan'; }
+  var sheetEl=null, idx=1;
+  // ===== Data paket: identik dengan halaman Upgrade (akun/langganan/upgrade) =====
+  var plans=[
+    { name:'Starter', tagline:'Untuk individu yang baru memulai.', price:'Gratis', per:'', hot:false,
+      items:[['Hingga 3 proyek aktif',true],['1 kolaborator per proyek',true],['Chat AI di setiap proyek (50 pesan/bulan)',true],['3 template proyek siap pakai',true],['Tugas terjadwal & notifikasi',true],['Deploy web 5x per bulan',true],['Kolaborasi tim lebih besar',false],['Impor repository GitHub',false]] },
+    { name:'Pro', tagline:'Untuk profesional dan kreator aktif.', price:'49K', per:'/bln', hot:true,
+      items:[['Hingga 10 proyek aktif',true],['Hingga 5 kolaborator per proyek',true],['Semua fitur Starter: chat AI, template & tugas terjadwal',true],['Chat AI hingga 500 pesan/bulan (maks 50/hari)',true],['Deploy web hingga 25x per bulan',true],['Impor repository GitHub ke workspace',true]] },
+    { name:'Bisnis', tagline:'Untuk tim dan operasi skala besar.', price:'129K', per:'/bln', hot:false,
+      items:[['Semua fitur Pro',true],['Chat AI hingga 2.000 pesan/bulan (maks 150/hari)',true],['Hingga 50 proyek aktif',true],['Hingga 20 kolaborator per proyek',true],['Dilindungi Password & ekspor data penuh akun',true],['Deploy web tanpa batas',true]] }
+  ];
+  function checkoutUrl(name){
+    var base=(location.pathname.indexOf('/Clincoo')!==-1)?'/Clincoo.':'';
+    return base+'/akun/langganan/upgrade/konfirmasi/?plan='+encodeURIComponent(name)+'&billing='+encodeURIComponent(currentBilling());
+  }
+  function cardHtml(p,current){
+    var list=p.items.map(function(it){
+      return '<li class="flex items-start gap-2.5 text-[13px] '+(p.hot?'text-gray-900 font-medium':(it[1]?'text-gray-700':'text-gray-400 opacity-70'))+'">'+
+        (it[1]?'<svg class="w-4 h-4 shrink-0 '+(p.hot?'text-accent':'text-gray-900')+'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"></path></svg>':'<svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"></path></svg>')+
+        '<span>'+it[0]+'</span></li>';
+    }).join('');
+    var btn;
+    if(p.name===current){ btn='<div class="w-full py-3 bg-gray-50 text-gray-500 border border-gray-200 rounded-xl font-semibold text-sm text-center cursor-not-allowed">Paket Saat Ini</div>'; }
+    else if(p.hot){ btn='<a href="'+checkoutUrl(p.name)+'" class="block w-full py-3 bg-accent rounded-xl font-semibold text-sm text-center transition-all shadow-md active:scale-95">Upgrade ke '+p.name+'</a>'; }
+    else { btn='<a href="'+checkoutUrl(p.name)+'" class="block w-full py-3 bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-900 hover:bg-gray-50 rounded-xl font-semibold text-sm text-center transition-all">Mulai '+p.name+'</a>'; }
+    return '<div class="w-full shrink-0 px-0.5"><div class="bg-white border '+(p.hot?'border-2 border-accent shadow-xl':'border-gray-200')+' rounded-3xl p-4 sm:p-5 flex flex-col relative text-left">'+
+      (p.hot?'<div class="absolute top-0 right-0 bg-accent text-[10px] font-bold px-3.5 py-1 rounded-bl-xl rounded-tr-2xl uppercase tracking-wider">Paling Populer</div>':'')+
+      '<div class="mb-4 '+(p.hot?'mt-2':'')+'"><h3 class="text-lg font-bold text-gray-900 '+(p.hot?'text-accent':'')+'">'+p.name+'</h3><p class="text-xs text-gray-500 mt-0.5">'+p.tagline+'</p></div>'+
+      '<div class="mb-4 flex items-baseline"><span class="text-2xl font-extrabold tracking-tight text-gray-900">'+p.price+'</span><span class="text-xs font-medium text-gray-500 ml-1">'+p.per+'</span></div>'+
+      '<ul class="flex flex-col gap-2.5 mb-4 flex-1">'+list+'</ul>'+btn+'</div></div>';
+  }
+  function buildSheet(){
+    if(sheetEl) return;
+    var current=currentPlan()||'Starter';
+    var slides=plans.map(function(p){ return cardHtml(p,current); }).join('');
+    var dots=plans.map(function(p,i){ return '<button class="pps-dot rounded-full transition-all duration-200" data-i="'+i+'" style="width:6px;height:6px;background:#d1d5db;"></button>'; }).join('');
+    var css=document.createElement('style'); css.id='premium-sheet-css';
+    css.textContent='#premium-plans-sheet .text-accent{color:var(--accent-color,#000000);} #premium-plans-sheet .bg-accent{background-color:var(--accent-color,#000000);color:#ffffff;} #premium-plans-sheet .border-accent{border-color:var(--accent-color,#000000);}'+
+      'body.dark-mode #premium-plans-sheet .text-accent{color:#ffffff !important;} body.dark-mode #premium-plans-sheet .bg-accent{background-color:#ffffff !important;color:#000000 !important;} body.dark-mode #premium-plans-sheet .border-accent{border-color:#ffffff !important;}'+
+      'body.dark-mode #premium-plans-sheet .pps-card{background-color:#0a0a0a !important;} body.dark-mode #premium-plans-sheet .pps-card h3,body.dark-mode #premium-plans-sheet .pps-card .text-gray-900{color:#ffffff !important;}';
+    document.head.appendChild(css);
+    sheetEl=document.createElement('div'); sheetEl.id='premium-plans-sheet';
+    sheetEl.innerHTML=
+      '<div id="pps-backdrop" class="fixed inset-0 z-[95] opacity-0 transition-opacity duration-300" style="background:rgba(0,0,0,.45)"></div>'+
+      '<div class="fixed bottom-0 left-0 right-0 z-[96] flex justify-center pointer-events-none">'+
+        '<div id="pps-card" class="pps-card pointer-events-auto w-full max-w-md bg-white rounded-t-3xl px-4 pt-3 pb-5 translate-y-full transition-transform duration-300 ease-out shadow-2xl">'+
+          '<div class="flex justify-center"><div class="w-10 h-1.5 rounded-full bg-gray-200 mb-2"></div></div>'+
+          '<div class="flex items-start justify-between px-1">'+
+            '<div class="pr-8"><h3 class="text-base font-semibold text-gray-900">Paket Clincoo</h3>'+
+            '<p class="text-[12.5px] text-gray-500 mt-0.5 leading-snug">Fitur ini tersedia mulai paket Pro. Paket kamu saat ini: <b>'+current+'</b>.</p></div>'+
+            '<button id="pps-x" aria-label="Tutup" class="w-8 h-8 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-black flex items-center justify-center transition-colors shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18M6 6l12 12"></path></svg></button>'+
+          '</div>'+
+          '<div class="relative mt-3">'+
+            '<div id="pps-viewport" class="overflow-hidden rounded-2xl" style="touch-action:pan-y;">'+
+              '<div id="pps-track" class="flex transition-transform duration-300 ease-out">'+slides+'</div>'+
+            '</div>'+
+            '<button id="pps-prev" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 w-7 h-7 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-600 hover:text-black transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"></path></svg></button>'+
+            '<button id="pps-next" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 w-7 h-7 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-600 hover:text-black transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"></path></svg></button>'+
+          '</div>'+
+          '<div class="flex items-center justify-center gap-2 mt-3.5">'+dots+'</div>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(sheetEl);
+    var track=sheetEl.querySelector('#pps-track'), dotsEls=sheetEl.querySelectorAll('.pps-dot');
+    function render(){ track.style.transform='translateX(-'+(idx*100)+'%)'; dotsEls.forEach(function(d,i){ var on=(i===idx); d.style.width=on?'18px':'6px'; d.style.background=on?'':'#d1d5db'; d.classList.toggle('bg-accent',on); }); }
+    function go(i){ idx=(i+plans.length)%plans.length; render(); }
+    sheetEl.querySelector('#pps-prev').addEventListener('click',function(){ go(idx-1); });
+    sheetEl.querySelector('#pps-next').addEventListener('click',function(){ go(idx+1); });
+    dotsEls.forEach(function(d){ d.addEventListener('click',function(){ go(parseInt(d.dataset.i,10)); }); });
+    var vp=sheetEl.querySelector('#pps-viewport'), sx=null, dx=0;
+    vp.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; dx=0; track.style.transition='none'; },{passive:true});
+    vp.addEventListener('touchmove',function(e){ if(sx===null)return; dx=e.touches[0].clientX-sx; track.style.transform='translateX(calc(-'+(idx*100)+'% + '+dx+'px))'; },{passive:true});
+    vp.addEventListener('touchend',function(){ if(sx===null)return; track.style.transition=''; if(Math.abs(dx)>40){ go(idx+(dx<0?1:-1)); } else { render(); } sx=null; });
+    sheetEl.querySelector('#pps-x').addEventListener('click',closeSheet);
+    sheetEl.querySelector('#pps-backdrop').addEventListener('click',closeSheet);
+    sheetEl.__render=render;
+    render();
+  }
+  function openSheet(){
+    var p=currentPlan();
+    if(p && p!=='Starter') return;
+    buildSheet();
+    var b=sheetEl.querySelector('#pps-backdrop'), c=sheetEl.querySelector('#pps-card');
+    sheetEl.style.display='';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ b.classList.remove('opacity-0'); c.classList.remove('translate-y-full'); }); });
+  }
+  function closeSheet(){
+    if(!sheetEl) return;
+    var b=sheetEl.querySelector('#pps-backdrop'), c=sheetEl.querySelector('#pps-card');
+    b.classList.add('opacity-0'); c.classList.add('translate-y-full');
+    setTimeout(function(){ sheetEl.style.display='none'; },300);
+  }
+  function applyCrownState(){
+    var show=!currentPlan()||currentPlan()==='Starter';
+    document.querySelectorAll('.clinqoo-premium-crown').forEach(function(c){
+      c.style.display=show?'':'none';
+      c.style.cursor='pointer';
+      if(!c.__pps){ c.__pps=true; c.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); openSheet(); }); }
+    });
+  }
+  applyCrownState();
+  document.addEventListener('DOMContentLoaded',applyCrownState);
+  (async function(){
+    try{
+      var t=token();
+      var res=await fetch(apiBase()+'/api/subscription?fields=plan',{cache:'no-store',headers:t?{Authorization:'Bearer '+t}:{}});
+      if(res.ok){ var d=await res.json();
+        if(d&&d.plan){ try{ localStorage.setItem('TM_SUB_CACHE_KEY',JSON.stringify({plan:d.plan,billingCycle:d.billingCycle||'Bulanan',ts:Date.now()})); }catch(e){}
+          window.clinqooEditorPlan=d.plan; applyCrownState(); } }
+    }catch(e){}
+  })();
+})();
+</script>
 </body>
 </html>
