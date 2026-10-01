@@ -23,7 +23,7 @@ body.dark-mode{background:#141416;color:#d6d6dc}
 }
 body.dark-mode .kd-header{background:#1a1a1d;border-bottom-color:#2c2c33}
 .kd-back{
-  flex-shrink:0;width:38px;height:38px;border-radius:9px;
+  flex-shrink:0;width:38px;height:38px;border-radius:999px;
   display:flex;align-items:center;justify-content:center;
   background:#fff;border:1px solid #d8d8de;color:#24242a;cursor:pointer;transition:.15s;
 }
@@ -43,7 +43,7 @@ body.dark-mode .kd-sub{color:#9a9aa4}
 body.dark-mode .kd-lang{background:#202024;border-color:#3a3a42;color:#9a9aa4}
 .kd-btn{
   flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:12.5px;
-  height:34px;padding:0 16px;border-radius:9px;transition:.15s;
+  height:34px;padding:0 16px;border-radius:999px;transition:.15s;
   background:#1a1a1e;color:#fff;
 }
 .kd-btn:hover{opacity:.85}
@@ -96,6 +96,51 @@ body.dark-mode .kd-preview{background:#1a1a1d}
 body.dark-mode .kd-status{background:#131316;border-top-color:#2c2c33;color:#9a9aa4}
 .kd-status .spacer{flex:1}
 
+/* ===== Toolbar quick-tools (undo/redo/tab/warna/snippet) ala Clincoo Code ===== */
+.kd-tools{
+  flex-shrink:0;display:flex;align-items:center;gap:6px;
+  height:40px;padding:0 6px;
+  background:#ececef;border-bottom:1px solid #d8d8de;
+}
+.kd-tools[hidden]{display:none}
+body.dark-mode .kd-tools{background:#1a1a1d;border-bottom-color:#2c2c33}
+.kd-qt-btn{
+  flex-shrink:0;width:30px;height:30px;border-radius:8px;border:none;background:transparent;cursor:pointer;
+  display:grid;place-items:center;color:#5c5c66;font-size:13px;font-weight:700;transition:.15s;
+}
+.kd-qt-btn:hover{background:#e4e4e8;color:#24242a}
+body.dark-mode .kd-qt-btn{color:#9a9aa4}
+body.dark-mode .kd-qt-btn:hover{background:#26262b;color:#d6d6dc}
+.kd-qt-sep{width:1px;height:20px;background:#d8d8de;flex-shrink:0}
+body.dark-mode .kd-qt-sep{background:#2c2c33}
+.kd-qt-swatch{width:16px;height:16px;border-radius:50%;border:1.5px solid #d8d8de;
+  background:conic-gradient(from 180deg,#ff5f5f,#ffd15f,#6bff6b,#5fd8ff,#7a6bff,#ff5fd1,#ff5f5f);}
+body.dark-mode .kd-qt-swatch{border-color:#3a3a42}
+.kd-qt-snippets{flex:1;min-width:0;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none}
+.kd-qt-snippets::-webkit-scrollbar{display:none}
+.kd-qt-chip{
+  flex-shrink:0;height:28px;padding:0 11px;border-radius:7px;cursor:pointer;
+  background:#fff;border:1px solid #d8d8de;color:#24242a;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;white-space:nowrap;transition:.15s;
+}
+.kd-qt-chip:hover{border-color:#c8c8d0;background:#e4e4e8}
+body.dark-mode .kd-qt-chip{background:#202024;border-color:#3a3a42;color:#d6d6dc}
+body.dark-mode .kd-qt-chip:hover{border-color:#4a4a55;background:#26262b}
+
+.kd-cp{position:fixed;z-index:970;display:none;background:#fff;border:1px solid #d8d8de;border-radius:12px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);padding:12px;width:216px}
+.kd-cp.show{display:block}
+body.dark-mode .kd-cp{background:#202024;border-color:#3a3a42;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.kd-cp-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:10px}
+.kd-cp-swatch{width:20px;height:20px;border-radius:6px;border:1px solid rgba(0,0,0,.15);cursor:pointer;transition:.1s}
+.kd-cp-swatch:hover{transform:scale(1.15)}
+.kd-cp-hexrow{display:flex;gap:6px}
+.kd-cp-hexrow input{flex:1;height:30px;background:#f4f4f6;border:1px solid #d8d8de;border-radius:7px;padding:0 9px;
+  font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;outline:none;color:inherit}
+body.dark-mode .kd-cp-hexrow input{background:#1a1a1d;border-color:#3a3a42}
+.kd-cp-hexrow button{height:30px;padding:0 12px;border-radius:999px;border:none;cursor:pointer;background:#1a1a1e;color:#fff;font-size:12px;font-weight:600}
+body.dark-mode .kd-cp-hexrow button{background:#e9e9ee;color:#141416}
+
 .kd-toast{
   position:fixed;bottom:36px;left:50%;transform:translateX(-50%);
   background:#1a1a1e;color:#fff;font-size:12.5px;font-weight:600;
@@ -126,6 +171,15 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
   <button class="kd-btn ghost" id="kd-edit-btn" type="button">Sunting</button>
   <button class="kd-btn" id="kd-save-btn" type="button" style="display:none">Simpan</button>
 </div>
+<div class="kd-tools" id="kd-tools" hidden>
+  <button class="kd-qt-btn" id="kd-undo-btn" title="Urungkan" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg></button>
+  <button class="kd-qt-btn" id="kd-redo-btn" title="Ulangi" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 1-3-7.7L21 8"/></svg></button>
+  <button class="kd-qt-btn" id="kd-tab-btn" title="Tab" type="button">⇥</button>
+  <button class="kd-qt-btn kd-qt-color" id="kd-color-btn" title="Pemetik warna" type="button"><span class="kd-qt-swatch"></span></button>
+  <div class="kd-qt-sep"></div>
+  <div class="kd-qt-snippets" id="kd-qt-snippets"></div>
+</div>
+<div class="kd-cp" id="kd-cp"></div>
 <div class="kd-main">
   <div id="kd-editor"></div>
   <div class="kd-fallback" id="kd-fallback">
@@ -170,6 +224,26 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
   var elStCursor = document.getElementById('kd-st-cursor');
   var elFallback = document.getElementById('kd-fallback');
   var elPreview = document.getElementById('kd-preview');
+  var elTools = document.getElementById('kd-tools');
+  var elUndoBtn = document.getElementById('kd-undo-btn');
+  var elRedoBtn = document.getElementById('kd-redo-btn');
+  var elTabBtn = document.getElementById('kd-tab-btn');
+  var elColorBtn = document.getElementById('kd-color-btn');
+  var elSnippets = document.getElementById('kd-qt-snippets');
+  var elCp = document.getElementById('kd-cp');
+
+  /* ---------- snippet cepat per-bahasa (samakan dengan Clincoo Code) ---------- */
+  var SNIPPETS = {
+    html: ['<div>|</div>', '<a href="|"></a>', '<img src="|" alt="">', ' class="|"', ' id="|"', '<!-- | -->', '<span>|</span>', '</', '>', '<', '-', '&nbsp;'],
+    css: ['{\n\t|\n}', ':', ';', '%', 'px', 'rem', '.class{|}', '#id{|}', ':hover{|}', '@media{|}'],
+    javascript: ['(|)', '{|}', '[|]', '=>', 'console.log(|)', 'function () {|}', 'const |', '===', '!==', '; '],
+    typescript: ['(|)', '{|}', '[|]', '=>', 'console.log(|)', 'function (): void {|}', 'const |: string', 'interface |{}', '===', '!=='],
+    markdown: ['**|**', '_|_', '# |', '- |', '[|]()', '```|```', '> |'],
+    json: ['{|}', '[|]', ':', ',', '"|": ""'],
+    plaintext: ['{', '}', '(', ')', '[', ']', '<', '>', '=', '-'],
+  };
+  var CP_COLORS = ['#000000', '#ffffff', '#e55454', '#f0ad4e', '#f5d76e', '#2fbf71', '#3ba9e0', '#5c6bc0', '#8a5cf6', '#e5604f', '#9a9aa4', '#4a4a55', '#d6d6dc', '#6c6c76', '#26262b', '#1a1a1d'];
+  function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
 
   /* ---------- jenis berkas media (samakan dengan daftar Workspace) ---------- */
   var AUDIO_EXT=['mp3','wav','ogg','oga','flac','m4a','m4b','aac','opus','wma','aiff','aif','amr','mid','midi'];
@@ -334,6 +408,89 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     return;
   }
 
+  /* ---------- quicktools: render chip, sisip teks, undo/redo, pemetik warna ---------- */
+  function currentSnippets() {
+    return SNIPPETS[langOf(fname)] || SNIPPETS.plaintext;
+  }
+  function renderQuickTools() {
+    var list = currentSnippets();
+    elSnippets.innerHTML = list.map(function (sn, i) {
+      var label = escHtml(sn.replace(/\|/g, '').replace(/\n/g, ' ').replace(/\t/g, '')) || '&nbsp;';
+      return '<button type="button" class="kd-qt-chip" data-qi="' + i + '">' + label + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(elSnippets.querySelectorAll('.kd-qt-chip'), function (btn) {
+      btn.addEventListener('click', function () { qtInsert(list[+btn.getAttribute('data-qi')]); });
+    });
+  }
+  function activeTarget() {
+    return (monacoReady && editor && !elFallback.classList.contains('on')) ? 'monaco' : 'textarea';
+  }
+  function qtInsert(snippet) {
+    var text = snippet.split('\n').join('\n');
+    var idx = text.indexOf('|');
+    var clean = idx >= 0 ? text.replace('|', '') : text;
+    if (activeTarget() === 'monaco') {
+      var sel = editor.getSelection();
+      var start = sel.getStartPosition();
+      editor.executeEdits('quicktools', [{ range: sel, text: clean, forceMoveMarkers: true }]);
+      if (idx >= 0) {
+        var before = clean.slice(0, idx);
+        var beforeLines = before.split('\n');
+        var lineOffset = beforeLines.length - 1;
+        var col = lineOffset === 0 ? start.column + before.length : beforeLines[beforeLines.length - 1].length + 1;
+        editor.setPosition({ lineNumber: start.lineNumber + lineOffset, column: col });
+      }
+      editor.focus();
+    } else {
+      var ta = elEdit;
+      var s0 = ta.selectionStart, e0 = ta.selectionEnd;
+      var val = ta.value;
+      ta.value = val.slice(0, s0) + clean + val.slice(e0);
+      var newPos = s0 + (idx >= 0 ? idx : clean.length);
+      ta.focus();
+      ta.setSelectionRange(newPos, newPos);
+    }
+  }
+  function qtUndo() {
+    if (activeTarget() === 'monaco') { editor.getAction && editor.getAction('undo') && editor.getAction('undo').run(); }
+    else { elEdit.focus(); try { document.execCommand('undo'); } catch (e) {} }
+  }
+  function qtRedo() {
+    if (activeTarget() === 'monaco') { editor.getAction && editor.getAction('redo') && editor.getAction('redo').run(); }
+    else { elEdit.focus(); try { document.execCommand('redo'); } catch (e) {} }
+  }
+  function toggleColorPicker(e) {
+    if (elCp.classList.contains('show')) { closeColorPicker(); return; }
+    elCp.innerHTML = '<div class="kd-cp-grid">' + CP_COLORS.map(function (c) {
+      return '<div class="kd-cp-swatch" style="background:' + c + '" data-color="' + c + '" title="' + c + '"></div>';
+    }).join('') + '</div><div class="kd-cp-hexrow"><input id="kd-cp-hex" placeholder="#3ba9e0" maxlength="9"><button type="button" id="kd-cp-insert">Sisip</button></div>';
+    Array.prototype.forEach.call(elCp.querySelectorAll('.kd-cp-swatch'), function (sw) {
+      sw.addEventListener('click', function () { pickColor(sw.getAttribute('data-color')); });
+    });
+    document.getElementById('kd-cp-insert').addEventListener('click', function () {
+      pickColor(document.getElementById('kd-cp-hex').value);
+    });
+    elCp.classList.add('show');
+    var r = e.currentTarget.getBoundingClientRect();
+    var w = 216;
+    elCp.style.left = Math.min(r.left, window.innerWidth - w - 10) + 'px';
+    elCp.style.top = (r.bottom + 8) + 'px';
+  }
+  function closeColorPicker() { elCp.classList.remove('show'); }
+  function pickColor(hex) {
+    if (!hex) return;
+    if (hex.charAt(0) !== '#') hex = '#' + hex;
+    qtInsert(hex);
+    closeColorPicker();
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#kd-cp') && !e.target.closest('.kd-qt-color')) closeColorPicker();
+  });
+  elUndoBtn.addEventListener('click', qtUndo);
+  elRedoBtn.addEventListener('click', qtRedo);
+  elTabBtn.addEventListener('click', function () { qtInsert('\t'); });
+  elColorBtn.addEventListener('click', toggleColorPicker);
+
   function render() {
     elFname.textContent = item.name;
     var ext = extOf(item.name);
@@ -377,6 +534,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     }
 
     // ---------- berkas kode/teks: Monaco (atau fallback teks polos) ----------
+    renderQuickTools();
     var monacoTimer = setInterval(function () {
       if (monacoReady && editor) { model.setValue(item.content || ''); clearInterval(monacoTimer); }
       else if (elFallback.classList.contains('on')) {
@@ -400,12 +558,14 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
         elEditBtn.setAttribute('data-on', editing ? '1' : '0');
         editor.updateOptions({ readOnly: !editing });
         elSaveBtn.style.display = editing ? '' : 'none';
+        elTools.hidden = !editing;
         elEditBtn.textContent = editing ? 'Lihat' : 'Sunting';
         if (editing) editor.focus();
       } else {
         var on = elEdit.classList.toggle('on');
         elCode.style.display = on ? 'none' : 'block';
         elSaveBtn.style.display = on ? '' : 'none';
+        elTools.hidden = !on;
         elEditBtn.textContent = on ? 'Lihat' : 'Sunting';
         if (on) elEdit.focus();
       }
