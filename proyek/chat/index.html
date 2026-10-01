@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+<script src="../../js/auth-client.js?v=3"></script>
   <script src="../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
     <meta charset="UTF-8">
@@ -3320,6 +3321,11 @@ window.chatLivePreview = function () {
                 }
             }
             if (errObj && !finalObj) {
+                // server AI sibuk (limit provider 429) -> BUKAN kuota user:
+                // jangan kunci komposer / suruh upgrade, biarkan fallback /api/ai jalan.
+                if (errObj.provider_busy) {
+                    throw new Error(errObj.error || 'Server AI sedang sibuk (limit provider). Coba lagi sebentar lagi.');
+                }
                 if (errObj.quota_exhausted) {
                     const e = new Error('__QUOTA__');
                     e.quotaMsg = errObj.error || 'Kuota/limit AI sedang penuh.';
