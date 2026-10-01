@@ -471,36 +471,38 @@
     var m = AI_MODELS.filter(function (x) { return x.id === id; })[0];
     return m ? m.label : id;
   }
-  // Logo tiap model: icon asli dari library Lucide, ditampilkan dalam chip bulat
-  var AI_MODEL_ICONS = {
-    'clincoo/auto': 'sparkles',
-    'clincoo/glm-5.2': 'gem',
-    'clincoo/deepseek-v4-flash': 'zap',
-    'clincoo/glm-4.7-flash': 'globe',
-    'clincoo/reasoning-120b': 'brain',
-    'clincoo/reasoning-550b': 'brain-circuit',
-    'clincoo/lightning': 'gauge',
-    'clincoo/omni-nano': 'layers',
-    'clincoo/vision-31b': 'eye',
-    'clincoo/vision-26b': 'image',
-    'clincoo/multimodal-27b': 'video',
-    'clincoo/reasoning-mini': 'lightbulb',
-    'clincoo/ling-flash': 'wind',
-    'clincoo/dots-note': 'pencil',
-    'clincoo/lfm-mini': 'feather',
-    'clincoo/inkling': 'mic',
-    'clincoo/inkling-small': 'music',
-    'clincoo/laguna-s': 'waves',
-    'clincoo/laguna-xs': 'droplet',
-    'clincoo/north-code': 'code',
-    'clincoo/space-bunny': 'rabbit',
-    'clincoo/acak': 'dices'
+  // Logo tiap model: gambar logo asli brand-nya (chip bulat), monogram utk brand tanpa logo publik
+  var AI_MODEL_LOGOS = {
+    'clincoo/auto': '../../../assets/logo-clinqoo.png',
+    'clincoo/glm-5.2': '../../../assets/ai-logos/zhipu-glm.png',
+    'clincoo/deepseek-v4-flash': '../../../assets/ai-logos/deepseek.png',
+    'clincoo/glm-4.7-flash': '../../../assets/ai-logos/zhipu-glm.png',
+    'clincoo/reasoning-120b': '../../../assets/ai-logos/nvidia.svg',
+    'clincoo/reasoning-550b': '../../../assets/ai-logos/nvidia.svg',
+    'clincoo/lightning': '../../../assets/ai-logos/nvidia.svg',
+    'clincoo/omni-nano': '../../../assets/ai-logos/nvidia.svg',
+    'clincoo/vision-31b': '../../../assets/ai-logos/google-gemma.png',
+    'clincoo/vision-26b': '../../../assets/ai-logos/google-gemma.png',
+    'clincoo/multimodal-27b': '../../../assets/ai-logos/qwen.png',
+    'clincoo/lfm-mini': '../../../assets/ai-logos/liquid-ai.png',
+    'clincoo/inkling': '../../../assets/ai-logos/thinkingmachines.jpg',
+    'clincoo/inkling-small': '../../../assets/ai-logos/thinkingmachines.jpg',
+    'clincoo/laguna-s': '../../../assets/ai-logos/poolside.png',
+    'clincoo/laguna-xs': '../../../assets/ai-logos/poolside.png',
+    'clincoo/north-code': '../../../assets/ai-logos/cohere.png',
+    'clincoo/acak': '../../../assets/logo-clinqoo.png'
   };
+  var AI_LOGO_FALLBACK = '../../../assets/logo-clinqoo.png';
   function aiModelIconChip(id) {
-    var name = AI_MODEL_ICONS[id] || 'sparkles';
-    var chip = 'w-6 h-6 rounded-full bg-gray-100 dark:bg-slate-700/70 border border-gray-200 dark:border-slate-600 flex items-center justify-center shrink-0';
-    if (window.lucide) return '<span class="' + chip + '"><i data-lucide="' + name + '" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-300"></i></span>';
-    return '<span class="' + chip + '">' + _AI_SPARK_ICON.replace('text-gray-400 dark:text-slate-500', 'text-gray-500 dark:text-gray-300') + '</span>';
+    var logo = AI_MODEL_LOGOS[id];
+    var chip = 'w-7 h-7 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-slate-600';
+    if (logo) {
+      return '<span class="' + chip + ' bg-white">' +
+        '<img src="' + logo + '" alt="' + aiModelLabel(id) + '" class="w-5 h-5 object-contain" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=AI_LOGO_FALLBACK;}else{this.style.display=&#39;none&#39;;}">' +
+        '</span>';
+    }
+    var ch = (aiModelLabel(id) || '?').trim().charAt(0).toUpperCase();
+    return '<span class="' + chip + ' bg-gray-100 dark:bg-slate-700/70"><span class="text-[11px] font-bold text-gray-500 dark:text-gray-300">' + ch + '</span></span>';
   }
   function aiModelApplyUi() {
     var l = document.getElementById('ai-model-label');
@@ -523,7 +525,6 @@
     var p = document.getElementById('ai-model-popover');
     if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
   });
-  var _AI_SPARK_ICON = '<svg class="w-3.5 h-3.5 text-gray-400 dark:text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>';
   function copyAiModelId(id, btn) {
     var done = function () {
       if (!btn) return;
