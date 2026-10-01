@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
-  <script src="../../../js/auth-client.js?v=2"></script>
     <script src="../../../js/accent-init.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,6 +72,7 @@
 <!-- End Google tag -->
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
+<script>window.ClinqooBack = window.ClinqooBack || function (fallbackUrl) {             try {                 var sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;                 if (sameOrigin && history.length > 1) { window.history.back(); return; }             } catch (e) {}             if (fallbackUrl) { try { location.replace(fallbackUrl); return; } catch (e2) {} }             try { window.history.back(); } catch (e3) {}         };</script>
 </head>
 <body class="min-h-screen flex flex-col text-gray-900 pt-16 bg-white dark:bg-black transition-colors duration-300 relative">
     <script>(function(){var t=localStorage.getItem("clinqoo_theme");var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>

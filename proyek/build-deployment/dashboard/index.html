@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
-  <script src="../../../js/auth-client.js?v=2"></script>
   <script src="../../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
     <meta charset="UTF-8">
@@ -127,6 +126,7 @@
 <!-- End Google tag -->
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
+<script>window.ClinqooBack = window.ClinqooBack || function (fallbackUrl) {             try {                 var sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;                 if (sameOrigin && history.length > 1) { window.history.back(); return; }             } catch (e) {}             if (fallbackUrl) { try { location.replace(fallbackUrl); return; } catch (e2) {} }             try { window.history.back(); } catch (e3) {}         };</script>
 </head>
 <body class="min-h-screen flex flex-col text-gray-900 pt-16 relative">
     <script>

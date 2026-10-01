@@ -1,3 +1,12 @@
+/* Fallback tombol kembali cerdas (auth-client.js dihapus — tanpa gate login) */
+window.ClinqooBack = window.ClinqooBack || function (fallbackUrl) {
+            try {
+                var sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;
+                if (sameOrigin && history.length > 1) { window.history.back(); return; }
+            } catch (e) {}
+            if (fallbackUrl) { try { location.replace(fallbackUrl); return; } catch (e2) {} }
+            try { window.history.back(); } catch (e3) {}
+        };
 /**
  * Clincoo URL Path Router
  * Parses nested URLs like /workspace/{projectId}/pengaturan/{submenu}

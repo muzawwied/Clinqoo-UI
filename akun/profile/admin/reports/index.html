@@ -2,7 +2,6 @@
 <html lang="id" class="scroll-smooth">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
-  <script src="../../../../js/auth-client.js?v=2"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Laporan & Scan — Panel Admin Clincoo</title>
@@ -182,7 +181,7 @@
 
     async function checkAdminPing() {
       try {
-        const token = ClinqooAuth.getToken();
+        const token = (window.ClinqooAuth && ClinqooAuth.getToken) ? ClinqooAuth.getToken() : (function(){try{return localStorage.getItem('clinqoo_auth_token')||localStorage.getItem('clinqoo_token')||'';}catch(e){return '';}})();
         const res = await fetch(API_BASE + '/api/admin/ping', { headers: token ? { 'Authorization': 'Bearer ' + token } : {} });
         if (!res.ok) { redirectToProfile(); return false; }
         const data = await res.json();
@@ -193,7 +192,7 @@
     }
 
     function authHeaders() {
-      const token = ClinqooAuth.getToken();
+      const token = (window.ClinqooAuth && ClinqooAuth.getToken) ? ClinqooAuth.getToken() : (function(){try{return localStorage.getItem('clinqoo_auth_token')||localStorage.getItem('clinqoo_token')||'';}catch(e){return '';}})();
       return token ? { 'Authorization': 'Bearer ' + token } : {};
     }
 
