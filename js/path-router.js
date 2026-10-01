@@ -135,7 +135,7 @@ const PathRouter = {
             linkMap = {
                 'workspace': _BASE + '/proyek/workspace/?id=' + encodeURIComponent(projectId),
                 'chat': _BASE + '/proyek/chat/?id=' + encodeURIComponent(projectId),
-                'pengaturan': _BASE + '/proyek/pengaturan/umum/?id=' + encodeURIComponent(projectId),
+                'pengaturan': _BASE + '/proyek/dashboard/?id=' + encodeURIComponent(projectId),
                 'environment': _BASE + '/proyek/pengaturan/environment/?id=' + encodeURIComponent(projectId),
                 'keamanan': _BASE + '/proyek/pengaturan/keamanan/?id=' + encodeURIComponent(projectId),
             };
