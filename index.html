@@ -440,8 +440,9 @@
         </div>
         <div class="px-4 pt-3 pb-2">
             <div class="relative">
-                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                <input id="sidebar-search" type="text" placeholder="Cari fitur..." autocomplete="off" class="w-full bg-gray-50 border border-gray-100 rounded-xl pl-9 pr-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus-visible:ring-white/20 transition-colors">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10"></i>
+                <input id="sidebar-search" type="text" placeholder="Cari fitur..." autocomplete="off" class="w-full bg-gray-50 rounded-full pl-11 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-100 transition-colors">
+                <div id="sidebar-search-pop" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] py-1.5 z-50 max-h-72 overflow-y-auto"></div>
             </div>
         </div>
         <nav id="sidebar-nav" class="flex-1 overflow-y-auto pb-3 flex flex-col">
@@ -474,9 +475,9 @@
                 <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Pusat Bantuan</span>
             </a>
             <div class="sb-section" data-search="favorit template">
-                <button type="button" onclick="toggleSidebarDropdown('sidebar-fav-list', this)" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="favorit template">
+                <button type="button" onclick="toggleSidebarDropdown('sidebar-fav-list', this)" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="template favorit">
                     <i data-lucide="heart" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
-                    <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900 flex-1 text-left">Favorit Template</span>
+                    <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900 flex-1 text-left">Template Favorit</span>
                     <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
                 </button>
                 <div id="sidebar-fav-list" class="hidden flex-col max-h-52 overflow-y-auto"></div>
@@ -518,6 +519,7 @@
                 backdrop.classList.add('opacity-0', 'invisible', 'pointer-events-none');
                 if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
+                hideSbSearchPop();
             }
         }
         function toggleSidebarDropdown(listId, btn) {
@@ -591,12 +593,69 @@
             try { lucide.createIcons(); } catch (e) {}
         }
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') toggleSidebar(false);
+            if (e.key === 'Escape') { toggleSidebar(false); }
+        });
+        // ===== Popover pencarian fitur =====
+        function sbPopItems() {
+            return [
+                { label: 'Home', icon: 'home', act: function () { toggleSidebar(false); navigateTo('page-home'); } },
+                { label: 'Domain', icon: 'globe', act: function () { location.href = 'domain/'; } },
+                { label: 'Proyek', icon: 'folder', act: function () { location.href = 'akun/proyek/'; } },
+                { label: 'Template', icon: 'layout-template', act: function () { location.href = 'templates/'; } },
+                { label: 'Notifikasi', icon: 'bell', act: function () { location.href = 'akun/notifikasi/'; } },
+                { label: 'Upgrade', icon: 'crown', act: function () { location.href = 'akun/langganan/'; } },
+                { label: 'Pusat Bantuan', icon: 'circle-help', act: function () { window.open('https://blog.clincoo.buzz/panduan/', '_blank', 'noopener'); } },
+                { label: 'Template Favorit', icon: 'heart', act: function () { sbOpenSection('sidebar-fav-list'); } },
+                { label: 'Daftar Proyek', icon: 'layers', act: function () { sbOpenSection('sidebar-proj-list'); } }
+            ];
+        }
+        function sbOpenSection(listId) {
+            var list = document.getElementById(listId);
+            var btn = list ? (list.parentElement ? list.parentElement.querySelector('button') : null) : null;
+            if (list && btn) {
+                if (list.classList.contains('hidden')) toggleSidebarDropdown(listId, btn);
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            hideSbSearchPop();
+        }
+        function renderSbSearchPop(q) {
+            var pop = document.getElementById('sidebar-search-pop');
+            if (!pop) return;
+            q = (q || '').trim().toLowerCase();
+            var items = sbPopItems().filter(function (it) { return !q || it.label.toLowerCase().indexOf(q) !== -1; });
+            if (!items.length) { pop.innerHTML = '<p class="px-4 py-2.5 text-xs text-gray-400">Fitur tidak ditemukan</p>'; return; }
+            pop.innerHTML = items.map(function (it, i) {
+                return '<button type="button" data-sbpop="' + i + '" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors group">' +
+                    '<i data-lucide="' + it.icon + '" class="w-4 h-4 text-gray-500 group-hover:text-gray-900 transition-colors"></i>' +
+                    '<span class="text-sm font-medium text-gray-800 group-hover:text-gray-900">' + it.label + '</span></button>';
+            }).join('');
+            pop.querySelectorAll('[data-sbpop]').forEach(function (b) {
+                b.addEventListener('click', function () { items[+b.getAttribute('data-sbpop')].act(); });
+            });
+            try { lucide.createIcons(); } catch (e) {}
+        }
+        function showSbSearchPop() {
+            var pop = document.getElementById('sidebar-search-pop');
+            var inp = document.getElementById('sidebar-search');
+            if (!pop) return;
+            renderSbSearchPop(inp ? inp.value : '');
+            pop.classList.remove('hidden');
+        }
+        function hideSbSearchPop() {
+            var pop = document.getElementById('sidebar-search-pop');
+            if (pop) pop.classList.add('hidden');
+        }
+        document.addEventListener('click', function (e) {
+            var pop = document.getElementById('sidebar-search-pop');
+            var inp = document.getElementById('sidebar-search');
+            if (pop && !pop.classList.contains('hidden') && inp && !inp.contains(e.target) && !pop.contains(e.target)) hideSbSearchPop();
         });
         (function () {
             var input = document.getElementById('sidebar-search');
             if (!input) return;
-            input.addEventListener('input', function () {
+            input.addEventListener('focus', showSbSearchPop);
+            input.addEventListener('click', function (e) { e.stopPropagation(); showSbSearchPop(); });
+            input.addEventListener('input', function () { showSbSearchPop();
                 var q = input.value.trim().toLowerCase();
                 document.querySelectorAll('#sidebar-nav .sb-item').forEach(function (el) {
                     el.style.display = (!q || (el.getAttribute('data-search') || '').toLowerCase().indexOf(q) !== -1) ? '' : 'none';
