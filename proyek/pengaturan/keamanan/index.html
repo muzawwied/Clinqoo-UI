@@ -466,7 +466,8 @@
 
   function load(){
     if (!pid) { render({ events: [] }); return; }
-    fetch(SEC_API + '?project_id=' + encodeURIComponent(pid))
+    var tk = ''; try { tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch(e){}
+    fetch(SEC_API + '?project_id=' + encodeURIComponent(pid), { headers: tk ? { Authorization: 'Bearer ' + tk } : {} })
       .then(function(r){ return r.json(); })
       .then(function(data){
         var li = document.getElementById('sec-loading');
