@@ -145,6 +145,15 @@
 <!-- End Google tag -->
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
+
+<script>
+// Paksa dark mode secepatnya supaya tes mencerminkan kondisi user (dark)
+try { localStorage.setItem('clinqoo_theme','Gelap'); } catch(e) {}
+document.addEventListener('DOMContentLoaded', function(){
+  document.documentElement.classList.add('dark-mode');
+  document.body && document.body.classList.add('dark-mode');
+});
+</script>
 </head>
 <body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
   <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
@@ -574,34 +583,22 @@ window.addEventListener('load', function(){
       var btn = document.getElementById('settings-menu-btn');
       var wrap = document.getElementById('settings-menu-wrap');
       var cs = getComputedStyle(btn);
-      var csw = getComputedStyle(wrap);
       var r = btn.getBoundingClientRect();
-      var rw = wrap.getBoundingClientRect();
       var info = {
         htmlClass: document.documentElement.className,
         bodyClass: document.body.className,
-        btnInlineStyle: btn.getAttribute('style'),
-        wrapInlineStyle: wrap.getAttribute('style'),
         btnBg: cs.backgroundColor,
         btnBorder: cs.borderColor,
         btnColor: cs.color,
-        btnDisplay: cs.display,
-        btnVisibility: cs.visibility,
-        btnOpacity: cs.opacity,
-        btnHeight: r.height,
-        btnWidth: r.width,
-        btnTop: r.top,
-        wrapHeight: rw.height,
-        wrapDisplay: csw.display,
-        wrapOpacity: csw.opacity,
-        wrapVisibility: csw.visibility,
-        bodyBg: getComputedStyle(document.body).backgroundColor
+        btnH: r.height, btnW: r.width, btnTop: r.top,
+        wrapTop: wrap.getBoundingClientRect().top
       };
-      document.body.insertAdjacentHTML('afterbegin', '<pre id="DEBUGOUT" style="position:fixed;top:0;left:0;background:red;color:white;z-index:99999;font-size:14px;padding:10px;max-width:100%;white-space:pre-wrap;">' + JSON.stringify(info, null, 2) + '</pre>');
-    } catch(e) {
-      document.body.insertAdjacentHTML('afterbegin', '<pre id="DEBUGOUT" style="position:fixed;top:0;left:0;background:red;color:white;z-index:99999;">ERR: ' + e.message + '</pre>');
-    }
-  }, 800);
+      var pre = document.createElement('pre');
+      pre.style.cssText = 'position:fixed;top:0;left:0;background:#7f1d1d;color:#fff;z-index:99999;font-size:13px;padding:8px;max-width:100%;white-space:pre-wrap;margin:0;';
+      pre.textContent = JSON.stringify(info, null, 1);
+      document.body.appendChild(pre);
+    } catch(e) {}
+  }, 1200);
 });
 </script>
 </body>
