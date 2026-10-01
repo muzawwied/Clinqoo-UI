@@ -310,36 +310,37 @@
             
             <!-- 1. Logo & Identitas Aplikasi -->
             <div class="py-4 sm:py-5">
-                <!-- Logo project: bulat, agak besar, di paling atas -->
-                <div class="flex flex-col items-center">
-                    <div class="relative">
-                        <button type="button" onclick="document.getElementById('logo-file-input').click()" class="w-[84px] h-[84px] sm:w-24 sm:h-24 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden transition-colors hover:border-gray-900 dark:hover:border-white cursor-pointer" aria-label="Unggah logo aplikasi">
+                <!-- Gaya info profile (versi project): nama & deskripsi di kiri, logo bulat di kanan -->
+                <div class="flex items-start justify-between gap-5">
+                    <div class="flex-1 min-w-0 flex flex-col gap-4">
+                        <div>
+                            <h4 class="text-base font-bold text-gray-900 tracking-tight">Nama Aplikasi</h4>
+                            <input type="text" id="input-app-name" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
+                            <div id="skel-app-name" class="skel hidden w-full h-[34px] rounded-xl"></div>
+                            <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-bold text-gray-900 tracking-tight">Deskripsi Aplikasi</h4>
+                            <textarea rows="3" id="input-app-desc" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
+                            <div id="skel-app-desc" class="skel hidden w-full h-[56px] rounded-xl"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10 shrink-0 group cursor-pointer" onclick="document.getElementById('logo-file-input').click()">
+                        <div class="w-24 h-24 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105 overflow-hidden" style="background-color: var(--accent-color, #000000)">
                             <img id="logo-preview" class="w-full h-full object-cover hidden" alt="Logo aplikasi">
-                            <span id="logo-initials" class="text-2xl font-bold text-gray-400 select-none">A</span>
-                            <i data-lucide="image-plus" id="logo-placeholder-icon" class="w-6 h-6 text-gray-400 hidden"></i>
-                        </button>
-                        <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden" onchange="onLogoPicked(this)">
-                        <button type="button" id="logo-remove-btn" onclick="onLogoRemove()" class="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black shadow-md hidden items-center justify-center cursor-pointer" aria-label="Hapus logo">
+                            <span id="logo-initials" class="text-2xl font-bold text-white select-none">A</span>
+                            <i data-lucide="image-plus" id="logo-placeholder-icon" class="w-6 h-6 text-white hidden"></i>
+                        </div>
+                        <div class="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md border border-gray-100 transition-transform group-hover:scale-110">
+                            <i data-lucide="pencil" class="w-4 h-4 text-gray-900"></i>
+                        </div>
+                        <button type="button" id="logo-remove-btn" onclick="event.stopPropagation(); onLogoRemove()" class="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black shadow-md hidden items-center justify-center cursor-pointer" aria-label="Hapus logo">
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
+                        <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden" onchange="onLogoPicked(this)">
                     </div>
-                    <p class="text-[11px] text-gray-400 mt-2 text-center leading-snug">Logo — dipakai sebagai favicon &amp; og:image</p>
                 </div>
-                <!-- Bawah logo: nama lalu deskripsi -->
                 <div class="flex-1 min-w-0 flex flex-col gap-4 mt-4">
-                    <div>
-                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Nama Aplikasi</h4>
-                        <p class="text-xs text-gray-500 mt-0.5">Nama ini menentukan subdomain situs saat deploy pertama</p>
-                        <input type="text" id="input-app-name" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
-                        <div id="skel-app-name" class="skel hidden w-full h-[34px] rounded-xl"></div>
-                        <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Deskripsi Aplikasi</h4>
-                        <p class="text-xs text-gray-500 mt-0.5">Catatan internal singkat mengenai tujuan atau status aplikasi ini — juga dipakai sebagai meta description &amp; og:description</p>
-                        <textarea rows="3" id="input-app-desc" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
-                        <div id="skel-app-desc" class="skel hidden w-full h-[56px] rounded-xl"></div>
-                    </div>
                     <!-- Preview tautan saat di-share (og:image / og:title / og:description) -->
                     <div class="mt-1">
                         <p class="text-xs font-semibold text-gray-500 mb-2">Preview tautan saat di-share</p>
@@ -359,7 +360,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- 2. Lingkungan Runtime -->
             <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="min-w-0 flex-1">
