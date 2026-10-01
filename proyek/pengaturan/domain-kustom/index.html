@@ -181,6 +181,10 @@
     body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
 #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        /* Kapsul disamakan dgn halaman chat: mobile = Workspace|Dashboard; desktop = Live preview|Workspace|Dashboard (tanpa FAB Agent) */
+        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        .chat-nav-link[data-nav="live"] { display: none; }
+        @media (min-width: 900px) { .chat-nav-link[data-nav="agent"] { display: none; } .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
@@ -256,6 +260,7 @@
             <nav id="chat-top-nav" class="relative inline-flex items-center h-full">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none" style="top:0;left:0;width:0;height:0"></div>
                 <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Agent</a>
+                <a href="/proyek/preview/" data-nav="live" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Live preview</a>
                 <a href="/proyek/code/" data-nav="code" class="chat-nav-link is-active relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Workspace</a>
                 <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors text-gray-500 hover:text-gray-800">Dashboard</a>
             </nav>
