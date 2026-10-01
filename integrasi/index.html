@@ -223,6 +223,23 @@
                     <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Analisis kode, review Pull Request, dan kelola repositori langsung dari chat.</p>
                 </div>
 
+                <div id="gitlab-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="gitlab" data-category="developer" role="button" tabindex="0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
+                            <i class="ph ph-gitlab-logo text-[28px] text-[#e24329]"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">GitLab</h3>
+                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Developer &middot; Bawaan</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span id="gitlab-status-badge" class="hidden items-center text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Terhubung</span>
+                            <button onclick="event.stopPropagation(); openGitLabModal()" id="gitlab-connect-btn" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Hubungkan</button>
+                        </div>
+                    </div>
+                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Hubungkan akun GitLab untuk eksport workspace Clincoo ke project GitLab Anda.</p>
+                </div>
+
                 <!-- Plugin Drive disembunyikan sementara (belum diverifikasi Google, muncul peringatan "tidak aman"): hapus wrapper display:none untuk mengaktifkan kembali. -->
                 <div style="display:none">
                 <div id="drive-integration-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="drive" data-category="cloud" role="button" tabindex="0">
@@ -703,20 +720,7 @@
                     </div>
                     <div id="eg-gl-connect" class="space-y-3">
                         <p id="eg-gl-none" class="text-[12.5px] text-gray-400">Belum ada koneksi tersedia</p>
-                        <button id="eg-gl-connect-btn" onclick="connectGitLab()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Hubungkan GitLab</button>
-                        <details id="eg-gl-setup" class="rounded-xl border border-gray-100 px-4 py-3">
-                            <summary class="text-[11.5px] font-semibold text-gray-500 cursor-pointer">Baru pertama kali? Buka cara setup aplikasi GitLab</summary>
-                            <div class="mt-3 space-y-2.5 text-[12.5px]">
-                                <p class="text-gray-500 leading-relaxed">Koneksi memakai OAuth resmi GitLab (PKCE, tanpa client secret). Daftar aplikasinya sekali di akun GitLab kamu: buka <span id="eg-app-url" class="font-mono text-[11px]"></span> lalu isi:</p>
-                                <p class="leading-relaxed">1. Nama: bebas, misal <span class="font-mono text-[11px]">Clincoo</span><br>2. Redirect URI: <span id="eg-redirect" class="font-mono text-[11px]"></span><br>3. Hilangkan centang <span class="font-semibold">Confidential</span><br>4. Scope: centang <span class="font-semibold">api</span></p>
-                                <div>
-                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">Application ID dari GitLab</label>
-                                    <div class="flex gap-2"><input id="eg-client-id" type="text" placeholder="Tempel Application ID di sini" class="flex-1 px-3.5 py-2.5 text-[13px] rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-gray-400 transition-colors"><button onclick="saveGlClientId()" class="px-4 py-2.5 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all active:scale-[0.97]">Simpan</button></div>
-                                    <p class="text-[11px] text-gray-400 leading-relaxed mt-1.5">Application ID hanya disimpan di perangkat ini.</p>
-                                </div>
-                            </div>
-                        </details>
-                        <p id="eg-gl-msg" class="hidden text-[12px] font-medium text-red-500"></p>
+                        <button id="eg-gl-connect-btn" onclick="closeExportModal(); openGitLabModal()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Hubungkan GitLab</button>
                         <button id="eg-gl-disconnect" onclick="disconnectGitLab()" class="hidden w-full py-3 rounded-full border border-red-200 text-sm font-semibold text-red-500 hover:bg-red-50 transition">Putuskan koneksi</button>
                     </div>
                     <div id="eg-gl-config" class="space-y-3.5">
@@ -742,6 +746,59 @@
                 <button id="eg-btn-export" onclick="doExport()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Eksport sekarang</button>
                 <p id="eg-progress" class="hidden mt-3 text-[12.5px] text-gray-500"></p>
                 <div id="eg-result" class="hidden mt-3 rounded-xl border px-3.5 py-2.5 text-[12.5px]"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gitlab-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+            <div class="px-6 pt-6 pb-2 flex-shrink-0">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
+                        <i class="ph ph-gitlab-logo text-2xl text-[#e24329]"></i>
+                    </div>
+                    <button onclick="closeGitLabModal()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 font-montserrat mb-1.5">Hubungkan GitLab</h3>
+                <p class="text-[13px] text-gray-500 leading-relaxed">Clincoo terhubung ke akun GitLab Anda lewat OAuth resmi (PKCE, tanpa client secret). Koneksi dapat diputuskan kapan saja.</p>
+            </div>
+            <div class="px-6 py-4 overflow-y-auto">
+                <!-- terhubung -->
+                <div id="glc-connected" class="hidden border border-gray-100 rounded-2xl p-4 space-y-3.5">
+                    <div class="flex items-center gap-3">
+                        <img id="glc-avatar" class="h-11 w-11 rounded-full bg-gray-100" alt="">
+                        <div class="min-w-0 flex-1">
+                            <p id="glc-name" class="text-sm font-semibold truncate"></p>
+                            <p id="glc-meta" class="text-xs text-gray-400 truncate"></p>
+                        </div>
+                        <span class="text-[12px] font-semibold text-emerald-600">Terhubung</span>
+                    </div>
+                    <button onclick="disconnectGitLab()" class="w-full py-3 rounded-full border border-red-200 text-sm font-semibold text-red-500 hover:bg-red-50 transition">Putuskan koneksi</button>
+                </div>
+                <!-- belum terhubung -->
+                <div id="glc-connect" class="space-y-3.5">
+                    <p id="glc-none" class="text-[12.5px] text-gray-400">Belum ada koneksi tersedia</p>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">URL GitLab</label>
+                        <input id="glc-base" type="text" value="https://gitlab.com" class="w-full px-4 py-2.5 text-[13px] rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-gray-400 transition-colors">
+                    </div>
+                    <details id="glc-setup" class="rounded-xl border border-gray-100 px-4 py-3">
+                        <summary class="text-[11.5px] font-semibold text-gray-500 cursor-pointer">Baru pertama kali? Buka cara setup aplikasi GitLab</summary>
+                        <div class="mt-3 space-y-2.5 text-[12.5px]">
+                            <p class="text-gray-500 leading-relaxed">Daftar aplikasinya sekali di akun GitLab kamu: buka <span id="glc-app-url" class="font-mono text-[11px]"></span> lalu isi:</p>
+                            <p class="leading-relaxed">1. Nama: bebas, misal <span class="font-mono text-[11px]">Clincoo</span><br>2. Redirect URI: <span id="glc-redirect" class="font-mono text-[11px]"></span><br>3. Hilangkan centang <span class="font-semibold">Confidential</span><br>4. Scope: centang <span class="font-semibold">api</span></p>
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">Application ID dari GitLab</label>
+                                <div class="flex gap-2"><input id="glc-client-id" type="text" placeholder="Tempel Application ID di sini" class="flex-1 px-3.5 py-2.5 text-[13px] rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-gray-400 transition-colors"><button onclick="saveGlClientId()" class="px-4 py-2.5 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all active:scale-[0.97]">Simpan</button></div>
+                                <p class="text-[11px] text-gray-400 leading-relaxed mt-1.5">Application ID hanya disimpan di perangkat ini.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <p id="glc-msg" class="hidden text-[12px] font-medium text-red-500"></p>
+                    <button id="glc-connect-btn" onclick="connectGitLab()" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Hubungkan GitLab</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2260,9 +2317,9 @@
   }
 
   window.connectGitLab = function () {
-    var base = ($('eg-gl-base').value || 'https://gitlab.com').trim().replace(/\/+$/, '');
-    var cid = ($('eg-client-id').value || '').trim();
-    var msg = $('eg-gl-msg');
+    var base = ($('glc-base').value || 'https://gitlab.com').trim().replace(/\/+$/, '');
+    var cid = ($('glc-client-id').value || '').trim();
+    var msg = $('glc-msg');
     msg.classList.add('hidden');
     if (!cid) { glShowErr('Isi Application ID dulu (lihat cara setup di atas).'); return; }
     ls(GL.cid, cid); ls(GL.base, base);
@@ -2276,21 +2333,21 @@
     });
   };
   window.saveGlClientId = function () {
-    var cid = ($('eg-client-id').value || '').trim();
+    var cid = ($('glc-client-id').value || '').trim();
     if (!cid) return;
     ls(GL.cid, cid);
-    var msg = $('eg-gl-msg');
+    var msg = $('glc-msg');
     msg.textContent = 'Application ID tersimpan. Sekarang klik "Hubungkan GitLab".';
     msg.classList.remove('hidden');
     msg.classList.remove('text-red-500'); msg.classList.add('text-emerald-600');
   };
   window.disconnectGitLab = function () {
     [GL.tok, GL.ref, GL.exp, GL.user].forEach(lsDel);
-    renderEgGl();
+    renderGlCard(); renderGlState(); renderEgGl();
   };
 
   function glShowErr(t) {
-    var msg = $('eg-gl-msg');
+    var msg = $('glc-msg');
     msg.textContent = t; msg.classList.remove('hidden');
     msg.classList.remove('text-emerald-600'); msg.classList.add('text-red-500');
   }
@@ -2340,9 +2397,10 @@
       ls(GL.tok, d.access_token);
       if (d.refresh_token) ls(GL.ref, d.refresh_token);
       ls(GL.exp, String(Date.now() + ((d.expires_in || 7200) * 1000) - 60000));
-      return glLoadUser().then(function () { return true; });
+      return glLoadUser().then(function () { renderGlCard(); openGitLabModal(); return true; });
     }).catch(function (e) {
       glShowErr('Gagal menukar kode OAuth: ' + (e.message || e));
+      renderGlCard(); openGitLabModal();
       return true;
     });
   }
@@ -2353,7 +2411,6 @@
     if (ls(GL.base)) $('eg-gl-base').value = ls(GL.base);
     connected.classList.toggle('hidden', !has);
     $('eg-gl-connect-btn').classList.toggle('hidden', has);
-    $('eg-gl-setup').classList.toggle('hidden', has);
     $('eg-gl-none').classList.toggle('hidden', has);
     $('eg-gl-disconnect').classList.toggle('hidden', !has);
     $('eg-gl-config').classList.toggle('hidden', !has);
@@ -2364,10 +2421,45 @@
       $('eg-gl-name').textContent = u.name || u.username || 'GitLab';
       $('eg-gl-meta').textContent = '@' + (u.username || 'gitlab') + ' · ' + (ls(GL.base) || '').replace(/^https?:\/\//, '');
     }
-    $('eg-client-id').value = ls(GL.cid) || '';
-    $('eg-app-url').textContent = (($('eg-gl-base').value || 'https://gitlab.com').replace(/\/+$/, '')) + '/-/user_settings/applications';
-    $('eg-redirect').textContent = glRedirectUri();
   }
+
+  function renderGlCard() {
+    setGitLabBadge(!!ls(GL.tok));
+  }
+  window.setGitLabBadge = function (connected) {
+    try { writePluginStatus('gitlab', connected); } catch (e) {}
+    var badge = document.getElementById('gitlab-status-badge');
+    if (badge) { badge.classList.toggle('hidden', !connected); badge.classList.toggle('flex', connected); }
+    var btn = document.getElementById('gitlab-connect-btn');
+    if (btn) btn.classList.toggle('hidden', connected);
+  };
+
+  function renderGlState() {
+    var has = !!ls(GL.tok);
+    if (ls(GL.base)) { var b = document.getElementById('glc-base'); if (b) b.value = ls(GL.base); }
+    $('glc-connected').classList.toggle('hidden', !has);
+    $('glc-connect').classList.toggle('hidden', has);
+    if (has) {
+      var u = {};
+      try { u = JSON.parse(ls(GL.user) || '{}'); } catch (e) {}
+      $('glc-avatar').src = u.avatar_url || '';
+      $('glc-name').textContent = u.name || u.username || 'GitLab';
+      $('glc-meta').textContent = '@' + (u.username || 'gitlab') + ' · ' + (ls(GL.base) || '').replace(/^https?:\/\//, '');
+    } else {
+      $('glc-client-id').value = ls(GL.cid) || '';
+      $('glc-app-url').textContent = (($('glc-base').value || 'https://gitlab.com').replace(/\/+$/, '')) + '/-/user_settings/applications';
+      $('glc-redirect').textContent = glRedirectUri();
+      $('glc-msg').classList.add('hidden');
+    }
+  }
+
+  window.openGitLabModal = function () {
+    renderGlState();
+    $('gitlab-modal').classList.remove('hidden');
+  };
+  window.closeGitLabModal = function () {
+    $('gitlab-modal').classList.add('hidden');
+  };
 
   function glApi(tok, url, opts) {
     return fetch(url, Object.assign({ headers: { Authorization: 'Bearer ' + tok } }, opts || {}));
@@ -2553,6 +2645,12 @@
       c.addEventListener('click', open);
       c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     }
+    var g = $('gitlab-integration-card');
+    if (g) {
+      var openGl = function () { openGitLabModal(); };
+      g.addEventListener('click', openGl);
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openGl(); } });
+    }
   });
 
   // init: callback OAuth -> buka modal di tab GitLab; ?buka=eksport-git -> buka modal
@@ -2562,6 +2660,7 @@
   try {
     if (new URLSearchParams(location.search).get('buka') === 'eksport-git') openExportModal();
   } catch (e) {}
+  renderGlCard();
 })();
 </script>
 </body>
