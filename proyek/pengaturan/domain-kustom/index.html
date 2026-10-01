@@ -269,6 +269,11 @@
                     Live preview
                     <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
+                    <a id="header-editor" href="/editor/" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/editor/?id='+encodeURIComponent(__pid)}" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+                        Editor
+                        <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
                 <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                     <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
                     Eksport zip
