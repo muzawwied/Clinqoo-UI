@@ -125,6 +125,10 @@
     body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
       background-color: #0a0a0a; color: #f0f0f0; border-color: #222222;
     }
+    input, select, textarea { -webkit-appearance: none; appearance: none; }
+    input:disabled { opacity: 1; -webkit-text-fill-color: currentColor; }
+    body.dark-mode input:disabled { background-color: #0a0a0a !important; color: #555555 !important; -webkit-text-fill-color: #555555 !important; }
+    body.dark-mode .domain-shimmer { background: linear-gradient(90deg,#141414 25%,#1f1f1f 50%,#141414 75%) !important; background-size: 200% 100% !important; }
     body.dark-mode ::-webkit-scrollbar-thumb { background: #222222; }
 
         body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
