@@ -78,6 +78,15 @@ body.dark-mode .kd-btn.ghost:hover{background:#26262b}
 .kd-empty h2{font-size:15px;margin-bottom:8px;color:inherit}
 body.dark-mode .kd-empty{color:#9a9aa4}
 
+/* ===== Preview media (gambar/audio/video/pdf) ===== */
+.kd-preview{display:none;flex:1;min-width:0;align-items:center;justify-content:center;overflow:auto;padding:24px;background:#ececef}
+body.dark-mode .kd-preview{background:#1a1a1d}
+.kd-preview.on{display:flex}
+.kd-preview img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18);background:#fff}
+.kd-preview audio{width:min(420px,90%)}
+.kd-preview video{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+.kd-preview iframe{width:100%;height:100%;border:none;border-radius:10px;background:#fff}
+
 /* ===== Status bar minimalis ===== */
 .kd-status{
   flex-shrink:0;display:flex;align-items:center;gap:14px;
@@ -123,6 +132,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     <pre class="kd-code" id="kd-code"></pre>
     <textarea class="kd-edit" id="kd-edit" spellcheck="false"></textarea>
   </div>
+  <div class="kd-preview" id="kd-preview"></div>
   <div class="kd-empty" id="kd-empty" style="display:none">
     <h2>Berkas tidak ditemukan</h2>
     <p>Berkas mungkin sudah dihapus atau dipindahkan.</p>
@@ -159,6 +169,20 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
   var elStSize = document.getElementById('kd-st-size');
   var elStCursor = document.getElementById('kd-st-cursor');
   var elFallback = document.getElementById('kd-fallback');
+  var elPreview = document.getElementById('kd-preview');
+
+  /* ---------- jenis berkas media (samakan dengan daftar Workspace) ---------- */
+  var AUDIO_EXT=['mp3','wav','ogg','oga','flac','m4a','m4b','aac','opus','wma','aiff','aif','amr','mid','midi'];
+  var VIDEO_EXT=['mp4','m4v','avi','mkv','mov','webm','wmv','flv','mpg','mpeg','3gp','3g2','ogv'];
+  var IMAGE_EXT=['png','jpg','jpeg','jfif','svg','gif','webp','bmp','ico','avif','apng','tif','tiff','heic','heif'];
+  var PDF_EXT=['pdf'];
+  function mediaKind(ext){
+    if (IMAGE_EXT.indexOf(ext)!==-1) return 'image';
+    if (AUDIO_EXT.indexOf(ext)!==-1) return 'audio';
+    if (VIDEO_EXT.indexOf(ext)!==-1) return 'video';
+    if (PDF_EXT.indexOf(ext)!==-1) return 'pdf';
+    return 'code';
+  }
 
   document.title = (fname || 'Lihat Kode') + ' — Clincoo';
 
@@ -301,6 +325,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
         if (hit && typeof hit.content === 'string') {
           item = { name: fname, path: hit.path, content: hit.content, _cloudOnly: true };
           render();
+          if (mediaKind(extOf(item.name)) === 'code') initMonaco();
         } else {
           showEmpty();
         }
@@ -311,8 +336,10 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
 
   function render() {
     elFname.textContent = item.name;
-    elLang.textContent = extOf(item.name) ? langLabel(item.name) : '';
-    elLang.hidden = !extOf(item.name);
+    var ext = extOf(item.name);
+    var kind = mediaKind(ext);
+    elLang.textContent = ext ? langLabel(item.name) : '';
+    elLang.hidden = !ext;
     elStatus.hidden = false;
     elStLang.textContent = langLabel(item.name);
     function subLabel() {
@@ -324,7 +351,32 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     }
     subLabel();
 
-    // isi editor: Monaco kalau siap, fallback teks polos kalau tidak
+    if (kind !== 'code') {
+      // ---------- berkas media: tampilkan preview, bukan teks mentah ----------
+      document.getElementById('kd-editor').style.display = 'none';
+      elFallback.style.display = 'none';
+      elEditBtn.style.display = 'none';
+      elSaveBtn.style.display = 'none';
+      elPreview.classList.add('on');
+      var raw = item.content || '';
+      var isDataUri = /^data:/.test(raw);
+      var src = isDataUri ? raw : raw; // berkas lama/non-dataURI tampil as-is
+      if (kind === 'image') {
+        elLang.textContent = (ext || 'IMG').toUpperCase();
+        elLang.hidden = false;
+        elStLang.textContent = (ext || 'Gambar').toUpperCase();
+        elPreview.innerHTML = '<img src="' + src.replace(/"/g, '&quot;') + '" alt="' + item.name.replace(/"/g, '&quot;') + '">';
+      } else if (kind === 'audio') {
+        elPreview.innerHTML = '<audio controls src="' + src.replace(/"/g, '&quot;') + '"></audio>';
+      } else if (kind === 'video') {
+        elPreview.innerHTML = '<video controls src="' + src.replace(/"/g, '&quot;') + '"></video>';
+      } else if (kind === 'pdf') {
+        elPreview.innerHTML = '<iframe src="' + src.replace(/"/g, '&quot;') + '" title="' + item.name.replace(/"/g, '&quot;') + '"></iframe>';
+      }
+      return;
+    }
+
+    // ---------- berkas kode/teks: Monaco (atau fallback teks polos) ----------
     var monacoTimer = setInterval(function () {
       if (monacoReady && editor) { model.setValue(item.content || ''); clearInterval(monacoTimer); }
       else if (elFallback.classList.contains('on')) {
@@ -414,7 +466,8 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
       .catch(function () { pushed = false; });
   }
 
-  initMonaco();
+  // hanya muat Monaco untuk berkas kode/teks; berkas media tak butuh editor
+  if (item && mediaKind(extOf(item.name)) === 'code') initMonaco();
 })();
 </script>
 </body>
