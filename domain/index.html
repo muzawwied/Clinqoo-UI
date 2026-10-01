@@ -103,12 +103,13 @@ body.dark-mode .shim::after{background:linear-gradient(90deg,transparent 25%,rgb
         </div>
         <div id="table-card" class="hidden bg-white rounded-xl border border-gray-100 shadow-[0_2px_12px_rgb(0,0,0,0.05)] overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left min-w-[560px]">
+                <table class="w-full text-left min-w-[660px]">
                     <thead>
                         <tr class="border-b border-gray-100">
                             <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Domain</th>
                             <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                            <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Ditambahkan</th>
+                            <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-600 transition-colors" onclick="sortBy('created')" title="Urutkan">Ditambahkan <span id="sort-created" class="text-gray-300"></span></th>
+                            <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-600 transition-colors" onclick="sortBy('updated')" title="Urutkan">Terakhir Diubah <span id="sort-updated" class="text-gray-300"></span></th>
                             <th class="px-5 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -141,6 +142,8 @@ body.dark-mode .shim::after{background:linear-gradient(90deg,transparent 25%,rgb
 </div>
 
 <script>
+try { lucide.createIcons(); } catch (e) {}
+
 let deletingId = null;
 
 function goBack() { if (history.length > 1) history.back(); }
@@ -148,6 +151,18 @@ function goBack() { if (history.length > 1) history.back(); }
 function fmtDate(iso) {
     const d = new Date(iso);
     return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+let sortKey = 'created', sortDir = 'desc';
+function sortBy(key) {
+    if (sortKey === key) sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+    else { sortKey = key; sortDir = 'desc'; }
+    render();
+}
+function updateSortIndicators() {
+    const c = document.getElementById('sort-created'), u = document.getElementById('sort-updated');
+    if (c) c.textContent = sortKey === 'created' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
+    if (u) u.textContent = sortKey === 'updated' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
 }
 
 const PIN_KEY = 'clincoo_pinned_domains';
@@ -165,7 +180,8 @@ async function render() {
     const raw = await store.list();
     const skel = document.getElementById('table-skeleton');
     if (skel) skel.classList.add('hidden');
-    const list = raw.map(d => ({ id: d.id, name: d.name, note: d.note || '', status: d.status, created: d.created_at || d.created })).sort((a, b) => (isPinned(b.name) - isPinned(a.name)) || (new Date(b.created || 0) - new Date(a.created || 0)));
+    updateSortIndicators();
+    const list = raw.map(d => ({ id: d.id, name: d.name, note: d.note || '', status: d.status, created: d.created_at || d.created, updated: d.updated_at || d.created_at || d.created })).sort((a, b) => (isPinned(b.name) - isPinned(a.name)) || ((new Date(a[sortKey] || 0) - new Date(b[sortKey] || 0)) * (sortDir === 'desc' ? -1 : 1)));
     const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
     const shown = q ? list.filter(d => d.name.toLowerCase().includes(q) || (d.note || '').toLowerCase().includes(q)) : list;
     const tbody = document.getElementById('domain-tbody');
@@ -207,7 +223,8 @@ async function render() {
                     <span class="text-[12px] font-semibold text-emerald-600 whitespace-nowrap">Aktif</span>` : `
                     <span class="text-[12px] font-semibold text-red-600 whitespace-nowrap">Belum terverifikasi</span>`}
                 </td>
-                <td class="px-5 py-3.5 text-[13px] text-gray-500">${fmtDate(d.created)}</td>
+                <td class="px-5 py-3.5 text-[13px] text-gray-500 whitespace-nowrap">${fmtDate(d.created)}</td>
+                <td class="px-5 py-3.5 text-[13px] text-gray-500 whitespace-nowrap">${fmtDate(d.updated)}</td>
                 <td class="px-5 py-3.5 text-right">
                     <button onclick="openActions(event, '${d.id}')" class="w-8 h-8 flex items-center justify-center cursor-pointer ml-auto active:opacity-60 transition-opacity" title="Aksi lainnya">
                         <i data-lucide="more-vertical" class="w-[18px] h-[18px] text-gray-400 group-hover:text-gray-900 transition-colors"></i>
@@ -221,7 +238,7 @@ async function render() {
 function goDomain(row) {
     const a = row.querySelector('a[data-domain]');
     if (!a) return;
-    location.href = 'kelola/dns/?domain=' + encodeURIComponent(a.dataset.name);
+    location.href = 'detail/?domain=' + encodeURIComponent(a.dataset.name);
 }
 
 function esc(s) { return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -235,6 +252,7 @@ function openActions(evt, id) {
     const d = lastList.find(x => x.id === id); if (!d) return;
     actioningId = id;
     const rows = [];
+    rows.push({ label: 'Detail Domain', action: `location.href='detail/?domain=' + encodeURIComponent('${esc(d.name)}')` });
     rows.push({ label: isPinned(d.name) ? 'Lepas Sematan' : 'Sematkan', action: `togglePin('${esc(d.name)}')` });
     if (d.status !== 'aktif') {
         rows.push({ label: 'Verifikasi Domain', action: `location.href='verifikasi/?domain=' + encodeURIComponent('${esc(d.name)}')` });

@@ -438,11 +438,11 @@
                 <i data-lucide="x" class="w-[22px] h-[22px] text-black"></i>
             </button>
         </div>
-        <div class="px-4 pt-3 pb-2">
+        <div class="px-3 pt-3 pb-2">
             <div class="relative">
                 <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10"></i>
-                <input id="sidebar-search" type="text" placeholder="Cari fitur..." autocomplete="off" class="w-full bg-gray-50 rounded-full pl-11 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-100 transition-colors">
-                <div id="sidebar-search-pop" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] py-1.5 z-50 max-h-72 overflow-y-auto"></div>
+                <input id="sidebar-search" type="text" placeholder="Cari fitur..." autocomplete="off" class="w-full bg-gray-50 border border-gray-200 rounded-full pl-11 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:bg-gray-100 transition-colors">
+                <div id="sidebar-search-pop" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] py-1.5 z-50 max-h-96 overflow-y-auto"></div>
             </div>
         </div>
         <nav id="sidebar-nav" class="flex-1 overflow-y-auto pb-3 flex flex-col">
@@ -466,7 +466,7 @@
                 <i data-lucide="bell" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
                 <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Notifikasi</span>
             </a>
-            <a href="akun/langganan/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="upgrade langganan paket">
+            <a href="akun/upgrade/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="upgrade langganan paket">
                 <i data-lucide="crown" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
                 <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Upgrade</span>
             </a>
@@ -488,7 +488,7 @@
                     <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900 flex-1 text-left">Daftar Proyek</span>
                     <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
                 </button>
-                <div id="sidebar-proj-list" class="hidden flex-col max-h-52 overflow-y-auto"></div>
+                <div id="sidebar-proj-list" class="hidden flex-col max-h-52 overflow-y-auto border-t border-gray-100"></div>
             </div>
         </nav>
         <a href="akun/profile/" onclick="toggleSidebar(false)" class="mt-auto border-t border-gray-100 flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors">
@@ -568,7 +568,7 @@
                 var html2 = '';
                 projects.forEach(function (p) {
                     var name = (p && (p.aiName || p.title)) || 'Tanpa nama';
-                    html2 += '<a href="proyek/workspace/?id=' + encodeURIComponent(p.id) + '" onclick="toggleSidebar(false)" class="sb-sub flex items-center gap-2.5 px-6 py-2 pl-[3.25rem] hover:bg-gray-50 transition-colors" data-search="' + esc(name) + '">' +
+                    html2 += '<a href="proyek/workspace/?id=' + encodeURIComponent(p.id) + '" onclick="toggleSidebar(false)" class="sb-sub flex items-center gap-2.5 px-6 py-2 pl-[3.25rem] hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0" data-search="' + esc(name) + '">' +
                         '<i data-lucide="folder" class="w-4 h-4 text-gray-400 shrink-0"></i>' +
                         '<span class="text-sm text-gray-600 truncate">' + esc(name) + '</span></a>';
                 });
@@ -596,17 +596,50 @@
             if (e.key === 'Escape') { toggleSidebar(false); }
         });
         // ===== Popover pencarian fitur =====
-        function sbPopItems() {
+        function sbPopGroups() {
             return [
-                { label: 'Home', icon: 'home', act: function () { toggleSidebar(false); navigateTo('page-home'); } },
-                { label: 'Domain', icon: 'globe', act: function () { location.href = 'domain/'; } },
-                { label: 'Proyek', icon: 'folder', act: function () { location.href = 'akun/proyek/'; } },
-                { label: 'Template', icon: 'layout-template', act: function () { location.href = 'templates/'; } },
-                { label: 'Notifikasi', icon: 'bell', act: function () { location.href = 'akun/notifikasi/'; } },
-                { label: 'Upgrade', icon: 'crown', act: function () { location.href = 'akun/langganan/'; } },
-                { label: 'Pusat Bantuan', icon: 'circle-help', act: function () { window.open('https://blog.clincoo.buzz/panduan/', '_blank', 'noopener'); } },
-                { label: 'Template Favorit', icon: 'heart', act: function () { sbOpenSection('sidebar-fav-list'); } },
-                { label: 'Daftar Proyek', icon: 'layers', act: function () { sbOpenSection('sidebar-proj-list'); } }
+                { group: 'Menu', items: [
+                    { label: 'Home', icon: 'home', act: function () { toggleSidebar(false); navigateTo('page-home'); } },
+                    { label: 'Domain', icon: 'globe', act: function () { location.href = 'domain/'; } },
+                    { label: 'Template', icon: 'layout-template', act: function () { location.href = 'templates/'; } },
+                    { label: 'Notifikasi', icon: 'bell', act: function () { location.href = 'akun/notifikasi/'; } },
+                    { label: 'Upgrade', icon: 'crown', act: function () { location.href = 'akun/upgrade/'; } },
+                    { label: 'Pusat Bantuan', icon: 'circle-help', act: function () { window.open('https://blog.clincoo.buzz/panduan/', '_blank', 'noopener'); } },
+                    { label: 'Template Favorit', icon: 'heart', act: function () { sbOpenSection('sidebar-fav-list'); } },
+                    { label: 'Daftar Proyek', icon: 'layers', act: function () { sbOpenSection('sidebar-proj-list'); } }
+                ] },
+                { group: 'Akun', items: [
+                    { label: 'Profil', icon: 'user', act: function () { location.href = 'akun/profile/'; } },
+                    { label: 'Personal', icon: 'id-card', act: function () { location.href = 'akun/personal/'; } },
+                    { label: 'Dompet', icon: 'wallet', act: function () { location.href = 'akun/dompet/'; } },
+                    { label: 'Top Up', icon: 'plus-circle', act: function () { location.href = 'akun/topup/'; } },
+                    { label: 'ClincooPay', icon: 'qrcode', act: function () { location.href = 'akun/clincoopay/'; } },
+                    { label: 'Aktivitas', icon: 'rotate-ccw', act: function () { location.href = 'akun/aktivitas/'; } },
+                    { label: 'Kontrol Data', icon: 'database', act: function () { location.href = 'akun/kontrol-data/'; } },
+                    { label: 'Favorit', icon: 'heart', act: function () { location.href = 'akun/favorit/'; } },
+                    { label: 'Kolaborasi', icon: 'users', act: function () { location.href = 'akun/kolaborasi/'; } },
+                    { label: 'Tambah Tugas', icon: 'square-pen', act: function () { location.href = 'akun/tambah-tugas/'; } },
+                    { label: 'Tugas Terjadwal', icon: 'calendar-clock', act: function () { location.href = 'akun/tugas-terjadwal/'; } },
+                    { label: 'Langganan', icon: 'repeat', act: function () { location.href = 'akun/langganan/'; } },
+                    { label: 'Laporkan Bug', icon: 'bug', act: function () { location.href = 'akun/laporkan-bug/'; } },
+                    { label: 'Tentang', icon: 'info', act: function () { location.href = 'akun/tentang/'; } }
+                ] },
+                { group: 'Proyek', items: [
+                    { label: 'Workspace', icon: 'layout-panel-left', act: function () { location.href = 'proyek/workspace/'; } },
+                    { label: 'Editor', icon: 'code', act: function () { location.href = 'proyek/workspace-editor/'; } },
+                    { label: 'Pengaturan', icon: 'settings', act: function () { location.href = 'proyek/pengaturan/'; } },
+                    { label: 'Umum', icon: 'sliders-horizontal', act: function () { location.href = 'proyek/umum/'; } },
+                    { label: 'Domain Kustom', icon: 'globe-lock', act: function () { location.href = 'proyek/build-deployment/domain-kustom/'; } },
+                    { label: 'Environment', icon: 'braces', act: function () { location.href = 'proyek/environment/'; } },
+                    { label: 'Keamanan', icon: 'shield', act: function () { location.href = 'proyek/keamanan/'; } },
+                    { label: 'Keamanan HTTPS', icon: 'lock', act: function () { location.href = 'proyek/keamanan-https/'; } },
+                    { label: 'Integrasi Webhook', icon: 'webhook', act: function () { location.href = 'proyek/integrasi-webhook/'; } },
+                    { label: 'Build Deployment', icon: 'rocket', act: function () { location.href = 'proyek/build-deployment/'; } },
+                    { label: 'Dashboard Deployment', icon: 'chart-column', act: function () { location.href = 'proyek/build-deployment-dashboard/'; } },
+                    { label: 'Konfigurasi Build', icon: 'wrench', act: function () { location.href = 'proyek/build-deployment-config/'; } },
+                    { label: 'Visibilitas & Akses', icon: 'eye', act: function () { location.href = 'proyek/visibilitas-akses/'; } },
+                    { label: 'Zona Bahaya', icon: 'triangle-alert', act: function () { location.href = 'proyek/zona-bahaya/'; } }
+                ] }
             ];
         }
         function sbOpenSection(listId) {
@@ -622,15 +655,22 @@
             var pop = document.getElementById('sidebar-search-pop');
             if (!pop) return;
             q = (q || '').trim().toLowerCase();
-            var items = sbPopItems().filter(function (it) { return !q || it.label.toLowerCase().indexOf(q) !== -1; });
-            if (!items.length) { pop.innerHTML = '<p class="px-4 py-2.5 text-xs text-gray-400">Fitur tidak ditemukan</p>'; return; }
-            pop.innerHTML = items.map(function (it, i) {
-                return '<button type="button" data-sbpop="' + i + '" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors group">' +
-                    '<i data-lucide="' + it.icon + '" class="w-4 h-4 text-gray-500 group-hover:text-gray-900 transition-colors"></i>' +
-                    '<span class="text-sm font-medium text-gray-800 group-hover:text-gray-900">' + it.label + '</span></button>';
-            }).join('');
+            var html = '', acts = [];
+            sbPopGroups().forEach(function (g) {
+                var hits = g.items.filter(function (it) { return !q || it.label.toLowerCase().indexOf(q) !== -1 || g.group.toLowerCase().indexOf(q) !== -1; });
+                if (!hits.length) return;
+                html += '<p class="px-4 pt-2.5 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">' + g.group + '</p>';
+                hits.forEach(function (it) {
+                    var i = acts.push(it) - 1;
+                    html += '<button type="button" data-sbpop="' + i + '" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors group">' +
+                        '<i data-lucide="' + it.icon + '" class="w-4 h-4 text-gray-500 group-hover:text-gray-900 transition-colors"></i>' +
+                        '<span class="text-sm font-medium text-gray-800 group-hover:text-gray-900">' + it.label + '</span></button>';
+                });
+            });
+            if (!html) html = '<p class="px-4 py-2.5 text-xs text-gray-400">Fitur tidak ditemukan</p>';
+            pop.innerHTML = html;
             pop.querySelectorAll('[data-sbpop]').forEach(function (b) {
-                b.addEventListener('click', function () { items[+b.getAttribute('data-sbpop')].act(); });
+                b.addEventListener('click', function () { acts[+b.getAttribute('data-sbpop')].act(); });
             });
             try { lucide.createIcons(); } catch (e) {}
         }
