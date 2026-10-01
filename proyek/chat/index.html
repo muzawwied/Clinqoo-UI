@@ -309,6 +309,11 @@
         body.dark-mode button.header-menu-item:active { background: rgba(255,255,255,0.08); }
         .header-menu-item { cursor: pointer; }
         body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+        .chat-hdr-pill { pointer-events: auto; display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 9999px; background: #ffffff; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 8px rgba(0,0,0,0.08); color: #222222; font-size: 13px; font-weight: 600; white-space: nowrap; transition: all .15s ease; }
+        .chat-hdr-pill:hover { background: #f5f5f5; }
+        .chat-hdr-label { display: none; }
+        body.dark-mode .chat-hdr-pill { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); color: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        body.dark-mode .chat-hdr-pill:hover { background-color: #1a1a1a; }
         body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
         body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
         body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
@@ -526,6 +531,8 @@
             .chat-nav-link[data-nav="agent"] { display: none; }
             /* Bar aksi split (refresh, buka tab baru, riwayat deploy) hanya relevan saat split aktif */
             #chat-split-actions { display: flex; }
+            /* Teks tombol Editor/Live preview hanya di layar legep */
+            .chat-hdr-label { display: inline; }
         }
         body.dark-mode #chat-split-actions button { color: #9ca3af; }
         body.dark-mode #chat-split-actions button:hover { color: #ffffff; }
@@ -565,6 +572,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
+        <div class="flex items-center gap-4 flex-shrink-0">
         <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 h-11" id="chat-header-capsule">
             <nav id="chat-top-nav" class="relative inline-flex items-center h-full">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none" style="top:0;left:0;width:0;height:0"></div>
@@ -572,6 +580,16 @@
                 <a href="/proyek/code/" data-nav="code" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Workspace</a>
                 <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Dashboard</a>
             </nav>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+                <button id="chat-hdr-editor" type="button" onclick="chatOpenEditor()" class="chat-hdr-pill" title="Editor kode" aria-label="Editor kode">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                    <span class="chat-hdr-label">Editor</span>
+                </button>
+                <button id="chat-hdr-preview" type="button" onclick="chatLivePreview()" class="chat-hdr-pill" title="Live preview" aria-label="Live preview">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+                    <span class="chat-hdr-label">Live preview</span>
+                </button>
         </div>
         <div id="chat-split-actions" class="flex-shrink-0 pointer-events-auto hidden items-center gap-2">
                 <button id="chat-split-refresh" type="button" onclick="chatSplitRefresh()" title="Muat ulang panel" aria-label="Muat ulang panel" class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-black transition-colors">
@@ -591,16 +609,6 @@
                     </svg>
                 </button>
                 <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
-                    <button id="header-live-preview" type="button" onclick="chatLivePreview()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
-                    Live preview
-                    <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-                    <a id="header-editor" href="/proyek/workspace/editor/" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/proyek/workspace/editor/?id='+encodeURIComponent(__pid)}" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg>
-                        Editor
-                        <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-                    </a>
                         <a id="header-project-settings" href="/proyek/pengaturan/" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/proyek/pengaturan/?id='+encodeURIComponent(__pid)}" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                         <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                         Pengaturan proyek
@@ -620,12 +628,13 @@
                     </a>
                 </div>
             </div>
+        </div>
     </header>
 
     
     <!-- Split view desktop: panel workspace di kanan (chat jadi kolom kiri 1/4) -->
     <div id="chat-ws-panel" class="fixed left-1/3 top-0 bottom-0 right-0 z-0 bg-white">
-        <iframe id="chat-ws-frame" data-src="/proyek/code/?embed=1" title="Workspace" class="w-full h-full border-0" tabindex="-1"></iframe>
+        <iframe id="chat-ws-frame" title="Panel proyek" class="w-full h-full border-0" tabindex="-1"></iframe>
     </div>
 
     <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-[80px] pb-32 space-y-6 w-full relative z-10">
@@ -726,7 +735,17 @@
             var frame = document.getElementById('chat-ws-frame');
             if (!frame) return;
             var mq = window.matchMedia('(min-width: 900px)');
-            function load(m) { if (m.matches && !frame.getAttribute('src') && frame.dataset.src) { frame.src = frame.dataset.src; } }
+            function load(m) {
+                if (m.matches && !frame.getAttribute('src')) {
+                    var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+                    var panel = 'code';
+                    try { panel = new URLSearchParams(location.search).get('panel') === 'dashboard' ? 'dashboard' : 'code'; } catch (e) {}
+                    frame.dataset.src = (panel === 'dashboard')
+                        ? '/proyek/dashboard/?embed=1'
+                        : '/proyek/preview/?embed=1' + (pid ? '&id=' + encodeURIComponent(pid) : '');
+                    frame.src = frame.dataset.src;
+                }
+            }
             load(mq);
             if (mq.addEventListener) mq.addEventListener('change', load);
         })();
@@ -738,11 +757,18 @@
         // Split view (desktop): tab aktif = Workspace; klik Workspace/Dashboard mengganti isi panel split (tanpa navigasi)
         const splitMq = window.matchMedia('(min-width: 900px)');
         const wsFrame = document.getElementById('chat-ws-frame');
-        const splitNavSrc = { code: '/proyek/code/?embed=1', dashboard: '/proyek/dashboard/?embed=1' };
+        // Tab Workspace kini menampilkan preview web dari file-file workspace (bukan file manager)
+        function splitSrcFor(nav) {
+            if (nav === 'dashboard') return '/proyek/dashboard/?embed=1';
+            var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+            return '/proyek/preview/?embed=1' + (pid ? '&id=' + encodeURIComponent(pid) : '');
+        }
+        const initPanel = (new URLSearchParams(location.search).get('panel') === 'dashboard') ? 'dashboard' : 'code';
+        const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard') };
         let chatNavActive = chatNavLinks.find(l => l.dataset.nav === 'agent') || chatNavLinks[0];
         if (splitMq.matches) {
             chatNavLinks.forEach(x => x.classList.remove('is-active'));
-            chatNavActive = chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavActive;
+            chatNavActive = chatNavLinks.find(l => l.dataset.nav === initPanel) || chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavActive;
         }
         if (chatNavActive) chatNavActive.classList.add('is-active');
         function chatNavMovePill(el) {
@@ -780,6 +806,11 @@
         window.chatSplitHistory = function () {
             var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
             window.open('/proyek/build-deployment/' + (pid ? '?id=' + encodeURIComponent(pid) : ''), '_blank');
+        };
+        // Dari popup ••• ke header: buka editor kode proyek aktif
+        window.chatOpenEditor = function () {
+            var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+            window.open('/proyek/workspace/editor/' + (pid ? '?id=' + encodeURIComponent(pid) : ''), '_blank');
         };
         window.toggleHeaderMenu = function (e) {
             e.stopPropagation();
