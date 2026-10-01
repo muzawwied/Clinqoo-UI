@@ -287,7 +287,7 @@
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-        #chat-nav-pill { background: #e9e9ec; view-transition-name: chat-nav-pill; }
+        #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
         @media (prefers-reduced-motion: no-preference) {
@@ -300,7 +300,7 @@
             body { animation: clq-page-in .18s cubic-bezier(.2,.7,.3,1) both; }
             html:active-view-transition body { animation: none; }
         }
-        .chat-nav-link.is-active { color: #111111; }
+        .chat-nav-link.is-active { color: #111111; background: #e9e9ec; view-transition-name: chat-nav-pill; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { -webkit-tap-highlight-color: transparent; }
         .header-menu-item:focus, .header-menu-item:focus-visible { outline: none; box-shadow: none; }
@@ -315,7 +315,7 @@
         body.dark-mode #chat-nav-pill { background: #ffffff !important; }
         body.dark-mode #chat-input-card { border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
         body.dark-mode .chat-nav-link { color: #9ca3af !important; }
-        body.dark-mode .chat-nav-link.is-active { color: #0a0a0a !important; }
+        body.dark-mode .chat-nav-link.is-active { color: #0a0a0a !important; background: #ffffff !important; }
         body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
         body.dark-mode .header-menu-item { color: #e5e7eb; }
         body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
@@ -550,7 +550,7 @@
         <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 h-11" id="chat-header-capsule">
             <nav id="chat-top-nav" class="relative inline-flex items-center h-full">
                 <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none" style="top:0;left:0;width:0;height:0"></div>
-                <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Agent</a>
+                <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link is-active relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Agent</a>
                 <a href="/proyek/code/" data-nav="code" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Workspace</a>
                 <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Dashboard</a>
             </nav>
