@@ -301,7 +301,7 @@
             </button>
             <div id="ai-model-popover" class="hidden absolute left-0 top-full mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-xl shadow-lg z-50 p-1 max-h-64 overflow-y-auto"></div>
           </div>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2.5">Semua model juga bisa dipanggil langsung lewat secret proyek — cukup sebut namanya di parameter <span class="font-mono">model</span> saat memanggil API.</p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2.5">Semua model bisa dipanggil langsung lewat secret proyek — pakai id modelnya (mis. <span class="font-mono">clincoo/glm-5.2</span>) di parameter <span class="font-mono">model</span> pada cURL.</p>
         </div>
 
         <!-- 3. Secret API (per proyek) -->
@@ -439,9 +439,9 @@
   var _aiSecret = '';
   var AI_MODELS = [
     { id: 'clincoo/auto', label: 'Auto (rantai otomatis)', rate: 'gratis' },
-    { id: 'clincoo/glm-5.2', label: 'Flagship 5.2', rate: 'gratis · reasoning & kode' },
-    { id: 'clincoo/deepseek-v4-flash', label: 'Cepat V4 Flash', rate: 'gratis · konteks besar' },
-    { id: 'clincoo/glm-4.7-flash', label: 'Flash 4.7', rate: 'gratis · multilingual' },
+    { id: 'clincoo/glm-5.2', label: 'GLM 5.2', rate: 'gratis · reasoning & kode' },
+    { id: 'clincoo/deepseek-v4-flash', label: 'DeepSeek V4 Flash', rate: 'gratis · konteks besar' },
+    { id: 'clincoo/glm-4.7-flash', label: 'GLM 4.7 Flash', rate: 'gratis · multilingual' },
     { id: 'clincoo/reasoning-120b', label: 'Reasoning 120B', rate: 'gratis · reasoning umum' },
     { id: 'clincoo/reasoning-550b', label: 'Reasoning 550B', rate: 'gratis · konteks 1M token' },
     { id: 'clincoo/lightning', label: 'Lightning', rate: 'gratis · ringan & cepat' },
@@ -533,7 +533,7 @@
       b.type = 'button';
       var sel = m.id === _aiModelValue;
       b.className = 'w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition-colors text-left' + (sel ? ' bg-gray-50 dark:bg-slate-700/60 font-medium' : '');
-      b.innerHTML = aiModelIconChip(m.id) + '<span class="truncate">' + m.label + '</span>';
+      b.innerHTML = aiModelIconChip(m.id) + '<span class="truncate">' + m.label + '</span>' + '<span class="ml-auto pl-2 flex-shrink-0 text-[10px] font-mono text-gray-400 dark:text-slate-500">' + m.id + '</span>';
       b.addEventListener('click', function () { pickAiModel(m.id); });
       pop.appendChild(b);
     });
