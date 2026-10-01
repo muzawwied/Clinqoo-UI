@@ -685,8 +685,10 @@
           setTimeout(() => {
             if (window.ClinqooAuth && window.ClinqooAuth.logout) {
               window.ClinqooAuth.logout();
-            } else {
+            } else if (window.ClinqooBack) {
               window.ClinqooBack('../../');
+            } else {
+              location.replace('../../'); // guest mode tanpa auth-client: langsung kembali
             }
           }, 1200);
         })
