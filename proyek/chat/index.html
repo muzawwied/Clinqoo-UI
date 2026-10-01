@@ -516,11 +516,15 @@
         body.dark-mode header { background-color: #000000 !important; }
 
         /* ===== Split view desktop: chat kolom kiri 1/4 layar, workspace kanan 3/4 ===== */
+        /* Ambang 900px: ikut aktif di Chrome HP mode "Situs desktop" (layout ~980px) */
         #chat-ws-panel { display: none; }
-        @media (min-width: 1024px) {
+        @media (min-width: 900px) {
             #chat-ws-panel { display: block; }
             #chat-container { position: fixed; left: 0; right: 75%; top: 0; bottom: 0; width: auto; border-right: 1px solid rgb(243 244 246 / 1); }
             #chat-input-footer { left: 0; right: 75%; width: auto; }
+            /* Tab "Agent" tidak perlu di kapsul header saat split aktif (sudah tampil otomatis di kolom chat) */
+            .chat-nav-link[data-nav="agent"] { display: none; }
+            #chat-nav-pill { display: none; }
         }
         body.dark-mode #chat-ws-panel { background-color: #0a0a0a; }
         body.dark-mode #chat-container { border-right-color: rgba(255,255,255,0.10); }
@@ -697,11 +701,11 @@
             window.location.href = '/';
         });
 
-        // Split view desktop: muat workspace di panel kiri hanya saat layar >= 1024px (hemat di mobile)
+        // Split view desktop: muat workspace di panel kiri hanya saat layar >= 900px (hemat di mobile)
         (function () {
             var frame = document.getElementById('chat-ws-frame');
             if (!frame) return;
-            var mq = window.matchMedia('(min-width: 1024px)');
+            var mq = window.matchMedia('(min-width: 900px)');
             function load(m) { if (m.matches && !frame.getAttribute('src') && frame.dataset.src) { frame.src = frame.dataset.src; } }
             load(mq);
             if (mq.addEventListener) mq.addEventListener('change', load);
