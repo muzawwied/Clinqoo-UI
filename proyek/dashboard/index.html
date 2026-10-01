@@ -338,6 +338,7 @@
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
                         <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden" onchange="onLogoPicked(this)">
+                        <p id="logo-status" class="text-[10px] text-gray-400 text-center h-3 mt-1.5 absolute top-full left-1/2 -translate-x-1/2 w-32 truncate"></p>
                     </div>
                 </div>
             </div>
@@ -375,17 +376,16 @@
         </div>
     </main>
 
-    <!-- Modal crop logo: geser untuk posisi, slider untuk zoom -->
+    <!-- Modal crop logo: geser untuk posisi (hasil mengikuti bentuk bulat logo) -->
     <div id="logo-crop-modal" class="fixed inset-0 z-[60] hidden items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeCropModal()"></div>
         <div class="bg-white dark:bg-[#0a0a0a] rounded-2xl overflow-hidden w-full max-w-sm relative z-10 shadow-2xl border border-gray-100 dark:border-gray-800">
             <div class="px-4 pt-3.5 pb-3">
-                <h3 class="text-sm font-bold text-gray-900 dark:text-white">Atur logo</h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 mb-3">Geser gambarnya untuk atur posisi, slider untuk zoom.</p>
+                <h3 class="text-sm font-bold text-gray-900 dark:text-white">Atur posisi logo</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 mb-3">Geser gambarnya di dalam lingkaran sampai pas.</p>
                 <div class="w-full flex justify-center mb-3">
-                    <canvas id="logo-crop-canvas" width="512" height="512" class="w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] rounded-xl touch-none cursor-grab bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800"></canvas>
+                    <canvas id="logo-crop-canvas" width="512" height="512" class="w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] rounded-full touch-none cursor-grab bg-gray-50 dark:bg-gray-900 ring-1 ring-gray-200 dark:ring-gray-800"></canvas>
                 </div>
-                <input type="range" id="logo-crop-zoom" min="1" max="4" step="0.01" value="1" class="w-full cursor-pointer" aria-label="Zoom logo">
             </div>
             <div class="flex border-t border-gray-100 dark:border-gray-800">
                 <button type="button" onclick="closeCropModal()" class="flex-1 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer">Batal</button>
@@ -451,13 +451,20 @@
             var ini = document.getElementById('logo-initials');
             if (ini) ini.classList.toggle('hidden', !!dataUrl);
         }
-        // ---- Crop logo: geser untuk posisi + slider zoom, hasil persegi 512px ----
-        var _crop = { img: null, zoom: 1, minScale: 1, x: 0, y: 0 };
+        // ---- Crop logo: cukup geser untuk posisi, hasil persegi 512px (tampil bulat) ----
+        var _crop = { img: null, minScale: 1, x: 0, y: 0 };
         var CROP_S = 512;
+        function setLogoStatus(msg, isErr) {
+            var st = document.getElementById('logo-status');
+            if (!st) return;
+            st.textContent = msg || '';
+            st.classList.toggle('text-red-500', !!isErr);
+            st.classList.toggle('text-gray-400', !isErr);
+        }
         function clampAndDrawCrop() {
             var cvs = document.getElementById('logo-crop-canvas');
             if (!cvs || !_crop.img) return;
-            var s = _crop.minScale * _crop.zoom;
+            var s = _crop.minScale;
             var iw = _crop.img.width * s, ih = _crop.img.height * s;
             if (iw <= CROP_S) _crop.x = (CROP_S - iw) / 2; else _crop.x = Math.min(0, Math.max(CROP_S - iw, _crop.x));
             if (ih <= CROP_S) _crop.y = (CROP_S - ih) / 2; else _crop.y = Math.min(0, Math.max(CROP_S - ih, _crop.y));
@@ -475,14 +482,13 @@
             reader.onload = function () {
                 var img = new Image();
                 img.onload = function () {
-                    _crop.img = img; _crop.zoom = 1;
+                    _crop.img = img;
                     _crop.minScale = Math.max(CROP_S / img.width, CROP_S / img.height);
                     _crop.x = 0; _crop.y = 0;
-                    var z = document.getElementById('logo-crop-zoom'); if (z) z.value = 1;
                     clampAndDrawCrop();
                     openCropModal();
                 };
-                img.onerror = function () { setIndicator('error'); };
+                img.onerror = function () { setLogoStatus('Format gambar tidak didukung', true); };
                 img.src = reader.result;
             };
             reader.readAsDataURL(f);
@@ -490,11 +496,16 @@
         function applyCropLogo() {
             if (!_crop.img) return;
             var out = document.createElement('canvas'); out.width = CROP_S; out.height = CROP_S;
-            var s = _crop.minScale * _crop.zoom;
+            var s = _crop.minScale;
             out.getContext('2d').drawImage(_crop.img, _crop.x, _crop.y, _crop.img.width * s, _crop.img.height * s);
             var dataUrl = out.toDataURL('image/png');
             setLogoPreview(dataUrl);
             markPending('app_logo', dataUrl);
+            setLogoStatus('Menyimpan logo...');
+            Promise.resolve(savePending()).then(function (ok) {
+                if (ok) { setLogoStatus('Logo tersimpan'); setTimeout(function () { setLogoStatus(''); }, 2000); }
+                else { setLogoStatus('Logo gagal disimpan — coba lagi', true); if (Object.keys(pending).every(function (k) { return k === 'app_logo'; })) setIndicator(null); }
+            });
             closeCropModal();
         }
         (function initCropDrag() {
@@ -510,12 +521,15 @@
                 clampAndDrawCrop();
             });
             ['pointerup', 'pointercancel'].forEach(function (ev) { cvs.addEventListener(ev, function () { down = false; cvs.style.cursor = 'grab'; }); });
-            var z = document.getElementById('logo-crop-zoom');
-            if (z) z.addEventListener('input', function () { _crop.zoom = parseFloat(z.value) || 1; clampAndDrawCrop(); });
         })();
         function onLogoRemove() {
             setLogoPreview(null);
             markPending('app_logo', '');
+            setLogoStatus('Menghapus logo...');
+            Promise.resolve(savePending()).then(function (ok) {
+                if (ok) setLogoStatus('');
+                else { setLogoStatus('Gagal menghapus — coba lagi', true); if (Object.keys(pending).every(function (k) { return k === 'app_logo'; })) setIndicator(null); }
+            });
         }
         // ---- Preview tautan (og): live dari logo, nama, deskripsi ----
         function updateOgPreview() {
