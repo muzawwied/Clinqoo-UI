@@ -515,13 +515,13 @@
         body.dark-mode .border-accent { border-color: #ffffff !important; }
         body.dark-mode header { background-color: #000000 !important; }
 
-        /* ===== Split view desktop: chat kolom kiri 1/4 layar, workspace kanan 3/4 ===== */
+        /* ===== Split view desktop: chat kolom kiri 1/3 layar, workspace kanan 2/3 ===== */
         /* Ambang 900px: ikut aktif di Chrome HP mode "Situs desktop" (layout ~980px) */
         #chat-ws-panel { display: none; }
         @media (min-width: 900px) {
             #chat-ws-panel { display: block; }
-            #chat-container { position: fixed; left: 0; right: 75%; top: 0; bottom: 0; width: auto; border-right: 1px solid rgb(243 244 246 / 1); }
-            #chat-input-footer { left: 0; right: 75%; width: auto; }
+            #chat-container { position: fixed; left: 0; right: 66.6667%; top: 0; bottom: 0; width: auto; border-right: 1px solid rgb(243 244 246 / 1); }
+            #chat-input-footer { left: 0; right: 66.6667%; width: auto; }
             /* Tab "Agent" tidak perlu di kapsul header saat split aktif (sudah tampil otomatis di kolom chat) */
             .chat-nav-link[data-nav="agent"] { display: none; }
             #chat-nav-pill { display: none; }
@@ -604,7 +604,7 @@
 
     
     <!-- Split view desktop: panel workspace di kanan (chat jadi kolom kiri 1/4) -->
-    <div id="chat-ws-panel" class="fixed left-1/4 top-0 bottom-0 right-0 z-0 bg-white">
+    <div id="chat-ws-panel" class="fixed left-1/3 top-0 bottom-0 right-0 z-0 bg-white">
         <iframe id="chat-ws-frame" data-src="/proyek/code/?embed=1" title="Workspace" class="w-full h-full border-0" tabindex="-1"></iframe>
     </div>
 
