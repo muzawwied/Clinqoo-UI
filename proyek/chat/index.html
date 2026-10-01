@@ -843,6 +843,8 @@ window.chatLivePreview = function () {
                     }))
                 }));
                 localStorage.setItem(lsChatKey(), JSON.stringify(log));
+                lastSavedLog = log;
+                syncChatLogOut(log, false);
             } catch(e) {}
         }
         function loadChatLog() {
@@ -854,6 +856,37 @@ window.chatLivePreview = function () {
             } catch(e) {}
             return false;
         }
+        // ===== SINKRONISASI RIWAYAT CHAT ANTAR PERANGKAT (1 akun, 1 proyek) =====
+        // localStorage = cache cepat; salinan server = sumber bersama antar perangkat
+        // (HP A <-> HP B) lewat /api/project-settings key "chat_sync" (per proyek).
+        const CHAT_SYNC_API = 'https://clincoo-be2.pages.dev/api/project-settings';
+        const CHAT_SYNC_KEY = 'chat_sync';
+        const CHAT_SYNC_MAX_MSGS = 300; // batas pesan tersinkron agar payload ringan
+        let chatSyncTimer = null;
+        let chatSyncBusy = false;
+        let lastSavedLog = null;
+        function chatSyncTsKey() { return lsChatKey() + '_ts'; }
+        function syncChatLogOut(log, immediate) {
+            if (!currentProjectId) return;
+            if (chatSyncTimer) { clearTimeout(chatSyncTimer); chatSyncTimer = null; }
+            const send = async function () {
+                if (chatSyncBusy || !currentProjectId) return;
+                chatSyncBusy = true;
+                try {
+                    const ts = Date.now();
+                    const trimmed = Array.isArray(log) ? log.slice(-CHAT_SYNC_MAX_MSGS) : [];
+                    await fetch(CHAT_SYNC_API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ project_id: String(currentProjectId), chat_sync: JSON.stringify({ ts: ts, log: trimmed }) })
+                    });
+                    try { localStorage.setItem(chatSyncTsKey(), String(ts)); } catch(e) {}
+                } catch(e) {}
+                chatSyncBusy = false;
+            };
+            chatSyncTimer = setTimeout(send, immediate ? 0 : 2000);
+        }
+
         let currentSessionId = null;
         let currentProjectId = null;
 
@@ -2037,7 +2070,10 @@ window.chatLivePreview = function () {
 
         // Saat tab ditutup / disembunyikan saat AI masih mengetik, simpan kondisi terakhir —
         // begitu kembali, halaman melanjutkan (lihat logika resume di bawah).
-        window.addEventListener('pagehide', function () { try { saveChatLog(); } catch (e) {} });
+        window.addEventListener('pagehide', function () {
+            try { saveChatLog(); } catch (e) {}
+            try { if (chatSyncTimer) { clearTimeout(chatSyncTimer); chatSyncTimer = null; syncChatLogOut(lastSavedLog, true); } } catch (e) {}
+        });
         document.addEventListener('visibilitychange', function () {
             if (document.visibilityState === 'hidden') { try { saveChatLog(); } catch (e) {} }
         });
@@ -4373,6 +4409,32 @@ window.chatLivePreview = function () {
 
                 // MODE LOCALSTORAGE: riwayat chat dimuat dari browser (per proyek),
 // TIDAK lagi ditarik dari server — mencegah chat dari data/proyek lain muncul.
+// SINKRON MULTI-PERANGKAT: bila server punya riwayat lebih baru dari lokal
+// (chat dari HP/perangkat lain), tampilkan juga di sini — sama akun, sama proyek.
+(async function syncChatRestore() {
+    try {
+        if (!currentProjectId) return;
+        if (typeof isGenerating !== 'undefined' && isGenerating) return;
+        const r = await fetch(CHAT_SYNC_API + '?project_id=' + encodeURIComponent(String(currentProjectId)) + '&key=' + CHAT_SYNC_KEY);
+        if (!r.ok) return;
+        const d = await r.json();
+        if (!d || !d.value) return;
+        const remote = JSON.parse(d.value);
+        if (!remote || !Array.isArray(remote.log) || remote.log.length === 0) return;
+        if (typeof isGenerating !== 'undefined' && isGenerating) return; // sedang generate: jangan ditimpa
+        let localTs = 0;
+        try { localTs = parseInt(localStorage.getItem(chatSyncTsKey()) || '0', 10) || 0; } catch(e) {}
+        if (remote.ts <= localTs) return; // versi lokal masih yang terbaru
+        messages = remote.log;
+        try { localStorage.setItem(lsChatKey(), JSON.stringify(remote.log)); } catch(e) {}
+        try { localStorage.setItem(chatSyncTsKey(), String(remote.ts)); } catch(e) {}
+        lastSavedLog = remote.log;
+        renderMessages();
+        autoScrollActive = true;
+        try { scrollToBottom(true); } catch(e) {}
+    } catch(e) {}
+})();
+
 if (loadChatLog()) {
     renderMessages();
     autoScrollActive = true;
