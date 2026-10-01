@@ -170,11 +170,11 @@
     
     <header class="fixed top-0 inset-x-0 z-30 p-4 sm:p-5 pointer-events-none flex items-start">
         <button id="sidebar-toggle" class="w-10 h-10 bg-white rounded-full flex justify-center items-center shadow-[0_2px_12px_rgba(0,0,0,0.1)] border border-gray-200/50 pointer-events-auto transition-transform active:scale-95">
-            <div id="hamburger-icon" class="flex flex-col items-start gap-[4px] w-full pl-3">
+            <div id="hamburger-icon" class="flex flex-col items-start gap-[4px] w-full pl-3 hidden">
                 <span class="w-[14px] h-[2px] bg-gray-800 rounded-full"></span>
                 <span class="w-[8px] h-[2px] bg-gray-800 rounded-full"></span>
             </div>
-            <i id="header-back-icon" class="ph-bold ph-arrow-left text-lg text-gray-800 hidden"></i>
+            <i id="header-back-icon" class="ph-bold ph-arrow-left text-lg text-gray-800"></i>
         </button>
     </header>
 
@@ -1131,8 +1131,6 @@
             const backIcon = document.getElementById('header-back-icon');
             
             if (toggleBtn) {
-                if (hamburger) hamburger.classList.remove('hidden');
-                if (backIcon) backIcon.classList.add('hidden');
                 toggleBtn.onclick = toggleSidebar;
             }
         }
