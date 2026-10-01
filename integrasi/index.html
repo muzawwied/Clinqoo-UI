@@ -430,7 +430,31 @@
             }
         }
 
-        if(sidebarToggle) sidebarToggle.onclick = toggleSidebar;
+        function goBackToChat() { window.location.href = '/proyek/chat/'; }
+        if(sidebarToggle) sidebarToggle.onclick = goBackToChat;
+
+        // CACHE STATUS PLUGIN: status terhubung terakhir disimpan di localStorage,
+        // dipasang SEGERA saat halaman dirender (sebelum paint), lalu diverifikasi
+        // ulang secara async. Supaya refresh tidak kedip "Hubungkan" -> "Terhubung".
+        function readPluginStatusCache() {
+            try { return JSON.parse(localStorage.getItem('clincoo_plugin_status') || '{}') || {}; }
+            catch (e) { return {}; }
+        }
+        function writePluginStatus(key, connected) {
+            try {
+                const st = readPluginStatusCache();
+                st[key] = !!connected;
+                localStorage.setItem('clincoo_plugin_status', JSON.stringify(st));
+            } catch (e) {}
+        }
+        function applyPluginStatusCache() {
+            const st = readPluginStatusCache();
+            if (st.github) { const b = document.getElementById('github-connect-btn'); if (b) b.classList.add('hidden'); setGitHubBadge(true); }
+            if (st.drive) setDriveConnectedUI(true);
+            if (st.calendar) setCalendarConnectedUI(true);
+            if (st.notion) setNotionConnectedUI(true);
+        }
+        applyPluginStatusCache();
         if(sidebarOverlay) sidebarOverlay.onclick = toggleSidebar;
 
         let activeSessionIdForOptions = null;
@@ -973,6 +997,7 @@
         }
 
         function setGitHubBadge(connected) {
+            writePluginStatus('github', connected);
             const badge = document.getElementById('github-status-badge');
             if (!badge) return;
             badge.classList.toggle('hidden', !connected);
@@ -1131,7 +1156,7 @@
             const backIcon = document.getElementById('header-back-icon');
             
             if (toggleBtn) {
-                toggleBtn.onclick = toggleSidebar;
+                toggleBtn.onclick = goBackToChat;
             }
         }
 
@@ -1269,6 +1294,7 @@
         }
 
         function setDriveConnectedUI(connected) {
+            writePluginStatus('drive', connected);
             const btn = document.getElementById('drive-connect-btn');
             if (btn) btn.classList.toggle('hidden', connected);
             setDriveBadge(connected);
@@ -1460,6 +1486,7 @@
         }
 
         function setCalendarConnectedUI(connected) {
+            writePluginStatus('calendar', connected);
             const btn = document.getElementById('calendar-connect-btn');
             if (btn) btn.classList.toggle('hidden', connected);
             setCalendarBadge(connected);
@@ -1658,6 +1685,7 @@
             document.getElementById('notion-disconnect-modal').classList.remove('hidden');
         }
         function setNotionConnectedUI(connected) {
+            writePluginStatus('notion', connected);
             const badge = document.getElementById('notion-status-badge');
             const btn = document.getElementById('notion-connect-btn');
             if (!badge || !btn) return;
