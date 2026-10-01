@@ -2194,9 +2194,9 @@ function clinqooLaunchEditor(pid) {
         var p = ps.find(function (x) { return x && x.id === pid; });
         if (p && p.name) name = p.name; else if (p && p.aiName) name = p.aiName;
       } catch (err) {}
-      var w = window.open('/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name), '_blank');
+      var w = window.open('/proyek/workspace/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name), '_blank');
       // Popup diblokir browser (umum setelah async): fallback buka di tab yang sama, jangan diam saja.
-      if (!w) { window.location.href = '../../../../proyek/workspace/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name); return; }
+      if (!w) { window.location.href = '/proyek/workspace/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name); return; }
       // Kirim berkas proyek + token ke editor lewat postMessage (mendukung domain berbeda).
       var sendInit = function () {
         var files = null;

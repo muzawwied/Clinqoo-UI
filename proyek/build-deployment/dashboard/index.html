@@ -568,7 +568,7 @@
 
         // Lanjut deploy otomatis (auto-resume) — tombol konfigurasi tidak ada di halaman ini
         async function processDeploy() {
-            if (!pid()) { window.location.replace('../build-deployment/'); return; }
+            if (!pid()) { window.location.replace('../'); return; }
             if (deployState.deploying) return;
             deployState.deploying = true;
             writeDeploySession({ status: 'deploying', started_at: Date.now() });
@@ -749,7 +749,7 @@
                 localStorage.removeItem('clinqoo_is_deployed');
                 localStorage.removeItem('clinqoo_deploy_time');
                 clearDeploySession();
-                window.ClinqooBack('../build-deployment/');
+                window.ClinqooBack('../');
             } catch (err) {
                 console.warn('Gagal: ' + err.message);
                 alert('Gagal membatalkan publikasi: ' + ((err && err.message) ? err.message : 'coba lagi beberapa saat.'));
@@ -770,7 +770,7 @@
                 }
                 if (st && (st.last_deployment || (st.domains || []).length)) { startDeploySimulation(); return; }
             } catch (e) {}
-            window.location.replace('../build-deployment/');
+            window.location.replace('../');
         });
         // Fitur Tombol Save di Source Config dengan Animasi Loading -> Check
         function saveSourceConfig() {
