@@ -145,9 +145,6 @@
         #site-footer .footer-front a,
         #site-footer .footer-front span { text-shadow: 0 1px 4px rgba(0,0,0,0.45), 0 1px 1px rgba(255,255,255,0.25); }
         .page-view { position: relative; z-index: 1; }
-        /* Banner promo (di luar main, tepat di bawah header): harus di atas layer #hero-bg,
-           sama seperti .page-view — kalau tidak, kecatut background malam & kelihatan kosong. */
-        #promo-early-banner { position: relative; z-index: 1; }
         :root {
             --accent-color: #000000;
             --accent-hover: #1f2937;
@@ -426,20 +423,6 @@
             </a>
         </div>
     </header>
-
-    <div id="promo-early-banner" class="hidden w-full bg-gray-50 border-b border-gray-100">
-        <div class="max-w-3xl mx-auto px-5 py-2.5 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center text-base shrink-0" aria-hidden="true">🎉</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-[13px] sm:text-sm font-semibold text-gray-900 truncate leading-tight" style="font-family: 'Space Grotesk', sans-serif;">Promo 100 User Pertama</p>
-                <p class="text-[11px] sm:text-xs text-gray-500 truncate leading-tight">Pro <span class="font-semibold text-gray-900">Rp5.000</span>/bln <span class="line-through">Rp49.000</span> · sisa <span id="promo-early-remaining">…</span>/100</p>
-            </div>
-            <a href="#" id="promo-early-cta" class="shrink-0 inline-flex items-center text-xs sm:text-[13px] font-semibold text-white bg-accent hover:bg-accent-hover rounded-full px-3.5 py-1.5 transition-colors whitespace-nowrap">Daftar &amp; Klaim</a>
-            <button id="promo-early-close" type="button" aria-label="Tutup promo" class="w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors cursor-pointer">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path></svg>
-            </button>
-        </div>
-    </div>
 
     <div id="sidebar-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0 invisible pointer-events-none transition-opacity duration-300" onclick="toggleSidebar(false)"></div>
     <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-[60] w-72 max-w-[85vw] bg-white border-r border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col -translate-x-full transition-transform duration-300 ease-out" aria-label="Menu Samping" aria-hidden="true">
@@ -1662,31 +1645,6 @@
                     if (rem) rem.textContent = String(p.remaining);
                 }).catch(function () {});
             } catch (e) {}
-        })();
-        // PROMO 100 USER PERTAMA — banner di bawah header; X menutup utk sesi ini.
-        (function () {
-            var banner = document.getElementById('promo-early-banner');
-            if (!banner) return;
-            try { if (sessionStorage.getItem('clinqoo_promo_early_dismissed') === '1') return; } catch (e) {}
-            var apiBase = (['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev' : '';
-            fetch(apiBase + '/api/promo', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (p) {
-                if (!p || p.active !== true || p.remaining <= 0) return;
-                if (p.loggedIn && !p.eligible) return; // user lama / sudah klaim: banner disembunyikan
-                var rem = document.getElementById('promo-early-remaining');
-                if (rem) rem.textContent = String(p.remaining);
-                var cta = document.getElementById('promo-early-cta');
-                if (cta) {
-                    cta.href = (location.pathname.indexOf('/Clincoo') !== -1) ? '/Clincoo./akun/langganan/upgrade/' : '/akun/langganan/upgrade/';
-                    if (p.loggedIn) cta.textContent = p.eligible ? 'Klaim Rp5.000' : 'Lihat Paket';
-                    else cta.textContent = 'Daftar & Klaim';
-                }
-                banner.classList.remove('hidden');
-            }).catch(function () {});
-            var closeBtn = document.getElementById('promo-early-close');
-            if (closeBtn) closeBtn.addEventListener('click', function () {
-                try { sessionStorage.setItem('clinqoo_promo_early_dismissed', '1'); } catch (e) {}
-                banner.classList.add('hidden');
-            });
         })();
         function processPromptSubmission(customTitle) {
             if(!mainPromptInput) return;
