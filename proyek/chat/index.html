@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+ <script src="../../js/auth-client.js?v=4"></script>
   <script src="../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
     <meta charset="UTF-8">
@@ -284,43 +285,6 @@
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 0) 100%) !important;
         }
 
-        #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
-        @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-        #chat-nav-pill { display: none; }
-        @view-transition { navigation: auto; }
-        /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
-        @media (prefers-reduced-motion: no-preference) {
-            ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; animation-timing-function: cubic-bezier(.2,.7,.3,1); }
-            ::view-transition-group(chat-nav-pill) { animation-duration: .18s; animation-timing-function: cubic-bezier(.2,.7,.3,1); }
-        }
-        /* fallback browser tanpa cross-doc view transition: fade-in halus (bukan pop putih keras) */
-        @keyframes clq-page-in { from { opacity: 0 } to { opacity: 1 } }
-        @media (prefers-reduced-motion: no-preference) {
-            body { animation: clq-page-in .18s cubic-bezier(.2,.7,.3,1) both; }
-            html:active-view-transition body { animation: none; }
-        }
-        .chat-nav-link.is-active { color: #111111; background: #e9e9ec; view-transition-name: chat-nav-pill; }
-        #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-        .header-menu-item { -webkit-tap-highlight-color: transparent; }
-        .header-menu-item:focus, .header-menu-item:focus-visible { outline: none; box-shadow: none; }
-        button.header-menu-item { -webkit-appearance: none; appearance: none; background: transparent; border: none; margin: 0; font: inherit; color: inherit; }
-        button.header-menu-item:active { background: rgba(0,0,0,0.04); }
-        body.dark-mode button.header-menu-item:active { background: rgba(255,255,255,0.08); }
-        .header-menu-item { cursor: pointer; }
-        body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-        body.dark-mode #sidebar-toggle, body.dark-mode #header-more-btn { background-color: #000000; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
-        body.dark-mode #sidebar-toggle:hover, body.dark-mode #header-more-btn:hover { background-color: #1a1a1a; border-color: rgba(255,255,255,0.7); }
-        body.dark-mode #sidebar-toggle svg, body.dark-mode #header-more-btn svg { color: #ffffff; stroke: #ffffff; }
-        body.dark-mode #chat-nav-pill { background: #ffffff !important; }
-        body.dark-mode #chat-input-card { border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-        body.dark-mode .chat-nav-link { color: #9ca3af !important; }
-        body.dark-mode .chat-nav-link.is-active { color: #0a0a0a !important; background: #ffffff !important; }
-        body.dark-mode #header-more-menu { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
-        body.dark-mode .header-menu-item { color: #e5e7eb; }
-        body.dark-mode .header-menu-item:hover { background-color: #1a1a1a; color: #ffffff; }
-        body.dark-mode .header-menu-item svg { color: #9ca3af; }
-
         .tc-spin { display: inline-block; animation: tc-spin-anim 0.9s linear infinite; }
         @keyframes tc-spin-anim { to { transform: rotate(360deg); } }
 
@@ -338,11 +302,7 @@
         }
 
         /* Banner kuota AI habis */
-        #quota-banner { background: #f9fafb; border: 1px solid #e5e7eb; }
-        #quota-banner p { color: #4b5563; }
         #quota-retry-btn { background: #ffffff; border: 1px solid #d1d5db; color: #111827; }
-        body.dark-mode #quota-banner { background: #0a0a0a; border-color: #262626; }
-        body.dark-mode #quota-banner p { color: #9ca3af; }
         body.dark-mode #quota-retry-btn { background: #000000; border-color: #444444; color: #ffffff; }
         body.dark-mode #quota-retry-btn:hover { background: #1a1a1a; }
         /* Dark mode */
@@ -456,7 +416,7 @@
         body.dark-mode button[onclick="history.back()"],
         body.dark-mode button[onclick="navigateTo(\'page-home\')"],
         body.dark-mode .header-glass button[onclick],
-        body.dark-mode header button[onclick]:not(.header-menu-item) {
+        body.dark-mode header button[onclick] {
             background-color: #000000 !important;
             border: 1.5px solid rgba(255,255,255,0.4) !important;
             color: #ffffff !important;
@@ -466,7 +426,7 @@
         body.dark-mode button[onclick="history.back()"] svg,
         body.dark-mode button[onclick="navigateTo(\'page-home\')"] svg,
         body.dark-mode .header-glass button[onclick] svg,
-        body.dark-mode header button[onclick]:not(.header-menu-item) svg {
+        body.dark-mode header button[onclick] svg {
             color: #ffffff !important;
             stroke: #ffffff !important;
         }
@@ -475,7 +435,7 @@
         body.dark-mode button[onclick="history.back()"]:hover,
         body.dark-mode button[onclick="navigateTo(\'page-home\')"]:hover,
         body.dark-mode .header-glass button[onclick]:hover,
-        body.dark-mode header button[onclick]:not(.header-menu-item):hover {
+        body.dark-mode header button[onclick]:hover {
             background-color: #1a1a1a !important;
             border-color: rgba(255,255,255,0.7) !important;
         }
@@ -517,7 +477,7 @@
     </style>
     
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
-<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
 
     <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
 (function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<2;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
@@ -537,62 +497,62 @@
 <body class="h-[100dvh] flex flex-col overflow-hidden selection:bg-gray-200">
     <script>(function(){var t=localStorage.getItem("clinqoo_theme");var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
     
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 opacity-0 pointer-events-auto"></div>
     
+    <aside id="sidebar-popup" class="fixed inset-y-0 left-0 w-[260px] bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 flex flex-col pointer-events-auto">
+        <div class="h-16 border-b border-gray-100 flex items-center px-4 justify-between flex-shrink-0">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                    <img src="../../assets/logo-clinqoo.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <span class="font-bold font-montserrat text-lg text-gray-800">Clincoo</span>
+            </div>
+        </div>
+        
+        <div class="px-3 py-4 flex flex-col gap-1" id="sidebar-nav">
+            <a href="/" data-page="app" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+                <span class="font-medium text-[14px]">Beranda</span>
+            </a>
+            <a href="/proyek/chat/" data-page="chat" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="8" rx="2"/><path d="M12 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 5v3"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M10 18h4"/></svg>
+                <span class="font-medium text-[14px]">Agent</span>
+            </a>
+            <a href="/proyek/workspace/" data-page="workspace" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                <span class="font-medium text-[14px]">Workspace</span>
+            </a>
+            <a href="/editor/" data-page="editor" id="sidebar-editor-link" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+                <span class="font-medium text-[14px]">Editor</span>
+                <span class="clinqoo-editor-crown text-amber-500 shrink-0 cursor-pointer hover:text-amber-600 transition-colors ml-auto" style="display:none" title="Lihat daftar paket" onclick="event.preventDefault(); event.stopPropagation(); clinqooOpenPlansPopup();"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/></svg></span>
+            </a>
+            <a href="/integrasi/" data-page="plugin" class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg>
+                <span class="font-medium text-[14px]">Plugin</span>
+                <span class="plugin-new-badge ml-auto rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-[0.08em] text-gray-500">NEW</span>
+            </a>
+        </div>
+    </aside>
     
     <div id="session-options-popup" class="hidden fixed bg-white rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[100] w-40 p-1.5"></div>
 
-    <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
-        <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        <div class="pointer-events-auto inline-flex items-center gap-1 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100/80 rounded-full pl-1.5 pr-1.5 h-11" id="chat-header-capsule">
-            <nav id="chat-top-nav" class="relative inline-flex items-center h-full">
-                <div id="chat-nav-pill" class="absolute bg-gray-100 rounded-full pointer-events-none" style="top:0;left:0;width:0;height:0"></div>
-                <a href="/proyek/chat/" data-nav="agent" class="chat-nav-link is-active relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-800 whitespace-nowrap transition-colors">Agent</a>
-                <a href="/proyek/code/" data-nav="code" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Workspace</a>
-                <a href="/proyek/dashboard/" data-nav="dashboard" class="chat-nav-link relative z-10 px-2.5 py-1.5 rounded-full text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors">Dashboard</a>
-            </nav>
-        </div>
-        <div class="relative flex-shrink-0 pointer-events-auto">
-                <button id="header-more-btn" type="button" onclick="toggleHeaderMenu(event)" class="w-11 h-11 rounded-full flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:bg-gray-100 hover:text-black transition-all" aria-label="Menu lainnya">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle>
-                    </svg>
-                </button>
-                <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
-                    <button id="header-live-preview" type="button" onclick="chatLivePreview()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
-                    Live preview
-                    <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-                    <button id="header-export-zip" type="button" onclick="chatExportZip()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
-                        Eksport zip
-                    </button>
-                    <a href="/integrasi/github/" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                        Koneksi git
-                    </a>
-                    <a href="https://blog.clincoo.buzz/panduan/" target="_blank" rel="noopener" class="header-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"></path></svg>
-                        Pusat bantuan
-                    </a>
-                </div>
-            </div>
+    <header class="fixed top-0 left-0 right-0 z-30 px-3 py-2.5 pointer-events-none flex justify-between items-center header-glass h-14">
+        <button id="sidebar-toggle" class="flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:text-black hover:bg-gray-50 transition-all rounded-full w-10 h-10 pointer-events-auto" aria-label="Buka Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 10h14M5 15h8" />
+            </svg>
+        </button>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-[80px] pb-32 space-y-6 w-full relative z-10">
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 pt-16 pb-32 space-y-6 w-full relative z-10">
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 w-full bg-transparent px-4 py-4 z-20 pointer-events-none flex flex-col justify-end">
-        <div id="chat-input-card" class="w-full bg-white rounded-[26px] shadow-[0_4px_24px_rgba(0,0,0,0.10)] p-4 sm:p-5 transition-all text-left border border-gray-100/80 pointer-events-auto max-w-4xl mx-auto">
-            <div id="quota-banner" class="hidden items-center justify-between gap-3 mb-2 rounded-xl bg-gray-50 px-3 py-2">
-                <p id="quota-banner-text" class="text-[11px] sm:text-xs text-gray-500 leading-snug flex-1">Kredit habis — upgrade untuk lanjut.</p>
-                <a href="#" id="quota-retry-btn" class="text-[11px] sm:text-xs font-semibold text-gray-900 shrink-0 cursor-pointer whitespace-nowrap inline-flex items-center gap-0.5 hover:opacity-60 transition-opacity">Pilih Paket<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"></path></svg></a>
-            </div>
+        <div class="w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] p-4 sm:p-5 transition-all text-left border border-gray-100 pointer-events-auto max-w-4xl mx-auto">
             <div id="file-preview-container" class="hidden flex-nowrap overflow-x-auto hide-scrollbar gap-2 mb-2 w-full"></div>
+            
+            <div id="prompt-suggest-row" class="hidden flex-nowrap overflow-x-auto hide-scrollbar gap-2 mb-2.5 w-full"></div>
             
             <textarea
                 id="main-prompt-input"
@@ -618,10 +578,6 @@
                             <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             Upload gambar
                         </button>
-                        <a href="/integrasi/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-left cursor-pointer">
-                            <svg class="w-4 h-4 text-gray-500 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg>
-                            Plug-in
-                        </a>
                     </div>
                     
                     <input type="file" id="real-file-input" class="hidden" multiple>
@@ -671,141 +627,32 @@
         const uploadFileBtn = document.getElementById('upload-file-btn');
         
         const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarPopup = document.getElementById('sidebar-popup');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
 
         sidebarToggle.addEventListener('click', () => {
-            window.location.href = '/';
-        });
-
-
-        const chatNav = document.getElementById('chat-top-nav');
-        const chatNavPill = document.getElementById('chat-nav-pill');
-        const chatNavLinks = Array.from(chatNav.querySelectorAll('.chat-nav-link'));
-        const chatNavActive = chatNavLinks.find(l => l.dataset.nav === 'agent') || chatNavLinks[0];
-        if (chatNavActive) chatNavActive.classList.add('is-active');
-        function chatNavMovePill(el) {
-            if (!el) return;
-            chatNavPill.style.top = el.offsetTop + 'px';
-            chatNavPill.style.left = el.offsetLeft + 'px';
-            chatNavPill.style.width = el.offsetWidth + 'px';
-            chatNavPill.style.height = el.offsetHeight + 'px';
-        }
-        chatNavPill.style.transition = 'none';
-        chatNavMovePill(chatNavActive);
-        requestAnimationFrame(function() { requestAnimationFrame(function() { chatNavPill.style.transition = 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'; }); });
-        chatNavLinks.forEach(l => {
-            l.addEventListener('mouseenter', () => chatNavMovePill(l));
-            l.addEventListener('click', () => { chatNavLinks.forEach(x => x.classList.remove('is-active')); l.classList.add('is-active'); chatNavMovePill(l); });
-        });
-        chatNav.addEventListener('mouseleave', () => chatNavMovePill(chatNavActive));
-        window.addEventListener('resize', () => chatNavMovePill(chatNavActive));
-
-        const headerMoreBtn = document.getElementById('header-more-btn');
-        const headerMoreMenu = document.getElementById('header-more-menu');
-        function closeHeaderMenu() {
-            headerMoreMenu.classList.remove('open');
-        }
-        window.toggleHeaderMenu = function (e) {
-            e.stopPropagation();
-            headerMoreMenu.classList.contains('open') ? closeHeaderMenu() : headerMoreMenu.classList.add('open');
-        }
-        document.addEventListener('click', (e) => {
-            if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
-        });
-        window.chatExportZip = function () {
-    closeHeaderMenu();
-    var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
-    var key = 'clinqoo_workspace_files_' + (pid || 'global');
-    var byPath = {};
-    var raw = null;
-    try { raw = localStorage.getItem(key); } catch (e) {}
-    if (!raw) { try { var legacy = localStorage.getItem('clinqoo_workspace_files'); if (legacy) { localStorage.setItem(key, legacy); raw = legacy; } } catch (e) {} }
-    try {
-        var d = JSON.parse(raw) || {};
-        Object.keys(d).forEach(function (k) {
-            (d[k] || []).forEach(function (it) {
-                if (it && it.path && it.type === 'file') byPath[it.path] = it.content || '';
-            });
-        });
-    } catch (e) {}
-    var WS_API = (['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api') + '/project-files';
-    var tk = ''; try { tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
-    var headers = tk ? { Authorization: 'Bearer ' + tk } : {};
-    var filesFromMap = function () {
-        return Object.keys(byPath).sort().map(function (p) { return { path: p, content: byPath[p] }; });
-    };
-    var finish = function (files) {
-        if (!files.length) { alert('Tidak ada berkas di Workspace untuk dieksport.'); return; }
-        var run = function () {
-            var zip = new window.JSZip();
-            files.forEach(function (f) { zip.file(f.path, f.content || ''); });
-            zip.generateAsync({ type: 'blob' }).then(function (blob) {
-                var a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = (pid || 'clincoo') + '.zip';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
-            });
-        };
-        if (window.JSZip) { run(); return; }
-        var sc = document.createElement('script');
-        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-        sc.onload = run;
-        document.head.appendChild(sc);
-    };
-    if (!pid) { finish(filesFromMap()); return; }
-    // Gabungkan file cloud (D1) supaya SEMUA berkas Workspace ikut terekspor.
-    fetch(WS_API + '?project_id=' + encodeURIComponent(pid), { headers: headers })
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-        .then(function (resp) {
-            ((resp && resp.files) || []).forEach(function (f) {
-                if (f && f.path && !(f.path in byPath)) byPath[f.path] = f.content || '';
-            });
-            finish(filesFromMap());
-        })
-        .catch(function () { finish(filesFromMap()); });
-};
-
-window.chatLivePreview = function () {
-    closeHeaderMenu();
-    var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
-    if (!pid) { alert('Tidak ada proyek aktif. Buka proyek dari daftar proyek dulu.'); return; }
-    var API = ['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api';
-    var tk = ''; try { tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
-    var headers = tk ? { Authorization: 'Bearer ' + tk } : {};
-    var btn = document.getElementById('header-live-preview');
-    function setLoading(on) { if (btn) { btn.disabled = on; btn.style.opacity = on ? '0.55' : ''; btn.style.cursor = on ? 'wait' : ''; } }
-    setLoading(true);
-    fetch(API + '/deploy?project_id=' + encodeURIComponent(pid), { headers: headers })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
-        .then(function (res) {
-            var st = res.d || {};
-            if (!res.ok || st.error) throw new Error(st.error || 'Gagal memeriksa status situs.');
-            if (st.last_deployment) {
-                var active = (st.domains || []).filter(function (x) { return x.status === 'active'; })[0];
-                var url = (active ? 'https://' + active.name : '') || st.pages_url;
-                setLoading(false);
-                window.open(url, '_blank');
-                return null;
+            const isOpen = !sidebarPopup.classList.contains('-translate-x-full');
+            if (isOpen) {
+                sidebarPopup.classList.add('-translate-x-full');
+                sidebarOverlay.classList.remove('opacity-100');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            } else {
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    sidebarOverlay.classList.remove('opacity-0');
+                    sidebarOverlay.classList.add('opacity-100');
+                    sidebarPopup.classList.remove('-translate-x-full');
+                }, 10);
             }
-            // Belum pernah dipublikasikan ke Cloudflare: deploy dulu, baru buka URL yang sungguh hidup.
-            return fetch(API + '/deploy', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, headers), body: JSON.stringify({ project_id: pid }) })
-                .then(function (r2) { return r2.json().catch(function () { return {}; }).then(function (d2) { return { ok: r2.ok, d: d2 }; }); })
-                .then(function (res2) {
-                    var d = res2.d || {};
-                    if (!res2.ok || d.error) throw new Error(d.error || 'Gagal mempublikasikan situs ke Cloudflare.');
-                    var url = d.public_url || (d.public_domain ? 'https://' + d.public_domain : '') || (d.deployment && d.deployment.url) || d.pages_url || '';
-                    setLoading(false);
-                    if (url) window.open(url, '_blank');
-                    else alert('Situs berhasil dipublikasikan tapi URL pratinjau tidak ditemukan.');
-                });
-        })
-        .catch(function (err) {
-            setLoading(false);
-            alert('Gagal membuka pratinjau: ' + (err && err.message ? err.message : 'periksa koneksi internet lalu coba lagi.'));
         });
-};
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebarPopup.classList.add('-translate-x-full');
+            sidebarOverlay.classList.remove('opacity-100');
+            sidebarOverlay.classList.add('opacity-0');
+            setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+        });
 
         let currentAttachments = [];
         
@@ -817,23 +664,77 @@ window.chatLivePreview = function () {
         let autoScrollActive = true;
         let isUserInteracting = false;
         let lastScrollTop = 0;
-        // Ruang kosong buatan di bawah daftar pesan — TANPA ini, saat pesan baru mau
-        // di-pin ke atas (pinMessageToTop) browser sering meng-CLAMP posisi scroll ke
-        // scrollHeight-clientHeight kalau konten di bawah pesan itu belum cukup tinggi
-        // (baru saja dikirim, indikator "mengetik" masih pendek) — hasilnya pesan baru
-        // "nyangkut" di bawah dan pesan lama tetap kelihatan penuh di atas, bukannya
-        // pesan baru naik ke atas dan pesan lama tertutup. Diisi = clientHeight saat
-        // pin, di-reset 0 lagi sebelum pin pesan berikutnya (lewat renderMessages).
-        let pinSpacerPx = 0;
         let imageGenerationTimeout = null;
         
         let messages = [];
 
-        // ===== MODE LOCALSTORAGE: riwayat chat per-proyek disimpan di browser =====
+        // ===== MODE LOCALSTORAGE + CLOUD SYNC =====
+        // Riwayat chat disimpan di browser (cache lokal, instan) DAN disinkronkan ke
+        // cloud per akun+proyek — jadi chat di HP A muncul juga di HP B (login sama).
+        // Guest (tanpa login) hanya pakai localStorage.
         const LS_CHAT_PREFIX = 'clinqoo_ls_chat_';
+        // base API dihitung lokal (TOOL_API_BASE dideklarasi lebih bawah, hindari TDZ)
+        const CHAT_LOG_API = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api/chat-log' : '/api/chat-log';
         function lsChatKey() {
             let pid = (typeof currentProjectId !== 'undefined' && currentProjectId) ? String(currentProjectId) : 'global';
             return LS_CHAT_PREFIX + pid;
+        }
+        function lsChatAtKey() {
+            return 'clinqoo_ls_chat_at_' + ((typeof currentProjectId !== 'undefined' && currentProjectId) ? String(currentProjectId) : 'global');
+        }
+        function authHeaders() {
+            try {
+                var tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+                return tok ? { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok } : { 'Content-Type': 'application/json' };
+            } catch (e) { return { 'Content-Type': 'application/json' }; }
+        }
+        function currentPidForSync() {
+            return (typeof currentProjectId !== 'undefined' && currentProjectId) ? String(currentProjectId) : 'global';
+        }
+        // Debounce push ke cloud: tiap saveChatLog menjadwalkan sync (cukup 1x per jeda)
+        let chatCloudTimer = null;
+        function queueChatCloudSave() {
+            clearTimeout(chatCloudTimer);
+            chatCloudTimer = setTimeout(pushChatCloud, 4000);
+        }
+        function pushChatCloud() {
+            clearTimeout(chatCloudTimer);
+            chatCloudTimer = null;
+            const payload = {
+                project_id: currentPidForSync(),
+                client_at: Date.now(),
+                messages: messages.filter(m => m && !m.isHidden && (m.text || (m.pollQuestions && m.pollQuestions.length) || (m.toolCalls && m.toolCalls.length))).map(m => ({
+                    id: m.id, role: m.role, text: m.text, time: m.time || null,
+                    completed: !!m.completed, stoppedByUser: !!m.stoppedByUser,
+                    pollQuestions: (m.pollQuestions || []).slice(0, 6),
+                    pollState: m.pollState || null,
+                    toolCalls: (m.toolCalls || []).slice(0, 12).map(t => ({
+                        name: t.name, args: t.args, ok: t.ok, result: String(t.result || '').slice(0, 400)
+                    }))
+                }))
+            };
+            // keepalive: request tetap terkirim saat halaman ditutup / pindah halaman
+            fetch(CHAT_LOG_API, { method: 'POST', headers: authHeaders(), body: JSON.stringify(payload), keepalive: true }).catch(function() {});
+        }
+        // Muat log cloud: dipakai saat cache lokal kosong ATAU cloud lebih baru
+        // (chat dikirim dari perangkat lain dengan akun yang sama).
+        function pullChatCloud() {
+            const pid = currentPidForSync();
+            let localAt = 0;
+            try { localAt = parseInt(localStorage.getItem(lsChatAtKey()) || '0', 10) || 0; } catch (e) {}
+            fetch(CHAT_LOG_API + '?project_id=' + encodeURIComponent(pid), { headers: authHeaders() })
+                .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+                .then(function(d) {
+                    if (!d || !Array.isArray(d.messages) || d.messages.length === 0) return;
+                    if (isGenerating) return; // jangan timpa chat yang sedang berjalan
+                    const cloudAt = Number(d.updated_at) || 0;
+                    if (cloudAt <= localAt && messages.length > 0) return; // lokal lebih baru / sama
+                    messages = d.messages;
+                    renderMessages();
+                    scrollToBottom(true);
+                    try { saveChatLog(); } catch (e) {}
+                })
+                .catch(function() {});
         }
         function saveChatLog() {
             try {
@@ -854,8 +755,8 @@ window.chatLivePreview = function () {
                     }))
                 }));
                 localStorage.setItem(lsChatKey(), JSON.stringify(log));
-                lastSavedLog = log;
-                syncChatLogOut(log, false);
+                try { localStorage.setItem(lsChatAtKey(), String(Date.now())); } catch(e2) {}
+                queueChatCloudSave(); // sinkron ke cloud (debounced)
             } catch(e) {}
         }
         function loadChatLog() {
@@ -867,37 +768,6 @@ window.chatLivePreview = function () {
             } catch(e) {}
             return false;
         }
-        // ===== SINKRONISASI RIWAYAT CHAT ANTAR PERANGKAT (1 akun, 1 proyek) =====
-        // localStorage = cache cepat; salinan server = sumber bersama antar perangkat
-        // (HP A <-> HP B) lewat /api/project-settings key "chat_sync" (per proyek).
-        const CHAT_SYNC_API = 'https://clincoo-be2.pages.dev/api/project-settings';
-        const CHAT_SYNC_KEY = 'chat_sync';
-        const CHAT_SYNC_MAX_MSGS = 300; // batas pesan tersinkron agar payload ringan
-        let chatSyncTimer = null;
-        let chatSyncBusy = false;
-        let lastSavedLog = null;
-        function chatSyncTsKey() { return lsChatKey() + '_ts'; }
-        function syncChatLogOut(log, immediate) {
-            if (!currentProjectId) return;
-            if (chatSyncTimer) { clearTimeout(chatSyncTimer); chatSyncTimer = null; }
-            const send = async function () {
-                if (chatSyncBusy || !currentProjectId) return;
-                chatSyncBusy = true;
-                try {
-                    const ts = Date.now();
-                    const trimmed = Array.isArray(log) ? log.slice(-CHAT_SYNC_MAX_MSGS) : [];
-                    await fetch(CHAT_SYNC_API, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ project_id: String(currentProjectId), chat_sync: JSON.stringify({ ts: ts, log: trimmed }) })
-                    });
-                    try { localStorage.setItem(chatSyncTsKey(), String(ts)); } catch(e) {}
-                } catch(e) {}
-                chatSyncBusy = false;
-            };
-            chatSyncTimer = setTimeout(send, immediate ? 0 : 2000);
-        }
-
         let currentSessionId = null;
         let currentProjectId = null;
 
@@ -924,9 +794,17 @@ window.chatLivePreview = function () {
             }
             messages = [];
             try { localStorage.removeItem(lsChatKey()); } catch(e) {}
+            try { localStorage.removeItem(lsChatAtKey()); } catch(e) {}
+            try { clearTimeout(chatCloudTimer); chatCloudTimer = null; } catch(e) {}
+            fetch(CHAT_LOG_API + '?project_id=' + encodeURIComponent(currentPidForSync()), { method: 'DELETE', headers: authHeaders() }).catch(function() {});
             currentGreeting = welcomeGreetings[Math.floor(Math.random() * welcomeGreetings.length)];
             renderMessages();
+            try { renderPromptSuggestions([]); } catch (e) {}
             
+            sidebarPopup.classList.add('-translate-x-full');
+            sidebarOverlay.classList.remove('opacity-100');
+            sidebarOverlay.classList.add('opacity-0');
+            setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
         }
 
         if (window.pdfjsLib) {
@@ -1595,34 +1473,16 @@ window.chatLivePreview = function () {
 
         fileUpload.addEventListener('change', handleFileUpload);
 
-        function pinMessageToTop(msgId) {
-            // autoScrollActive dimatikan: render berikutnya (jawaban AI yang sedang
-            // streaming) TIDAK menarik scroll balik ke bawah — posisi pin ini yang jadi acuan,
-            // persis seperti "pesan lama di-atasin sampai pesan baru saya".
-            autoScrollActive = false;
-            // Sediakan ruang scroll DI BAWAH pesan baru sebesar tinggi viewport supaya
-            // scrollTo() di bawah tidak di-clamp browser ke posisi lebih rendah dari
-            // target (yang membuat pesan lama tetap terlihat penuh di atas).
-            pinSpacerPx = chatContainer.clientHeight;
-            const spacerNow = document.getElementById('scroll-top-spacer');
-            if (spacerNow) spacerNow.style.height = pinSpacerPx + 'px';
-            requestAnimationFrame(() => {
-                const el = document.getElementById('msg-row-' + msgId);
-                if (!el) return;
-                const target = Math.max(0, el.offsetTop - 10);
-                chatContainer.scrollTo({ top: target, behavior: 'smooth' });
-            });
+        // Pesan baru tampil di BAWAH (dekat kolom input) — perilaku chat normal.
+        // (Dulu pesan baru di-pin ke atas viewport; selain sering tertutup header,
+        // posisinya tidak konsisten dengan tampilan setelah refresh.)
+        function revealNewMessage() {
+            scrollToBottom(true);
         }
 
-        // Jawaban AI SELESAI -> kolaps spacer pin. Tanpa ini, spacer setinggi viewport
-        // yang dipasang saat pesan user di-pin tetap ada setelah jawaban selesai, jadi
-        // di bawah pesan AI terakhir tampak ruang kosong besar sampai ke kolom input.
-        // Kolaps spacer membuat ujung jawaban "menempel" ke input tanpa jarak.
+        // Jawaban AI selesai: kalau user memang sedang di ekor chat, tempelkan
+        // ujung jawaban ke kolom input dengan scroll halus.
         function settleAfterAnswer() {
-            if (!pinSpacerPx) return; // tidak sedang di-pin -> tidak ada jarak buatan
-            pinSpacerPx = 0;
-            const spacer = document.getElementById('scroll-top-spacer');
-            if (spacer) spacer.style.height = '0px';
             requestAnimationFrame(function () {
                 const max = Math.max(0, chatContainer.scrollHeight - chatContainer.clientHeight);
                 // Dekat ekor jawaban -> scroll halus menempel ke input.
@@ -1748,6 +1608,7 @@ window.chatLivePreview = function () {
         // "Lainnya…" untuk jawaban manual di chat), pertanyaan berikutnya terkunci;
         // garis antar nomor mengisi saat terjawab. Setelah semua terjawab, rangkuman
         // Q&A otomatis dikirim ke chat dan AI melanjutkan pekerjaannya.
+        let pendingPollAnswer = null;
 
         function parsePollBlock(text) {
             const raw = String(text || '');
@@ -1891,6 +1752,7 @@ window.chatLivePreview = function () {
             else { renderMessages(); try { scrollToBottom(false); } catch (e) {} }
         };
         window.pollCancelOther = function () {
+            pendingPollAnswer = null;
             hidePollAnswerChip();
         };
 
@@ -1918,6 +1780,7 @@ window.chatLivePreview = function () {
             if (st.sending || st.done) return;
             st.sending = true;
             st.done = true;
+            pendingPollAnswer = null;
             hidePollAnswerChip();
             const lines = ['Jawaban polling:'];
             qs.forEach(function (s, i) {
@@ -1930,7 +1793,7 @@ window.chatLivePreview = function () {
                 if (isGenerating) { setTimeout(send, 400); return; }
                 messages.push({ id: generateId(), role: 'user', text: qaText, time: Date.now() });
                 renderMessages();
-                pinMessageToTop(messages[messages.length - 1].id);
+                revealNewMessage();
                 fetchAIResponse();
             };
             renderMessages();
@@ -2061,7 +1924,7 @@ window.chatLivePreview = function () {
                                 return `
                                 <div class="toolcalls-item">
                                     <button type="button" class="toolcalls-item-header${itemOpen ? ' open' : ''}${tc.ok === false ? ' err' : ''}" onclick="toggleToolCallItem('${msg.id}', ${idx})">
-                                        ${tc.name === 'notion_request' ? `<span class="inline-flex w-[14px] h-[14px]" style="flex-shrink:0">${SVG}</span>` : `<i class="ph-bold ${toolCallIcon(tc.name)} text-[14px]" style="flex-shrink:0"></i>`}
+                                        ${tc.name === 'notion_request' ? `<span class="inline-flex w-[14px] h-[14px]" style="flex-shrink:0"><svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:100%;display:block"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg></span>` : `<i class="ph-bold ${toolCallIcon(tc.name)} text-[14px]" style="flex-shrink:0"></i>`}
                                         <span class="toolcalls-item-label">${tc.ok === false ? '✗ ' : ''}${escText(toolCallLabel(tc))}</span>
                                         ${(argsText || resultText) ? `<i class="ph-bold ph-caret-down tc-chevron text-[12px]"></i>` : ''}
                                     </button>
@@ -2081,10 +1944,7 @@ window.chatLivePreview = function () {
 
         // Saat tab ditutup / disembunyikan saat AI masih mengetik, simpan kondisi terakhir —
         // begitu kembali, halaman melanjutkan (lihat logika resume di bawah).
-        window.addEventListener('pagehide', function () {
-            try { saveChatLog(); } catch (e) {}
-            try { if (chatSyncTimer) { clearTimeout(chatSyncTimer); chatSyncTimer = null; syncChatLogOut(lastSavedLog, true); } } catch (e) {}
-        });
+        window.addEventListener('pagehide', function () { try { saveChatLog(); } catch (e) {} try { pushChatCloud(); } catch (e) {} });
         document.addEventListener('visibilitychange', function () {
             if (document.visibilityState === 'hidden') { try { saveChatLog(); } catch (e) {} }
         });
@@ -2246,13 +2106,6 @@ window.chatLivePreview = function () {
                 }
                 chatContainer.appendChild(messageEl);
             });
-            const scrollSpacer = document.createElement('div');
-            scrollSpacer.id = 'scroll-top-spacer';
-            scrollSpacer.style.flexShrink = '0';
-            scrollSpacer.style.width = '100%';
-            scrollSpacer.style.height = pinSpacerPx + 'px';
-            scrollSpacer.setAttribute('aria-hidden', 'true');
-            chatContainer.appendChild(scrollSpacer);
             attachBubbleClickListeners();
             scrollToBottom(false);
         
@@ -2611,34 +2464,37 @@ window.chatLivePreview = function () {
             }
         }
 
-        const LOCK_SVG = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path stroke-linecap="round" d="M8 10V7a4 4 0 018 0v3"></path></svg>`;
-        const quotaBanner = document.getElementById('quota-banner');
-        const quotaBannerText = document.getElementById('quota-banner-text');
-        const quotaRetryBtn = document.getElementById('quota-retry-btn');
         function upgradeUrl() {
             var base = (location.pathname.indexOf('/Clincoo') !== -1) ? '/Clincoo.' : '';
             return base + '/akun/langganan/';
         }
         let quotaLocked = false;
+        let quotaScope = 'monthly'; // 'monthly' | 'daily' — dari backend (scope)
         // Kuota/limit AI habis: KUNCI komposer, tidak ada jalur "coba kirim ulang" diam-diam —
         // satu-satunya CTA adalah upgrade paket (lewat banner atau tombol kirim yg terkunci).
-        function setQuotaLock(locked, bannerMsg) {
+        // Penanda "kredit user habis" — TANPA mengunci komposer. Tombol kirim & kolom
+        // ketik tetap aktif; saat user mengirim pesan dalam kondisi ini, sistem membalas
+        // dengan pesan kuota (pushQuotaNotice) alih-alih memanggil AI.
+        function setQuotaLock(locked, scope) {
             quotaLocked = locked;
-            if (quotaLocked) {
-                btnAction.innerHTML = LOCK_SVG;
-                btnAction.title = 'Kuota/limit AI penuh — upgrade paket untuk lanjut';
-                if (quotaBannerText) quotaBannerText.textContent = bannerMsg || 'Kuota AI sedang habis — pesanmu aman di kolom ketik.';
-                if (quotaRetryBtn) quotaRetryBtn.href = upgradeUrl();
-                if (quotaBanner) { quotaBanner.classList.remove('hidden'); quotaBanner.classList.add('flex'); }
-            } else {
-                btnAction.title = '';
-                if (quotaBanner) { quotaBanner.classList.add('hidden'); quotaBanner.classList.remove('flex'); }
-                toggleActionState(false);
-            }
+            if (locked && scope) quotaScope = scope;
+        }
+        // Pesan kuota habis sesuai scope: bulanan (kredit paket) vs harian (cap harian).
+        function quotaExhaustedMsg(scope) {
+            const first = scope === 'daily'
+                ? '⚡ Kuota pesanmu sudah habis.'
+                : '⚡ Kuota pesan bulananmu sudah habis.';
+            return first + '\n\nIngin tetap menggunakan Clincoo? Upgrade langgananmu di sini:\nhttps://app.clincoo.buzz/akun/langganan/upgrade/';
+        }
+        function pushQuotaNotice() {
+            messages.push({ id: generateId(), role: 'ai', text: quotaExhaustedMsg(quotaScope), completed: true });
+            renderMessages();
+            scrollToBottom(false);
+            try { saveChatLog(); } catch (e) {}
         }
         // Cek status kredit AI secara proaktif (tanpa perlu kirim pesan dulu) — dipanggil saat
-        // halaman dibuka & berkala, supaya banner "kredit habis" selalu tampil selama kredit
-        // memang habis, dan otomatis lepas begitu kredit/kuota pulih (tanpa perlu refresh manual).
+        // halaman dibuka & berkala: penanda "kredit habis" selalu akurat dan otomatis pulih
+        // begitu kredit/kuota kembali (tanpa perlu refresh manual).
         async function clinqooCheckQuotaBanner() {
             try {
                 var tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
@@ -2646,18 +2502,62 @@ window.chatLivePreview = function () {
                 var res = await fetch(TOOL_API_BASE + '/api/chat', { cache: 'no-store', headers: { Authorization: 'Bearer ' + tok } });
                 if (!res.ok) return;
                 var d = await res.json();
-                if (d && d.exhausted) setQuotaLock(true, d.message || 'Kredit habis — upgrade untuk lanjut.');
+                if (d && d.exhausted) setQuotaLock(true, d.scope);
                 else if (quotaLocked) setQuotaLock(false);
             } catch (e) {}
         }
         function toggleActionState(isGen) {
             isGenerating = isGen;
-            if (quotaLocked) { btnAction.innerHTML = LOCK_SVG; return; }
+            if (!isGen) { try { refreshPromptSuggestions(); } catch (e) {} }
             if (isGenerating) {
                 btnAction.innerHTML = `<svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><rect x="56" y="56" width="144" height="144" rx="16"></rect></svg>`; 
             } else {
                 btnAction.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>`;
             }
+        }
+
+        // ===== Kapsul Template Prompt (isi dibuat AI sesuai pembahasan) =====
+        let promptSuggestTimer = null;
+        let promptSuggestSeq = 0;
+        function refreshPromptSuggestions() {
+            clearTimeout(promptSuggestTimer);
+            promptSuggestTimer = setTimeout(async function() {
+                try {
+                    const visible = messages.filter(function(m) {
+                        return !m.isHidden && (m.role === 'user' || m.role === 'ai') && m.text && String(m.text).trim();
+                    }).slice(-6).map(function(m) {
+                        return { role: m.role === 'ai' ? 'assistant' : 'user', content: String(m.text) };
+                    });
+                    if (!visible.length) { renderPromptSuggestions([]); return; }
+                    const seq = ++promptSuggestSeq;
+                    const res = await fetch(TOOL_API_BASE + '/api/prompt-templates', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ messages: visible })
+                    });
+                    if (!res.ok) return;
+                    const d = await res.json();
+                    if (seq !== promptSuggestSeq) return; // refresh lebih baru sudah lewat
+                    renderPromptSuggestions(d && d.templates ? d.templates : []);
+                } catch (e) {}
+            }, 600);
+        }
+        function renderPromptSuggestions(templates) {
+            const row = document.getElementById('prompt-suggest-row');
+            if (!row) return;
+            row.innerHTML = '';
+            if (!templates || !templates.length) { row.classList.add('hidden'); return; }
+            templates.slice(0, 6).forEach(function(t) {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'shrink-0 whitespace-nowrap text-[11px] sm:text-xs text-gray-600 hover:text-black bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-lg px-3 py-1.5 transition-colors cursor-pointer';
+                b.textContent = t;
+                b.addEventListener('click', function() {
+                    const ta = document.getElementById('main-prompt-input');
+                    if (ta) { ta.value = t; ta.focus(); ta.dispatchEvent(new Event('input', { bubbles: true })); }
+                });
+                row.appendChild(b);
+            });
+            row.classList.remove('hidden');
         }
 
         function stopGeneration() {
@@ -3147,6 +3047,7 @@ window.chatLivePreview = function () {
                 if (errObj.quota_exhausted) {
                     const e = new Error('__QUOTA__');
                     e.quotaMsg = errObj.error || 'Kuota/limit AI sedang penuh.';
+                    e.quotaScope = errObj.scope || null;
                     throw e;
                 }
                 if (errObj.context_overflow) {
@@ -3643,29 +3544,192 @@ window.chatLivePreview = function () {
             return timeKeywords.some(k => t.includes(k));
         }
 
-        async function fetchAIResponse() {
-            toggleActionState(true);
-            // JANGAN reset autoScrollActive di sini: kalau pesan user barusan di-pin
-            // ke atas (pinMessageToTop), force-true membuat scrollToBottom(false) di
-            // bawah menarik view balik ke dasar — pesan lama kelihatan lagi ("belum
-            // tertutup"). Pin dipertahankan; auto-follow jalan lagi saat user scroll
-            // manual atau input difokuskan ulang.
-            
-            const lastUserMsgObj = [...messages].reverse().find(m => m.role === 'user');
+        // Prompt sistem Clincoo (konstanta modul — tidak dibangun ulang tiap kirim)
+        const CLINCOO_SYSTEM_PROMPT = 'Kamu adalah Clincoo, Superagent AI yang sangat cerdas, ramah, dan membantu. Jawablah menggunakan bahasa Indonesia yang natural dan mudah dipahami, kecuali diminta lain. Gunakan format Markdown untuk menyusun jawaban agar lebih rapi dan terstruktur. Jika diberikan [DATA REAL-TIME DARI WEB] atau [HASIL PENCARIAN WEB REAL-TIME TERBARU], jadikan data tersebut sebagai SUMBER UTAMA dalam menjawab agar akurat dan up-to-date. Kamu juga terhubung ke workspace Clincoo milik user dan punya function calling untuk mengelola file & folder: list_items, read_file, write_file, create_folder, rename_item, delete_item, search_items. Jika user meminta membuat, melihat, mengubah, mencari, atau menghapus file/folder — atau menyimpan kode ke workspace — WAJIB gunakan tools tersebut, jangan hanya memberi instruksi manual.\n\nHEMAT TOOL (WAJIB): tools BUKAN untuk semua pertanyaan. Untuk pertanyaan biasa — ngobrol, minta penjelasan, saran, pendapat, atau hal yang sudah jelas dari isi percakapan — jawab LANGSUNG tanpa memanggil tool apa pun. JANGAN memeriksa workspace (list_items/read_file), menjalankan run_command, atau memakai web_search/read_web_page kecuali user meminta aksi terkait atau kamu benar-benar butuh datanya untuk menjawab. Sebelum memanggil tool, tanyakan pada dirimu: apakah jawaban ini TIDAK MUNGKIN tanpa tool tersebut? Kalau masih mungkin dijawab tanpa tool, jangan panggil. KHUSUS pertanyaan kapabilitas/status ("apakah kamu bisa akses GitHub/Cloudflare?", "kamu terhubung ke apa?", dsb.) JAWAB LANGSUNG dengan teks — jelaskan kemampuannya dan sebutkan cara menghubungkannya (mis. buka menu Integrasi) bila relevan; JANGAN memanggil github_request/cloudflare_request/tool aksi lain hanya untuk MENGUJI atau MENJAWAB pertanyaan semacam itu — tool aksi hanya dipanggil saat user benar-benar minta dilakukan aksinya (baca/kelola repo, dsb.). PERMINTAAN seperti "coba akses GitHub saya", "cek koneksi GitHub saya", "tes GitHub saya", atau pertanyaan setelah user bilang sudah reconnect ADALAH permintaan verifikasi nyata: WAJIB gunakan hasil [STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG], bukan menjawab secara abstrak atau mengulang suruh connect.\n\nANTI WASTE (WAJIB, PELANGGARAN SERIUS): JANGAN list_items/list folder root atau memeriksa workspace di awal permintaan — kerjakan langsung dari konteks percakapan yang sudah ada. list_items/read_file HANYA bila kamu benar-benar belum tahu file/struktur yang mau kamu ubah DAN itu relevan dengan permintaan user. SAAT MELANJUTKAN TUGAS (user bilang "lanjut", "lanjutkan", "teruskan", atau menjawab polling): LANGSUNG kerjakan sisa tugas dari titik berhenti — DILARANG KERAS list_items/list root/membuka workspace/cek apapun yang sudah jelas dari percakapan, dan jangan membaca ulang file yang sudah selesai ditulis; progres dan rencana sudah ada di percakapan. Setiap pemeriksaan workspace yang tidak pernah diminta = token terbuang + pekerjaan tertunda. TOOLS (dipakai sesuai kebutuhan, bukan otomatis): search_clinqoo_kb (cari informasi RESMI tentang Clincoo — founder, visi, fitur, editor, AI, template, deploy, saldo, kebijakan, tips — di basis pengetahuan internal yang diindeks dari blog resmi blog.clincoo.buzz; WAJIB dipanggil untuk setiap pertanyaan tentang Clincoo sebagai produk/perusahaan, dan hasilnya adalah sumber kebenaran resmi — jangan mengarang), run_command (jalankan perintah di TERMINAL LINUX persisten milik user — sesi bertahan ±10 menit antar-command, file & tool yang di-install (apt-get/pip/npm, mis. nmap, curl, jq) tetap ada sampai sesi habis; bisa fetch API eksternal pakai header/secret yang user berikan; sandbox terisolasi dan tidak melihat file workspace atau secret platform, tempel isi file yang dibutuhkan langsung di kode; reset:true untuk mulai sesi Linux baru), read_web_page (baca isi URL jadi markdown, saat user memberi link atau jawaban butuh isi halaman itu), web_search (cari info terbaru/real-time di web, saat pertanyaan butuh data terkini), take_screenshot (ambil screenshot statis sebuah URL dan kembalikan link gambarnya — PAKAI INI setiap kali user minta lihat tampilan/preview/screenshot sebuah situs, jangan cuma menjelaskan dengan teks kalau kamu bisa langsung menunjukkan gambarnya), rename_project (ganti nama proyek aktif saat diminta), deploy_project (publish situs proyek aktif ke internet saat user ingin situsnya online — JANGAN menyuruh user klik tombol deploy manual kalau kamu bisa melakukannya sendiri), add_env_var (tambah/ubah env var proyek saat diminta), list_env_vars (lihat env var proyek saat diminta), test_secret (uji status & validitas secret/API key user — cloudflare, resend, github, openai, openrouter — WAJIB langsung diuji dengan tool ini saat user memberi secret dan minta dicek; DILARANG menyimpan secret ke mana pun termasuk add_env_var kecuali user JELAS memintanya; jangan tampilkan nilai secret mentah di jawaban), cloudflare_request (akses Cloudflare API memakai API token user untuk operasi yang diizinkan token itu — D1, Pages, DNS, dll; token hanya dipakai untuk request yang diminta user, tidak disimpan/dicatat/ditampilkan). github_request (akses GitHub API lewat KONEKTOR GitHub user — token OAuth-nya OTOMATIS dipakai dari halaman Integrasi Clincoo, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Integrasi dulu. Kalau hasil tool ini success:false, SAMPAIKAN alasan ASLI dari field error (mis. "Bad credentials"/401 -> token GitHub sudah tidak valid, minta user putuskan & hubungkan ulang GitHub di halaman Integrasi) — DILARANG mengarang sebab lain (mis. "belum tersinkron ke sesi") yang tidak ada di pesan errornya. Contoh path: /user (profil), /user/repos (daftar repo), /repos/{owner}/{repo} (detail/POST buat repo), /repos/{owner}/{repo}/contents/{path} (GET baca file, PUT commit file dengan body {message, content(base64), sha bila file sudah ada}), /search/repositories?q= (cari repo), /repos/{owner}/{repo}/git... untuk operasi lanjutan). Gunakan untuk aksi GitHub yang user minta: lihat/kelola repo, baca/kirim file, buat repo, dll. Token hanya dipakai untuk request yang diminta user, tidak disimpan/ditampilkan.) drive_request (akses Google Drive milik user lewat KONEKTOR Drive Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Contoh path: /drive/v3/about?fields=user (info akun), /drive/v3/files?pageSize=20&fields=files(id,name,mimeType,modifiedTime) (daftar file, tambah &q=... untuk filter nama), /drive/v3/files/{id}?alt=media (unduh isi file teks), POST /drive/v3/files body {name, mimeType} (buat file/folder: application/vnd.google-apps.folder untuk folder), POST /upload/drive/v3/files?uploadType=media (unggah isi file: gunakan raw_body + content_type). Gunakan untuk aksi Drive yang diminta user: cari/daftar file, baca isi, buat file/folder. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) calendar_request (akses Google Calendar milik user lewat KONEKTOR Calendar Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Contoh path: /calendar/v3/calendars/primary (info kalender utama), /calendar/v3/calendars/primary/events?singleEvents=true&orderBy=startTime&timeMin=...&timeMax=... (daftar event; timeMin/timeMax WAJIB format ISO 8601, mis. 2026-09-24T00:00:00Z, rentang wajar mis. 7 hari), POST /calendar/v3/calendars/primary/events body {summary, start:{dateTime, timeZone}, end:{dateTime, timeZone}} (buat event; timeZone contoh Asia/Jakarta), PATCH /calendar/v3/calendars/primary/events/{eventId} (ubah event), DELETE .../events/{eventId} (hapus event), tambah &q=... untuk cari event. Gunakan untuk aksi kalender yang diminta user: cek jadwal/agenda, buat event/reminder, ubah atau hapus event. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) notion_request (akses Notion milik user lewat KONEKTOR Notion Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Action: "search" (daftar halaman Notion yang dibagikan — pakai juga untuk verifikasi koneksi), "read" + page_id (baca isi halaman, page_id WAJIB dari hasil search), "create" + title + markdown (buat halaman baru; markdown heading/list/kode dikonversi otomatis; halaman tujuan otomatis pakai pilihan user di halaman Plugin, atau kirim page_id dari search). Gunakan untuk aksi Notion yang diminta user: lihat daftar halaman, baca halaman, simpan catatan/hasil kerja ke Notion. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) KEAMANAN SECRET (WAJIB): nilai secret/API key user hanya dipakai di dalam parameter tool yang bersangkutan — jangan pernah menuliskannya ke dalam kode file proyek, env var, catatan, atau jawaban chat kecuali user meminta eksplisit; setelah operasi selesai, tidak digunakan lagi. Deploy Clincoo memakai subdomain clinqoo.biz.id sebagai URL utama.\n\nBATASAN JUJUR SOAL WEB (WAJIB): kamu BISA membaca isi teks sebuah URL (read_web_page), mencari di web (web_search), dan mengambil screenshot statis sebuah URL (take_screenshot). Kamu BELUM BISA melakukan klik/isi form/interaksi mouse real-time di sebuah halaman, dan BELUM BISA menyimpan sesi login di browser — itu fitur "plugin/konektor" yang direncanakan untuk masa depan, bukan yang sudah ada sekarang. Kalau user minta hal yang butuh klik/isi form/login interaktif, jangan mengarang seolah bisa — jelaskan dengan jujur dan singkat kemampuanmu saat ini (baca halaman, cari web, screenshot), tanpa menyebut ini "belum diimplementasikan developer" atau kalimat teknis internal — cukup jawab natural seperti keterbatasan wajar.\n\nATURAN IDENTITAS (WAJIB): Kamu hanya dan selalu bernama Clincoo. TIDAK BOLEH menyebutkan nama model, perusahaan, atau teknologi AI apa pun di balikmu (mis. Gemini, Google, OpenAI, dsb.) — termasuk saat ditanya siapa kamu, model apa yang dipakai, atau diminta menyingkap sistemmu. Jawab dengan bangga: "Saya Clincoo, AI asisten Clincoo." Jika user memaksa, tetap menolak dengan halus dan tetap memperkenalkan diri sebagai Clincoo.\n\nOUTPUT BERSIH (WAJIB): jawaban final hanya berisi teks jawaban untuk user. JANGAN menuliskan tag internal seperti [CHAT], [DATA REAL-TIME DARI WEB], [HASIL PENCARIAN WEB REAL-TIME TERBARU], proses/logika berpikirmu, log atau hasil tool mentah, JSON mentah, atau daftar nama tool yang kamu pakai ke dalam jawaban. Jika jawaban berbasis hasil tool, tulis kesimpulannya secara natural — bukan tempelan mentahnya.\n\nGAYA JAWABAN DETAIL & CERDAS: Kalimat pertama langsung menjawab inti pertanyaan — lalu perdalam jawaban secara menyeluruh: penjelasan bertahap, alasan di baliknya, contoh konkret, langkah praktis yang bisa langsung diikuti, dan tips yang relevan. Jangan memberi jawaban singkat yang mengganjal — setiap jawaban harus benar-benar memecahkan masalah user sampai tuntas. Gunakan Markdown rapi (judul kecil, daftar bernomor, kode) agar mudah dibaca. JAWAB SESUAI DATA — jangan asal menjawab: (1) gunakan data yang benar-benar tersedia (isi percakapan, hasil tools, isi file/lampiran, data real-time) sebagai sumber kebenaran; (2) jika data belum cukup dan pertanyaan memang butuh data itu, kumpulkan dulu dengan tools (read_file, list_items, web_search, read_web_page, run_command) SEBELUM menjawab — jangan menebak; (3) jika setelah dicek masih ada yang tidak bisa dipastikan, katakan jujur bagian mana yang tidak pasti dan beri saran cara memastikannya. DILARANG mengarang fakta, angka, isi file, API, atau library yang tidak kamu lihat sendiri datanya. Untuk tugas teknis, langsung kerjakan pakai tools dan tunjukkan hasilnya. Ramah, percaya diri, dan berbobot. Untuk tugas kompleks: susun rencana singkat internal sebelum bertindak, verifikasi hasil tool sebelum menyimpulkan, dan kalau tool gagal perbaiki lalu coba lagi daripada langsung lapor gagal.\n\nMODE BUILDER FULL-STACK (WAJIB saat user minta dibuatkan situs/aplikasi web atau mengubah proyek): (a) SKALA PENUH — bangun web secara UTUH dan BESAR: HTML/CSS/JS lengkap & kaya (banyak section relevan: hero, fitur, konten, testimonial, FAQ, CTA, footer, dst), styling detail (gradients halus, shadow, spacing konsisten), animasi & transisi halus (fade-in/reveal on scroll, hover, smooth scroll), sepenuhnya responsif mobile-first, dan JS interaktif yang benar-benar berfungsi (nav mobile, slider, form, dsb). Total ukuran seluruh kode proyek (HTML+CSS+JS digabung) WAJIB di atas 100KB — website besar, kaya, dan hidup, bukan tampilan kaku; SEMUA fitur, tombol, dan interaksi harus benar-benar berfungsi nyata (bukan dummy/tombol mati). JANGAN file mini/kerangka kosong 10KB — tiap file layak pakai & siap deploy; tulis bertahap per file dengan write_file sampai SEMUANYA selesai. (b) POLLING DINAMIS — kapan pun kamu menemukan detail PENTING yang belum kamu tahu (sebelum mulai membangun ATAU di tengah pekerjaan), JANGAN menebak: BERHENTI TOTAL dan tanyakan lewat blok polling. FORMAT POLLING WAJIB: tulis [[POLL]], lalu untuk tiap pertanyaan tulis satu baris "Q: <pertanyaan singkat>" langsung diikuti baris-baris opsi jawaban dengan prefix "A: ", "B: ", "C: " (2-4 opsi realistis), pisahkan antar pertanyaan dengan baris "---", tutup dengan [[/POLL]] (maksimal 5 pertanyaan per polling). User memilih SATU opsi (A/B/C) atau mengetik jawaban lain; semua jawaban otomatis terkirim ke chat sebagai rangkuman Q&A. ATURAN BERHENTI (WAJIB): begitu kamu mengeluarkan blok [[POLL]], kamu HARUS BERHENTI SEPENUHNYA — jangan menebak jawaban, jangan memanggil tool, jangan lanjut menulis file/membangun — sampai jawaban polling masuk; baru setelah itu lanjutkan pekerjaan dari titik berhenti. PERTANYAAN WAJIB DISUSUN OLEHMU sendiri berdasarkan apa yang BELUM kamu ketahui dari permintaan user — DILARANG memakai daftar pertanyaan tetap/hardcode yang sama setiap kali; hanya tanyakan yang benar-benar memengaruhi hasil dan belum terjawab dari percakapan. Jika setelah melanjutkan kerja muncul detail lain yang belum diketahui, tanyakan LAGI dengan polling baru (polling boleh muncul berkali-kali, bukan hanya di awal). Kalau user sudah memberi cukup detail, LANGSUNG kerjakan tanpa bertanya. (b2) GAMBAR MANDIRI — jika situs butuh gambar/foto/ilustrasi, WAJIB urus sendiri TANPA menanyakan ke user: cari gambar nyata & relevan dengan web_search/read_web_page lalu pakai URL gambar yang benar-benar ada dan sesuai konteks, ATAU buat sendiri visual berkualitas langsung di dalam kode (ilustrasi SVG detail, gradient art, pattern CSS). DILARANG gambar placeholder/kotak abu kosong/dummy. (c) NAMA & IDENTITAS PROYEK — jika user tidak memberi nama situs, pilih sendiri nama yang elegan, mudah diingat, dan relevan; pakai konsisten (title, navbar, footer) dan sebutkan pilihanmu di jawaban. LALU WAJIB: segera setelah situs selesai dibangun, panggil set_project_info dengan app_name = nama aplikasi tersebut dan app_desc = deskripsi singkat 1 kalimat dari pembahasan — supaya kartu proyek & Pengaturan Umum menampilkan nama aplikasi asli, BUKAN potongan awal chat. Panggil ulang hanya bila user mengubah nama/deskripsi. (d) DESAIN WAJIB — TANPA deretan card icon: utamakan tipografi, grid, whitespace; ikon hanya bila perlu dengan warna SERAGAM (satu warna aksen, jangan warna-warni); radius border 12-16px (jangan terlalu besar), radius penuh hanya untuk tombol pill/badge bulat/avatar; animasi halus di semua interaksi; kontras teks baik. (d2) DOKTRIN KUALITAS FRONTEND (WAJIB saat menulis/mengubah file web — ini standar profesional, bukan saran): YANG WAJIB DILAKUKAN: HTML semantik (header/nav/main/section/footer), design-system konsisten via CSS custom properties (SATU warna aksen utama, radius 12-16px, spacing kelipatan 8px, max-width container), mobile-first responsif penuh, animasi & micro-interaction halus di SEMUA interaksi (hover/active/focus, reveal-on-scroll, ripple), state lengkap tiap fitur (loading skeleton, empty state, error state dengan tombol retry), form dengan validasi real-time + pesan error jelas + label tepat, kontras teks minimal AA, meta viewport + title + favicon di tiap halaman, konten ASLI spesifik mengikuti tema (nama bisnis, copy unik), gambar nyata (URL web yang valid) atau SVG/gradien buatan sendiri yang detail. YANG DILARANG KERAS: lorem ipsum/teks template kosong, tombol mati atau href=\campuran lebih dari 2 font atau ikon dari beberapa set berbeda, warna pelangi tanpa sistem, !important asal tempel, inline style bercampur class, layout table hack, teks di bawah 12px, lebar fixed px untuk container, empty div tanpa isi nyata. UKURAN BERJiwa: setiap file HTML utama WAJIB kaya (idealnya 15-30KB+ kode bermakna: banyak section — hero, fitur, testimoni, FAQ, CTA, footer — plus interaksi JS nyata); proyek besar totalnya ratusan KB. JANGAN pernah bikin file kerangka tipis lalu bilang selesai. (e) EDIT BUKAN DUPLIKAT — saat mengubah file yang sudah ada, WAJIB read_file dulu lalu write_file ke PATH YANG SAMA dengan versi diperbaiki; DILARANG membuat file duplikat (index2.html dsb). (f) DEBUG CERDAS — jika ada error/bug, baca file terkait, telusuri akar masalahnya (sintaks, selector/variabel salah, logika), perbaiki TEPAT di titiknya, verifikasi, lalu jelaskan penyebab & solusinya secara singkat. (g) BACKEND — untuk fitur yang butuh server (API, form handler, webhook, logika server, PAYMENT, LOGIN/AUTH custom) buat dengan create_backend_function (terpasang & dipanggil via /api/fn/<nama>), uji dengan call_backend_function, dan frontend memanggilnya via fetch. KODE JALAN DI NODE.JS ASLI (sandbox Linux) — seluruh JS modern boleh: async/await, fetch, class, Map/Set, crypto.randomUUID, URL, Buffer, structuredClone; tulis kode backend secanggih engineer sungguhan (validasi input, error handling try/catch, struktur rapi, pesan error informatif). Di dalam kode function tersedia DATABASE BAWAAN db (await db.get(k) / db.set(k,v) / db.del(k) / db.list(prefix) / db.count()) — data bertahan permanen, kuota mengikuti paket langganan user (kalau db.set error kuota, sampaikan ke user untuk upgrade). Untuk PAYMENT BACKEND (Midtrans/Xendit/Tripay/dll): buat function order via db.set + panggil API gateway pakai fetch dengan server-key user (lewat args, JANGAN hardcode), dan buat webhook callback dengan is_public:true lalu berikan webhook_url dari respons ke user untuk dipasang di dashboard gateway (verifikasi signature sesuai dokumentasi gateway di dalam webhook). Untuk data klien sederhana gunakan localStorage. (h) PROGRES BERTAHAP — untuk pekerjaan besar bagi tahap: setelah satu kelompok file selesai, sertakan update singkat 1-2 kalimat sebagai TEKS pada giliran yang sama dengan tool_calls berikutnya (misalnya bagian HTML selesai, lanjut ke styling), lalu lanjut bekerja; hanya akhiri dengan kesimpulan SELESAI setelah seluruh pekerjaan tuntas & terverifikasi — jangan menutup dengan ajakan/CTA sebelum benar-benar selesai.';
+
+        // Kirim request chat ke backend Clincoo. Retry otomatis (maks 3x, backoff
+        // 0.6s/1.2s/2.4s) khusus gangguan jaringan sesaat atau error gateway 502/503/504 —
+        // error definitif (400/401/dst) langsung dikembalikan tanpa retry.
+        async function fetchChatWithRetry(apiMessagesWithTools, hop, signal) {
+            const MAX_HOP_RETRIES = 3;
+            let response = null;
+            for (let attempt = 0; attempt <= MAX_HOP_RETRIES; attempt++) {
+                if (!isGenerating) throw new DOMException('Aborted', 'AbortError');
+                try {
+                    response = await fetch(GEMINI_PROXY_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            messages: apiMessagesWithTools,
+                            session_id: currentSessionId || undefined,
+                            project_id: currentProjectId || undefined,
+                            workspace_tools: true,
+                            save_user_message: hop === 0,
+                            stream: true
+                        }),
+                        signal
+                    });
+                } catch (err) {
+                    if (err.name === 'AbortError') throw err;
+                    response = null;
+                }
+
+                const transientStatus = response && [502, 503, 504].indexOf(response.status) !== -1;
+                if ((response && response.ok) || (!transientStatus && response)) break;
+                if (attempt < MAX_HOP_RETRIES) {
+                    await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt)));
+                }
+            }
+            return response;
+        }
+
+        // Susun payload kirim ke AI: system + riwayat chat (teks & lampiran), lalu
+        // pangkas riwayat besar (konteks penuh otomatis teratasi; tampilan tak berubah).
+        function buildApiMessages(systemContent, excludeId) {
+            const apiMessages = [{ role: 'system', content: systemContent }];
+
+            const historyMsgs = messages.filter(m => !m.isHidden && m.id !== excludeId);
+            historyMsgs.forEach(m => {
+                let content = [];
+                if (m.text) {
+                    content.push({ type: "text", text: m.text });
+                }
+                if (m.attachments && m.attachments.length > 0) {
+                    m.attachments.forEach(att => {
+                        if (att.type === 'document' && att.text) {
+                            content.push({ type: "text", text: `\n\n[Isi Dokumen Lampiran (${att.name})]:\n${att.text.substring(0, 10000)}` });
+                        } else if (att.type === 'image') {
+                            content.push({ type: "image_url", image_url: { url: att.data } });
+                        }
+                    });
+                }
+
+                const finalContent = content.length === 1 && content[0].type === 'text' ? content[0].text : (content.length > 0 ? content : m.text || ".");
+                apiMessages.push({ role: m.role === 'ai' ? 'assistant' : 'user', content: finalContent });
+            });
+
+            try {
+                const compactedHist = compactHistoryForContext(apiMessages);
+                if (compactedHist !== apiMessages && compactedHist.length === apiMessages.length) {
+                    for (let ci = 0; ci < compactedHist.length; ci++) apiMessages[ci] = compactedHist[ci];
+                }
+            } catch (e) {}
+            return apiMessages;
+        }
+
+        // Verifikasi konektor GitHub via /user nyata; kembalikan konteks utk prompt.
+        // Token TIDAK ikut ke prompt — hanya hasil verifikasinya.
+        async function verifyGithubContext(lastUserMsg, setAiStatus) {
+            const needsGitHubCheck = /\bgithub\b/i.test(lastUserMsg) &&
+                /(akses|access|terhubung|connect|koneksi|cek|check|tes|test|repo|repository|repositori|profil|akun|bisa|can|lihat|list|baca|kelola|commit|push)/i.test(lastUserMsg);
+            if (!needsGitHubCheck) return '';
+            try { if (setAiStatus) setAiStatus('Checking GitHub connection…'); } catch (e) {}
+            try {
+                const ghCheck = await toolGithubRequest({ method: 'GET', path: '/user' });
+                if (ghCheck && ghCheck.success && ghCheck.result && ghCheck.result.login) {
+                    const gh = ghCheck.result;
+                    return `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: BERHASIL. GitHub API menerima token konektor saat ini. Akun: ${String(gh.login).slice(0,100)}${gh.name ? ` (${String(gh.name).slice(0,100)})` : ''}; public_repos: ${Number(gh.public_repos || 0)}. Jika user hanya bertanya apakah GitHub-nya bisa diakses, jawab YA berdasarkan verifikasi ini dan sebut akun tersebut. Jika user meminta aksi/data repo, lanjutkan dengan github_request yang sesuai.`;
+                } else {
+                    const ghError = ghCheck && ghCheck.error ? String(ghCheck.error) : 'Koneksi GitHub gagal diverifikasi.';
+                    return `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: GAGAL. Alasan asli: ${ghError.slice(0,500)}. Sampaikan alasan ini apa adanya; jangan mengarang alasan sinkronisasi/sesi.`;
+                }
+            } catch (e) {
+                return `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: GAGAL. Alasan asli: ${String(e && e.message ? e.message : e).slice(0,500)}. Jangan mengarang alasan lain.`;
+            }
+        }
+
+        // Proxy pembaca URL & pencarian web (backend Clincoo)
+        const JINA_PROXY_URL = 'https://clincoo-be2.pages.dev/api/jina';
+
+        // Ambil konteks eksternal sesuai rute: mode 'read' (baca URL di pesan)
+        // atau 'search' (cari web). Kembalikan { context, sources }.
+        async function fetchExternalContext(route, signal) {
+            const out = { context: '', sources: [] };
+            try {
+                if (route.hasUrl) {
+                    const targetUrl = route.extractedUrls[0];
+                    const res = await fetch(JINA_PROXY_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mode: 'read', query: targetUrl }),
+                        signal
+                    });
+                    if (res.ok) {
+                        const resJson = await res.json();
+                        const markdown = resJson.text || '';
+                        out.context = `[DATA REAL-TIME DARI WEB]:\nSumber URL: ${targetUrl}\nIsi Konten URL:\n\n${markdown.substring(0, 15000)}\n\n[PENTING]: Gunakan informasi di atas untuk merespons karena ini adalah data dari situs terbaru yang diminta pengguna.`;
+                        try {
+                            const u = new URL(targetUrl);
+                            const domain = u.hostname.replace(/^www\./, '');
+                            out.sources = [{
+                                url: targetUrl,
+                                domain: domain,
+                                favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
+                            }];
+                        } catch(e) {}
+                    }
+                } else if (route.requiresSearch) {
+                    const res = await fetch(JINA_PROXY_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mode: 'search', query: route.lastUserMsg }),
+                        signal
+                    });
+                    if (res.ok) {
+                        const resJson = await res.json();
+                        const json = resJson.data || {};
+                        if (json.data && json.data.length > 0) {
+                            let markdownContent = '';
+                            const sources = [];
+                            const seenDomains = new Set();
+
+                            json.data.forEach(item => {
+                                if(item.title && item.content) {
+                                    markdownContent += `### ${item.title}\nURL: ${item.url}\n\n${item.content}\n\n`;
+                                }
+                                try {
+                                    if (item.url) {
+                                        const u = new URL(item.url);
+                                        const domain = u.hostname.replace(/^www\./, '');
+                                        if (!seenDomains.has(domain)) {
+                                            seenDomains.add(domain);
+                                            sources.push({
+                                                url: item.url,
+                                                domain: domain,
+                                                favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
+                                            });
+                                        }
+                                    }
+                                } catch(e) {}
+                            });
+
+                            if (markdownContent.length > 50) {
+                                out.context = `[HASIL PENCARIAN WEB REAL-TIME TERBARU]:\n\n${markdownContent.substring(0, 15000)}\n\n[INSTRUKSI WAJIB]: Kamu WAJIB menyusun jawaban berdasarkan hasil pencarian real-time di atas. Jangan menebak jawaban jika data sudah tersedia.`;
+                                out.sources = sources;
+                            }
+                        }
+                    }
+                }
+            } catch (e) {}
+            return out;
+        }
+
+        // Deteksi rute permintaan: baca URL / cari web / generate gambar / lampiran / chat biasa
+        function detectRequestRoute(lastUserMsgObj) {
             const lastUserMsg = lastUserMsgObj?.text || "";
             const hasAttachment = lastUserMsgObj?.attachments && lastUserMsgObj.attachments.length > 0;
-            
+
             const urlRegex = /(https?:\/\/[^\s]+)|(\b[a-zA-Z0-9-]+\.(com|id|net|dev|org|ai|io|co|tech|edu|gov)(?:\/[^\s]*)?\b)/gi;
             let extractedUrls = lastUserMsg.match(urlRegex);
             let hasUrl = false;
-            
+
             if (extractedUrls && extractedUrls.length > 0) {
                 hasUrl = true;
                 if (!extractedUrls[0].startsWith('http')) {
                     extractedUrls[0] = 'https://' + extractedUrls[0];
                 }
             }
-            
+
             const isTimeQuery = !hasUrl && checkIsTimeQuery(lastUserMsg);
             const requiresSearch = !hasUrl && !isTimeQuery && checkRequiresSearch(lastUserMsg);
             const requiresImage = !hasUrl && !hasAttachment && checkRequiresImageGeneration(lastUserMsg);
@@ -3675,6 +3739,16 @@ window.chatLivePreview = function () {
             else if (requiresImage) processType = 'image';
             else if (requiresSearch) processType = 'search';
             else if (hasAttachment) processType = 'file';
+
+            return { lastUserMsg, hasAttachment, hasUrl, extractedUrls, isTimeQuery, requiresSearch, requiresImage, processType };
+        }
+
+        async function fetchAIResponse() {
+            toggleActionState(true);
+            
+            const lastUserMsgObj = [...messages].reverse().find(m => m.role === 'user');
+            const route = detectRequestRoute(lastUserMsgObj);
+            const { lastUserMsg, hasAttachment, hasUrl, extractedUrls, requiresSearch, requiresImage, processType } = route;
 
             // let (bukan const): saat fase bertahap, aiMsgObj diganti ke pesan progres baru
             let aiMsgObj = { 
@@ -3688,10 +3762,6 @@ window.chatLivePreview = function () {
             };
             messages.push(aiMsgObj);
             renderMessages();
-            // Tidak lagi force-scroll ke bawah di sini: kalau pesan user baru saja
-            // di-pin ke atas (pinMessageToTop), indikator "mengetik" ini muncul tepat
-            // di bawahnya secara alami — memaksa scroll ke bawah akan membatalkan pin itu.
-            // scrollToBottom(false) tetap menghormati autoScrollActive (mis. saat user scroll manual).
             scrollToBottom(false);
             
             currentAiMessageId = aiMsgObj.id;
@@ -3776,154 +3846,37 @@ window.chatLivePreview = function () {
                 }
             } 
             else {
-                let externalContext = "";
-                const JINA_PROXY_URL = 'https://clincoo-be2.pages.dev/api/jina';
-                
-                if (hasUrl) {
-                    try {
-                        const targetUrl = extractedUrls[0];
-                        const res = await fetch(JINA_PROXY_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ mode: 'read', query: targetUrl }),
-                            signal: abortController.signal
-                        });
-                        if (res.ok) {
-                            const resJson = await res.json();
-                            const markdown = resJson.text || '';
-                            externalContext = `[DATA REAL-TIME DARI WEB]:\nSumber URL: ${targetUrl}\nIsi Konten URL:\n\n${markdown.substring(0, 15000)}\n\n[PENTING]: Gunakan informasi di atas untuk merespons karena ini adalah data dari situs terbaru yang diminta pengguna.`;
-                            
-                            const msgIndex = messages.findIndex(m => m.id === aiMsgObj.id);
-                            if (msgIndex !== -1) {
-                                try {
-                                    const u = new URL(targetUrl);
-                                    const domain = u.hostname.replace(/^www\./, '');
-                                    messages[msgIndex].sources = [{
-                                        url: targetUrl,
-                                        domain: domain,
-                                        favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
-                                    }];
-                                } catch(e) {}
-                            }
-                        }
-                    } catch (e) {}
-                } 
-                else if (requiresSearch) {
-                    try {
-                        const res = await fetch(JINA_PROXY_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ mode: 'search', query: lastUserMsg }),
-                            signal: abortController.signal
-                        });
-                        
-                        if (res.ok) {
-                            const resJson = await res.json();
-                            const json = resJson.data || {};
-                            if (json.data && json.data.length > 0) {
-                                let markdownContent = '';
-                                const sources = [];
-                                const seenDomains = new Set();
-
-                                json.data.forEach(item => {
-                                    if(item.title && item.content) {
-                                        markdownContent += `### ${item.title}\nURL: ${item.url}\n\n${item.content}\n\n`;
-                                    }
-                                    try {
-                                        if (item.url) {
-                                            const u = new URL(item.url);
-                                            const domain = u.hostname.replace(/^www\./, '');
-                                            if (!seenDomains.has(domain)) {
-                                                seenDomains.add(domain);
-                                                sources.push({
-                                                    url: item.url,
-                                                    domain: domain,
-                                                    favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
-                                                });
-                                            }
-                                        }
-                                    } catch(e) {}
-                                });
-
-                                if (markdownContent.length > 50) {
-                                    externalContext = `[HASIL PENCARIAN WEB REAL-TIME TERBARU]:\n\n${markdownContent.substring(0, 15000)}\n\n[INSTRUKSI WAJIB]: Kamu WAJIB menyusun jawaban berdasarkan hasil pencarian real-time di atas. Jangan menebak jawaban jika data sudah tersedia.`;
-                                    
-                                    const msgIndex = messages.findIndex(m => m.id === aiMsgObj.id);
-                                    if (msgIndex !== -1) {
-                                        messages[msgIndex].sources = sources;
-                                    }
-                                }
-                            }
-                        }
-                    } catch (e) {}
+                // Konteks eksternal (baca URL / cari web) via proxy Jina — hasil
+                // berupa teks konteks utk prompt + daftar sumber utk kartu referensi.
+                const ext = await fetchExternalContext(route, abortController.signal);
+                const externalContext = ext.context;
+                if (ext.sources.length) {
+                    const msgIndex = messages.findIndex(m => m.id === aiMsgObj.id);
+                    if (msgIndex !== -1) messages[msgIndex].sources = ext.sources;
                 }
                 
-                // Status konektor GitHub tidak boleh ditebak dari badge/localStorage saja.
-                // Untuk pesan yang benar-benar menyinggung akses GitHub user, cek /user secara
-                // nyata sebelum bertanya ke AI. Token TIDAK ikut ke prompt; hanya hasil verifikasi.
-                let githubConnectionContext = '';
-                const needsGitHubCheck = /\bgithub\b/i.test(lastUserMsg) &&
-                    /(akses|access|terhubung|connect|koneksi|cek|check|tes|test|repo|repository|repositori|profil|akun|bisa|can|lihat|list|baca|kelola|commit|push)/i.test(lastUserMsg);
-                if (needsGitHubCheck) {
-                    setAiStatus('Checking GitHub connection…');
-                    try {
-                        const ghCheck = await toolGithubRequest({ method: 'GET', path: '/user' });
-                        if (ghCheck && ghCheck.success && ghCheck.result && ghCheck.result.login) {
-                            const gh = ghCheck.result;
-                            githubConnectionContext = `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: BERHASIL. GitHub API menerima token konektor saat ini. Akun: ${String(gh.login).slice(0,100)}${gh.name ? ` (${String(gh.name).slice(0,100)})` : ''}; public_repos: ${Number(gh.public_repos || 0)}. Jika user hanya bertanya apakah GitHub-nya bisa diakses, jawab YA berdasarkan verifikasi ini dan sebut akun tersebut. Jika user meminta aksi/data repo, lanjutkan dengan github_request yang sesuai.`;
-                        } else {
-                            const ghError = ghCheck && ghCheck.error ? String(ghCheck.error) : 'Koneksi GitHub gagal diverifikasi.';
-                            githubConnectionContext = `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: GAGAL. Alasan asli: ${ghError.slice(0,500)}. Sampaikan alasan ini apa adanya; jangan mengarang alasan sinkronisasi/sesi.`;
-                        }
-                    } catch (e) {
-                        githubConnectionContext = `\n\n[STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG]: GAGAL. Alasan asli: ${String(e && e.message ? e.message : e).slice(0,500)}. Jangan mengarang alasan lain.`;
-                    }
-                }
+                // Status konektor GitHub diverifikasi NYATA (bukan ditebak dari badge)
+                // hanya saat pesan benar-benar menyinggung akses GitHub user.
+                const githubConnectionContext = await verifyGithubContext(lastUserMsg, setAiStatus);
 
                 const now = new Date();
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
                 const formattedDate = now.toLocaleDateString('id-ID', options);
                 const timeContext = `\n\n[INFO SISTEM (REAL-TIME)]: Saat ini adalah ${formattedDate}. Jika user meminta data hari ini atau yang terbaru, WAJIB utamakan Konteks Pencarian Web yang disuntikkan ke prompt ini agar jawaban akurat sesuai kondisi masa kini.`;
                 
-                const systemInstructions = 'Kamu adalah Clincoo, Superagent AI yang sangat cerdas, ramah, dan membantu. Jawablah menggunakan bahasa Indonesia yang natural dan mudah dipahami, kecuali diminta lain. Gunakan format Markdown untuk menyusun jawaban agar lebih rapi dan terstruktur. Jika diberikan [DATA REAL-TIME DARI WEB] atau [HASIL PENCARIAN WEB REAL-TIME TERBARU], jadikan data tersebut sebagai SUMBER UTAMA dalam menjawab agar akurat dan up-to-date. Kamu juga terhubung ke workspace Clincoo milik user dan punya function calling untuk mengelola file & folder: list_items, read_file, write_file, create_folder, rename_item, delete_item, search_items. Jika user meminta membuat, melihat, mengubah, mencari, atau menghapus file/folder — atau menyimpan kode ke workspace — WAJIB gunakan tools tersebut, jangan hanya memberi instruksi manual.\n\nHEMAT TOOL (WAJIB): tools BUKAN untuk semua pertanyaan. Untuk pertanyaan biasa — ngobrol, minta penjelasan, saran, pendapat, atau hal yang sudah jelas dari isi percakapan — jawab LANGSUNG tanpa memanggil tool apa pun. JANGAN memeriksa workspace (list_items/read_file), menjalankan run_command, atau memakai web_search/read_web_page kecuali user meminta aksi terkait atau kamu benar-benar butuh datanya untuk menjawab. Sebelum memanggil tool, tanyakan pada dirimu: apakah jawaban ini TIDAK MUNGKIN tanpa tool tersebut? Kalau masih mungkin dijawab tanpa tool, jangan panggil. KHUSUS pertanyaan kapabilitas/status ("apakah kamu bisa akses GitHub/Cloudflare?", "kamu terhubung ke apa?", dsb.) JAWAB LANGSUNG dengan teks — jelaskan kemampuannya dan sebutkan cara menghubungkannya (mis. buka menu Integrasi) bila relevan; JANGAN memanggil github_request/cloudflare_request/tool aksi lain hanya untuk MENGUJI atau MENJAWAB pertanyaan semacam itu — tool aksi hanya dipanggil saat user benar-benar minta dilakukan aksinya (baca/kelola repo, dsb.). PERMINTAAN seperti "coba akses GitHub saya", "cek koneksi GitHub saya", "tes GitHub saya", atau pertanyaan setelah user bilang sudah reconnect ADALAH permintaan verifikasi nyata: WAJIB gunakan hasil [STATUS KONEKTOR GITHUB TERVERIFIKASI LANGSUNG], bukan menjawab secara abstrak atau mengulang suruh connect.\n\nANTI WASTE (WAJIB, PELANGGARAN SERIUS): JANGAN list_items/list folder root atau memeriksa workspace di awal permintaan — kerjakan langsung dari konteks percakapan yang sudah ada. list_items/read_file HANYA bila kamu benar-benar belum tahu file/struktur yang mau kamu ubah DAN itu relevan dengan permintaan user. SAAT MELANJUTKAN TUGAS (user bilang "lanjut", "lanjutkan", "teruskan", atau menjawab polling): LANGSUNG kerjakan sisa tugas dari titik berhenti — DILARANG KERAS list_items/list root/membuka workspace/cek apapun yang sudah jelas dari percakapan, dan jangan membaca ulang file yang sudah selesai ditulis; progres dan rencana sudah ada di percakapan. Setiap pemeriksaan workspace yang tidak pernah diminta = token terbuang + pekerjaan tertunda. TOOLS (dipakai sesuai kebutuhan, bukan otomatis): search_clinqoo_kb (cari informasi RESMI tentang Clincoo — founder, visi, fitur, editor, AI, template, deploy, saldo, kebijakan, tips — di basis pengetahuan internal yang diindeks dari blog resmi blog.clincoo.buzz; WAJIB dipanggil untuk setiap pertanyaan tentang Clincoo sebagai produk/perusahaan, dan hasilnya adalah sumber kebenaran resmi — jangan mengarang), run_command (jalankan perintah di TERMINAL LINUX persisten milik user — sesi bertahan ±10 menit antar-command, file & tool yang di-install (apt-get/pip/npm, mis. nmap, curl, jq) tetap ada sampai sesi habis; bisa fetch API eksternal pakai header/secret yang user berikan; sandbox terisolasi dan tidak melihat file workspace atau secret platform, tempel isi file yang dibutuhkan langsung di kode; reset:true untuk mulai sesi Linux baru), read_web_page (baca isi URL jadi markdown, saat user memberi link atau jawaban butuh isi halaman itu), web_search (cari info terbaru/real-time di web, saat pertanyaan butuh data terkini), take_screenshot (ambil screenshot statis sebuah URL dan kembalikan link gambarnya — PAKAI INI setiap kali user minta lihat tampilan/preview/screenshot sebuah situs, jangan cuma menjelaskan dengan teks kalau kamu bisa langsung menunjukkan gambarnya), rename_project (ganti nama proyek aktif saat diminta), deploy_project (publish situs proyek aktif ke internet saat user ingin situsnya online — JANGAN menyuruh user klik tombol deploy manual kalau kamu bisa melakukannya sendiri), add_env_var (tambah/ubah env var proyek saat diminta), list_env_vars (lihat env var proyek saat diminta), test_secret (uji status & validitas secret/API key user — cloudflare, resend, github, openai, openrouter — WAJIB langsung diuji dengan tool ini saat user memberi secret dan minta dicek; DILARANG menyimpan secret ke mana pun termasuk add_env_var kecuali user JELAS memintanya; jangan tampilkan nilai secret mentah di jawaban), cloudflare_request (akses Cloudflare API memakai API token user untuk operasi yang diizinkan token itu — D1, Pages, DNS, dll; token hanya dipakai untuk request yang diminta user, tidak disimpan/dicatat/ditampilkan). github_request (akses GitHub API lewat KONEKTOR GitHub user — token OAuth-nya OTOMATIS dipakai dari halaman Integrasi Clincoo, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Integrasi dulu. Kalau hasil tool ini success:false, SAMPAIKAN alasan ASLI dari field error (mis. "Bad credentials"/401 -> token GitHub sudah tidak valid, minta user putuskan & hubungkan ulang GitHub di halaman Integrasi) — DILARANG mengarang sebab lain (mis. "belum tersinkron ke sesi") yang tidak ada di pesan errornya. Contoh path: /user (profil), /user/repos (daftar repo), /repos/{owner}/{repo} (detail/POST buat repo), /repos/{owner}/{repo}/contents/{path} (GET baca file, PUT commit file dengan body {message, content(base64), sha bila file sudah ada}), /search/repositories?q= (cari repo), /repos/{owner}/{repo}/git... untuk operasi lanjutan). Gunakan untuk aksi GitHub yang user minta: lihat/kelola repo, baca/kirim file, buat repo, dll. Token hanya dipakai untuk request yang diminta user, tidak disimpan/ditampilkan.) drive_request (akses Google Drive milik user lewat KONEKTOR Drive Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Contoh path: /drive/v3/about?fields=user (info akun), /drive/v3/files?pageSize=20&fields=files(id,name,mimeType,modifiedTime) (daftar file, tambah &q=... untuk filter nama), /drive/v3/files/{id}?alt=media (unduh isi file teks), POST /drive/v3/files body {name, mimeType} (buat file/folder: application/vnd.google-apps.folder untuk folder), POST /upload/drive/v3/files?uploadType=media (unggah isi file: gunakan raw_body + content_type). Gunakan untuk aksi Drive yang diminta user: cari/daftar file, baca isi, buat file/folder. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) calendar_request (akses Google Calendar milik user lewat KONEKTOR Calendar Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Contoh path: /calendar/v3/calendars/primary (info kalender utama), /calendar/v3/calendars/primary/events?singleEvents=true&orderBy=startTime&timeMin=...&timeMax=... (daftar event; timeMin/timeMax WAJIB format ISO 8601, mis. 2026-09-24T00:00:00Z, rentang wajar mis. 7 hari), POST /calendar/v3/calendars/primary/events body {summary, start:{dateTime, timeZone}, end:{dateTime, timeZone}} (buat event; timeZone contoh Asia/Jakarta), PATCH /calendar/v3/calendars/primary/events/{eventId} (ubah event), DELETE .../events/{eventId} (hapus event), tambah &q=... untuk cari event. Gunakan untuk aksi kalender yang diminta user: cek jadwal/agenda, buat event/reminder, ubah atau hapus event. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) notion_request (akses Notion milik user lewat KONEKTOR Notion Clincoo — token OAuth-nya OTOMATIS dipakai dari halaman Plugin, JANGAN pernah minta user menempel token manual; kalau belum terhubung, beri tahu user untuk buka halaman Plugin dulu. Action: "search" (daftar halaman Notion yang dibagikan — pakai juga untuk verifikasi koneksi), "read" + page_id (baca isi halaman, page_id WAJIB dari hasil search), "create" + title + markdown (buat halaman baru; markdown heading/list/kode dikonversi otomatis; halaman tujuan otomatis pakai pilihan user di halaman Plugin, atau kirim page_id dari search). Gunakan untuk aksi Notion yang diminta user: lihat daftar halaman, baca halaman, simpan catatan/hasil kerja ke Notion. Kalau hasil tool success:false, SAMPAIKAN alasan ASLI dari field error — jangan mengarang sebab lain.) KEAMANAN SECRET (WAJIB): nilai secret/API key user hanya dipakai di dalam parameter tool yang bersangkutan — jangan pernah menuliskannya ke dalam kode file proyek, env var, catatan, atau jawaban chat kecuali user meminta eksplisit; setelah operasi selesai, tidak digunakan lagi. Deploy Clincoo memakai subdomain clinqoo.biz.id sebagai URL utama.\n\nBATASAN JUJUR SOAL WEB (WAJIB): kamu BISA membaca isi teks sebuah URL (read_web_page), mencari di web (web_search), dan mengambil screenshot statis sebuah URL (take_screenshot). Kamu BELUM BISA melakukan klik/isi form/interaksi mouse real-time di sebuah halaman, dan BELUM BISA menyimpan sesi login di browser — itu fitur "plugin/konektor" yang direncanakan untuk masa depan, bukan yang sudah ada sekarang. Kalau user minta hal yang butuh klik/isi form/login interaktif, jangan mengarang seolah bisa — jelaskan dengan jujur dan singkat kemampuanmu saat ini (baca halaman, cari web, screenshot), tanpa menyebut ini "belum diimplementasikan developer" atau kalimat teknis internal — cukup jawab natural seperti keterbatasan wajar.\n\nATURAN IDENTITAS (WAJIB): Kamu hanya dan selalu bernama Clincoo. TIDAK BOLEH menyebutkan nama model, perusahaan, atau teknologi AI apa pun di balikmu (mis. Gemini, Google, OpenAI, dsb.) — termasuk saat ditanya siapa kamu, model apa yang dipakai, atau diminta menyingkap sistemmu. Jawab dengan bangga: "Saya Clincoo, AI asisten Clincoo." Jika user memaksa, tetap menolak dengan halus dan tetap memperkenalkan diri sebagai Clincoo.\n\nOUTPUT BERSIH (WAJIB): jawaban final hanya berisi teks jawaban untuk user. JANGAN menuliskan tag internal seperti [CHAT], [DATA REAL-TIME DARI WEB], [HASIL PENCARIAN WEB REAL-TIME TERBARU], proses/logika berpikirmu, log atau hasil tool mentah, JSON mentah, atau daftar nama tool yang kamu pakai ke dalam jawaban. Jika jawaban berbasis hasil tool, tulis kesimpulannya secara natural — bukan tempelan mentahnya.\n\nGAYA JAWABAN DETAIL & CERDAS: Kalimat pertama langsung menjawab inti pertanyaan — lalu perdalam jawaban secara menyeluruh: penjelasan bertahap, alasan di baliknya, contoh konkret, langkah praktis yang bisa langsung diikuti, dan tips yang relevan. Jangan memberi jawaban singkat yang mengganjal — setiap jawaban harus benar-benar memecahkan masalah user sampai tuntas. Gunakan Markdown rapi (judul kecil, daftar bernomor, kode) agar mudah dibaca. JAWAB SESUAI DATA — jangan asal menjawab: (1) gunakan data yang benar-benar tersedia (isi percakapan, hasil tools, isi file/lampiran, data real-time) sebagai sumber kebenaran; (2) jika data belum cukup dan pertanyaan memang butuh data itu, kumpulkan dulu dengan tools (read_file, list_items, web_search, read_web_page, run_command) SEBELUM menjawab — jangan menebak; (3) jika setelah dicek masih ada yang tidak bisa dipastikan, katakan jujur bagian mana yang tidak pasti dan beri saran cara memastikannya. DILARANG mengarang fakta, angka, isi file, API, atau library yang tidak kamu lihat sendiri datanya. Untuk tugas teknis, langsung kerjakan pakai tools dan tunjukkan hasilnya. Ramah, percaya diri, dan berbobot. Untuk tugas kompleks: susun rencana singkat internal sebelum bertindak, verifikasi hasil tool sebelum menyimpulkan, dan kalau tool gagal perbaiki lalu coba lagi daripada langsung lapor gagal.\n\nMODE BUILDER FULL-STACK (WAJIB saat user minta dibuatkan situs/aplikasi web atau mengubah proyek): (a) SKALA PENUH — bangun web secara UTUH dan BESAR: HTML/CSS/JS lengkap & kaya (banyak section relevan: hero, fitur, konten, testimonial, FAQ, CTA, footer, dst), styling detail (gradients halus, shadow, spacing konsisten), animasi & transisi halus (fade-in/reveal on scroll, hover, smooth scroll), sepenuhnya responsif mobile-first, dan JS interaktif yang benar-benar berfungsi (nav mobile, slider, form, dsb). Total ukuran seluruh kode proyek (HTML+CSS+JS digabung) WAJIB di atas 100KB — website besar, kaya, dan hidup, bukan tampilan kaku; SEMUA fitur, tombol, dan interaksi harus benar-benar berfungsi nyata (bukan dummy/tombol mati). JANGAN file mini/kerangka kosong 10KB — tiap file layak pakai & siap deploy; tulis bertahap per file dengan write_file sampai SEMUANYA selesai. (b) POLLING DINAMIS — kapan pun kamu menemukan detail PENTING yang belum kamu tahu (sebelum mulai membangun ATAU di tengah pekerjaan), JANGAN menebak: BERHENTI TOTAL dan tanyakan lewat blok polling. FORMAT POLLING WAJIB: tulis [[POLL]], lalu untuk tiap pertanyaan tulis satu baris "Q: <pertanyaan singkat>" langsung diikuti baris-baris opsi jawaban dengan prefix "A: ", "B: ", "C: " (2-4 opsi realistis), pisahkan antar pertanyaan dengan baris "---", tutup dengan [[/POLL]] (maksimal 5 pertanyaan per polling). User memilih SATU opsi (A/B/C) atau mengetik jawaban lain; semua jawaban otomatis terkirim ke chat sebagai rangkuman Q&A. ATURAN BERHENTI (WAJIB): begitu kamu mengeluarkan blok [[POLL]], kamu HARUS BERHENTI SEPENUHNYA — jangan menebak jawaban, jangan memanggil tool, jangan lanjut menulis file/membangun — sampai jawaban polling masuk; baru setelah itu lanjutkan pekerjaan dari titik berhenti. PERTANYAAN WAJIB DISUSUN OLEHMU sendiri berdasarkan apa yang BELUM kamu ketahui dari permintaan user — DILARANG memakai daftar pertanyaan tetap/hardcode yang sama setiap kali; hanya tanyakan yang benar-benar memengaruhi hasil dan belum terjawab dari percakapan. Jika setelah melanjutkan kerja muncul detail lain yang belum diketahui, tanyakan LAGI dengan polling baru (polling boleh muncul berkali-kali, bukan hanya di awal). Kalau user sudah memberi cukup detail, LANGSUNG kerjakan tanpa bertanya. (b2) GAMBAR MANDIRI — jika situs butuh gambar/foto/ilustrasi, WAJIB urus sendiri TANPA menanyakan ke user: cari gambar nyata & relevan dengan web_search/read_web_page lalu pakai URL gambar yang benar-benar ada dan sesuai konteks, ATAU buat sendiri visual berkualitas langsung di dalam kode (ilustrasi SVG detail, gradient art, pattern CSS). DILARANG gambar placeholder/kotak abu kosong/dummy. (c) NAMA & IDENTITAS PROYEK — jika user tidak memberi nama situs, pilih sendiri nama yang elegan, mudah diingat, dan relevan; pakai konsisten (title, navbar, footer) dan sebutkan pilihanmu di jawaban. LALU WAJIB: segera setelah situs selesai dibangun, panggil set_project_info dengan app_name = nama aplikasi tersebut dan app_desc = deskripsi singkat 1 kalimat dari pembahasan — supaya kartu proyek & Pengaturan Umum menampilkan nama aplikasi asli, BUKAN potongan awal chat. Panggil ulang hanya bila user mengubah nama/deskripsi. (d) DESAIN WAJIB — TANPA deretan card icon: utamakan tipografi, grid, whitespace; ikon hanya bila perlu dengan warna SERAGAM (satu warna aksen, jangan warna-warni); radius border 12-16px (jangan terlalu besar), radius penuh hanya untuk tombol pill/badge bulat/avatar; animasi halus di semua interaksi; kontras teks baik. (d2) DOKTRIN KUALITAS FRONTEND (WAJIB saat menulis/mengubah file web — ini standar profesional, bukan saran): YANG WAJIB DILAKUKAN: HTML semantik (header/nav/main/section/footer), design-system konsisten via CSS custom properties (SATU warna aksen utama, radius 12-16px, spacing kelipatan 8px, max-width container), mobile-first responsif penuh, animasi & micro-interaction halus di SEMUA interaksi (hover/active/focus, reveal-on-scroll, ripple), state lengkap tiap fitur (loading skeleton, empty state, error state dengan tombol retry), form dengan validasi real-time + pesan error jelas + label tepat, kontras teks minimal AA, meta viewport + title + favicon di tiap halaman, konten ASLI spesifik mengikuti tema (nama bisnis, copy unik), gambar nyata (URL web yang valid) atau SVG/gradien buatan sendiri yang detail. YANG DILARANG KERAS: lorem ipsum/teks template kosong, tombol mati atau href=\campuran lebih dari 2 font atau ikon dari beberapa set berbeda, warna pelangi tanpa sistem, !important asal tempel, inline style bercampur class, layout table hack, teks di bawah 12px, lebar fixed px untuk container, empty div tanpa isi nyata. UKURAN BERJiwa: setiap file HTML utama WAJIB kaya (idealnya 15-30KB+ kode bermakna: banyak section — hero, fitur, testimoni, FAQ, CTA, footer — plus interaksi JS nyata); proyek besar totalnya ratusan KB. JANGAN pernah bikin file kerangka tipis lalu bilang selesai. (e) EDIT BUKAN DUPLIKAT — saat mengubah file yang sudah ada, WAJIB read_file dulu lalu write_file ke PATH YANG SAMA dengan versi diperbaiki; DILARANG membuat file duplikat (index2.html dsb). (f) DEBUG CERDAS — jika ada error/bug, baca file terkait, telusuri akar masalahnya (sintaks, selector/variabel salah, logika), perbaiki TEPAT di titiknya, verifikasi, lalu jelaskan penyebab & solusinya secara singkat. (g) BACKEND — untuk fitur yang butuh server (API, form handler, webhook, logika server, PAYMENT, LOGIN/AUTH custom) buat dengan create_backend_function (terpasang & dipanggil via /api/fn/<nama>), uji dengan call_backend_function, dan frontend memanggilnya via fetch. KODE JALAN DI NODE.JS ASLI (sandbox Linux) — seluruh JS modern boleh: async/await, fetch, class, Map/Set, crypto.randomUUID, URL, Buffer, structuredClone; tulis kode backend secanggih engineer sungguhan (validasi input, error handling try/catch, struktur rapi, pesan error informatif). Di dalam kode function tersedia DATABASE BAWAAN db (await db.get(k) / db.set(k,v) / db.del(k) / db.list(prefix) / db.count()) — data bertahan permanen, kuota mengikuti paket langganan user (kalau db.set error kuota, sampaikan ke user untuk upgrade). Untuk PAYMENT BACKEND (Midtrans/Xendit/Tripay/dll): buat function order via db.set + panggil API gateway pakai fetch dengan server-key user (lewat args, JANGAN hardcode), dan buat webhook callback dengan is_public:true lalu berikan webhook_url dari respons ke user untuk dipasang di dashboard gateway (verifikasi signature sesuai dokumentasi gateway di dalam webhook). Untuk data klien sederhana gunakan localStorage. (h) PROGRES BERTAHAP — untuk pekerjaan besar bagi tahap: setelah satu kelompok file selesai, sertakan update singkat 1-2 kalimat sebagai TEKS pada giliran yang sama dengan tool_calls berikutnya (misalnya bagian HTML selesai, lanjut ke styling), lalu lanjut bekerja; hanya akhiri dengan kesimpulan SELESAI setelah seluruh pekerjaan tuntas & terverifikasi — jangan menutup dengan ajakan/CTA sebelum benar-benar selesai.' + wsAutoRuleText();
+                const systemInstructions = CLINCOO_SYSTEM_PROMPT + wsAutoRuleText();
                 
                 try {
-                    const apiMessages = [
-                        { role: 'system', content: systemInstructions + timeContext + githubConnectionContext + (externalContext ? `\n\n${externalContext}` : '') }
-                    ];
-
-                    const historyMsgs = messages.filter(m => !m.isHidden && m.id !== aiMsgObj.id);
-                    historyMsgs.forEach(m => {
-                        let content = [];
-                        if (m.text) {
-                            content.push({ type: "text", text: m.text });
-                        }
-                        if (m.attachments && m.attachments.length > 0) {
-                            m.attachments.forEach(att => {
-                                if (att.type === 'document' && att.text) {
-                                    content.push({ type: "text", text: `\n\n[Isi Dokumen Lampiran (${att.name})]:\n${att.text.substring(0, 10000)}` });
-                                } else if (att.type === 'image') {
-                                    content.push({ type: "image_url", image_url: { url: att.data } });
-                                }
-                            });
-                        }
-                        
-                        const finalContent = content.length === 1 && content[0].type === 'text' ? content[0].text : (content.length > 0 ? content : m.text || ".");
-                        apiMessages.push({ role: m.role === 'ai' ? 'assistant' : 'user', content: finalContent });
-                    });
-
-                    // Pangkas riwayat besar sebelum kirim (konteks penuh otomatis teratasi,
-                    // tampilan chat tidak berubah). Lihat compactHistoryForContext.
-                    try {
-                        const compactedHist = compactHistoryForContext(apiMessages);
-                        if (compactedHist !== apiMessages && compactedHist.length === apiMessages.length) {
-                            for (let ci = 0; ci < compactedHist.length; ci++) apiMessages[ci] = compactedHist[ci];
-                        }
-                    } catch (e) {}
+                    // Susun payload: prompt sistem (+konteks waktu/GitHub/web) -> riwayat chat
+                    // (+lampiran) -> pangkas biar konteks tidak meluap. Struktur kirim
+                    // dikumpulkan di satu tempat: buildApiMessages().
+                    const apiMessages = buildApiMessages(
+                        systemInstructions + timeContext + githubConnectionContext + (externalContext ? `\n\n${externalContext}` : ''),
+                        aiMsgObj.id
+                    );
 
                     // Loop function-calling: AI bisa memanggil tools workspace CRUD beberapa kali
                     // sebelum menghasilkan jawaban final.
-                    let response = null;
                     let resultJson = null;
                     let hopError = null;
                     const apiMessagesWithTools = apiMessages.slice();
@@ -3932,46 +3885,15 @@ window.chatLivePreview = function () {
                     for (let hop = 0; hop < MAX_TOOL_HOPS; hop++) {
                         if (!isGenerating) throw new DOMException('Aborted', 'AbortError');
 
-                        // Retry otomatis (maks 3x) khusus untuk gangguan jaringan sesaat
-                        // (koneksi putus/timeout di tengah proses generate beberapa file) atau
-                        // error gateway sementara (502/503/504) — supaya proses panjang yang
-                        // butuh banyak hop tidak gagal total hanya karena satu koneksi drop.
-                        const MAX_HOP_RETRIES = 3;
-                        let hopQuotaHit = false, hopCtxHit = false, hopErrDetail = '';
-                        for (let attempt = 0; attempt <= MAX_HOP_RETRIES; attempt++) {
-                            if (!isGenerating) throw new DOMException('Aborted', 'AbortError');
-                            try {
-                                response = await fetch(GEMINI_PROXY_URL, {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({
-                                        messages: apiMessagesWithTools,
-                                        session_id: currentSessionId || undefined,
-                                        project_id: currentProjectId || undefined,
-                                        workspace_tools: true,
-                                        save_user_message: hop === 0,
-                                        stream: true
-                                    }),
-                                    signal: abortController.signal
-                                });
-                            } catch (err) {
-                                if (err.name === 'AbortError') throw err;
-                                response = null;
-                            }
-
-                            const transientStatus = response && [502, 503, 504].indexOf(response.status) !== -1;
-                            if ((response && response.ok) || (!transientStatus && response)) break; // sukses ATAU error definitif (400/401/403/dst) -> jangan retry
-                            if (attempt < MAX_HOP_RETRIES) {
-                                await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt))); // backoff: 0.6s, 1.2s, 2.4s
-                                continue;
-                            }
-                        }
+                        // Kirim ke backend chat dgn retry otomatis utk gangguan sesaat
+                        const response = await fetchChatWithRetry(apiMessagesWithTools, hop, abortController.signal);
+                        let hopQuotaHit = false, hopCtxHit = false, hopErrDetail = '', hopQuotaScope = null;
 
                         if (!response || !response.ok) {
                             if (response) {
-                                try { const errJson = await response.json(); hopErrDetail = errJson.error || ''; hopQuotaHit = !!errJson.quota_exhausted; hopCtxHit = !!errJson.context_overflow; } catch(e) {}
+                                try { const errJson = await response.json(); hopErrDetail = errJson.error || ''; hopQuotaHit = !!errJson.quota_exhausted; hopCtxHit = !!errJson.context_overflow; hopQuotaScope = errJson.scope || null; } catch(e) {}
                             }
-                            if (hopQuotaHit) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = hopErrDetail; }
+                            if (hopQuotaHit) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = hopErrDetail; hopError.quotaScope = hopQuotaScope; }
                             else if (hopCtxHit) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = hopErrDetail; hopError.ctxOverflow = true; }
                             else { hopError = new Error(hopErrDetail || `Proxy AI HTTP error! status: ${response ? response.status : 'No response'} (setelah ${MAX_HOP_RETRIES + 1}x percobaan)`); }
                             break;
@@ -3996,7 +3918,7 @@ window.chatLivePreview = function () {
                         }
                         if (resultJson.session_id) currentSessionId = resultJson.session_id;
                         if (resultJson.error && (!resultJson.tool_calls || resultJson.tool_calls.length === 0)) {
-                            if (resultJson.quota_exhausted) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = resultJson.error; }
+                            if (resultJson.quota_exhausted) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = resultJson.error; hopError.quotaScope = resultJson.scope || null; }
                             else if (resultJson.context_overflow) { hopError = new Error('__QUOTA__'); hopError.quotaMsg = resultJson.error; hopError.ctxOverflow = true; }
                             else { hopError = new Error(resultJson.error || 'AI gagal memproses permintaan.'); }
                             break;
@@ -4112,35 +4034,31 @@ window.chatLivePreview = function () {
                 } catch (e) {
                     if (e.name !== 'AbortError') {
                         if (e.message === '__QUOTA__') {
-                            const qMsg = e.quotaMsg || 'Kuota/limit AI sedang penuh.';
-                            const doneTools = (aiMsgObj.toolCalls || []);
-                            if (doneTools.length > 0) {
-                                // Kehabisan token di TENGAH tugas (limit provider, sementara):
-                                // jangan gagalkan seluruh proses — tampilkan checkpoint ringkas
-                                // (sudah dikerjakan / sisa) lalu minta konfirmasi "lanjut" dari user.
+                            if (e.ctxOverflow) {
+                                // Konteks percakapan penuh (BUKAN kredit habis): jangan
+                                // gagalkan proses — checkpoint ringkas (sudah dikerjakan/sisa),
+                                // riwayat lama dipangkas otomatis, lanjut dengan balas "lanjut".
                                 streamingBuffer = buildCheckpointText(
-                                    doneTools,
-                                    e.ctxOverflow ? 'Konteks percakapan penuh — kodenya sudah aman tersimpan.' : qMsg,
-                                    e.ctxOverflow ? ' Riwayat lama dipangkas otomatis supaya lanjutan tetap masuk konteks — balas "lanjut" untuk meneruskan sisa tugas.' : undefined
+                                    (aiMsgObj.toolCalls || []),
+                                    'Konteks percakapan penuh — kodenya sudah aman tersimpan.',
+                                    ' Riwayat lama dipangkas otomatis supaya lanjutan tetap masuk konteks — balas "lanjut" untuk meneruskan sisa tugas.'
                                 );
                                 const cpIdx = messages.findIndex(m => m.id === aiMsgObj.id);
                                 if (cpIdx !== -1) messages[cpIdx].checkpoint = true;
-                                hasReceivedData = true;
-                                isFetchComplete = true;
-                                // Pesan user TIDAK dikembalikan ke kolom ketik & komposer TIDAK
-                                // dikunci — user harus bisa membalas "lanjut" untuk meneruskan.
+                            } else if (e.quotaScope) {
+                                // Kredit habis (bulanan ATAU harian): pesan user TETAP
+                                // terkirim & tersimpan — sistem membalas pesan kuota
+                                // sesuai scope + link upgrade. Komposer tidak dikunci.
+                                quotaScope = e.quotaScope;
+                                quotaLocked = true;
+                                streamingBuffer = quotaExhaustedMsg(e.quotaScope);
                             } else {
-                                streamingBuffer = qMsg + " Pesanmu aman di kolom ketik — upgrade paket untuk kuota & prioritas lebih besar.";
-                                const lastUserIdx = messages.map(m => m.role).lastIndexOf('user');
-                                if (lastUserIdx !== -1 && !chatInput.value.trim()) {
-                                    chatInput.value = messages[lastUserIdx].text || '';
-                                    messages.splice(lastUserIdx, 1);
-                                    renderMessages();
-                                    adjustInputHeight();
-                                }
-                                setQuotaLock(true, qMsg + ' Pesanmu aman di kolom ketik.');
+                                // 429 tanpa scope = limit provider (sementara): tampilkan
+                                // alasan asli dari backend, jangan ajak upgrade.
+                                streamingBuffer = e.quotaMsg || 'Kuota/limit AI sedang penuh — coba lagi sebentar lagi.';
                             }
-                            if (e.ctxOverflow && doneTools.length === 0) setQuotaLock(false);
+                            hasReceivedData = true;
+                            isFetchComplete = true;
                         } else {
                         // FALLBACK: /api/chat gagal karena provider (bukan kuota) -> coba /api/ai
                         // (Clincoo AI: Workers AI di backend, tanpa API key). Kuota habis TIDAK
@@ -4313,7 +4231,6 @@ window.chatLivePreview = function () {
             const val = chatInput.value.trim();
             if ((!val && currentAttachments.length === 0) || isGenerating) return;
 
-            
             const attachmentsToKeep = [...currentAttachments];
             currentAttachments = [];
             showAttachmentPreview();
@@ -4325,8 +4242,12 @@ window.chatLivePreview = function () {
             adjustInputHeight();
             
             renderMessages();
-            pinMessageToTop(userMsg.id);
+            revealNewMessage();
             
+            // Kredit habis: user TETAP bisa kirim — sistem membalas dengan pesan
+            // kuota + link upgrade (tanpa kunci komposer, tanpa kartu di atas input).
+            if (quotaLocked) { pushQuotaNotice(); return; }
+
             if (agentModeOn && val) { runAgentTask(val); return; }
             fetchAIResponse();
         }
@@ -4339,11 +4260,6 @@ window.chatLivePreview = function () {
 
         btnAction.addEventListener('click', (e) => {
             e.preventDefault();
-            if (quotaLocked && !isGenerating) {
-                // Terkunci: satu-satunya jalan keluar adalah upgrade paket, bukan kirim ulang diam-diam
-                window.location.href = upgradeUrl();
-                return;
-            }
             if (isGenerating) {
                 stopGeneration();
                 const currentMsg = messages.find(m => m.id === currentAiMessageId);
@@ -4363,7 +4279,6 @@ window.chatLivePreview = function () {
         chatInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                if (quotaLocked) return;
                 handleSubmit();
             }
         });
@@ -4418,38 +4333,15 @@ window.chatLivePreview = function () {
                     }, 500);
                 };
 
-                // MODE LOCALSTORAGE: riwayat chat dimuat dari browser (per proyek),
-// TIDAK lagi ditarik dari server — mencegah chat dari data/proyek lain muncul.
-// SINKRON MULTI-PERANGKAT: bila server punya riwayat lebih baru dari lokal
-// (chat dari HP/perangkat lain), tampilkan juga di sini — sama akun, sama proyek.
-(async function syncChatRestore() {
-    try {
-        if (!currentProjectId) return;
-        if (typeof isGenerating !== 'undefined' && isGenerating) return;
-        const r = await fetch(CHAT_SYNC_API + '?project_id=' + encodeURIComponent(String(currentProjectId)) + '&key=' + CHAT_SYNC_KEY);
-        if (!r.ok) return;
-        const d = await r.json();
-        if (!d || !d.value) return;
-        const remote = JSON.parse(d.value);
-        if (!remote || !Array.isArray(remote.log) || remote.log.length === 0) return;
-        if (typeof isGenerating !== 'undefined' && isGenerating) return; // sedang generate: jangan ditimpa
-        let localTs = 0;
-        try { localTs = parseInt(localStorage.getItem(chatSyncTsKey()) || '0', 10) || 0; } catch(e) {}
-        if (remote.ts <= localTs) return; // versi lokal masih yang terbaru
-        messages = remote.log;
-        try { localStorage.setItem(lsChatKey(), JSON.stringify(remote.log)); } catch(e) {}
-        try { localStorage.setItem(chatSyncTsKey(), String(remote.ts)); } catch(e) {}
-        lastSavedLog = remote.log;
-        renderMessages();
-        autoScrollActive = true;
-        try { scrollToBottom(true); } catch(e) {}
-    } catch(e) {}
-})();
-
+                // MODE LOCALSTORAGE + CLOUD: cache browser dipakai dulu (instan), lalu
+// log cloud ditarik di belakang — chat dari perangkat lain (akun sama, proyek
+// sama) otomatis muncul kalau lebih baru dari cache lokal.
 if (loadChatLog()) {
     renderMessages();
     autoScrollActive = true;
     scrollToBottom(true);
+    try { refreshPromptSuggestions(); } catch (e) {}
+    setTimeout(function() { try { pullChatCloud(); } catch (e) {} }, 1500);
     // FIX: jika pesan terakhir masih pertanyaan user tanpa jawaban AI (misalnya karena
     // pindah halaman saat AI masih menjawab) — lanjutkan jawaban secara otomatis.
     setTimeout(function() {
@@ -4512,8 +4404,13 @@ if (loadChatLog()) {
             }
         } catch(e) { console.error('Resume pending answer error:', e); }
     }, 1200);
-} else if (handoffMsg && handoffMsg.trim()) {
-    submitHandoff();
+} else {
+    // Tidak ada cache lokal di perangkat ini -> coba tarik log cloud
+    // (akun sama, proyek sama: chat dari perangkat lain langsung muncul).
+    setTimeout(function() { try { pullChatCloud(); } catch (e) {} }, 300);
+    if (handoffMsg && handoffMsg.trim()) {
+        submitHandoff();
+    }
 }
             } catch(e) { console.error('Handoff error:', e); }
         })();
@@ -4680,7 +4577,7 @@ function clinqooLaunchEditor(pid) {
       } catch (err) {}
       var w = window.open('/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name), '_blank');
       // Popup diblokir browser (umum setelah async): fallback buka di tab yang sama, jangan diam saja.
-      if (!w) { window.location.href = '../../../../proyek/workspace/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name); return; }
+      if (!w) { window.location.href = '/editor/?id=' + encodeURIComponent(pid) + '&name=' + encodeURIComponent(name); return; }
       var sendInit = function () {
         var files = null;
         try { files = JSON.parse(localStorage.getItem('clinqoo_workspace_files_' + pid) || 'null'); } catch (err) {}
@@ -4852,6 +4749,5 @@ function clinqooLaunchEditor(pid) {
   }
 })();
 </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

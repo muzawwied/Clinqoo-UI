@@ -2,18 +2,9 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
+  <script src="../../../js/auth-client.js?v=2"></script>
     <script src="../../../js/accent-init.js"></script>
     <script src="../../../js/loading-state.js"></script>
-    <script>
-    // PREFETCH DATA LANGGANAN+PROMO SEJAK <head>: fetch berjalan PARALEL dengan unduhan
-    // Tailwind/font (paling berat). Dulu fetch baru mulai setelah semua aset selesai —
-    // itulah penyebab "loading lama". Sekarang data biasanya sudah sampai saat script
-    // halaman jalan.
-    window.__clinqooUpgradeData = {
-        sub: fetch('https://clincoo-be2.pages.dev/api/subscription', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
-        promo: fetch('https://clincoo-be2.pages.dev/api/promo', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
-    };
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
@@ -329,24 +320,20 @@
 
 
 
-
-
     <script>
         try { lucide.createIcons(); } catch (e) {}
 
+        // fields=plan: mode ringan — cukup paket aktif + siklus tagihan (cepat)
         const SUB_API = 'https://clincoo-be2.pages.dev/api/subscription';
+        const SUB_API_LIGHT = SUB_API + '?fields=plan';
         const PROMO_API = 'https://clincoo-be2.pages.dev/api/promo';
         // PROMO 100 User Pertama: utk user yang eligible, kartu Pro tampil Rp5.000 (coret 49.000)
-        let promoProActive = false;
         (function(){
-          // Pakai hasil prefetch dari <head> (tidak fetch ulang — data sudah siap)
-          const pp = (window.__clinqooUpgradeData && window.__clinqooUpgradeData.promo) ? window.__clinqooUpgradeData.promo : Promise.resolve(null);
-          pp.then(function(p){
+          fetch(PROMO_API, { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(p){
             if (!p || p.active !== true || p.remaining <= 0) return;
             var card = document.getElementById('btn-pro');
             if (!card) return;
             if (p.eligible) {
-              promoProActive = true;
               var priceBlock = document.getElementById('pro-price-block');
               if (priceBlock) {
                 priceBlock.outerHTML =
@@ -375,46 +362,57 @@
         function writeSubCache(plan, billingCycle) { try { localStorage.setItem(SUB_CACHE_KEY, JSON.stringify({ plan: plan, billingCycle: billingCycle || 'Bulanan', ts: Date.now() })); } catch(e) {} }
 
         async function loadSubscription() {
-            // 0) Fetch sudah berjalan sejak <head> (prefetch) — di sini cukup menunggu.
-            const subP = (window.__clinqooUpgradeData && window.__clinqooUpgradeData.sub)
-                ? window.__clinqooUpgradeData.sub
-                : fetch(SUB_API).then(function (r) { return r.json(); }).catch(function () { return null; });
-            // 1) Instan dari cache (walau basi) — UI langsung benar tanpa menunggu.
+            // 1) Instan dari cache — mis. plan Pro dari halaman Langganan tampil langsung.
+            //    Cache basi pun tetap dipakai dulu (tampil instan), lalu diperbarui diam-diam
+            //    di belakang — tanpa loading, tanpa nunggu server.
             const cached = readSubCache();
             if (cached && cached.plan) {
                 currentActivePlan = cached.plan;
                 subData = { plan: cached.plan, billingCycle: cached.billingCycle || 'Bulanan' };
                 updateUI();
-            }
-            // 2) Revalidate di belakang: data segar menimpa bila berbeda. Datanya sudah
-            //    di-prefetch sejak head, jadi biasanya sudah sampai di titik ini.
-            try {
-                const data = await subP;
-                if (data && data.plan) {
-                    subData = data;
-                    if (data.plan !== currentActivePlan) {
-                        currentActivePlan = data.plan;
-                        updateUI();
-                    }
-                    writeSubCache(data.plan, data.billingCycle);
+                const fresh = (Date.now() - (cached.ts || 0)) < SUB_CACHE_TTL;
+                if (!fresh) {
+                    // STALE-WHILE-REVALIDATE: perbarui cache di belakang, render ulang kalau beda
+                    try {
+                        const res = await fetch(SUB_API_LIGHT, { headers: subAuthHeaders() });
+                        const data = await res.json();
+                        if (data && data.plan && data.plan !== currentActivePlan) {
+                            currentActivePlan = data.plan;
+                            subData = data;
+                            writeSubCache(data.plan, data.billingCycle);
+                            updateUI();
+                        } else if (data && data.plan) {
+                            writeSubCache(data.plan, data.billingCycle); // segarkan ts cache
+                        }
+                    } catch(e) {}
                 }
-            } catch(e) { console.error('Failed to load subscription:', e); }
-            if (!cached || !cached.plan) updateUI(); // pertama kali: render hasil fetch
-        }
-
-        // Checkout paket: halaman /checkout/ (alur: pilih metode -> konfirmasi -> QRIS -> aktif)
-        const PLAN_PRICES = { Starter: 0, Pro: 49000, Bisnis: 129000 };
-        function openModal(plan) {
-            const billing = (subData && subData.billingCycle) ? subData.billingCycle : 'Bulanan';
-            let amount = PLAN_PRICES[plan] || 0;
-            if (plan === 'Pro' && promoProActive) amount = 5000; // promo 100 user pertama
-            selectedPlan = plan;
-            if (amount === 0) {
-                // Starter / program gratis: halaman konfirmasi yang mengaktivasi (Rp0).
-                window.location.href = 'konfirmasi/?plan=' + encodeURIComponent(plan) + '&billing=' + encodeURIComponent(billing);
                 return;
             }
-            window.location.href = '../checkout/?plan=' + encodeURIComponent(plan) + '&billing=' + encodeURIComponent(billing) + '&amount=' + amount;
+            // 2) Tidak ada cache sama sekali → ambil data asli lewat mode ringan
+            //    (loading indicator aktif selama fetch berjalan)
+            try {
+                const res = await fetch(SUB_API_LIGHT, { headers: subAuthHeaders() });
+                const data = await res.json();
+                subData = data || null;
+                if (data && data.plan) {
+                    currentActivePlan = data.plan;
+                    writeSubCache(data.plan, data.billingCycle); // simpan untuk buka lagi
+                }
+            } catch(e) { console.error('Failed to load subscription:', e); }
+            updateUI();
+        }
+        function subAuthHeaders() {
+            try {
+                var tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+                return tok ? { Authorization: 'Bearer ' + tok } : {};
+            } catch (e) { return {}; }
+        }
+
+        function openModal(plan, price) {
+            selectedPlan = plan;
+            // Redirect to confirmation page
+            const billing = (subData && subData.billingCycle) ? subData.billingCycle : 'Bulanan';
+            window.location.href = '../../konfirmasi-langganan/?plan=' + encodeURIComponent(plan) + '&billing=' + encodeURIComponent(billing);
         }
 
         function closeModal() {}
@@ -488,6 +486,5 @@
     <script>/* clinqoo-sw-register */
     if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
     </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
