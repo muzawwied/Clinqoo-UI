@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
-<script src="../../../js/loading-state.js?v=3"></script>
   <script src="../../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
   <meta charset="UTF-8">
@@ -10,81 +9,51 @@
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
     <link rel="manifest" href="../../../manifest.json">
     <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
-  <title>Domain Kustom — Clincoo</title>
-    <meta name="description" content="Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+  <title>Pengaturan: Integrasi AI — Clincoo</title>
+    <meta name="description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Clincoo">
-    <meta property="og:title" content="Domain Kustom — Clincoo">
-    <meta property="og:description" content="Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:title" content="Pengaturan: Integrasi AI — Clincoo">
+    <meta property="og:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Clincoo">
     <meta property="og:url" content="https://app.clincoo.buzz/">
     <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Domain Kustom — Clincoo">
-    <meta name="twitter:description" content="Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:title" content="Pengaturan: Integrasi AI — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
-  
   <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../../js/api.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="../../../js/api.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
-    @keyframes domainShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .domain-shimmer { background: linear-gradient(90deg,#f9fafb 25%,#f3f4f6 50%,#f9fafb 75%) !important; background-size: 200% 100% !important; animation: domainShimmer 1.4s infinite; color: transparent !important; }
     body { font-family: 'Inter', sans-serif; }
-    
-    /* Menyembunyikan scrollbar di seluruh browser */
     ::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
     * { -ms-overflow-style: none; scrollbar-width: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* Dark mode styling sinkron & borderless */
     body.dark-mode { background-color: #000000; color: #e0e0e0; }
     body.dark-mode .text-gray-900, body.dark-mode .text-gray-800 { color: #f0f0f0; }
     body.dark-mode .text-gray-700 { color: #b0b0b0; }
     body.dark-mode .text-gray-500, body.dark-mode .text-gray-600 { color: #888888; }
     body.dark-mode .text-gray-400 { color: #666666; }
     body.dark-mode .bg-white { background-color: #0a0a0a !important; }
-    
-    /* Header Buttons Dark Mode sesuai preferensi */
-    body.dark-mode button[onclick="PathRouter.goBack()"],
-    body.dark-mode header button[onclick]:not(.header-menu-item) {
-        background-color: #000000 !important;
-        border: 1.5px solid rgba(255,255,255,0.4) !important;
-        color: #ffffff !important;
-    }
-    body.dark-mode button[onclick="PathRouter.goBack()"] svg,
-    body.dark-mode header button[onclick]:not(.header-menu-item) svg { stroke: #ffffff !important; }
-    body.dark-mode button[onclick="PathRouter.goBack()"]:hover,
-    body.dark-mode header button[onclick]:not(.header-menu-item):hover { 
-        background-color: #1a1a1a !important; 
-        border-color: rgba(255,255,255,0.7) !important; 
-    }
-    
+    body.dark-mode header button[onclick="history.back()"], body.dark-mode header button[aria-label="Kembali"] { background-color: #000000 !important; border: 1.5px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"] svg, body.dark-mode header button[aria-label="Kembali"] svg { color: #ffffff !important; stroke: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"]:hover, body.dark-mode header button[aria-label="Kembali"]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
     body.dark-mode .bg-gray-50 { background-color: #222222 !important; }
     body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
     body.dark-mode .border-gray-200, body.dark-mode .border-gray-100 { border-color: #222222 !important; }
     body.dark-mode .hover\:bg-gray-100:hover { background-color: #222222 !important; }
     body.dark-mode .hover\:bg-gray-200:hover { background-color: #222222 !important; }
-    body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
-      background-color: #0a0a0a; color: #ffffff; border-color: #222222;
-    }
-    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus {
-      border-color: #333333; outline: none;
-    }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus { border-color: #222222; outline: none; }
+    body.dark-mode header { background-color: #000000 !important; }
     body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
-    body.dark-mode .bg-black.text-white { color: #000000 !important; }
-    body.dark-mode .hover\:bg-gray-800:hover { background-color: #333333 !important; }
-    body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
   /* auto-dark-fix v1 */
     body.dark-mode .bg-gray-50\/80 { background-color: #141414 !important; }
     body.dark-mode .bg-gray-200 { background-color: #262626 !important; }
@@ -159,25 +128,14 @@
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
     </style>
-  
-  <script>
-    (function() {
-      var t = localStorage.getItem('clinqoo_theme') || 'Sistem (Default)';
-      var isDark = (t === 'Gelap') || (t === 'Sistem (Default)' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      if (isDark) document.documentElement.classList.add('dark-mode');
-    })();
-  </script>
-    <script src="../../../js/path-router.js"></script>
-    <script src="../../../js/path-router.js"></script>
-<script>const _isGHPages = window.location.pathname.includes("/Clincoo/");</script>
+  <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
 
     <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
 (function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<3;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
     </script>
-<script src="../../../js/i18n-dict.js" defer></script>
-<script src="../../../js/i18n.js" defer></script>
+<!-- Google tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -185,14 +143,13 @@
   gtag('js', new Date());
   gtag('config', 'G-KMQ8WBZF6E');
 </script>
+<!-- End Google tag -->
+<script src="../../../js/i18n-dict.js" defer></script>
+<script src="../../../js/i18n.js" defer></script>
 </head>
 <body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
   <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
-
-  <!-- Container utama dengan penanganan scroll konsisten -->
   <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col items-center">
-    
-    <!-- Header: Disesuaikan dengan preferensi layout fixed, tombol kembali melingkar, dan judul di tengah -->
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
         <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -237,8 +194,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Area Konten Fitur (Diberi padding atas pt-16 agar tidak tertutup fixed header) -->
     <main class="w-full max-w-5xl px-4 sm:px-6 pt-20 pb-24">
     <style>
         #settings-menu-pop.open { display: flex; }
@@ -254,8 +209,8 @@
     <div class="relative mb-5 -mx-2.5 sm:-mx-[70px] sm:max-w-[860px]" id="settings-menu-wrap">
             <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
                 <span class="flex items-center gap-2.5">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                    Domain Kustom
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.9 5.7a2 2 0 001.4 1.4L21 12l-5.7 1.9a2 2 0 00-1.4 1.4L12 21l-1.9-5.7a2 2 0 00-1.4-1.4L3 12l5.7-1.9a2 2 0 001.4-1.4L12 3z"></path></svg>
+                    Integrasi AI
                 </span>
                 <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -311,485 +266,497 @@
     </script>
 
       <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
-        
-        <!-- 1. Domain Utama -->
-        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div class="min-w-0 flex-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Domain Utama</h4>
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Domain kustom yang digunakan untuk situs produksi</p>
-          </div>
-          <div class="w-full sm:w-80">
-            <div class="flex items-center gap-2">
-              <input type="text" value="" id="custom-domain-input" class="flex-1 min-w-0 px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 focus:outline-none domain-shimmer" placeholder="contohdomain.com" disabled>
-            </div>
-            <p id="cf-domain-status" class="text-xs mt-1.5 hidden"></p>
-          </div>
-        </div>
 
-        <!-- 2. Subdomain Redirect (Menggunakan Popover Kustom sesuai preferensi) -->
-        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div class="min-w-0 flex-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Subdomain Redirect</h4>
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Atur pengalihan (redirect) trafik ke domain utama</p>
+        <!-- 1. Provider AI Router -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Provider AI Router</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Pilih engine tempat model AI dipanggil</p>
+            </div>
+            <span id="ai-provider-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300">Aktif</span>
           </div>
-          <div class="w-full sm:w-80 relative" id="redirect-popover-container">
-            <!-- Popover Trigger Button -->
-            <button type="button" id="redirect-popover-btn" onclick="uiTogglePopover('redirect-popover')" class="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white flex items-center justify-between focus:outline-none hover:border-gray-400 dark:hover:border-slate-500 transition-colors cursor-pointer select-none">
-              <span id="redirect-selected-text" class="truncate">Redirect ke domain utama</span>
-              <svg id="redirect-arrow" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
+          <div class="w-full sm:w-80 relative" id="ai-provider-popover-wrap">
+            <button type="button" onclick="toggleAiProviderPopover(event)" class="w-full flex items-center justify-between px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white hover:border-gray-400 transition-colors cursor-pointer">
+              <span id="ai-provider-label" class="font-medium">OpenRouter</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <input type="hidden" id="redirect-value" value="redirect">
-
-            <!-- Popover Menu Panel -->
-            <div id="redirect-popover" class="hidden absolute left-0 right-0 mt-1.5 w-full bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl z-50 py-1 transition-all duration-150 transform opacity-0 scale-95 origin-top">
-              <button type="button" onclick="selectPopoverOption('redirect', 'redirect', 'Redirect ke domain utama'); saveDomainSettings()" class="popover-item w-full px-3.5 py-2.5 text-xs sm:text-sm text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-900 dark:text-white transition-colors cursor-pointer" data-value="redirect">
-                <span>Redirect ke domain utama</span>
-                <svg class="h-4 w-4 text-blue-600 dark:text-blue-400 popover-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </button>
-              <button type="button" onclick="selectPopoverOption('redirect', 'none', 'Tidak ada redirect'); saveDomainSettings()" class="popover-item w-full px-3.5 py-2.5 text-xs sm:text-sm text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-900 dark:text-white transition-colors cursor-pointer" data-value="none">
-                <span>Tidak ada redirect</span>
-                <svg class="h-4 w-4 text-blue-600 dark:text-blue-400 popover-check hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </button>
+            <div id="ai-provider-popover" class="hidden absolute left-0 top-full mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-xl shadow-lg z-20 p-1">
+              <button type="button" data-value="openrouter" onclick="pickAiProvider('openrouter', 'OpenRouter')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition-colors">OpenRouter</button>
+              <button type="button" data-value="cloudflare" onclick="pickAiProvider('cloudflare', 'Cloudflare Workers AI')" class="w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition-colors">Cloudflare Workers AI</button>
             </div>
           </div>
         </div>
 
-        <!-- 3. SSL Otomatis -->
-        <div class="py-5 flex items-center justify-between gap-4">
+        <!-- 2. Model Default -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Model Default</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Model tersedia menyesuaikan provider yang dipilih</p>
+            </div>
+            <span id="ai-model-rate" class="hidden sm:block text-xs text-gray-400"></span>
+          </div>
+          <div class="w-full sm:w-80 relative" id="ai-model-popover-wrap">
+            <button type="button" onclick="toggleAiModelPopover(event)" class="w-full flex items-center justify-between px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white hover:border-gray-400 transition-colors cursor-pointer">
+              <span id="ai-model-label" class="font-medium">openai/gpt-4o-mini</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="ai-model-popover" class="hidden absolute left-0 top-full mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-xl shadow-lg z-20 p-1 max-h-64 overflow-y-auto"></div>
+          </div>
+        </div>
+
+        <!-- 3. Cloudflare Account ID -->
+        <div class="py-5" id="ai-account-row">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">Cloudflare Account ID</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Diperlukan untuk memanggil Workers AI — ada di dashboard Cloudflare &raquo; Workers &amp; Pages</p>
+          <input type="text" id="ai-account-id" class="w-full mt-3 px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-slate-400 transition-colors" placeholder="mis. 5a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d">
+        </div>
+
+        <!-- 4. Secret API Key (per proyek) -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Secret API Key</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Key unik untuk proyek ini — setiap proyek memakai key berbeda</p>
+            </div>
+          </div>
+          <div class="flex gap-2 items-center">
+            <div class="relative flex-1">
+              <input type="password" id="ai-api-key" autocomplete="off" spellcheck="false" class="w-full px-3.5 py-2.5 pr-10 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-slate-400 transition-colors" placeholder="sk-or-v1-...">
+              <button type="button" onclick="toggleAiKeyVisibility()" class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors cursor-pointer" aria-label="Tampilkan / sembunyikan key">
+                <svg id="ai-key-eye" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">Simpan key di sini sekali — fitur lain di proyek ini otomatis memakainya lewat AI Router.</p>
+        </div>
+
+        <!-- 5. Contoh cURL -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Contoh Pemanggilan (cURL)</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Format panggilan sesuai provider &amp; model terpilih</p>
+            </div>
+            <button type="button" onclick="copyAiCurl()" class="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 dark:text-blue-300 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors cursor-pointer flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              Salin
+            </button>
+          </div>
+          <pre id="ai-curl" class="w-full text-xs leading-relaxed bg-gray-950 text-gray-100 rounded-xl border border-gray-800 dark:border-slate-700 p-4 overflow-x-auto whitespace-pre font-mono"></pre>
+        </div>
+
+        <!-- 6. Uji Koneksi -->
+        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="min-w-0 flex-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-white">SSL Otomatis</h4>
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Provisioning sertifikat SSL secara otomatis</p>
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Uji Koneksi</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim satu panggilan kecil untuk memastikan provider, model, dan secret bekerja</p>
           </div>
-          <button type="button" onclick="toggleSwitch('sslAuto')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
-            <div id="sslAuto-bg" class="w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200 ease-in-out"></div>
-            <div id="sslAuto-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
-          </button>
-        </div>
-        <!-- CTA Simpan Domain: di bawah toggle SSL, teks "Simpan" saja; klik -> spinner -> centang (bg tetap) -->
-        <!-- CTA Hapus di sebelahnya: nempel bg, muncul hanya setelah ada domain di input -->
-        <div class="pb-2 flex justify-end gap-2">
-          <button type="button" id="btn-delete-domain" onclick="deleteDomainFromButton()" aria-label="Hapus domain" title="Hapus domain" class="h-9 px-5 hidden items-center justify-center rounded-lg bg-white dark:bg-[#0a0a0a] border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 text-sm font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Hapus</button>
-          <button type="button" id="btn-save-domain" onclick="saveDomainFromButton()" disabled aria-label="Simpan domain" title="Simpan domain" class="h-9 px-5 flex items-center justify-center rounded-lg bg-black text-white dark:bg-white dark:text-black text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">Simpan</button>
+          <button type="button" id="ai-test-btn" onclick="testAiCall()" class="px-4 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-lg transition-colors cursor-pointer flex-shrink-0">Tes panggilan</button>
         </div>
 
-        <!-- 4. Konfigurasi DNS — HANYA muncul setelah proyek pernah dideploy.
-             Sebelum deploy halaman hanya berisi: input domain, toggle SSL,
-             pengaturan redirect, CTA Simpan + CTA Hapus. -->
-        <div class="py-5 hidden" id="dns-section">
-          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Konfigurasi DNS</h4>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Tambahkan record DNS berikut di provider domain Anda</p>
-          <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
-            <table class="w-full text-sm">
-              <thead class="bg-gray-50 dark:bg-slate-800">
-                <tr class="border-b border-gray-200 dark:border-slate-700">
-                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Tipe</th>
-                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Nama</th>
-                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Nilai</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-100 dark:border-slate-800 bg-white dark:bg-[#0a0a0a]">
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-type">CNAME</td>
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-name"><span id="dns-a-name-text">@</span> <span class="font-sans text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Utama</span></td>
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-value">situs-anda.pages.dev</td>
-                </tr>
-                <tr class="bg-white dark:bg-[#0a0a0a]">
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400">CNAME</td>
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-cname-name"><span id="dns-cname-name-text">www</span> <span class="font-sans text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Opsional</span></td>
-                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-cname-value">situs-anda.pages.dev</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- 7. Log Pemakaian -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Log Pemakaian</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Riwayat panggilan AI untuk proyek ini</p>
+            </div>
+            <button type="button" id="ai-log-clear" onclick="clearAiLogs()" class="px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 dark:text-red-300 dark:border-red-900 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer">Kosongkan</button>
           </div>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 leading-relaxed">Record UTAMA menunjuk ke domain utama Anda (root, tanpa www): CNAME/ALIAS <span class="font-mono">@</span> dengan nilai di atas. Catatan penting: Cloudflare Pages tidak menyediakan alamat IP tetap, jadi metode A record (IP) tidak tersedia untuk root — satu-satunya cara adalah CNAME/ALIAS ke <span class="font-mono">&lt;subdomain&gt;.pages.dev</span>. Nilai ini memang selalu lebih dari 15 karakter (format .pages.dev). Jika registrar Anda menolak nilai CNAME yang panjang atau tidak mendukung CNAME di root: 1) gunakan tipe ALIAS/ANAME untuk @ bila tersedia, atau 2) arahkan nameserver domain Anda ke Cloudflare (gratis) lalu tambahkan domain dari sini — Cloudflare melakukan flattening otomatis sehingga domain utama langsung bisa dibuka tanpa www. Record CNAME www hanya diperlukan kalau alamat www.domain.com juga ingin diaktifkan. SSL aktif otomatis beberapa menit setelah DNS terverifikasi.</p>
+          <div id="ai-log-list" class="space-y-2"></div>
+          <p id="ai-log-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada log — panggilan lewat AI Router akan tercatat di sini</p>
         </div>
 
+        <!-- 8. Analitik & Pemakaian -->
+        <div class="py-5">
+          <div class="mb-4">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Analitik &amp; Pemakaian</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Ringkasan pemakaian dihitung dari log proyek ini</p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
+              <p class="text-xs text-gray-500 dark:text-gray-400">Total permintaan</p>
+              <p id="ai-stat-total" class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
+              <p class="text-xs text-gray-500 dark:text-gray-400">Sukses</p>
+              <p id="ai-stat-ok" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">0</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
+              <p class="text-xs text-gray-500 dark:text-gray-400">Gagal</p>
+              <p id="ai-stat-fail" class="text-xl font-bold text-red-600 dark:text-red-400 mt-0.5">0</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
+              <p class="text-xs text-gray-500 dark:text-gray-400">Total token</p>
+              <p id="ai-stat-tokens" class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
+            </div>
+          </div>
+          <div class="mt-5">
+            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian per model</p>
+            <div id="ai-model-usage" class="space-y-2.5"></div>
+            <p id="ai-usage-empty" class="text-xs text-gray-400 dark:text-gray-500 py-3 text-center">Belum ada data pemakaian</p>
+          </div>
+          <p id="ai-est-cost" class="text-xs text-gray-400 dark:text-gray-500 mt-4"></p>
+        </div>
+      </div>
+
+      <div id="action-buttons" class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700/60 hidden justify-end gap-3 opacity-0 transition-opacity duration-300">
+        <button type="button" onclick="cancelChanges()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors">Batal</button>
+        <button type="button" onclick="saveChanges()" class="px-5 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 rounded-lg shadow-sm transition-colors focus:outline-none cursor-pointer">Simpan Perubahan</button>
       </div>
     </main>
   </div>
-
   <script>
-    // --- Fungsi Popover Dropdown Kustom ---
-    function uiTogglePopover(popoverId) {
-      const popover = document.getElementById(popoverId);
-      const arrow = document.getElementById(popoverId.replace('-popover', '-arrow'));
-      
-      const isOpen = !popover.classList.contains('hidden');
+    let isEdited=false;function showActionButtons(){if(!isEdited){isEdited=true;const c=document.getElementById('action-buttons');c.classList.remove('hidden');c.classList.add('flex');void c.offsetWidth;c.classList.remove('opacity-0');c.classList.add('opacity-100');}}function cancelChanges(){window.location.reload();}function saveChanges(){saveAiSettings();}document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input,textarea,select').forEach(input=>{input.addEventListener('input',showActionButtons);input.addEventListener('change',showActionButtons);});});function toggleSwitch(idPrefix){showActionButtons();const bg=document.getElementById(idPrefix+'-bg');const knob=document.getElementById(idPrefix+'-knob');if(bg.classList.contains('bg-blue-500')){bg.classList.replace('bg-blue-500','bg-gray-200');bg.classList.add('dark:bg-slate-700');knob.classList.remove('translate-x-5');}else{bg.classList.remove('bg-gray-200','dark:bg-slate-700');bg.classList.add('bg-blue-500');knob.classList.add('translate-x-5');}}
+  </script>
+    <script>if (window.lucide) { lucide.createIcons(); }</script>
 
-      if (isOpen) {
-        uiClosePopover(popoverId);
-      } else {
-        // Tutup popover lain jika ada
-        document.querySelectorAll('[id$="-popover"]').forEach(p => {
-          if (p.id !== popoverId) uiClosePopover(p.id);
-        });
+<script>
+  // ===== Integrasi AI (AI Router): provider, model, secret per proyek, log, analitik =====
+  var AI_API_BASE = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
+  var _aiToken = '';
+  try { _aiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+  function _aiPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
 
-        popover.classList.remove('hidden');
-        setTimeout(() => {
-          popover.classList.remove('opacity-0', 'scale-95');
-          popover.classList.add('opacity-100', 'scale-100');
-        }, 10);
-        if (arrow) arrow.classList.add('rotate-180');
-      }
+  var _aiProviderValue = 'openrouter';
+  var _aiModelValue = 'openai/gpt-4o-mini';
+  var AI_MODELS = {
+    openrouter: [
+      { id: 'openai/gpt-4o-mini', label: 'GPT-4o mini', rate: '±$0.15 / 1M token' },
+      { id: 'anthropic/claude-3.5-sonnet', label: 'Claude 3.5 Sonnet', rate: '±$3 / 1M token' },
+      { id: 'google/gemini-flash-1.5', label: 'Gemini Flash 1.5', rate: '±$0.075 / 1M token' },
+      { id: 'meta-llama/llama-3.1-70b-instruct', label: 'Llama 3.1 70B', rate: '±$0.35 / 1M token' },
+      { id: 'deepseek/deepseek-chat', label: 'DeepSeek Chat', rate: '±$0.14 / 1M token' }
+    ],
+    cloudflare: [
+      { id: '@cf/meta/llama-3.1-8b-instruct', label: 'Llama 3.1 8B', rate: 'dihitung per neuron' },
+      { id: '@cf/meta/llama-3-8b-instruct', label: 'Llama 3 8B', rate: 'dihitung per neuron' },
+      { id: '@cf/qwen/qwen1.5-14b-chat', label: 'Qwen 1.5 14B', rate: 'dihitung per neuron' },
+      { id: '@cf/mistralai/mistral-7b-instruct-v0.2', label: 'Mistral 7B', rate: 'dihitung per neuron' },
+      { id: '@cf/google/gemma-7b-it', label: 'Gemma 7B', rate: 'dihitung per neuron' }
+    ]
+  };
+
+  function toggleAiProviderPopover(e) {
+    e.stopPropagation();
+    var p = document.getElementById('ai-provider-popover');
+    if (p) p.classList.toggle('hidden');
+  }
+  function pickAiProvider(value, label) {
+    _aiProviderValue = value;
+    var l = document.getElementById('ai-provider-label');
+    if (l) l.textContent = label;
+    var p = document.getElementById('ai-provider-popover');
+    if (p) p.classList.add('hidden');
+    // ganti model default ke model pertama provider baru
+    var models = AI_MODELS[value] || [];
+    if (models.length) {
+      _aiModelValue = models[0].id;
+      var ml = document.getElementById('ai-model-label');
+      if (ml) ml.textContent = _aiModelValue;
+      updateAiRateHint();
     }
+    var row = document.getElementById('ai-account-row');
+    if (row) row.style.display = (value === 'cloudflare') ? '' : 'none';
+    renderAiModelOptions();
+    renderAiCurl();
+    showActionButtons();
+  }
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('ai-provider-popover-wrap');
+    var p = document.getElementById('ai-provider-popover');
+    if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
+  });
 
-    function uiClosePopover(popoverId) {
-      const popover = document.getElementById(popoverId);
-      const arrow = document.getElementById(popoverId.replace('-popover', '-arrow'));
-      
-      if (!popover || popover.classList.contains('hidden')) return;
+  function toggleAiModelPopover(e) {
+    e.stopPropagation();
+    var p = document.getElementById('ai-model-popover');
+    if (p) p.classList.toggle('hidden');
+  }
+  function pickAiModel(id, label) {
+    _aiModelValue = id;
+    var l = document.getElementById('ai-model-label');
+    if (l) l.textContent = id;
+    var p = document.getElementById('ai-model-popover');
+    if (p) p.classList.add('hidden');
+    updateAiRateHint();
+    renderAiCurl();
+    showActionButtons();
+  }
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('ai-model-popover-wrap');
+    var p = document.getElementById('ai-model-popover');
+    if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
+  });
 
-      popover.classList.remove('opacity-100', 'scale-100');
-      popover.classList.add('opacity-0', 'scale-95');
-      if (arrow) arrow.classList.remove('rotate-180');
-
-      setTimeout(() => {
-        popover.classList.add('hidden');
-      }, 150);
-    }
-
-    // Fungsi Pilih Opsi pada Popover
-    function selectPopoverOption(prefix, value, label) {
-      const selectedText = document.getElementById(`${prefix}-selected-text`);
-      const hiddenInput = document.getElementById(`${prefix}-value`);
-      const container = document.getElementById(`${prefix}-popover`);
-
-      if (selectedText) selectedText.textContent = label;
-      
-      if (hiddenInput && hiddenInput.value !== value) {
-          hiddenInput.value = value;
-      }
-
-      // Update icon centang aktif
-      if (container) {
-        container.querySelectorAll('.popover-item').forEach(item => {
-          const checkIcon = item.querySelector('.popover-check');
-          if (item.getAttribute('data-value') === value) {
-            if (checkIcon) checkIcon.classList.remove('hidden');
-          } else {
-            if (checkIcon) checkIcon.classList.add('hidden');
-          }
-        });
-      }
-
-      uiClosePopover(`${prefix}-popover`);
-    }
-
-    // Close Popover saat klik di luar areanya
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('[id$="-popover-container"]')) {
-        document.querySelectorAll('[id$="-popover"]').forEach(p => uiClosePopover(p.id));
-      }
+  function renderAiModelOptions() {
+    var pop = document.getElementById('ai-model-popover');
+    if (!pop) return;
+    var models = AI_MODELS[_aiProviderValue] || [];
+    pop.innerHTML = '';
+    models.forEach(function (m) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'w-full text-left px-3.5 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition-colors';
+      b.textContent = m.label + ' (' + m.id + ')';
+      b.addEventListener('click', function () { pickAiModel(m.id, m.label); });
+      pop.appendChild(b);
     });
+  }
 
-    // --- Fungsi Toggle Switch ---
-    function toggleSwitch(idPrefix) {
-      const bg = document.getElementById(idPrefix + '-bg');
-      const knob = document.getElementById(idPrefix + '-knob');
-      
-      if (bg.classList.contains('bg-blue-500')) {
-        bg.classList.replace('bg-blue-500', 'bg-gray-200');
-        bg.classList.add('dark:bg-slate-700');
-        knob.classList.remove('translate-x-5');
-      } else {
-        bg.classList.remove('bg-gray-200', 'dark:bg-slate-700');
-        bg.classList.add('bg-blue-500');
-        knob.classList.add('translate-x-5');
-      }
-    }
-  
-    // API base: same-origin di Cloudflare Pages; be2 hanya utk GitHub Pages (konsisten dgn js/api.js)
-    const DEPLOY_API_BASE = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
-    let lastPagesUrl = ''; // URL <project>.pages.dev asli dari hasil deploy (untuk nilai record DNS)
+  function updateAiRateHint() {
+    var hint = document.getElementById('ai-model-rate');
+    if (!hint) return;
+    var models = AI_MODELS[_aiProviderValue] || [];
+    var m = models.filter(function (x) { return x.id === _aiModelValue; })[0];
+    hint.textContent = m ? m.rate : '';
+  }
 
-    // Cache instan per proyek: data domain tampil LANGSUNG dari localStorage, lalu diperbarui dari server
-    function domainCacheKey() {
-        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-        return 'clinqoo_' + pid + '_domain_cache';
-    }
-    function readDomainCache() {
-        try { return JSON.parse(localStorage.getItem(domainCacheKey()) || 'null') || null; } catch (e) { return null; }
-    }
-    function writeDomainCache(patch) {
-        try {
-            const cur = readDomainCache() || {};
-            localStorage.setItem(domainCacheKey(), JSON.stringify(Object.assign({}, cur, patch, { ts: Date.now() })));
-        } catch (e) {}
-    }
-    function paintDomainLabel(text, ok) {
-        const lbl = document.getElementById('cf-domain-status');
-        if (!lbl) return;
-        if (text) { lbl.textContent = text; lbl.classList.remove('hidden'); }
-        else lbl.classList.add('hidden');
-        lbl.className = 'text-xs mt-1.5 font-medium ' + (ok ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400');
-    }
-    // fetch dengan timeout 8 detik — loading tidak boleh menggantung selamanya
-    function fetchTimeout(url, opts) {
-        const ctrl = new AbortController();
-        const t = setTimeout(function () { ctrl.abort(); }, 8000);
-        return fetch(url, Object.assign({}, opts, { signal: ctrl.signal })).finally(function () { clearTimeout(t); });
-    }
+  function aiApiKey() {
+    var el = document.getElementById('ai-api-key');
+    return el ? (el.value || '').trim() : '';
+  }
+  function toggleAiKeyVisibility() {
+    var el = document.getElementById('ai-api-key');
+    if (!el) return;
+    el.type = (el.type === 'password') ? 'text' : 'password';
+  }
 
-    // Load domain settings from D1
-    async function loadDomainSettings() {
-        try {
-            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-            const _tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-            const res = await fetchTimeout(DEPLOY_API_BASE + '/project-settings?project_id=' + encodeURIComponent(pid),
-                { headers: _tok ? { Authorization: 'Bearer ' + _tok } : {} });
-            const data = await res.json();
-            const settings = data.domain_settings ? JSON.parse(data.domain_settings) : {};
-            const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
-            if (domainInput) { domainInput.classList.remove('domain-shimmer'); domainInput.disabled = false; }
-            var _sb1 = document.getElementById('btn-save-domain'); if (_sb1) _sb1.disabled = false;
-            if (domainInput && settings.domain && !domainInput.dataset.dirty) {
-                domainInput.value = settings.domain;
-                writeDomainCache({ domain: settings.domain });
-            }
-            syncDeleteBtn();
-            if (settings.redirect) {
-                selectPopoverOption('redirect', settings.redirect, settings.redirectLabel || 'Redirect ke domain utama');
-            }
-            updateDNSRecords(settings.domain || '', lastPagesUrl);
-        } catch(e) {
-            // Jangan biarkan input tetap terkunci bila backend gagal — tampilkan penyebabnya
-            const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
-            if (domainInput) { domainInput.classList.remove('domain-shimmer'); domainInput.disabled = false; }
-            var _sb1 = document.getElementById('btn-save-domain'); if (_sb1) _sb1.disabled = false;
-            // Gagal memuat & belum ada domain tersimpan: tanpa teks apa pun di bawah input.
-            syncDeleteBtn();
-        }
+  function renderAiCurl() {
+    var pre = document.getElementById('ai-curl');
+    if (!pre) return;
+    var key = aiApiKey() || 'YOUR_API_KEY';
+    var model = _aiModelValue;
+    var cmd;
+    if (_aiProviderValue === 'cloudflare') {
+      var acct = (document.getElementById('ai-account-id') && document.getElementById('ai-account-id').value.trim()) || 'YOUR_ACCOUNT_ID';
+      cmd = 'curl -X POST \\\n  "https://api.cloudflare.com/client/v4/accounts/' + acct + '/ai/run/' + model + '" \\\n  -H "Authorization: Bearer ' + key + '" \\\n  -H "Content-Type: application/json" \\\n  -d \'{ "messages": [{ "role": "user", "content": "Halo!" }] }\'';
+    } else {
+      cmd = 'curl -X POST \\\n  "https://openrouter.ai/api/v1/chat/completions" \\\n  -H "Authorization: Bearer ' + key + '" \\\n  -H "Content-Type: application/json" \\\n  -d \'{ "model": "' + model + '", "messages": [{ "role": "user", "content": "Halo!" }] }\'';
     }
-
-    function updateDNSRecords(domain, pagesUrl) {
-        // Cloudflare Pages: custom domain pakai CNAME ke <project>.pages.dev (TANPA A record IP).
-        // Nilai diambil real-time dari hasil deploy proyek (st.pages_url).
-        // Kosongkan bila belum ada nilai — TANPA teks menunggu; fast mode mengisi nilai asli
-        // hampir seketika (< 200 ms, murni baca D1) begitu halaman terbuka.
-        const target = (pagesUrl || '').replace('https://', '').replace(/\/$/, '');
-        const aNameText = document.getElementById('dns-a-name-text');
-        const aValue = document.getElementById('dns-a-value');
-        const cnameNameText = document.getElementById('dns-cname-name-text');
-        const cnameValue = document.getElementById('dns-cname-value');
-        // Hanya teks nama yang diganti — badge "Utama"/"Opsional" di sel yang sama dipertahankan.
-        if (aNameText) aNameText.textContent = '@';
-        if (cnameNameText) cnameNameText.textContent = 'www';
-        if (aValue) aValue.textContent = target;
-        if (cnameValue) cnameValue.textContent = target;
-    }
-
-    // Save domain settings to D1
-    async function saveDomainSettings() {
-        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
-        const redirectLabel = document.getElementById('redirect-selected-text');
-        const redirectHidden = document.getElementById('redirect-value');
-        // Jika data domain belum termuat (input masih shimmer), pakai nilai cache —
-        // jangan menimpa domain yang tersimpan dengan string kosong.
-        var _domVal = domainInput && !domainInput.classList.contains('domain-shimmer') ? domainInput.value : '';
-        if (!_domVal) { try { var _c = readDomainCache(); if (_c && _c.domain) _domVal = _c.domain; } catch (e) {} }
-        const settings = {
-            domain: _domVal,
-            redirect: redirectHidden ? redirectHidden.value : 'redirect',
-            redirectLabel: redirectLabel ? redirectLabel.textContent.trim() : 'Redirect ke domain utama'
-        };
-        try {
-            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-            const _tok2 = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-            await fetch(DEPLOY_API_BASE + '/project-settings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', ...(_tok2 ? { Authorization: 'Bearer ' + _tok2 } : {}) },
-                body: JSON.stringify({ project_id: pid, domain_settings: JSON.stringify(settings) })
-            });
-            await ClinqooAPI.logActivity('domain_updated', 'Domain: ' + settings.domain);
-            updateDNSRecords('', lastPagesUrl); // nilai record = URL deploy asli, bukan placeholder
-            if (settings.domain) attachDomainToPages(settings.domain);
-        } catch(e) { window.__domainSaveError = (e && e.message) ? e.message : 'gagal menyimpan'; }
-    }
-
-    // Tombol Simpan Domain: teks "Simpan". Menyimpan: spinner. Sukses: centang (bg TETAP, tidak jadi hijau). Gagal: silang merah lalu balik teks.
-    const SAVE_BTN_IDLE_CLASS = 'h-9 px-5 flex items-center justify-center rounded-lg bg-black text-white dark:bg-white dark:text-black text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors';
-    function setSaveBtnIdle() {
-        const btn = document.getElementById('btn-save-domain');
-        if (!btn) return;
-        btn.innerHTML = 'Simpan';
-        btn.className = SAVE_BTN_IDLE_CLASS;
-    }
-    function setSaveBtnIcon(name, extraClass, iconColorClass) {
-        const btn = document.getElementById('btn-save-domain');
-        if (!btn) return;
-        btn.innerHTML = '<i data-lucide="' + name + '" class="w-4 h-4 pointer-events-none ' + (extraClass || '') + ' ' + (iconColorClass || '') + '"></i>';
-        btn.className = SAVE_BTN_IDLE_CLASS;
-        if (typeof lucide !== 'undefined' && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
-    }
-    async function saveDomainFromButton() {
-        const btn = document.getElementById('btn-save-domain');
-        if (!btn || btn.disabled) return;
-        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
-        if (domainInput) { delete domainInput.dataset.dirty; }
-        btn.disabled = true;
-        setSaveBtnIcon('loader-2', 'animate-spin');
-        window.__domainSaveError = '';
-        try { await saveDomainSettings(); } catch (e) {}
-        if (window.__domainSaveError) {
-            setSaveBtnIcon('x', '', 'text-red-500');
-            setTimeout(function () { btn.disabled = false; setSaveBtnIdle(); }, 1800);
-        } else {
-            setSaveBtnIcon('check');
-            setTimeout(function () { btn.disabled = false; setSaveBtnIdle(); }, 2000);
-        }
-    }
-
-    // CTA Hapus: tampil hanya saat ada domain di input (tersimpan maupun baru diketik)
-    function syncDeleteBtn() {
-        const input = document.querySelector('input[placeholder="contohdomain.com"]');
-        const del = document.getElementById('btn-delete-domain');
-        if (!del) return;
-        const has = !!(input && input.value.trim() && !input.classList.contains('domain-shimmer'));
-        del.classList.toggle('hidden', !has);
-        del.classList.toggle('flex', !!has);
-    }
-    // Hapus domain kustom: kosongkan input & simpan, lepas dari Cloudflare Pages, tanpa teks sisa.
-    async function deleteDomainFromButton() {
-        const delBtn = document.getElementById('btn-delete-domain');
-        const input = document.querySelector('input[placeholder="contohdomain.com"]');
-        const prev = (input && !input.classList.contains('domain-shimmer')) ? input.value.trim() : '';
-        if (input) { input.value = ''; delete input.dataset.dirty; }
-        paintDomainLabel('', false);
-        if (delBtn) { delBtn.classList.add('hidden'); delBtn.classList.remove('flex'); }
-        writeDomainCache({ domain: '', attached: null, active: false, label: '' });
-        try { await saveDomainSettings(); } catch (e) {}
-        if (prev) {
-            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-            const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-            try {
-                await fetch(DEPLOY_API_BASE + '/deploy', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
-                    body: JSON.stringify({ project_id: pid, action: 'remove_domain', domain: prev })
-                });
-            } catch (e) {}
-        }
-        loadRealDomainStatus();
-    }
-
-    async function attachDomainToPages(domain) {
-        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-        const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-        try {
-            const res = await fetch(DEPLOY_API_BASE + '/deploy', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
-                body: JSON.stringify({ project_id: pid, action: 'add_domain', domain })
-            });
-            const data = await res.json();
-            loadRealDomainStatus();
-            if (data.error) console.warn('Domain belum terpasang di Cloudflare: ' + data.error);
-        } catch (e) {}
-    }
-
-    async function loadRealDomainStatus() {
-        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-        const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-        try {
-            const res = await fetchTimeout(DEPLOY_API_BASE + '/deploy?project_id=' + encodeURIComponent(pid), {
-                headers: token ? { Authorization: 'Bearer ' + token } : {}
-            });
-            const st = await res.json().catch(() => ({}));
-            if (!res.ok || st.error) throw new Error(st.error || ('HTTP ' + res.status));
-            window.__statusRetries = 0;
-            if (st.pages_url) { lastPagesUrl = st.pages_url; updateDNSRecords('', st.pages_url); writeDomainCache({ pagesUrl: st.pages_url }); }
-            // Simpan status "pernah deploy" ke cache: kalau nanti API status gagal
-            // (rate limit/jaringan), section DNS tetap tampil dari cache — tidak menghilang.
-            writeDomainCache({ deployed: !!(st.deployed || st.last_deployment) });
-            // Input domain TIDAK diisi otomatis dari domain yang terpasang di Cloudflare —
-            // sumber tampilan input hanya domain yang tersimpan (D1), supaya tidak
-            // "tiba-tiba ada isinya" padahal user belum mengisi domain kustom.
-            // Section Konfigurasi DNS hanya muncul setelah proyek pernah dideploy.
-            const dnsSection = document.getElementById('dns-section');
-            if (dnsSection) dnsSection.classList.toggle('hidden', !(st.deployed || st.last_deployment));
-            if ((st.domains || []).length) {
-                const d = st.domains[st.domains.length - 1];
-                const active = d.status === 'active';
-                writeDomainCache({ attached: d.name, active: active, label: active ? 'Domain aktif' : 'Menunggu verifikasi DNS' });
-                paintDomainLabel(active ? 'Domain aktif' : 'Menunggu verifikasi DNS', active);
-            } else {
-                // Belum ada domain terpasang: TIDAK ada teks apa pun di bawah input.
-                writeDomainCache({ attached: null, active: false, label: '' });
-                paintDomainLabel('', false);
-            }
-        } catch (e) {
-            // Retry dulu sebelum nunjukin merah — transient error (jaringan/CF) jangan bikin user panik.
-            window.__statusRetries = (window.__statusRetries || 0) + 1;
-            if (window.__statusRetries <= 3) {
-                setTimeout(loadRealDomainStatus, 1500 * window.__statusRetries);
-                return;
-            }
-            const cached = readDomainCache();
-            // Section DNS jangan ikut hilang hanya karena API status sedang gagal:
-            // bila cache bilang proyek ini pernah dideploy, tetap tampilkan recordnya.
-            if (cached && cached.deployed) { var _dnsFb = document.getElementById('dns-section'); if (_dnsFb) _dnsFb.classList.remove('hidden'); }
-            // Tanpa domain tersimpan: tetap tanpa teks apa pun (jangan bikin user panik).
-            if (cached && cached.label) paintDomainLabel(cached.label, !!cached.active);
-            else if (cached && cached.attached) paintDomainLabel('Gagal memuat status', false);
-        }
-    }
-
-    // Override selectPopoverOption to also save
-    const originalSelectPopover = selectPopoverOption;
-    selectPopoverOption = function(type, value, label) {
-        originalSelectPopover(type, value, label);
-        if (type === 'redirect') saveDomainSettings();
+    pre.textContent = cmd;
+  }
+  function copyAiCurl() {
+    var txt = document.getElementById('ai-curl');
+    if (!txt || !txt.textContent) return;
+    var done = function () {
+      var btns = document.querySelectorAll('button[onclick="copyAiCurl()"]');
+      btns.forEach(function (b) { b.childNodes && (b.lastChild.nodeValue = ' Tersalin'); });
+      setTimeout(function () { btns.forEach(function (b) { b.lastChild && (b.lastChild.nodeValue = ' Salin'); }); }, 1500);
     };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt.textContent).then(done).catch(function () {});
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = txt.textContent; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); done();
+    }
+  }
 
-    // Save on domain input blur
-    document.addEventListener('DOMContentLoaded', function() {
-        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
-        if (domainInput) {
-            domainInput.addEventListener('input', function () { domainInput.dataset.dirty = '1'; syncDeleteBtn(); });
-            domainInput.addEventListener('blur', function () { saveDomainSettings(); delete domainInput.dataset.dirty; });
-        }
-        // 1) Tampilkan instan dari cache per-proyek — tanpa nunggu server
-        const cached = readDomainCache();
-        if (cached) {
-            if (cached.pagesUrl) { lastPagesUrl = cached.pagesUrl; updateDNSRecords(cached.domain || '', cached.pagesUrl); }
-            if (cached.deployed) { var _dnsC = document.getElementById('dns-section'); if (_dnsC) _dnsC.classList.remove('hidden'); }
-            if (cached.label) paintDomainLabel(cached.label, !!cached.active);
-            if (cached.domain && domainInput) {
-                domainInput.value = cached.domain;
-                domainInput.classList.remove('domain-shimmer');
-                domainInput.disabled = false;
-                var _sb2 = document.getElementById('btn-save-domain'); if (_sb2) _sb2.disabled = false;
-            }
-            syncDeleteBtn();
-        }
-        // 1b) Nilai record DNS instan: fast mode hanya baca D1 (nama project Pages),
-        // tanpa menunggu status deployment dari API Cloudflare. Sekali termuat, disimpan ke cache.
-        // Fast mode selalu dipanggil tiap halaman dibuka: nilai DNS selalu segar & instan.
-        {
-            (async function () {
-                try {
-                    const pid = localStorage.getItem('clinqoo_current_project_id') || '';
-                    const tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-                    const res = await fetchTimeout(DEPLOY_API_BASE + '/deploy?project_id=' + encodeURIComponent(pid) + '&fast=1',
-                        { headers: tok ? { Authorization: 'Bearer ' + tok } : {} });
-                    const st = await res.json().catch(() => ({}));
-                    if (st.pages_url) { lastPagesUrl = st.pages_url; updateDNSRecords('', st.pages_url); writeDomainCache({ pagesUrl: st.pages_url }); }
-                    // Flag 'deployed' dari log D1: section DNS tampil pasti setelah deploy pertama,
-                    // tanpa bergantung pada status API Cloudflare (yang bisa gagal/rate-limit).
-                    if (st.deployed) { var _dns = document.getElementById('dns-section'); if (_dns) _dns.classList.remove('hidden'); }
-                } catch (e) {}
-            })();
-        }
-        // 2) Muat data segar dari server — PARALEL, bukan berurutan
-        Promise.all([loadDomainSettings(), loadRealDomainStatus()]);
-        // 3) Refresh real-time: poll status deploy & domain tiap 20 detik
-        setInterval(loadRealDomainStatus, 20000);
+  // ===== Log (localStorage per proyek) =====
+  function _aiLogKey() { return 'clinqoo_ai_logs_' + (_aiPid() || 'global'); }
+  function getAiLogs() {
+    try { return JSON.parse(localStorage.getItem(_aiLogKey()) || '[]') || []; } catch (e) { return []; }
+  }
+  function addAiLog(entry) {
+    var logs = getAiLogs();
+    logs.unshift(entry);
+    if (logs.length > 200) logs = logs.slice(0, 200);
+    try { localStorage.setItem(_aiLogKey(), JSON.stringify(logs)); } catch (e) {}
+    renderAiLogs(); renderAiAnalytics();
+  }
+  function clearAiLogs() {
+    try { localStorage.removeItem(_aiLogKey()); } catch (e) {}
+    renderAiLogs(); renderAiAnalytics();
+  }
+  function renderAiLogs() {
+    var list = document.getElementById('ai-log-list');
+    var empty = document.getElementById('ai-log-empty');
+    if (!list) return;
+    var logs = getAiLogs();
+    list.innerHTML = '';
+    if (empty) empty.style.display = logs.length ? 'none' : 'block';
+    logs.slice(0, 30).forEach(function (lg) {
+      var row = document.createElement('div');
+      row.className = 'flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700';
+      var t = new Date(lg.t);
+      var hh = ('0'+t.getHours()).slice(-2) + ':' + ('0'+t.getMinutes()).slice(-2);
+      var dd = ('0'+t.getDate()).slice(-2) + '/' + ('0'+(t.getMonth()+1)).slice(-2);
+      var statusHtml = lg.ok
+        ? '<span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">Sukses</span>'
+        : '<span class="text-xs font-medium text-red-600 dark:text-red-400">Gagal' + (lg.err ? ' — ' + String(lg.err).slice(0, 40) : '') + '</span>';
+      row.innerHTML =
+        '<div class="min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white truncate">' + (lg.m || '-') + '</p>' +
+        '<p class="text-xs text-gray-400 dark:text-gray-500">' + dd + ' ' + hh + ' · ' + (lg.ms || 0) + ' ms' + (lg.tok ? ' · ' + lg.tok + ' token' : '') + '</p></div>' +
+        '<div class="flex-shrink-0">' + statusHtml + '</div>';
+      list.appendChild(row);
     });
+  }
+  function renderAiAnalytics() {
+    var logs = getAiLogs();
+    var total = logs.length, ok = 0, fail = 0, tokens = 0;
+    var perModel = {};
+    logs.forEach(function (lg) {
+      if (lg.ok) ok++; else fail++;
+      var tk = lg.tok || 0; tokens += tk;
+      if (!perModel[lg.m]) perModel[lg.m] = { n: 0, tok: 0 };
+      perModel[lg.m].n++; perModel[lg.m].tok += tk;
+    });
+    var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    set('ai-stat-total', total); set('ai-stat-ok', ok); set('ai-stat-fail', fail); set('ai-stat-tokens', tokens);
+    var wrap = document.getElementById('ai-model-usage');
+    var empty = document.getElementById('ai-usage-empty');
+    if (wrap) {
+      wrap.innerHTML = '';
+      if (empty) empty.style.display = Object.keys(perModel).length ? 'none' : 'block';
+      var maxN = 1;
+      Object.keys(perModel).forEach(function (m) { maxN = Math.max(maxN, perModel[m].n); });
+      Object.keys(perModel).forEach(function (m) {
+        var row = document.createElement('div');
+        row.innerHTML =
+          '<div class="flex items-center justify-between gap-3 mb-1"><p class="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">' + m + '</p>' +
+          '<p class="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">' + perModel[m].n + 'x · ' + perModel[m].tok + ' token</p></div>' +
+          '<div class="h-1.5 w-full rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden"><div class="h-full rounded-full bg-black dark:bg-white" style="width:' + Math.round(perModel[m].n / maxN * 100) + '%"></div></div>';
+        wrap.appendChild(row);
+      });
+    }
+    var est = document.getElementById('ai-est-cost');
+    if (est) {
+      if (total) {
+        est.textContent = 'Estimasi biaya mengikuti tarif provider per model (lihat kolom tarif di atas). Cloudflare Workers AI dihitung per neuron, OpenRouter per token.';
+      } else { est.textContent = ''; }
+    }
+  }
 
+  // ===== Uji koneksi =====
+  async function testAiCall() {
+    var btn = document.getElementById('ai-test-btn');
+    if (btn) { btn.disabled = true; btn.classList.add('opacity-60', 'cursor-not-allowed'); btn.textContent = 'Menguji...'; }
+    var key = aiApiKey();
+    var model = _aiModelValue;
+    var t0 = Date.now();
+    if (!key) {
+      addAiLog({ t: new Date().toISOString(), m: model, ok: false, ms: 0, tok: 0, err: 'API key kosong' });
+      if (btn) { btn.disabled = false; btn.classList.remove('opacity-60', 'cursor-not-allowed'); btn.textContent = 'Tes panggilan'; }
+      return;
+    }
+    try {
+      var url, headers, body;
+      body = { messages: [{ role: 'user', content: 'Ping! Balas singkat.' }] };
+      if (_aiProviderValue === 'cloudflare') {
+        var acct = (document.getElementById('ai-account-id') && document.getElementById('ai-account-id').value.trim()) || '';
+        if (!acct) throw new Error('Account ID kosong');
+        url = 'https://api.cloudflare.com/client/v4/accounts/' + acct + '/ai/run/' + model;
+        headers = { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' };
+      } else {
+        url = 'https://openrouter.ai/api/v1/chat/completions';
+        headers = { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' };
+        body.model = model; body.max_tokens = 16;
+      }
+      var res = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(body) });
+      var ms = Date.now() - t0;
+      var data = await res.json().catch(function () { return null; });
+      var okCall = res.ok && (_aiProviderValue === 'cloudflare' ? (data && data.success) : (data && data.choices));
+      var tok = 0;
+      if (data && data.usage && typeof data.usage.total_tokens === 'number') tok = data.usage.total_tokens;
+      addAiLog({ t: new Date().toISOString(), m: model, ok: !!okCall, ms: ms, tok: tok, err: okCall ? '' : ('HTTP ' + res.status) });
+    } catch (err) {
+      addAiLog({ t: new Date().toISOString(), m: model, ok: false, ms: Date.now() - t0, tok: 0, err: String(err && err.message || err).slice(0, 60) });
+    }
+    if (btn) { btn.disabled = false; btn.classList.remove('opacity-60', 'cursor-not-allowed'); btn.textContent = 'Tes panggilan'; }
+  }
+
+  // ===== Simpan & muat (project-settings per proyek) =====
+  async function saveAiSettings() {
+    var btn = document.querySelector('#action-buttons button.bg-black');
+    if (!btn) return;
+    btn.innerText = 'Menyimpan...';
+    btn.disabled = true;
+    btn.classList.add('opacity-80', 'cursor-not-allowed');
+    var cfg = {
+      provider: _aiProviderValue,
+      model: _aiModelValue,
+      account_id: (document.getElementById('ai-account-id') && document.getElementById('ai-account-id').value.trim()) || '',
+      api_key: aiApiKey()
+    };
+    var payload = { project_id: _aiPid(), ai_router_settings: JSON.stringify(cfg) };
+    var ok = false;
+    try {
+      var hdrs = { 'Content-Type': 'application/json' };
+      if (_aiToken) hdrs['Authorization'] = 'Bearer ' + _aiToken;
+      var r1 = await fetch(AI_API_BASE + '/project-settings', { method: 'POST', headers: hdrs, body: JSON.stringify(payload) });
+      ok = r1.ok;
+      // mirror ke backend be2 (deploy engine) — fire & forget
+      try { fetch('https://clincoo-be2.pages.dev/api/project-settings', { method: 'POST', headers: hdrs, body: JSON.stringify(payload) }).catch(function(){}); } catch (e) {}
+    } catch (e) {
+      try { fetch('https://clincoo-be2.pages.dev/api/project-settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function(){}); } catch (e2) {}
+    }
+    btn.innerText = ok ? 'Tersimpan!' : 'Tersimpan (offline cache)';
+    btn.classList.replace('bg-black', 'bg-emerald-500');
+    btn.classList.replace('hover:bg-gray-800', 'hover:bg-emerald-600');
+    btn.disabled = false;
+    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+    isEdited = false;
+  }
+
+  async function loadAiSettings() {
+    try {
+      var hdrs = _aiToken ? { Authorization: 'Bearer ' + _aiToken } : {};
+      var res = await fetch(AI_API_BASE + '/project-settings?project_id=' + encodeURIComponent(_aiPid()), { headers: hdrs });
+      if (!res.ok) return;
+      var data = await res.json();
+      var st = (data && data.settings) || {};
+      var cfg = null;
+      try { cfg = st.ai_router_settings ? JSON.parse(st.ai_router_settings) : null; } catch (e) {}
+      if (cfg) {
+        if (cfg.provider) {
+          _aiProviderValue = cfg.provider;
+          var pl = document.getElementById('ai-provider-label');
+          if (pl) pl.textContent = (cfg.provider === 'cloudflare') ? 'Cloudflare Workers AI' : 'OpenRouter';
+          var row = document.getElementById('ai-account-row');
+          if (row) row.style.display = (cfg.provider === 'cloudflare') ? '' : 'none';
+        }
+        if (cfg.model) {
+          _aiModelValue = cfg.model;
+          var ml = document.getElementById('ai-model-label');
+          if (ml) ml.textContent = cfg.model;
+        }
+        if (typeof cfg.account_id === 'string' && document.getElementById('ai-account-id')) {
+          document.getElementById('ai-account-id').value = cfg.account_id;
+        }
+        if (typeof cfg.api_key === 'string' && document.getElementById('ai-api-key')) {
+          document.getElementById('ai-api-key').value = cfg.api_key;
+        }
+      }
+      renderAiModelOptions();
+      updateAiRateHint();
+      renderAiCurl();
+      renderAiLogs();
+      renderAiAnalytics();
+      // render dari server bukan "perubahan" — sembunyikan lagi tombol aksi
+      try {
+        isEdited = false;
+        var c = document.getElementById('action-buttons');
+        if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
+      } catch (e) {}
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    renderAiModelOptions(); updateAiRateHint(); renderAiCurl(); renderAiLogs(); renderAiAnalytics();
+    loadAiSettings();
+  });
+  var _aiKeyInput = null;
+  document.addEventListener('DOMContentLoaded', function () {
+    _aiKeyInput = document.getElementById('ai-api-key');
+    if (_aiKeyInput) _aiKeyInput.addEventListener('input', renderAiCurl);
+    var acct = document.getElementById('ai-account-id');
+    if (acct) acct.addEventListener('input', renderAiCurl);
+  });
 </script>
-<script>if(typeof lucide!=="undefined")lucide.createIcons();</script>
+
 
     <script>/* clinqoo-sw-register */
     if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
@@ -937,7 +904,7 @@ window.chatLivePreview = function () {
   function currentPlan(){ var c=cacheSub(); return verifiedPlan||(c&&c.plan)||window.clinqooEditorPlan||null; }
   function isPaid(){ var p=currentPlan(); return !!p && String(p).toLowerCase()!=='starter'; }
   var crownCss=document.createElement('style');
-  crownCss.textContent='body[data-pps-paid="true"] .clinqoo-premium-crown,body[data-pps-paid="true"] .clinqoo-editor-crown,body[data-pps-paid="true"] #export-crown-label,body[data-pps-paid="true"] #premium-invite-chip,body[data-pps-paid="true"] #gh-connect-crown{display:none!important;}';
+  crownCss.textContent='body[data-pps-paid="true"] .clinqoo-premium-crown,body[data-pps-paid="true"] .clinqoo-editor-crown,body[data-pps-paid="true"] #export-crown-label,body[data-pps-paid="true"] #premium-invite-chip{display:none!important;}';
   document.head.appendChild(crownCss);
   function currentBilling(){ var c=cacheSub(); return (c&&c.billingCycle)||'Bulanan'; }
   var sheetEl=null, idx=1, featureMinimum='Pro';
@@ -1078,7 +1045,6 @@ window.chatLivePreview = function () {
   applyCrownState();
   document.addEventListener('DOMContentLoaded',applyCrownState);
   refreshSubscription();
-  window.clinqooOpenPlansPopup=function(){openSheet();};
   // Syarat promo dan harga mengikuti halaman Upgrade, bukan harga promo tanpa eligibility.
   fetch(apiBase()+'/api/promo',{cache:'no-store'}).then(function(r){return r.json();}).then(function(p){
     if(!p||p.active!==true||p.remaining<=0||!p.eligible)return;
@@ -1088,5 +1054,4 @@ window.chatLivePreview = function () {
 })();
 </script>
 </body>
-<!-- deploy: 2026-09-01T00:54 -->
 </html>
