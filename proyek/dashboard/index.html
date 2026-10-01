@@ -6,6 +6,7 @@
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>/* embed=1: tanpa header (dipakai dalam split view halaman chat) */(function(){try{if(/(^|[?&])embed=1(&|$)/.test(location.search)){document.documentElement.classList.add('embed-mode');}}catch(e){}})();</script>
     <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon.png">
     <link rel="manifest" href="../../manifest.json">
     <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
@@ -190,7 +191,9 @@
         body.dark-mode .settings-menu-item .block.text-xs { color: #6b7280 !important; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-    </style>
+      /* embed=1: sembunyikan header saat halaman ini ditampilkan dalam split view chat */
+  html.embed-mode body > header { display: none !important; }
+</style>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
 
@@ -829,5 +832,6 @@ window.chatLivePreview = function () {
         });
 };
     </script>
+<script>if(document.documentElement.classList.contains('embed-mode')){document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a'):null;if(a&&a.href&&a.target!=='_blank'&&!a.hasAttribute('download')){a.target='_top';}},true);}</script>
 </body>
 </html>
