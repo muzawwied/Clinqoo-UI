@@ -361,6 +361,20 @@
 
     <script>
         // Library render QR dari string QRIS (ringan, tanpa dependency)
+        // Tombol kembali cerdas (dipakai beberapa tombol back di halaman ini).
+        // Di repo produksi didefinisikan di js/auth-client.js — mirror GitHub Pages
+        // tidak memuat file itu, jadi ditanam langsung di sini (perilaku sama):
+        // datang dari halaman aplikasi ini -> history.back() beneran,
+        // dibuka langsung/deep-link -> location.replace ke halaman induk.
+        window.ClinqooBack = window.ClinqooBack || function (fallbackUrl) {
+            try {
+                var sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;
+                if (sameOrigin && history.length > 1) { window.history.back(); return; }
+            } catch (e) {}
+            if (fallbackUrl) { try { location.replace(fallbackUrl); return; } catch (e2) {} }
+            try { window.history.back(); } catch (e3) {}
+        };
+
         document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>');
         var API_BASE = ['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev' : '';
         var SUB_API = API_BASE + '/api/subscription';
