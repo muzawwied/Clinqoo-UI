@@ -115,6 +115,9 @@
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { -webkit-tap-highlight-color: transparent; }
         .header-menu-item:focus, .header-menu-item:focus-visible { outline: none; box-shadow: none; }
+        button.header-menu-item { -webkit-appearance: none; appearance: none; background: transparent; border: none; margin: 0; font: inherit; color: inherit; }
+        button.header-menu-item:active { background: rgba(0,0,0,0.04); }
+        body.dark-mode button.header-menu-item:active { background: rgba(255,255,255,0.08); }
         .header-menu-item { cursor: pointer; }
         body.dark-mode #chat-header-capsule { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
         body.dark-mode #chat-nav-pill { background: #ffffff !important; }
@@ -463,18 +466,41 @@
 window.chatLivePreview = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
+    if (!pid) { alert('Tidak ada proyek aktif. Buka proyek dari daftar proyek dulu.'); return; }
     var API = ['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api';
     var tk = ''; try { tk = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
     var headers = tk ? { Authorization: 'Bearer ' + tk } : {};
-    fetch(API + '/deploy?project_id=' + encodeURIComponent(pid) + '&fast=1', { headers: headers })
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-        .then(function (st) {
-            st = st || {};
-            var url = st.public_url || (st.public_domain ? 'https://' + st.public_domain : '') || (st.deployment && st.deployment.url) || st.pages_url || (st.pages_project ? 'https://' + st.pages_project + '.pages.dev' : '');
-            if (url) window.open(url, '_blank');
-            else alert('Belum ada situs yang di-deploy dari Workspace ini.');
+    var btn = document.getElementById('header-live-preview');
+    function setLoading(on) { if (btn) { btn.disabled = on; btn.style.opacity = on ? '0.55' : ''; btn.style.cursor = on ? 'wait' : ''; } }
+    setLoading(true);
+    fetch(API + '/deploy?project_id=' + encodeURIComponent(pid), { headers: headers })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+            var st = res.d || {};
+            if (!res.ok || st.error) throw new Error(st.error || 'Gagal memeriksa status situs.');
+            if (st.last_deployment) {
+                var active = (st.domains || []).filter(function (x) { return x.status === 'active'; })[0];
+                var url = (active ? 'https://' + active.name : '') || st.pages_url;
+                setLoading(false);
+                window.open(url, '_blank');
+                return null;
+            }
+            // Belum pernah dipublikasikan ke Cloudflare: deploy dulu, baru buka URL yang sungguh hidup.
+            return fetch(API + '/deploy', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, headers), body: JSON.stringify({ project_id: pid }) })
+                .then(function (r2) { return r2.json().catch(function () { return {}; }).then(function (d2) { return { ok: r2.ok, d: d2 }; }); })
+                .then(function (res2) {
+                    var d = res2.d || {};
+                    if (!res2.ok || d.error) throw new Error(d.error || 'Gagal mempublikasikan situs ke Cloudflare.');
+                    var url = d.public_url || (d.public_domain ? 'https://' + d.public_domain : '') || (d.deployment && d.deployment.url) || d.pages_url || '';
+                    setLoading(false);
+                    if (url) window.open(url, '_blank');
+                    else alert('Situs berhasil dipublikasikan tapi URL pratinjau tidak ditemukan.');
+                });
         })
-        .catch(function () { alert('Gagal memuat pratinjau. Cek koneksi internet lalu coba lagi.'); });
+        .catch(function (err) {
+            setLoading(false);
+            alert('Gagal membuka pratinjau: ' + (err && err.message ? err.message : 'periksa koneksi internet lalu coba lagi.'));
+        });
 };
     </script>
 </body>
