@@ -384,31 +384,31 @@
             <h4 class="text-base font-semibold text-gray-900 dark:text-white">Analitik &amp; Pemakaian</h4>
             <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Ringkasan pemakaian dihitung dari log proyek ini</p>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
-              <p class="text-xs text-gray-500 dark:text-gray-400">Total permintaan</p>
-              <p id="ai-stat-total" class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
+          <div class="grid grid-cols-5 gap-2 sm:gap-2.5">
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
+              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Total permintaan</p>
+              <p id="ai-stat-total" class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
             </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
-              <p class="text-xs text-gray-500 dark:text-gray-400">Sukses</p>
-              <p id="ai-stat-ok" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">0</p>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
+              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Sukses</p>
+              <p id="ai-stat-ok" class="text-base sm:text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">0</p>
             </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
-              <p class="text-xs text-gray-500 dark:text-gray-400">Gagal</p>
-              <p id="ai-stat-fail" class="text-xl font-bold text-red-600 dark:text-red-400 mt-0.5">0</p>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
+              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Gagal</p>
+              <p id="ai-stat-fail" class="text-base sm:text-xl font-bold text-red-600 dark:text-red-400 mt-0.5">0</p>
             </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
-              <p class="text-xs text-gray-500 dark:text-gray-400">Total token</p>
-              <p id="ai-stat-tokens" class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
+              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Total token</p>
+              <p id="ai-stat-tokens" class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
             </div>
-            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-3.5">
-              <p class="text-xs text-gray-500 dark:text-gray-400">Total kredit</p>
-              <p id="ai-stat-cost" class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
+            <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2 sm:p-3.5">
+              <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">Total kredit</p>
+              <p id="ai-stat-cost" class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5">0</p>
             </div>
           </div>
           <div class="mt-5">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian harian (14 hari terakhir)</p>
-            <div id="ai-daily-chart-wrap" class="hidden relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden mb-4 p-2"><canvas id="ai-daily-usage-chart"></canvas></div>
+            <div id="ai-daily-chart-wrap" class="relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden mb-4 p-2"><canvas id="ai-daily-usage-chart"></canvas></div>
           </div>
           <div class="mt-5">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian per model</p>
@@ -824,12 +824,7 @@
   function renderAiDailyChart() {
     var wrap = document.getElementById('ai-daily-chart-wrap');
     if (!wrap) return;
-    var logs = _aiLogsRaw || [];
-    if (!logs.length) {
-      wrap.classList.add('hidden');
-      if (_aiDailyChart.inst) { _aiDailyChart.inst.destroy(); _aiDailyChart.inst = null; }
-      return;
-    }
+    var logs = _aiLogsRaw || []; // boleh kosong: chart tampil dengan angka 0 utk pengecekan
     loadChartJs(function (ok) {
       if (!ok || !window.Chart) { wrap.classList.add('hidden'); return; }
       wrap.classList.remove('hidden');
