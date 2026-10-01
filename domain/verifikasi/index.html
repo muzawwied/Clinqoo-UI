@@ -189,12 +189,12 @@ function checkVerification() {
     const cta = document.getElementById('cta-check');
     const label = document.getElementById('cta-label');
     label.textContent = 'Memeriksa…';
-    cta.insertAdjacentHTML('afterbegin', '<i data-lucide="loader-2" class="w-4 h-4 spin"></i>');
+    cta.insertAdjacentHTML('afterbegin', '<i data-lucide="loader-2" class="w-4 h-4 spin cta-spinner"></i>');
     lucide.createIcons();
     cta.style.pointerEvents = 'none';
     store.verify(domain).then(res => {
         cta.style.pointerEvents = '';
-        const spin = cta.querySelector('i');
+        const spin = cta.querySelector('.cta-spinner');
         if (spin) spin.remove();
         if (res && res.ok) {
             verified = true;
