@@ -9,22 +9,22 @@
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
     <link rel="manifest" href="../../../manifest.json">
     <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
-  <title>Pengaturan: Environment — Clincoo</title>
-    <meta name="description" content="Pengaturan: Environment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+  <title>Pengaturan: Domain Kustom — Clincoo</title>
+    <meta name="description" content="Pengaturan: Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Clincoo">
-    <meta property="og:title" content="Pengaturan: Environment — Clincoo">
-    <meta property="og:description" content="Pengaturan: Environment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:title" content="Pengaturan: Domain Kustom — Clincoo">
+    <meta property="og:description" content="Pengaturan: Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Clincoo">
     <meta property="og:url" content="https://app.clincoo.buzz/">
     <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pengaturan: Environment — Clincoo">
-    <meta name="twitter:description" content="Pengaturan: Environment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:title" content="Pengaturan: Domain Kustom — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -194,7 +194,9 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-    </style>
+        @keyframes domainShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .domain-shimmer { background: linear-gradient(90deg,#f9fafb 25%,#f3f4f6 50%,#f9fafb 75%) !important; background-size: 200% 100% !important; animation: domainShimmer 1.4s infinite; color: transparent !important; }
+  </style>
   <script>
     (function() {
       var t = localStorage.getItem('clinqoo_theme') || 'Sistem (Default)';
@@ -278,50 +280,179 @@
             <a href="../keamanan/" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors focus:outline-none">
               Keamanan
             </a>
-            <button class="tab-btn border-black text-black whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors focus:outline-none" aria-current="page">
+            <a href="../environment/" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors focus:outline-none">
               Environment
-            </button>
-            <a href="../domain-kustom/" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors focus:outline-none">
-              Domain Kustom
             </a>
+            <button class="tab-btn border-black text-black whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors focus:outline-none" aria-current="page">
+              Domain Kustom
+            </button>
           </nav>
         </div>
 
         <div class="w-full mt-2 relative min-w-0">
           <div class="w-full mt-4 min-w-0">
             
-            <div class="flex gap-2 mb-4 w-full min-w-0">
-              <div class="flex-1 min-w-0">
-                <input type="text" id="env-key" placeholder="Kunci" class="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-full text-gray-700 placeholder-gray-400 focus:outline-none transition-colors text-[14px]">
-              </div>
-              <div class="flex-1 min-w-0">
-                <input type="text" id="env-value" placeholder="Nilai" class="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-full text-gray-700 placeholder-gray-400 focus:outline-none transition-colors text-[14px]">
-              </div>
+                <style>
+        #settings-menu-pop.open { display: flex; }
+        .settings-menu-item { cursor: pointer; }
+        body.dark-mode #settings-menu-btn { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); color: #e5e7eb; }
+        body.dark-mode #settings-menu-pop { background-color: #0a0a0a; border-color: rgba(255,255,255,0.15); }
+        body.dark-mode .settings-menu-item:hover { background-color: #1a1a1a; }
+        body.dark-mode .settings-menu-item .block.text-sm { color: #e5e7eb !important; }
+        body.dark-mode .settings-menu-item .block.text-xs { color: #6b7280 !important; }
+    </style>
+    <div class="relative mb-5" id="settings-menu-wrap">
+            <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
+                <span class="flex items-center gap-2.5">
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Menu pengaturan lainnya
+                </span>
+                <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="settings-menu-pop" class="absolute top-full -left-4 -right-4 sm:-left-10 sm:-right-10 mt-1.5 bg-white rounded-2xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 z-40 hidden">
+                <a href="/proyek/build-deployment/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Build &amp; Deployment</span><span class="block text-xs text-gray-400 truncate">Sumber branch dan konfigurasi deployment</span></span>
+                </a>
+                <a href="/proyek/pengaturan/domain-kustom/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Domain Kustom</span><span class="block text-xs text-gray-400 truncate">Atur domain kustom untuk situs</span></span>
+                </a>
+                <a href="/proyek/pengaturan/keamanan-https/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Keamanan &amp; HTTPS</span><span class="block text-xs text-gray-400 truncate">Sertifikat SSL dan protokol HTTPS</span></span>
+                </a>
+                <a href="/proyek/pengaturan/visibilitas-akses/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Visibilitas Akses</span><span class="block text-xs text-gray-400 truncate">Atur hak akses dan visibilitas</span></span>
+                </a>
+                <a href="/proyek/pengaturan/integrasi-webhook/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17H7a5 5 0 1 1 0-10h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Integrasi &amp; Webhook</span><span class="block text-xs text-gray-400 truncate">Integrasi layanan luar dan webhooks</span></span>
+                </a>
+                <a href="/proyek/pengaturan/zona-bahaya/" class="settings-menu-item flex items-center gap-3 px-3 py-2.5 hover:bg-red-50/60 rounded-lg transition-colors text-left">
+                    <svg class="w-[18px] h-[18px] text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-red-600">Zona Bahaya</span><span class="block text-xs text-red-500/70 truncate">Hapus situs atau proyek</span></span>
+                </a>
             </div>
-            
-            <div class="flex justify-end mb-8">
-              <button onclick="saveEnvVar()" class="px-6 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 text-[14px] font-medium hover:bg-gray-50 focus:outline-none transition-colors shadow-sm">
-                Simpan
+        </div>
+
+    <script>
+    (function () {
+        var btn = document.getElementById('settings-menu-btn');
+        var pop = document.getElementById('settings-menu-pop');
+        var chev = document.getElementById('settings-menu-chev');
+        window.toggleSettingsMenu = function (e) {
+            e.stopPropagation();
+            var open = pop.classList.toggle('open');
+            chev.style.transform = open ? 'rotate(180deg)' : '';
+        };
+        document.addEventListener('click', function (e) {
+            if (pop.classList.contains('open') && !pop.contains(e.target) && !btn.contains(e.target)) {
+                pop.classList.remove('open');
+                chev.style.transform = '';
+            }
+        });
+    })();
+    </script>
+
+      <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
+        
+        <!-- 1. Domain Utama -->
+        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Domain Utama</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Domain kustom yang digunakan untuk situs produksi</p>
+          </div>
+          <div class="w-full sm:w-80">
+            <div class="flex items-center gap-2">
+              <input type="text" value="" id="custom-domain-input" class="flex-1 min-w-0 px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 focus:outline-none domain-shimmer" placeholder="contohdomain.com" disabled>
+            </div>
+            <p id="cf-domain-status" class="text-xs mt-1.5 hidden"></p>
+          </div>
+        </div>
+
+        <!-- 2. Subdomain Redirect (Menggunakan Popover Kustom sesuai preferensi) -->
+        <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Subdomain Redirect</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Atur pengalihan (redirect) trafik ke domain utama</p>
+          </div>
+          <div class="w-full sm:w-80 relative" id="redirect-popover-container">
+            <!-- Popover Trigger Button -->
+            <button type="button" id="redirect-popover-btn" onclick="uiTogglePopover('redirect-popover')" class="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white flex items-center justify-between focus:outline-none hover:border-gray-400 dark:hover:border-slate-500 transition-colors cursor-pointer select-none">
+              <span id="redirect-selected-text" class="truncate">Redirect ke domain utama</span>
+              <svg id="redirect-arrow" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <input type="hidden" id="redirect-value" value="redirect">
+
+            <!-- Popover Menu Panel -->
+            <div id="redirect-popover" class="hidden absolute left-0 right-0 mt-1.5 w-full bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl z-50 py-1 transition-all duration-150 transform opacity-0 scale-95 origin-top">
+              <button type="button" onclick="selectPopoverOption('redirect', 'redirect', 'Redirect ke domain utama'); saveDomainSettings()" class="popover-item w-full px-3.5 py-2.5 text-xs sm:text-sm text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-900 dark:text-white transition-colors cursor-pointer" data-value="redirect">
+                <span>Redirect ke domain utama</span>
+                <svg class="h-4 w-4 text-blue-600 dark:text-blue-400 popover-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </button>
+              <button type="button" onclick="selectPopoverOption('redirect', 'none', 'Tidak ada redirect'); saveDomainSettings()" class="popover-item w-full px-3.5 py-2.5 text-xs sm:text-sm text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-900 dark:text-white transition-colors cursor-pointer" data-value="none">
+                <span>Tidak ada redirect</span>
+                <svg class="h-4 w-4 text-blue-600 dark:text-blue-400 popover-check hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
               </button>
             </div>
+          </div>
+        </div>
 
-            <h3 class="text-[14px] font-semibold text-gray-800 mb-4">Environment variabel</h3>
-            
-            <div id="env-list" class="w-full flex flex-col gap-2 min-w-0"></div>
+        <!-- 3. SSL Otomatis -->
+        <div class="py-5 flex items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">SSL Otomatis</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Provisioning sertifikat SSL secara otomatis</p>
+          </div>
+          <button type="button" onclick="toggleSwitch('sslAuto')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
+            <div id="sslAuto-bg" class="w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200 ease-in-out"></div>
+            <div id="sslAuto-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
+          </button>
+        </div>
+        <!-- CTA Simpan Domain: di bawah toggle SSL, teks "Simpan" saja; klik -> spinner -> centang (bg tetap) -->
+        <!-- CTA Hapus di sebelahnya: nempel bg, muncul hanya setelah ada domain di input -->
+        <div class="pb-2 flex justify-end gap-2">
+          <button type="button" id="btn-delete-domain" onclick="deleteDomainFromButton()" aria-label="Hapus domain" title="Hapus domain" class="h-9 px-5 hidden items-center justify-center rounded-lg bg-white dark:bg-[#0a0a0a] border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 text-sm font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Hapus</button>
+          <button type="button" id="btn-save-domain" onclick="saveDomainFromButton()" disabled aria-label="Simpan domain" title="Simpan domain" class="h-9 px-5 flex items-center justify-center rounded-lg bg-black text-white dark:bg-white dark:text-black text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">Simpan</button>
+        </div>
 
-            <div id="empty-state" class="flex flex-col items-center justify-center text-center mt-8 py-4">
-              <div class="mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="7.5" cy="15.5" r="5.5"></circle>
-                  <path d="m21 2-9.6 9.6"></path>
-                  <path d="m15.5 7.5 3 3L22 7l-3-3"></path>
-                </svg>
-              </div>
-              <h4 class="text-[16px] font-semibold text-gray-800 mb-1">Belum ada variabel</h4>
-              <p class="text-[14px] text-gray-500 max-w-sm leading-relaxed">
-                Tambahkan environment variable pertama<br>Anda menggunakan form di atas.
-              </p>
-            </div>
+        <!-- 4. Konfigurasi DNS — HANYA muncul setelah proyek pernah dideploy.
+             Sebelum deploy halaman hanya berisi: input domain, toggle SSL,
+             pengaturan redirect, CTA Simpan + CTA Hapus. -->
+        <div class="py-5 hidden" id="dns-section">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Konfigurasi DNS</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Tambahkan record DNS berikut di provider domain Anda</p>
+          <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 dark:bg-slate-800">
+                <tr class="border-b border-gray-200 dark:border-slate-700">
+                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Tipe</th>
+                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Nama</th>
+                  <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Nilai</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-100 dark:border-slate-800 bg-white dark:bg-[#0a0a0a]">
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-type">CNAME</td>
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-name"><span id="dns-a-name-text">@</span> <span class="font-sans text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Utama</span></td>
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-a-value">situs-anda.pages.dev</td>
+                </tr>
+                <tr class="bg-white dark:bg-[#0a0a0a]">
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400">CNAME</td>
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-cname-name"><span id="dns-cname-name-text">www</span> <span class="font-sans text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Opsional</span></td>
+                  <td class="py-3 px-4 font-mono text-gray-600 dark:text-gray-400" id="dns-cname-value">situs-anda.pages.dev</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 leading-relaxed">Record UTAMA menunjuk ke domain utama Anda (root, tanpa www): CNAME/ALIAS <span class="font-mono">@</span> dengan nilai di atas. Catatan penting: Cloudflare Pages tidak menyediakan alamat IP tetap, jadi metode A record (IP) tidak tersedia untuk root — satu-satunya cara adalah CNAME/ALIAS ke <span class="font-mono">&lt;subdomain&gt;.pages.dev</span>. Nilai ini memang selalu lebih dari 15 karakter (format .pages.dev). Jika registrar Anda menolak nilai CNAME yang panjang atau tidak mendukung CNAME di root: 1) gunakan tipe ALIAS/ANAME untuk @ bila tersedia, atau 2) arahkan nameserver domain Anda ke Cloudflare (gratis) lalu tambahkan domain dari sini — Cloudflare melakukan flattening otomatis sehingga domain utama langsung bisa dibuka tanpa www. Record CNAME www hanya diperlukan kalau alamat www.domain.com juga ingin diaktifkan. SSL aktif otomatis beberapa menit setelah DNS terverifikasi.</p>
+        </div>
+
+      </div>
 
           </div>
         </div>
@@ -453,89 +584,382 @@
       }
     });
 
-    let envVars = [];
-
-    async function loadEnvVars() {
-      try {
-        const data = await ClinqooAPI.getEnvVars();
-        envVars = data.env_vars || [];
-        renderEnvVars();
-      } catch (e) {
-        console.error('Failed to load env vars:', e);
-      }
-    }
-
-    async function saveEnvVar() {
-      const keyInput = document.getElementById('env-key');
-      const valueInput = document.getElementById('env-value');
-      const key = keyInput.value.trim();
-      const value = valueInput.value.trim();
-
-      if (key && value) {
-        // indikator loading saat menyimpan secret (dulu: terasa lambat tanpa tanda)
-        const btns = document.querySelectorAll('button[onclick="saveEnvVar()"]');
-        btns.forEach(function (b) {
-          b.disabled = true;
-          b.dataset.orig = b.innerHTML;
-          b.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v16a8 8 0 018 8z"></path></svg> Menyimpan...';
-        });
-        try {
-          await ClinqooAPI.addEnvVar(key, value, true);
-          keyInput.value = '';
-          valueInput.value = '';
-          await loadEnvVars();
-        } finally {
-          btns.forEach(function (b) { b.disabled = false; if (b.dataset.orig) b.innerHTML = b.dataset.orig; });
-        }
-      }
-    }
-
-    async function deleteEnvVar(id, el) {
-      // konfirmasi sebelum hapus secret (dulu: langsung terhapus tanpa popup)
-      if (!window.confirm('Hapus secret ini? Tindakan tidak bisa dibatalkan.')) return;
-      if (el) { el.disabled = true; el.style.opacity = '0.4'; }
-      try {
-        await ClinqooAPI.deleteEnvVar(id);
-        await loadEnvVars();
-      } catch (e) {
-        if (el) { el.disabled = false; el.style.opacity = ''; }
-      }
-    }
-
-    function renderEnvVars() {
-      const emptyState = document.getElementById('empty-state');
-      const envList = document.getElementById('env-list');
+    // --- Fungsi Popover Dropdown Kustom ---
+    function uiTogglePopover(popoverId) {
+      const popover = document.getElementById(popoverId);
+      const arrow = document.getElementById(popoverId.replace('-popover', '-arrow'));
       
-      if (envVars.length === 0) {
-        emptyState.style.display = 'flex';
-        envList.innerHTML = '';
+      const isOpen = !popover.classList.contains('hidden');
+
+      if (isOpen) {
+        uiClosePopover(popoverId);
       } else {
-        emptyState.style.display = 'none';
-        envList.innerHTML = '';
-        envVars.forEach((env) => {
-          const row = document.createElement('div');
-          row.className = 'flex items-center gap-3 animate-fade-in mb-3 min-w-0 w-full';
-          
-          row.innerHTML = `
-            <div class="flex-1 min-w-0 px-4 py-2.5 bg-white border border-gray-200 rounded-full text-gray-700 text-[14px] font-mono overflow-hidden text-ellipsis whitespace-nowrap">
-              ${env.key}
-            </div>
-            <div class="flex-1 min-w-0 px-4 py-2.5 bg-white border border-gray-200 rounded-full text-gray-700 text-[14px] font-mono overflow-hidden text-ellipsis whitespace-nowrap">
-              ${env.value}
-            </div>
-            <button onclick="deleteEnvVar(${env.id}, this)" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors focus:outline-none flex-shrink-0" aria-label="Hapus">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </button>
-          `;
-          envList.appendChild(row);
+        // Tutup popover lain jika ada
+        document.querySelectorAll('[id$="-popover"]').forEach(p => {
+          if (p.id !== popoverId) uiClosePopover(p.id);
         });
+
+        popover.classList.remove('hidden');
+        setTimeout(() => {
+          popover.classList.remove('opacity-0', 'scale-95');
+          popover.classList.add('opacity-100', 'scale-100');
+        }, 10);
+        if (arrow) arrow.classList.add('rotate-180');
       }
     }
 
-    // Load env vars on page load
-    loadEnvVars();
+    function uiClosePopover(popoverId) {
+      const popover = document.getElementById(popoverId);
+      const arrow = document.getElementById(popoverId.replace('-popover', '-arrow'));
+      
+      if (!popover || popover.classList.contains('hidden')) return;
+
+      popover.classList.remove('opacity-100', 'scale-100');
+      popover.classList.add('opacity-0', 'scale-95');
+      if (arrow) arrow.classList.remove('rotate-180');
+
+      setTimeout(() => {
+        popover.classList.add('hidden');
+      }, 150);
+    }
+
+    // Fungsi Pilih Opsi pada Popover
+    function selectPopoverOption(prefix, value, label) {
+      const selectedText = document.getElementById(`${prefix}-selected-text`);
+      const hiddenInput = document.getElementById(`${prefix}-value`);
+      const container = document.getElementById(`${prefix}-popover`);
+
+      if (selectedText) selectedText.textContent = label;
+      
+      if (hiddenInput && hiddenInput.value !== value) {
+          hiddenInput.value = value;
+      }
+
+      // Update icon centang aktif
+      if (container) {
+        container.querySelectorAll('.popover-item').forEach(item => {
+          const checkIcon = item.querySelector('.popover-check');
+          if (item.getAttribute('data-value') === value) {
+            if (checkIcon) checkIcon.classList.remove('hidden');
+          } else {
+            if (checkIcon) checkIcon.classList.add('hidden');
+          }
+        });
+      }
+
+      uiClosePopover(`${prefix}-popover`);
+    }
+
+    // Close Popover saat klik di luar areanya
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[id$="-popover-container"]')) {
+        document.querySelectorAll('[id$="-popover"]').forEach(p => uiClosePopover(p.id));
+      }
+    });
+
+    // --- Fungsi Toggle Switch ---
+    function toggleSwitch(idPrefix) {
+      const bg = document.getElementById(idPrefix + '-bg');
+      const knob = document.getElementById(idPrefix + '-knob');
+      
+      if (bg.classList.contains('bg-blue-500')) {
+        bg.classList.replace('bg-blue-500', 'bg-gray-200');
+        bg.classList.add('dark:bg-slate-700');
+        knob.classList.remove('translate-x-5');
+      } else {
+        bg.classList.remove('bg-gray-200', 'dark:bg-slate-700');
+        bg.classList.add('bg-blue-500');
+        knob.classList.add('translate-x-5');
+      }
+    }
+  
+    // API base: same-origin di Cloudflare Pages; be2 hanya utk GitHub Pages (konsisten dgn js/api.js)
+    const DEPLOY_API_BASE = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
+    let lastPagesUrl = ''; // URL <project>.pages.dev asli dari hasil deploy (untuk nilai record DNS)
+
+    // Cache instan per proyek: data domain tampil LANGSUNG dari localStorage, lalu diperbarui dari server
+    function domainCacheKey() {
+        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+        return 'clinqoo_' + pid + '_domain_cache';
+    }
+    function readDomainCache() {
+        try { return JSON.parse(localStorage.getItem(domainCacheKey()) || 'null') || null; } catch (e) { return null; }
+    }
+    function writeDomainCache(patch) {
+        try {
+            const cur = readDomainCache() || {};
+            localStorage.setItem(domainCacheKey(), JSON.stringify(Object.assign({}, cur, patch, { ts: Date.now() })));
+        } catch (e) {}
+    }
+    function paintDomainLabel(text, ok) {
+        const lbl = document.getElementById('cf-domain-status');
+        if (!lbl) return;
+        if (text) { lbl.textContent = text; lbl.classList.remove('hidden'); }
+        else lbl.classList.add('hidden');
+        lbl.className = 'text-xs mt-1.5 font-medium ' + (ok ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400');
+    }
+    // fetch dengan timeout 8 detik — loading tidak boleh menggantung selamanya
+    function fetchTimeout(url, opts) {
+        const ctrl = new AbortController();
+        const t = setTimeout(function () { ctrl.abort(); }, 8000);
+        return fetch(url, Object.assign({}, opts, { signal: ctrl.signal })).finally(function () { clearTimeout(t); });
+    }
+
+    // Load domain settings from D1
+    async function loadDomainSettings() {
+        try {
+            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+            const _tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+            const res = await fetchTimeout(DEPLOY_API_BASE + '/project-settings?project_id=' + encodeURIComponent(pid),
+                { headers: _tok ? { Authorization: 'Bearer ' + _tok } : {} });
+            const data = await res.json();
+            const settings = data.domain_settings ? JSON.parse(data.domain_settings) : {};
+            const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
+            if (domainInput) { domainInput.classList.remove('domain-shimmer'); domainInput.disabled = false; }
+            var _sb1 = document.getElementById('btn-save-domain'); if (_sb1) _sb1.disabled = false;
+            if (domainInput && settings.domain && !domainInput.dataset.dirty) {
+                domainInput.value = settings.domain;
+                writeDomainCache({ domain: settings.domain });
+            }
+            syncDeleteBtn();
+            if (settings.redirect) {
+                selectPopoverOption('redirect', settings.redirect, settings.redirectLabel || 'Redirect ke domain utama');
+            }
+            updateDNSRecords(settings.domain || '', lastPagesUrl);
+        } catch(e) {
+            // Jangan biarkan input tetap terkunci bila backend gagal — tampilkan penyebabnya
+            const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
+            if (domainInput) { domainInput.classList.remove('domain-shimmer'); domainInput.disabled = false; }
+            var _sb1 = document.getElementById('btn-save-domain'); if (_sb1) _sb1.disabled = false;
+            // Gagal memuat & belum ada domain tersimpan: tanpa teks apa pun di bawah input.
+            syncDeleteBtn();
+        }
+    }
+
+    function updateDNSRecords(domain, pagesUrl) {
+        // Cloudflare Pages: custom domain pakai CNAME ke <project>.pages.dev (TANPA A record IP).
+        // Nilai diambil real-time dari hasil deploy proyek (st.pages_url).
+        // Kosongkan bila belum ada nilai — TANPA teks menunggu; fast mode mengisi nilai asli
+        // hampir seketika (< 200 ms, murni baca D1) begitu halaman terbuka.
+        const target = (pagesUrl || '').replace('https://', '').replace(/\/$/, '');
+        const aNameText = document.getElementById('dns-a-name-text');
+        const aValue = document.getElementById('dns-a-value');
+        const cnameNameText = document.getElementById('dns-cname-name-text');
+        const cnameValue = document.getElementById('dns-cname-value');
+        // Hanya teks nama yang diganti — badge "Utama"/"Opsional" di sel yang sama dipertahankan.
+        if (aNameText) aNameText.textContent = '@';
+        if (cnameNameText) cnameNameText.textContent = 'www';
+        if (aValue) aValue.textContent = target;
+        if (cnameValue) cnameValue.textContent = target;
+    }
+
+    // Save domain settings to D1
+    async function saveDomainSettings() {
+        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
+        const redirectLabel = document.getElementById('redirect-selected-text');
+        const redirectHidden = document.getElementById('redirect-value');
+        // Jika data domain belum termuat (input masih shimmer), pakai nilai cache —
+        // jangan menimpa domain yang tersimpan dengan string kosong.
+        var _domVal = domainInput && !domainInput.classList.contains('domain-shimmer') ? domainInput.value : '';
+        if (!_domVal) { try { var _c = readDomainCache(); if (_c && _c.domain) _domVal = _c.domain; } catch (e) {} }
+        const settings = {
+            domain: _domVal,
+            redirect: redirectHidden ? redirectHidden.value : 'redirect',
+            redirectLabel: redirectLabel ? redirectLabel.textContent.trim() : 'Redirect ke domain utama'
+        };
+        try {
+            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+            const _tok2 = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+            await fetch(DEPLOY_API_BASE + '/project-settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', ...(_tok2 ? { Authorization: 'Bearer ' + _tok2 } : {}) },
+                body: JSON.stringify({ project_id: pid, domain_settings: JSON.stringify(settings) })
+            });
+            await ClinqooAPI.logActivity('domain_updated', 'Domain: ' + settings.domain);
+            updateDNSRecords('', lastPagesUrl); // nilai record = URL deploy asli, bukan placeholder
+            if (settings.domain) attachDomainToPages(settings.domain);
+        } catch(e) { window.__domainSaveError = (e && e.message) ? e.message : 'gagal menyimpan'; }
+    }
+
+    // Tombol Simpan Domain: teks "Simpan". Menyimpan: spinner. Sukses: centang (bg TETAP, tidak jadi hijau). Gagal: silang merah lalu balik teks.
+    const SAVE_BTN_IDLE_CLASS = 'h-9 px-5 flex items-center justify-center rounded-lg bg-black text-white dark:bg-white dark:text-black text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors';
+    function setSaveBtnIdle() {
+        const btn = document.getElementById('btn-save-domain');
+        if (!btn) return;
+        btn.innerHTML = 'Simpan';
+        btn.className = SAVE_BTN_IDLE_CLASS;
+    }
+    function setSaveBtnIcon(name, extraClass, iconColorClass) {
+        const btn = document.getElementById('btn-save-domain');
+        if (!btn) return;
+        btn.innerHTML = '<i data-lucide="' + name + '" class="w-4 h-4 pointer-events-none ' + (extraClass || '') + ' ' + (iconColorClass || '') + '"></i>';
+        btn.className = SAVE_BTN_IDLE_CLASS;
+        if (typeof lucide !== 'undefined' && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+    }
+    async function saveDomainFromButton() {
+        const btn = document.getElementById('btn-save-domain');
+        if (!btn || btn.disabled) return;
+        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
+        if (domainInput) { delete domainInput.dataset.dirty; }
+        btn.disabled = true;
+        setSaveBtnIcon('loader-2', 'animate-spin');
+        window.__domainSaveError = '';
+        try { await saveDomainSettings(); } catch (e) {}
+        if (window.__domainSaveError) {
+            setSaveBtnIcon('x', '', 'text-red-500');
+            setTimeout(function () { btn.disabled = false; setSaveBtnIdle(); }, 1800);
+        } else {
+            setSaveBtnIcon('check');
+            setTimeout(function () { btn.disabled = false; setSaveBtnIdle(); }, 2000);
+        }
+    }
+
+    // CTA Hapus: tampil hanya saat ada domain di input (tersimpan maupun baru diketik)
+    function syncDeleteBtn() {
+        const input = document.querySelector('input[placeholder="contohdomain.com"]');
+        const del = document.getElementById('btn-delete-domain');
+        if (!del) return;
+        const has = !!(input && input.value.trim() && !input.classList.contains('domain-shimmer'));
+        del.classList.toggle('hidden', !has);
+        del.classList.toggle('flex', !!has);
+    }
+    // Hapus domain kustom: kosongkan input & simpan, lepas dari Cloudflare Pages, tanpa teks sisa.
+    async function deleteDomainFromButton() {
+        const delBtn = document.getElementById('btn-delete-domain');
+        const input = document.querySelector('input[placeholder="contohdomain.com"]');
+        const prev = (input && !input.classList.contains('domain-shimmer')) ? input.value.trim() : '';
+        if (input) { input.value = ''; delete input.dataset.dirty; }
+        paintDomainLabel('', false);
+        if (delBtn) { delBtn.classList.add('hidden'); delBtn.classList.remove('flex'); }
+        writeDomainCache({ domain: '', attached: null, active: false, label: '' });
+        try { await saveDomainSettings(); } catch (e) {}
+        if (prev) {
+            const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+            const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+            try {
+                await fetch(DEPLOY_API_BASE + '/deploy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+                    body: JSON.stringify({ project_id: pid, action: 'remove_domain', domain: prev })
+                });
+            } catch (e) {}
+        }
+        loadRealDomainStatus();
+    }
+
+    async function attachDomainToPages(domain) {
+        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+        const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+        try {
+            const res = await fetch(DEPLOY_API_BASE + '/deploy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+                body: JSON.stringify({ project_id: pid, action: 'add_domain', domain })
+            });
+            const data = await res.json();
+            loadRealDomainStatus();
+            if (data.error) console.warn('Domain belum terpasang di Cloudflare: ' + data.error);
+        } catch (e) {}
+    }
+
+    async function loadRealDomainStatus() {
+        const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+        const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+        try {
+            const res = await fetchTimeout(DEPLOY_API_BASE + '/deploy?project_id=' + encodeURIComponent(pid), {
+                headers: token ? { Authorization: 'Bearer ' + token } : {}
+            });
+            const st = await res.json().catch(() => ({}));
+            if (!res.ok || st.error) throw new Error(st.error || ('HTTP ' + res.status));
+            window.__statusRetries = 0;
+            if (st.pages_url) { lastPagesUrl = st.pages_url; updateDNSRecords('', st.pages_url); writeDomainCache({ pagesUrl: st.pages_url }); }
+            // Simpan status "pernah deploy" ke cache: kalau nanti API status gagal
+            // (rate limit/jaringan), section DNS tetap tampil dari cache — tidak menghilang.
+            writeDomainCache({ deployed: !!(st.deployed || st.last_deployment) });
+            // Input domain TIDAK diisi otomatis dari domain yang terpasang di Cloudflare —
+            // sumber tampilan input hanya domain yang tersimpan (D1), supaya tidak
+            // "tiba-tiba ada isinya" padahal user belum mengisi domain kustom.
+            // Section Konfigurasi DNS hanya muncul setelah proyek pernah dideploy.
+            const dnsSection = document.getElementById('dns-section');
+            if (dnsSection) dnsSection.classList.toggle('hidden', !(st.deployed || st.last_deployment));
+            if ((st.domains || []).length) {
+                const d = st.domains[st.domains.length - 1];
+                const active = d.status === 'active';
+                writeDomainCache({ attached: d.name, active: active, label: active ? 'Domain aktif' : 'Menunggu verifikasi DNS' });
+                paintDomainLabel(active ? 'Domain aktif' : 'Menunggu verifikasi DNS', active);
+            } else {
+                // Belum ada domain terpasang: TIDAK ada teks apa pun di bawah input.
+                writeDomainCache({ attached: null, active: false, label: '' });
+                paintDomainLabel('', false);
+            }
+        } catch (e) {
+            // Retry dulu sebelum nunjukin merah — transient error (jaringan/CF) jangan bikin user panik.
+            window.__statusRetries = (window.__statusRetries || 0) + 1;
+            if (window.__statusRetries <= 3) {
+                setTimeout(loadRealDomainStatus, 1500 * window.__statusRetries);
+                return;
+            }
+            const cached = readDomainCache();
+            // Section DNS jangan ikut hilang hanya karena API status sedang gagal:
+            // bila cache bilang proyek ini pernah dideploy, tetap tampilkan recordnya.
+            if (cached && cached.deployed) { var _dnsFb = document.getElementById('dns-section'); if (_dnsFb) _dnsFb.classList.remove('hidden'); }
+            // Tanpa domain tersimpan: tetap tanpa teks apa pun (jangan bikin user panik).
+            if (cached && cached.label) paintDomainLabel(cached.label, !!cached.active);
+            else if (cached && cached.attached) paintDomainLabel('Gagal memuat status', false);
+        }
+    }
+
+    // Override selectPopoverOption to also save
+    const originalSelectPopover = selectPopoverOption;
+    selectPopoverOption = function(type, value, label) {
+        originalSelectPopover(type, value, label);
+        if (type === 'redirect') saveDomainSettings();
+    };
+
+    // Save on domain input blur
+    document.addEventListener('DOMContentLoaded', function() {
+        const domainInput = document.querySelector('input[placeholder="contohdomain.com"]');
+        if (domainInput) {
+            domainInput.addEventListener('input', function () { domainInput.dataset.dirty = '1'; syncDeleteBtn(); });
+            domainInput.addEventListener('blur', function () { saveDomainSettings(); delete domainInput.dataset.dirty; });
+        }
+        // 1) Tampilkan instan dari cache per-proyek — tanpa nunggu server
+        const cached = readDomainCache();
+        if (cached) {
+            if (cached.pagesUrl) { lastPagesUrl = cached.pagesUrl; updateDNSRecords(cached.domain || '', cached.pagesUrl); }
+            if (cached.deployed) { var _dnsC = document.getElementById('dns-section'); if (_dnsC) _dnsC.classList.remove('hidden'); }
+            if (cached.label) paintDomainLabel(cached.label, !!cached.active);
+            if (cached.domain && domainInput) {
+                domainInput.value = cached.domain;
+                domainInput.classList.remove('domain-shimmer');
+                domainInput.disabled = false;
+                var _sb2 = document.getElementById('btn-save-domain'); if (_sb2) _sb2.disabled = false;
+            }
+            syncDeleteBtn();
+        }
+        // 1b) Nilai record DNS instan: fast mode hanya baca D1 (nama project Pages),
+        // tanpa menunggu status deployment dari API Cloudflare. Sekali termuat, disimpan ke cache.
+        // Fast mode selalu dipanggil tiap halaman dibuka: nilai DNS selalu segar & instan.
+        {
+            (async function () {
+                try {
+                    const pid = localStorage.getItem('clinqoo_current_project_id') || '';
+                    const tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
+                    const res = await fetchTimeout(DEPLOY_API_BASE + '/deploy?project_id=' + encodeURIComponent(pid) + '&fast=1',
+                        { headers: tok ? { Authorization: 'Bearer ' + tok } : {} });
+                    const st = await res.json().catch(() => ({}));
+                    if (st.pages_url) { lastPagesUrl = st.pages_url; updateDNSRecords('', st.pages_url); writeDomainCache({ pagesUrl: st.pages_url }); }
+                    // Flag 'deployed' dari log D1: section DNS tampil pasti setelah deploy pertama,
+                    // tanpa bergantung pada status API Cloudflare (yang bisa gagal/rate-limit).
+                    if (st.deployed) { var _dns = document.getElementById('dns-section'); if (_dns) _dns.classList.remove('hidden'); }
+                } catch (e) {}
+            })();
+        }
+        // 2) Muat data segar dari server — PARALEL, bukan berurutan
+        Promise.all([loadDomainSettings(), loadRealDomainStatus()]);
+        // 3) Refresh real-time: poll status deploy & domain tiap 20 detik
+        setInterval(loadRealDomainStatus, 20000);
+    });
   </script>
 <script>
 (function(){
