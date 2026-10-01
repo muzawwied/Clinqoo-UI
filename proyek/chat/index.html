@@ -515,15 +515,15 @@
         body.dark-mode .border-accent { border-color: #ffffff !important; }
         body.dark-mode header { background-color: #000000 !important; }
 
-        /* ===== Split view desktop: workspace kiri 3/4 layar, chat kolom kanan 1/4 ===== */
+        /* ===== Split view desktop: chat kolom kiri 1/4 layar, workspace kanan 3/4 ===== */
         #chat-ws-panel { display: none; }
         @media (min-width: 1024px) {
             #chat-ws-panel { display: block; }
-            #chat-container { position: fixed; left: 75%; right: 0; top: 0; bottom: 0; width: auto; border-left: 1px solid rgb(243 244 246 / 1); }
-            #chat-input-footer { left: 75%; right: 0; width: auto; }
+            #chat-container { position: fixed; left: 0; right: 75%; top: 0; bottom: 0; width: auto; border-right: 1px solid rgb(243 244 246 / 1); }
+            #chat-input-footer { left: 0; right: 75%; width: auto; }
         }
         body.dark-mode #chat-ws-panel { background-color: #0a0a0a; }
-        body.dark-mode #chat-container { border-left-color: rgba(255,255,255,0.10); }
+        body.dark-mode #chat-container { border-right-color: rgba(255,255,255,0.10); }
     </style>
     
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
@@ -599,8 +599,8 @@
     </header>
 
     
-    <!-- Split view desktop: panel workspace di kiri (chat jadi kolom kanan 1/4) -->
-    <div id="chat-ws-panel" class="fixed left-0 top-0 bottom-0 right-1/4 z-0 bg-white">
+    <!-- Split view desktop: panel workspace di kanan (chat jadi kolom kiri 1/4) -->
+    <div id="chat-ws-panel" class="fixed left-1/4 top-0 bottom-0 right-0 z-0 bg-white">
         <iframe id="chat-ws-frame" data-src="/proyek/code/?embed=1" title="Workspace" class="w-full h-full border-0" tabindex="-1"></iframe>
     </div>
 
