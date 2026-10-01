@@ -563,6 +563,43 @@
     var p = document.getElementById('ai-model-popover');
     if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
   });
+  // Modal detail model: nama, keunggulan, id + tombol salin, tombol pakai
+  function openAiModelDetail(id) {
+    var m = AI_MODELS.filter(function (x) { return x.id === id; })[0];
+    if (!m) return;
+    var p = document.getElementById('ai-model-popover');
+    if (p) p.classList.add('hidden');
+    var old = document.getElementById('ai-model-detail-modal');
+    if (old) old.remove();
+    var sel = m.id === _aiModelValue;
+    var mod = document.createElement('div');
+    mod.id = 'ai-model-detail-modal';
+    mod.innerHTML =
+      '<div class="fixed inset-0 z-[95] overflow-y-auto p-3 sm:p-4" style="background:rgba(0,0,0,0.45)">' +
+      '<div class="min-h-full flex items-center justify-center">' +
+      '<div class="bg-white dark:bg-[#0a0a0a] rounded-2xl w-full max-w-sm relative px-4 sm:px-5 pt-9 pb-5 my-2">' +
+      '<button id="ai-model-detail-x" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors z-10" aria-label="Tutup"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18M6 6l12 12"></path></svg></button>' +
+      '<div class="flex items-center gap-3 pr-6">' + aiModelIconChip(id) +
+      '<div class="min-w-0"><h3 class="text-base font-semibold text-gray-900 dark:text-white truncate">' + m.label + '</h3>' +
+      '<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">' + m.rate + '</p></div></div>' +
+      '<div class="mt-4 flex items-center gap-2 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40">' +
+      '<code class="flex-1 min-w-0 text-[13px] font-mono text-gray-700 dark:text-gray-200 truncate">' + m.id + '</code>' +
+      '<button id="ai-model-detail-copy" class="p-1.5 rounded-md text-gray-400 hover:text-gray-700 dark:text-slate-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors cursor-pointer shrink-0" aria-label="Salin id model" title="Salin id model"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>' +
+      '</div>' +
+      '<button id="ai-model-detail-use" class="w-full mt-3 py-2 rounded-xl text-[14px] font-semibold transition-colors ' +
+      (sel ? 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-300 cursor-default' : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 cursor-pointer') + '">' +
+      (sel ? 'Dipakai saat ini' : 'Pakai model ini') + '</button>' +
+      '</div></div>';
+    document.body.appendChild(mod);
+    mod.querySelector('#ai-model-detail-x').onclick = function () { mod.remove(); };
+    mod.querySelector('.fixed').addEventListener('click', function (ev) { if (ev.target === this) mod.remove(); });
+    mod.querySelector('#ai-model-detail-copy').onclick = function () { copyAiModelId(id, this); };
+    mod.querySelector('#ai-model-detail-use').onclick = function () {
+      if (!sel) pickAiModel(id);
+      mod.remove();
+    };
+  }
+
   function copyAiModelId(id, btn) {
     var done = function () {
       if (!btn) return;
@@ -583,23 +620,14 @@
     if (!pop) return;
     pop.innerHTML = '';
     AI_MODELS.forEach(function (m) {
-      // baris pakai div (bukan button) supaya tombol salin id di dalamnya valid
-      var b = document.createElement('div');
-      b.setAttribute('role', 'button');
-      b.setAttribute('tabindex', '0');
+      // baris bersih: logo + nama saja; id & tombol salin pindah ke modal detail
+      var b = document.createElement('button');
+      b.type = 'button';
       var sel = m.id === _aiModelValue;
       b.className = 'w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition-colors text-left cursor-pointer' + (sel ? ' bg-gray-50 dark:bg-slate-700/60 font-medium' : '');
-      b.innerHTML = aiModelIconChip(m.id) + '<span class="truncate">' + m.label + '</span>' + '<span class="ml-auto pl-2 flex-shrink-0 text-[10px] font-mono text-gray-400 dark:text-slate-500">' + m.id + '</span>';
-      var cp = document.createElement('button');
-      cp.type = 'button';
-      cp.className = 'p-1 rounded-md text-gray-400 hover:text-gray-700 dark:text-slate-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors cursor-pointer flex-shrink-0';
-      cp.setAttribute('aria-label', 'Salin id ' + m.id);
-      cp.title = 'Salin id ' + m.id;
-      cp.innerHTML = '<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>';
-      cp.addEventListener('click', function (ev) { ev.stopPropagation(); copyAiModelId(m.id, cp); });
-      b.appendChild(cp);
-      b.addEventListener('click', function () { pickAiModel(m.id); });
-      b.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pickAiModel(m.id); } });
+      b.innerHTML = aiModelIconChip(m.id) + '<span class="truncate">' + m.label + '</span>' +
+        (sel ? '<span class="ml-auto pl-2 flex-shrink-0 text-gray-900 dark:text-white"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg></span>' : '');
+      b.addEventListener('click', function () { openAiModelDetail(m.id); });
       pop.appendChild(b);
     });
     if (window.lucide) lucide.createIcons();
