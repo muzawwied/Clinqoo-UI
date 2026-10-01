@@ -145,6 +145,9 @@
         #site-footer .footer-front a,
         #site-footer .footer-front span { text-shadow: 0 1px 4px rgba(0,0,0,0.45), 0 1px 1px rgba(255,255,255,0.25); }
         .page-view { position: relative; z-index: 1; }
+        /* Banner promo (di luar main, tepat di bawah header): harus di atas layer #hero-bg,
+           sama seperti .page-view — kalau tidak, kecatut background malam & kelihatan kosong. */
+        #promo-early-banner { position: relative; z-index: 1; }
         :root {
             --accent-color: #000000;
             --accent-hover: #1f2937;
