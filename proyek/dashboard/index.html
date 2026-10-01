@@ -373,6 +373,25 @@
                 <div id="skel-maintenance" class="skel hidden w-11 h-6 rounded-full"></div>
             </div>
 
+            <!-- 4. Kolaborasi & Pengguna (hanya muncul setelah web di-deploy) -->
+            <div id="collab-block" class="hidden py-4 sm:py-5 flex-col divide-y divide-gray-200 dark:divide-gray-800">
+                <div class="flex items-center justify-between gap-4 pb-4">
+                    <div class="min-w-0 flex-1">
+                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Undang Kolaborator</h4>
+                        <p class="text-sm text-gray-500 mt-1">Ajak orang lain mengedit proyek ini bersamamu</p>
+                    </div>
+                    <button type="button" onclick="window.location.href='/akun/kolaborasi/'" class="flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors cursor-pointer">Undang</button>
+                </div>
+                <div class="flex items-center justify-between gap-4 pt-4">
+                    <div class="min-w-0 flex-1">
+                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Undang Pengguna</h4>
+                        <p class="text-sm text-gray-500 mt-1">Bagikan tautan web live ke calon pengguna</p>
+                    </div>
+                    <button type="button" id="invite-user-btn" onclick="onInviteUser()" class="flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer">Bagikan</button>
+                </div>
+            </div>
+
+
         </div>
     </main>
 
@@ -998,6 +1017,35 @@ window.chatLivePreview = function () {
             alert('Gagal membuka pratinjau: ' + (err && err.message ? err.message : 'periksa koneksi internet lalu coba lagi.'));
         });
 };
+
+        // ---- Kolaborasi & pengguna: blok hanya muncul setelah web di-deploy ----
+        var _liveUrl = '';
+        function onInviteUser() {
+            var u = _liveUrl || '';
+            if (!u) return;
+            try {
+                var t = document.createElement('input');
+                t.value = u; document.body.appendChild(t); t.select();
+                document.execCommand('copy'); document.body.removeChild(t);
+                var b = document.getElementById('invite-user-btn');
+                if (b) { var old = b.textContent; b.textContent = 'Tersalin!'; setTimeout(function () { b.textContent = old; }, 1600); }
+            } catch (e) { window.open(u, '_blank'); }
+        }
+        function initCollabBlock() {
+            var p = pid();
+            if (!p) return;
+            fetch(API.replace(/\/api$/, '') + '/deploy?project_id=' + encodeURIComponent(p), { headers: authHeaders() })
+                .then(function (r) { return r.json().catch(function () { return {}; }); })
+                .then(function (d) {
+                    if (!d || !d.last_deployment) return;
+                    var active = (d.domains || []).filter(function (x) { return x.status === 'active'; })[0];
+                    _liveUrl = (active ? 'https://' + active.name : '') || d.pages_url || '';
+                    var blk = document.getElementById('collab-block');
+                    if (blk) { blk.classList.remove('hidden'); blk.classList.add('flex'); }
+                })
+                .catch(function () {});
+        }
+        initCollabBlock();
     </script>
 <script>if(document.documentElement.classList.contains('embed-mode')){document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a'):null;if(a&&a.href&&a.target!=='_blank'&&!a.hasAttribute('download')){a.target='_top';}},true);}</script>
 </body>
