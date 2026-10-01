@@ -445,7 +445,7 @@
         body.dark-mode button[onclick="history.back()"],
         body.dark-mode button[onclick="navigateTo(\'page-home\')"],
         body.dark-mode .header-glass button[onclick],
-        body.dark-mode header button[onclick] {
+        body.dark-mode header button[onclick]:not(.header-menu-item) {
             background-color: #000000 !important;
             border: 1.5px solid rgba(255,255,255,0.4) !important;
             color: #ffffff !important;
@@ -455,7 +455,7 @@
         body.dark-mode button[onclick="history.back()"] svg,
         body.dark-mode button[onclick="navigateTo(\'page-home\')"] svg,
         body.dark-mode .header-glass button[onclick] svg,
-        body.dark-mode header button[onclick] svg {
+        body.dark-mode header button[onclick]:not(.header-menu-item) svg {
             color: #ffffff !important;
             stroke: #ffffff !important;
         }
@@ -464,7 +464,7 @@
         body.dark-mode button[onclick="history.back()"]:hover,
         body.dark-mode button[onclick="navigateTo(\'page-home\')"]:hover,
         body.dark-mode .header-glass button[onclick]:hover,
-        body.dark-mode header button[onclick]:hover {
+        body.dark-mode header button[onclick]:not(.header-menu-item):hover {
             background-color: #1a1a1a !important;
             border-color: rgba(255,255,255,0.7) !important;
         }
@@ -692,15 +692,6 @@
         window.toggleHeaderMenu = function (e) {
             e.stopPropagation();
             headerMoreMenu.classList.contains('open') ? closeHeaderMenu() : headerMoreMenu.classList.add('open');
-            setTimeout(function () {
-                try {
-                    var b = document.getElementById('header-live-preview');
-                    var cs = getComputedStyle(b);
-                    var dbg = document.getElementById('dbg-style-probe');
-                    if (!dbg) { dbg = document.createElement('div'); dbg.id = 'dbg-style-probe'; dbg.style.position = 'fixed'; dbg.style.bottom = '4px'; dbg.style.left = '4px'; dbg.style.zIndex = '9999'; dbg.style.background = 'yellow'; dbg.style.color = '#000'; dbg.style.fontSize = '9px'; dbg.style.padding = '4px'; dbg.style.maxWidth = '95vw'; document.body.appendChild(dbg); }
-                    dbg.textContent = 'border=' + cs.border + ' | appearance=' + cs.appearance + ' | webkitAppearance=' + cs.webkitAppearance + ' | boxShadow=' + cs.boxShadow + ' | outline=' + cs.outline + ' | bg=' + cs.backgroundColor;
-                } catch (e) {}
-            }, 50);
         }
         document.addEventListener('click', (e) => {
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();

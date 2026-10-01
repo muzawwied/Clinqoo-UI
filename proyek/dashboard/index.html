@@ -60,15 +60,15 @@
         body.dark-mode .bg-white { background-color: #0a0a0a !important; }
         
         body.dark-mode button[onclick="history.back()"],
-        body.dark-mode header button[onclick] {
+        body.dark-mode header button[onclick]:not(.header-menu-item) {
             background-color: #000000 !important;
             border: 1.5px solid rgba(255,255,255,0.4) !important;
             color: #ffffff !important;
         }
         body.dark-mode button[onclick="history.back()"] svg,
-        body.dark-mode header button[onclick] svg { stroke: #ffffff !important; }
+        body.dark-mode header button[onclick]:not(.header-menu-item) svg { stroke: #ffffff !important; }
         body.dark-mode button[onclick="history.back()"]:hover,
-        body.dark-mode header button[onclick]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+        body.dark-mode header button[onclick]:not(.header-menu-item):hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
         
         body.dark-mode .text-gray-900, body.dark-mode .text-gray-800, body.dark-mode .text-black { color: #ffffff !important; }
         body.dark-mode .text-gray-700, body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
