@@ -308,7 +308,59 @@
 
         <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-gray-800">
             
-            <!-- 1. Lingkungan Runtime -->
+            <!-- 1. Logo & Identitas Aplikasi -->
+            <div class="py-4 sm:py-5">
+                <!-- Logo project: bulat, agak besar, di paling atas -->
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <button type="button" onclick="document.getElementById('logo-file-input').click()" class="w-[84px] h-[84px] sm:w-24 sm:h-24 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden transition-colors hover:border-gray-900 dark:hover:border-white cursor-pointer" aria-label="Unggah logo aplikasi">
+                            <img id="logo-preview" class="w-full h-full object-cover hidden" alt="Logo aplikasi">
+                            <span id="logo-initials" class="text-2xl font-bold text-gray-400 select-none">A</span>
+                            <i data-lucide="image-plus" id="logo-placeholder-icon" class="w-6 h-6 text-gray-400 hidden"></i>
+                        </button>
+                        <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden" onchange="onLogoPicked(this)">
+                        <button type="button" id="logo-remove-btn" onclick="onLogoRemove()" class="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black shadow-md hidden items-center justify-center cursor-pointer" aria-label="Hapus logo">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-2 text-center leading-snug">Logo — dipakai sebagai favicon &amp; og:image</p>
+                </div>
+                <!-- Bawah logo: nama lalu deskripsi -->
+                <div class="flex-1 min-w-0 flex flex-col gap-4 mt-4">
+                    <div>
+                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Nama Aplikasi</h4>
+                        <p class="text-xs text-gray-500 mt-0.5">Nama ini menentukan subdomain situs saat deploy pertama</p>
+                        <input type="text" id="input-app-name" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
+                        <div id="skel-app-name" class="skel hidden w-full h-[34px] rounded-xl"></div>
+                        <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-bold text-gray-900 tracking-tight">Deskripsi Aplikasi</h4>
+                        <p class="text-xs text-gray-500 mt-0.5">Catatan internal singkat mengenai tujuan atau status aplikasi ini — juga dipakai sebagai meta description &amp; og:description</p>
+                        <textarea rows="3" id="input-app-desc" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
+                        <div id="skel-app-desc" class="skel hidden w-full h-[56px] rounded-xl"></div>
+                    </div>
+                    <!-- Preview tautan saat di-share (og:image / og:title / og:description) -->
+                    <div class="mt-1">
+                        <p class="text-xs font-semibold text-gray-500 mb-2">Preview tautan saat di-share</p>
+                        <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0a0a0a] overflow-hidden max-w-sm shadow-sm">
+                            <div class="flex items-start gap-3 p-3">
+                                <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-900 flex items-center justify-center overflow-hidden shrink-0 border border-gray-100 dark:border-gray-800">
+                                    <img id="og-prev-logo" class="w-full h-full object-cover hidden" alt="Logo">
+                                    <i data-lucide="globe" id="og-prev-logo-ph" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p id="og-prev-title" class="text-[13px] font-semibold text-gray-900 dark:text-white truncate">Nama aplikasi</p>
+                                    <p id="og-prev-desc" class="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-0.5 line-clamp-2">Deskripsi singkat mengenai aplikasi — tampil sebagai og:description.</p>
+                                    <p id="og-prev-url" class="text-[10px] text-gray-400 mt-1 truncate"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Lingkungan Runtime -->
             <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="min-w-0 flex-1">
                     <h4 class="text-base font-bold text-gray-900 tracking-tight">Lingkungan Runtime</h4>
@@ -326,7 +378,7 @@
                 </div>
             </div>
 
-            <!-- 4. Mode Pemeliharaan -->
+            <!-- 3. Mode Pemeliharaan -->
             <div class="py-4 sm:py-5 flex items-center justify-between gap-4">
                 <div class="min-w-0 flex-1">
                     <h4 class="text-base font-bold text-gray-900 tracking-tight">Mode Pemeliharaan</h4>
@@ -339,44 +391,25 @@
                 <div id="skel-maintenance" class="skel hidden w-11 h-6 rounded-full"></div>
             </div>
 
-            <!-- 3. Logo & Identitas Aplikasi -->
-            <div class="py-4 sm:py-5">
-                <div class="flex items-start gap-4 sm:gap-5">
-                    <!-- Logo project: agak kiri -->
-                    <div class="shrink-0 pt-0.5">
-                        <div class="relative">
-                            <button type="button" onclick="document.getElementById('logo-file-input').click()" class="w-16 h-16 sm:w-[76px] sm:h-[76px] rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden transition-colors hover:border-gray-900 dark:hover:border-white cursor-pointer" aria-label="Unggah logo aplikasi">
-                                <img id="logo-preview" class="w-full h-full object-cover hidden" alt="Logo aplikasi">
-                                <i data-lucide="image-plus" id="logo-placeholder-icon" class="w-6 h-6 text-gray-400"></i>
-                            </button>
-                            <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden" onchange="onLogoPicked(this)">
-                            <button type="button" id="logo-remove-btn" onclick="onLogoRemove()" class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black shadow-md hidden items-center justify-center cursor-pointer" aria-label="Hapus logo">
-                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                        <p class="text-[11px] text-gray-400 mt-1.5 max-w-[76px] text-center leading-snug">Logo — dipakai sebagai favicon &amp; og:image</p>
-                    </div>
-                    <!-- Kanan logo: nama lalu deskripsi -->
-                    <div class="flex-1 min-w-0 flex flex-col gap-4">
-                        <div>
-                            <h4 class="text-base font-bold text-gray-900 tracking-tight">Nama Aplikasi</h4>
-                            <p class="text-xs text-gray-500 mt-0.5">Nama ini menentukan subdomain situs saat deploy pertama</p>
-                            <input type="text" id="input-app-name" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors" placeholder="Masukkan nama aplikasi">
-                            <div id="skel-app-name" class="skel hidden w-full h-[34px] rounded-xl"></div>
-                            <p id="app-name-preview" class="text-xs text-gray-400 mt-1.5"></p>
-                        </div>
-                        <div>
-                            <h4 class="text-base font-bold text-gray-900 tracking-tight">Deskripsi Aplikasi</h4>
-                            <p class="text-xs text-gray-500 mt-0.5">Catatan internal singkat mengenai tujuan atau status aplikasi ini — juga dipakai sebagai meta description &amp; og:description</p>
-                            <textarea rows="3" id="input-app-desc" class="w-full mt-1.5 px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-black transition-colors resize-none" placeholder="Contoh: Aplikasi web utama..."></textarea>
-                            <div id="skel-app-desc" class="skel hidden w-full h-[56px] rounded-xl"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </main>
+
+    <!-- Modal crop logo: geser untuk posisi, slider untuk zoom -->
+    <div id="logo-crop-modal" class="fixed inset-0 z-[60] hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeCropModal()"></div>
+        <div class="bg-white dark:bg-[#0a0a0a] rounded-2xl p-5 w-full max-w-sm relative z-10 shadow-2xl border border-gray-100 dark:border-gray-800">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Atur logo</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Geser gambarnya untuk atur posisi, slider untuk zoom.</p>
+            <div class="w-full flex justify-center mb-4">
+                <canvas id="logo-crop-canvas" width="512" height="512" class="w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] rounded-2xl touch-none cursor-grab bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800"></canvas>
+            </div>
+            <input type="range" id="logo-crop-zoom" min="1" max="4" step="0.01" value="1" class="w-full mb-4 cursor-pointer" aria-label="Zoom logo">
+            <div class="flex gap-2">
+                <button type="button" onclick="closeCropModal()" class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">Batal</button>
+                <button type="button" onclick="applyCropLogo()" class="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors cursor-pointer">Pakai logo</button>
+            </div>
+        </div>
+    </div>
 
     <div id="system-modal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
@@ -401,23 +434,56 @@
         const savedVals = { app_name: '', app_desc: '', app_logo: '', runtime: '', maintenance: 'false' };
 
         // ---- Logo aplikasi: unggah foto (otomatis dikompres), dipakai untuk favicon / avatar / og:image ----
+        function updateLogoInitials() {
+            var el = document.getElementById('logo-initials');
+            if (!el) return;
+            var nameEl = document.getElementById('input-app-name');
+            var v = ((nameEl && nameEl.value) || '').trim();
+            var ini = v.split(/\s+/).filter(Boolean).map(function (w) { return w.charAt(0).toUpperCase(); }).join('').slice(0, 2);
+            el.textContent = ini;
+            var ph = document.getElementById('logo-placeholder-icon');
+            if (ini) { el.classList.remove('hidden'); if (ph) ph.classList.add('hidden'); }
+            else { el.classList.add('hidden'); if (ph) ph.classList.remove('hidden'); }
+        }
         function setLogoPreview(dataUrl) {
             var img = document.getElementById('logo-preview');
-            var ph = document.getElementById('logo-placeholder-icon');
             var rm = document.getElementById('logo-remove-btn');
             if (!img) return;
             if (dataUrl) {
                 img.src = dataUrl;
                 img.classList.remove('hidden');
-                if (ph) ph.classList.add('hidden');
                 if (rm) { rm.classList.remove('hidden'); rm.classList.add('flex'); }
             } else {
                 img.classList.add('hidden');
                 img.removeAttribute('src');
-                if (ph) ph.classList.remove('hidden');
                 if (rm) { rm.classList.add('hidden'); rm.classList.remove('flex'); }
+                updateLogoInitials();
             }
+            var og = document.getElementById('og-prev-logo');
+            var ogph = document.getElementById('og-prev-logo-ph');
+            if (og && ogph) {
+                if (dataUrl) { og.src = dataUrl; og.classList.remove('hidden'); ogph.classList.add('hidden'); }
+                else { og.classList.add('hidden'); og.removeAttribute('src'); ogph.classList.remove('hidden'); }
+            }
+            var ini = document.getElementById('logo-initials');
+            if (ini) ini.classList.toggle('hidden', !!dataUrl);
         }
+        // ---- Crop logo: geser untuk posisi + slider zoom, hasil persegi 512px ----
+        var _crop = { img: null, zoom: 1, minScale: 1, x: 0, y: 0 };
+        var CROP_S = 512;
+        function clampAndDrawCrop() {
+            var cvs = document.getElementById('logo-crop-canvas');
+            if (!cvs || !_crop.img) return;
+            var s = _crop.minScale * _crop.zoom;
+            var iw = _crop.img.width * s, ih = _crop.img.height * s;
+            if (iw <= CROP_S) _crop.x = (CROP_S - iw) / 2; else _crop.x = Math.min(0, Math.max(CROP_S - iw, _crop.x));
+            if (ih <= CROP_S) _crop.y = (CROP_S - ih) / 2; else _crop.y = Math.min(0, Math.max(CROP_S - ih, _crop.y));
+            var ctx = cvs.getContext('2d');
+            ctx.clearRect(0, 0, CROP_S, CROP_S);
+            ctx.drawImage(_crop.img, _crop.x, _crop.y, iw, ih);
+        }
+        function openCropModal() { var m = document.getElementById('logo-crop-modal'); if (m) { m.classList.remove('hidden'); m.classList.add('flex'); } }
+        function closeCropModal() { var m = document.getElementById('logo-crop-modal'); if (m) { m.classList.add('hidden'); m.classList.remove('flex'); } _crop.img = null; }
         function onLogoPicked(input) {
             var f = input.files && input.files[0];
             input.value = '';
@@ -426,24 +492,62 @@
             reader.onload = function () {
                 var img = new Image();
                 img.onload = function () {
-                    var LOGO_MAX = 512; // favicon/og cukup 512px; menyimpan payload ringan
-                    var scale = Math.min(1, LOGO_MAX / Math.max(img.width, img.height));
-                    var w = Math.max(1, Math.round(img.width * scale));
-                    var h = Math.max(1, Math.round(img.height * scale));
-                    var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-                    cv.getContext('2d').drawImage(img, 0, 0, w, h);
-                    var dataUrl = cv.toDataURL('image/png');
-                    setLogoPreview(dataUrl);
-                    markPending('app_logo', dataUrl);
+                    _crop.img = img; _crop.zoom = 1;
+                    _crop.minScale = Math.max(CROP_S / img.width, CROP_S / img.height);
+                    _crop.x = 0; _crop.y = 0;
+                    var z = document.getElementById('logo-crop-zoom'); if (z) z.value = 1;
+                    clampAndDrawCrop();
+                    openCropModal();
                 };
                 img.onerror = function () { setIndicator('error'); };
                 img.src = reader.result;
             };
             reader.readAsDataURL(f);
         }
+        function applyCropLogo() {
+            if (!_crop.img) return;
+            var out = document.createElement('canvas'); out.width = CROP_S; out.height = CROP_S;
+            var s = _crop.minScale * _crop.zoom;
+            out.getContext('2d').drawImage(_crop.img, _crop.x, _crop.y, _crop.img.width * s, _crop.img.height * s);
+            var dataUrl = out.toDataURL('image/png');
+            setLogoPreview(dataUrl);
+            markPending('app_logo', dataUrl);
+            closeCropModal();
+        }
+        (function initCropDrag() {
+            var cvs = document.getElementById('logo-crop-canvas');
+            if (!cvs) return;
+            var down = false, lx = 0, ly = 0;
+            cvs.addEventListener('pointerdown', function (e) { down = true; lx = e.clientX; ly = e.clientY; try { cvs.setPointerCapture(e.pointerId); } catch (err) {} cvs.style.cursor = 'grabbing'; });
+            cvs.addEventListener('pointermove', function (e) {
+                if (!down) return;
+                _crop.x += (e.clientX - lx) * (CROP_S / cvs.clientWidth);
+                _crop.y += (e.clientY - ly) * (CROP_S / cvs.clientHeight);
+                lx = e.clientX; ly = e.clientY;
+                clampAndDrawCrop();
+            });
+            ['pointerup', 'pointercancel'].forEach(function (ev) { cvs.addEventListener(ev, function () { down = false; cvs.style.cursor = 'grab'; }); });
+            var z = document.getElementById('logo-crop-zoom');
+            if (z) z.addEventListener('input', function () { _crop.zoom = parseFloat(z.value) || 1; clampAndDrawCrop(); });
+        })();
         function onLogoRemove() {
             setLogoPreview(null);
             markPending('app_logo', '');
+        }
+        // ---- Preview tautan (og): live dari logo, nama, deskripsi ----
+        function updateOgPreview() {
+            var t = document.getElementById('og-prev-title');
+            var d = document.getElementById('og-prev-desc');
+            var u = document.getElementById('og-prev-url');
+            var nameEl = document.getElementById('input-app-name');
+            var descEl = document.getElementById('input-app-desc');
+            if (!t || !d || !u) return;
+            var nv = ((nameEl && nameEl.value) || '').trim();
+            var dv = ((descEl && descEl.value) || '').trim();
+            t.textContent = nv || 'Nama aplikasi';
+            d.textContent = dv || 'Deskripsi singkat mengenai aplikasi — tampil sebagai og:description.';
+            var slug = nv ? slugifyName(nv).replace(/-/g, '').slice(0, 12) : '';
+            u.textContent = (slug || 'proyek') + '-xxxx.clinqoo.biz.id';
         }
         let _saving = false;
 
@@ -494,6 +598,8 @@
             if (c.runtime) { const l = document.getElementById('label-runtime'); if (l) l.textContent = c.runtime; }
             if (c.maintenance === 'true') setMaintenance(true);
             updateNamePreview();
+            updateOgPreview();
+            updateLogoInitials();
         })();
 
         // ---- Shimmer: hanya saat belum ada cache (kunjungan pertama), sampai data server datang ----
@@ -544,6 +650,8 @@
                 writeCache({ app_name: st.app_name || '', app_desc: st.app_desc || '', app_logo: st.app_logo || '', maintenance: st.maintenance || 'false' });
             } catch (e) {}
             updateNamePreview();
+            updateOgPreview();
+            updateLogoInitials();
             showSkeletons(false);
         }
 
@@ -619,6 +727,8 @@
             const el = document.getElementById(pair[0]), key = pair[1];
             el.addEventListener('input', function () {
                 updateNamePreview();
+                updateOgPreview();
+                if (key === 'app_name') updateLogoInitials();
                 markPending(key, el.value.trim());
             });
         });
