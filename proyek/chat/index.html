@@ -301,6 +301,8 @@
             html:active-view-transition body { animation: none; }
         }
         .chat-nav-link.is-active { color: #111111; background: #e9e9ec; view-transition-name: chat-nav-pill; }
+        /* Tab Live preview di kapsul cuma relevan saat split (desktop) — di mobile 4 tab bikin kapsul kepanjangan/rusak */
+        .chat-nav-link[data-nav="live"] { display: none; }
         #header-more-menu.open { display: flex; opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .header-menu-item { -webkit-tap-highlight-color: transparent; }
         .header-menu-item:focus, .header-menu-item:focus-visible { outline: none; box-shadow: none; }
@@ -530,6 +532,7 @@
             #chat-input-footer { left: 0; right: 66.6667%; width: auto; }
             /* Tab "Agent" tidak perlu di kapsul header saat split aktif (sudah tampil otomatis di kolom chat) */
             .chat-nav-link[data-nav="agent"] { display: none; }
+            .chat-nav-link[data-nav="live"] { display: inline-flex; }
             /* Bar aksi split (refresh, buka tab baru, riwayat deploy) hanya relevan saat split aktif */
             #chat-split-actions { display: flex; }
             /* Di desktop: Editor & Live preview tampil sebagai pil header, keluar dari popup */
@@ -609,6 +612,11 @@
                     </svg>
                 </button>
                 <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
+                    <button id="header-live-preview" type="button" onclick="chatLivePreview()" class="header-menu-item header-mobile-only w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+                        Live preview
+                        <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" /></svg>
+                    </button>
                     <a id="header-editor" href="/proyek/workspace/editor/" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/proyek/workspace/editor/?id='+encodeURIComponent(__pid)}" class="header-menu-item header-mobile-only w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                         <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6" /></svg>
                         Editor
