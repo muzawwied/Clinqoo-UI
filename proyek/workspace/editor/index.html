@@ -239,6 +239,12 @@ body.light .fico-mono{color:#2b2b30}
 #split-close{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;color:var(--text3)}
 #split-close:hover{background:var(--bg4);color:var(--text)}
 #monaco2{flex:1;min-height:0}
+#media-preview{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:30px;background:var(--editor-bg);z-index:5;text-align:center}
+#media-preview.show{display:flex}
+#media-preview img,#media-preview video{max-width:100%;max-height:62vh;border-radius:10px;box-shadow:0 6px 28px rgba(0,0,0,.35);background:#000}
+#media-preview audio{width:min(440px,90%)}
+#media-preview .mp-name{font-size:13px;color:var(--text2);font-family:'Fira Code',monospace;word-break:break-all}
+#media-preview .mp-size{font-size:11.5px;color:var(--text3)}
 
 kbd{font-family:'Fira Code',monospace;background:var(--bg4);border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;padding:2px 6px;font-size:10.5px;color:var(--text2)}
 
@@ -540,6 +546,13 @@ body.light #titlebar,body.light #sidebar{background:rgba(238,238,241,.93);backdr
     <div id="monaco-wrap">
       <div id="monaco-main">
       <div id="monaco"></div>
+      <div id="media-preview">
+        <img id="mp-img" style="display:none" alt="">
+        <video id="mp-video" controls style="display:none"></video>
+        <audio id="mp-audio" controls style="display:none"></audio>
+        <div class="mp-name" id="mp-name"></div>
+        <div class="mp-size" id="mp-size"></div>
+      </div>
       </div>
       <div id="split-pane" class="hidden">
         <div id="split-head"><span id="split-name">—</span><button id="split-close" onclick="closeSplit()" title="Tutup panel split"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -663,11 +676,38 @@ const FICO_SVG={
   png:`<svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="4.5" fill="#43a047"/><circle cx="8.7" cy="9.3" r="1.7" fill="#fff"/><path d="M4.5 17l4.6-5 3.4 3.8 2.3-2.6 4.7 4.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 };
 const FICO_LETTER={mjs:['JS','#e8d44d'],jsx:['JS','#e8d44d'],ts:['TS','#3178c6'],tsx:['TS','#3178c6'],scss:['#','#cd6799'],md:['M','#519aba'],sh:['$','#89e051'],yml:['Y','#cb171e'],yaml:['Y','#cb171e'],sql:['DB','#e38c00'],svg:['SVG','#ffb13b']};
+const MEDIA_IMG=['png','jpg','jpeg','gif','webp','bmp','ico'];
+const MEDIA_AUDIO=['mp3','wav','ogg','m4a'];
+const MEDIA_VIDEO=['mp4','webm','mov'];
+const mediaKindOf=p=>{const e=(p.split('.').pop()||'').toLowerCase();if(MEDIA_IMG.includes(e))return'image';if(MEDIA_AUDIO.includes(e))return'audio';if(MEDIA_VIDEO.includes(e))return'video';return null;};
+function showMediaPreview(path){
+  const kind=mediaKindOf(path);
+  const img=$('#mp-img'),vid=$('#mp-video'),aud=$('#mp-audio');
+  img.style.display='none';vid.style.display='none';aud.style.display='none';
+  img.src='';vid.src='';aud.src='';
+  const src=project[path]||'';
+  if(kind==='image'){img.src=src;img.style.display='block';}
+  else if(kind==='video'){vid.src=src;vid.style.display='block';}
+  else if(kind==='audio'){aud.src=src;aud.style.display='block';}
+  $('#mp-name').textContent=nameOf(path);
+  const isDataUri=src.indexOf('base64,')>=0;
+  const kb=isDataUri?((src.length-src.indexOf('base64,')-7)*0.75/1024).toFixed(1):null;
+  $('#mp-size').textContent=kb?kb+' KB':(isDataUri?'':'Berkas tidak valid (bukan base64) — import ulang berkas ini');
+  $('#media-preview').classList.add('show');
+  $('#monaco').style.display='none';
+}
+function hideMediaPreview(){
+  $('#media-preview').classList.remove('show');
+  $('#monaco').style.display='';
+}
+
 const ficoHTML=p=>{
   const nm=(p.split('/').pop()||'').toLowerCase();
   if(nm==='.gitignore')return `<span class="fico">${FICO_SVG.gitignore}</span>`;
   let e=(nm.split('.').pop()||'').toLowerCase();
-  if(['jpg','jpeg','gif','webp','bmp'].includes(e))e='png';
+  if(['jpg','jpeg','gif','webp','bmp','ico'].includes(e))e='png';
+  if(['wav','ogg','m4a'].includes(e))e='mp3';
+  if(['webm','mov'].includes(e))e='mp4';
   if(FICO_SVG[e])return `<span class="fico${e==='js'?' fico-mono':''}">${FICO_SVG[e]}</span>`;
   const f=FICO_LETTER[e]||['F','#9a9aa4'];
   return `<span class="fico" style="color:${f[1]};font-size:10px;font-weight:800;font-family:'Fira Code',monospace">${f[0]}</span>`;
@@ -1088,10 +1128,15 @@ function openFile(path,focus=true){
   if(!(path in project)){toast('Berkas tidak ditemukan: '+path);return;}
   if(!tabs.includes(path))tabs.push(path);
   activePath=path;
-  const m=modelFor(path);
-  editor.setModel(m);
+  if(mediaKindOf(path)){
+    showMediaPreview(path);
+  }else{
+    hideMediaPreview();
+    const m=modelFor(path);
+    editor.setModel(m);
+  }
   renderAll();
-  if(focus){editor.focus();closeMobileSidebar();}
+  if(focus){if(!mediaKindOf(path))editor.focus();closeMobileSidebar();}
 }
 function createStarterFiles(){
   if(Object.keys(project).some(p=>['index.html','style.css','app.js'].includes(p))){
@@ -1117,8 +1162,11 @@ function closeTab(path){
   tabs.splice(i,1);
   if(activePath===path){
     activePath=tabs[Math.min(i,tabs.length-1)]||null;
-    if(activePath)editor.setModel(modelFor(activePath));
-    else{editor.setModel(null);openDefaultTabs();}
+    if(activePath){
+      if(mediaKindOf(activePath))showMediaPreview(activePath);
+      else{hideMediaPreview();editor.setModel(modelFor(activePath));}
+    }
+    else{hideMediaPreview();editor.setModel(null);openDefaultTabs();}
   }
   renderAll();
 }
@@ -1885,7 +1933,7 @@ function importHandleFiles(fileList){
     fr.onload=()=>{project[path]=String(fr.result||'');done++;if(--left===0)finish();};
     fr.onerror=()=>{skipped++;if(--left===0)finish();};
     if(ext==='svg')fr.readAsText(f);
-    else if(IMG_EXTS.includes(ext))fr.readAsDataURL(f);
+    else if(IMG_EXTS.includes(ext)||MEDIA_AUDIO.includes(ext)||MEDIA_VIDEO.includes(ext))fr.readAsDataURL(f);
     else fr.readAsText(f);
   });
 }
@@ -2356,6 +2404,7 @@ function splitEditor(path){
   if(!editor){toast('Editor belum siap');return;}
   const p=(path&&project[path]!==undefined)?path:activePath;
   if(!p){toast('Buka berkas dulu');return;}
+  if(mediaKindOf(p)){toast('Berkas media tidak bisa dibuka di panel split');return;}
   if(!editor2){
     editor2=monaco.editor.create($('#monaco2'),{
       automaticLayout:true,
