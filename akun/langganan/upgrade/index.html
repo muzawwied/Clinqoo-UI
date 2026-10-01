@@ -327,67 +327,7 @@
         </div>
     </main>
 
-    <!-- ===== MODAL PEMBAYARAN QRIS LANGSUNG (style mengikuti halaman konfirmasi) ===== -->
-    <div id="qris-modal" class="hidden fixed inset-0 z-[100] items-end sm:items-center justify-center">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeQrisModal()"></div>
-        <div class="relative w-full sm:max-w-md bg-white dark:bg-gray-900 rounded-t-2xl sm:rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl max-h-[92vh] overflow-y-auto">
-            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-800">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                        <i data-lucide="qr-code" class="w-4 h-4 text-gray-700 dark:text-gray-300"></i>
-                    </div>
-                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Bayar dengan QRIS</h3>
-                </div>
-                <button onclick="closeQrisModal()" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <div class="px-5 py-4">
-                <div class="flex items-center justify-between py-2.5">
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Paket</span>
-                    <span id="qris-plan" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
-                </div>
-                <div class="flex items-center justify-between py-2.5">
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Periode</span>
-                    <span id="qris-billing" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
-                </div>
-                <div class="flex items-center justify-between py-3 border-t border-gray-100 dark:border-gray-800">
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Total Pembayaran</span>
-                    <span id="qris-amount" class="text-lg font-extrabold text-gray-900 dark:text-white">-</span>
-                </div>
 
-                <div id="qris-loading-state" class="hidden flex-col items-center justify-center gap-3 py-10">
-                    <i data-lucide="loader-2" class="w-6 h-6 text-gray-400 animate-spin"></i>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Menyiapkan QRIS…</p>
-                </div>
-
-                <div id="qris-active-state" class="hidden flex-col items-center pt-2">
-                    <div class="p-3 bg-white rounded-xl border border-gray-200 dark:border-gray-700">
-                        <img id="qris-img" alt="Kode QRIS" class="w-56 h-56 object-contain">
-                    </div>
-                    <p class="mt-3 text-xs text-gray-400">Sisa waktu: <span id="qris-countdown" class="font-semibold text-gray-600 dark:text-gray-300">15:00</span></p>
-                    <p class="mt-2 text-center text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Scan dengan GoPay, DANA, OVO, ShopeePay, m-banking, atau aplikasi pembayaran QRIS lainnya. Jangan tutup halaman ini sampai status pembayaran berubah.</p>
-                </div>
-
-                <div id="qris-activating-state" class="hidden flex-col items-center justify-center gap-3 py-10">
-                    <i data-lucide="loader-2" class="w-6 h-6 text-emerald-500 animate-spin"></i>
-                    <p class="text-sm text-emerald-600 dark:text-emerald-400 font-medium">Pembayaran diterima — mengaktifkan paket…</p>
-                </div>
-
-                <div id="qris-success-state" class="hidden flex-col items-center justify-center gap-3 py-10">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-emerald-500"></i>
-                    <p id="qris-success-text" class="text-sm text-emerald-600 dark:text-emerald-400 font-medium text-center px-4">Pembayaran berhasil.</p>
-                </div>
-
-                <div id="qris-error-state" class="hidden flex-col items-center justify-center gap-3 py-8">
-                    <p id="qris-error-text" class="text-sm text-red-600 dark:text-red-400 font-medium text-center px-4"></p>
-                    <button onclick="qrisRetry()" class="px-5 py-2.5 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors cursor-pointer">Coba Lagi</button>
-                </div>
-
-                <button onclick="closeQrisModal()" class="w-full mt-5 py-3 rounded-full border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer">Batalkan Pembayaran</button>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -462,17 +402,8 @@
             if (!cached || !cached.plan) updateUI(); // pertama kali: render hasil fetch
         }
 
-        // ===== PEMBAYARAN LANGSUNG VIA QRIS (endpoint BuatQris yang sudah ada) =====
-        // Flow: create QRIS → tampil QR → polling status → lunas → aktivasi paket.
-        const QRIS_API = 'https://clincoo-be2.pages.dev/api/topup-qris';
+        // Checkout paket: halaman /checkout/ (alur: pilih metode -> konfirmasi -> QRIS -> aktif)
         const PLAN_PRICES = { Starter: 0, Pro: 49000, Bisnis: 129000 };
-        let qrisState = null;      // { order_id, total, expires_at, plan, billing }
-        let qrisLastReq = null;
-        let qrisPollTimer = null;
-        let qrisTickTimer = null;
-
-        function fmtID(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
-
         function openModal(plan) {
             const billing = (subData && subData.billingCycle) ? subData.billingCycle : 'Bulanan';
             let amount = PLAN_PRICES[plan] || 0;
@@ -483,138 +414,7 @@
                 window.location.href = 'konfirmasi/?plan=' + encodeURIComponent(plan) + '&billing=' + encodeURIComponent(billing);
                 return;
             }
-            openQrisCheckout(plan, amount, billing);
-        }
-
-        function openQrisCheckout(plan, amount, billing) {
-            const m = document.getElementById('qris-modal');
-            if (!m) return;
-            qrisLastReq = { plan: plan, amount: amount, billing: billing };
-            qrisState = null;
-            document.getElementById('qris-plan').textContent = plan;
-            document.getElementById('qris-billing').textContent = billing;
-            document.getElementById('qris-amount').textContent = fmtID(amount);
-            qrisShowState('loading');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-            startQrisOrder(plan, amount, billing);
-        }
-
-        function qrisShowState(state, msg) {
-            ['loading', 'error', 'active', 'success', 'activating'].forEach(function (st) {
-                const el = document.getElementById('qris-' + st + '-state');
-                if (!el) return;
-                if (st === state) { el.classList.remove('hidden'); el.classList.add('flex'); }
-                else { el.classList.add('hidden'); el.classList.remove('flex'); }
-            });
-            if (msg) { const e = document.getElementById('qris-error-text'); if (e) e.textContent = msg; }
-        }
-
-        async function startQrisOrder(plan, amount, billing) {
-            qrisStopTimers();
-            try {
-                const res = await fetch(QRIS_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'create', amount: amount })
-                });
-                const data = await res.json();
-                if (!res.ok || !data || !data.success) {
-                    qrisShowState('error', (data && (data.message || data.error)) || 'Gagal membuat QRIS. Coba lagi.');
-                    return;
-                }
-                qrisState = { order_id: data.order_id, total: data.total_payment || amount, expires_at: data.expired_at, plan: plan, billing: billing };
-                const img = document.getElementById('qris-img');
-                if (img && data.qr_image) img.src = data.qr_image;
-                const t = document.getElementById('qris-amount');
-                if (t) t.textContent = fmtID(qrisState.total);
-                qrisShowState('active');
-                qrisPollTimer = setInterval(qrisPoll, 4000);
-                qrisTickTimer = setInterval(qrisTick, 1000);
-                qrisTick();
-            } catch (e) {
-                qrisShowState('error', 'Koneksi bermasalah. Coba lagi.');
-            }
-        }
-
-        function qrisRetry() {
-            if (!qrisLastReq) return;
-            qrisShowState('loading');
-            startQrisOrder(qrisLastReq.plan, qrisLastReq.amount, qrisLastReq.billing);
-        }
-
-        function qrisTick() {
-            if (!qrisState || !qrisState.expires_at) return;
-            const left = new Date(qrisState.expires_at).getTime() - Date.now();
-            const el = document.getElementById('qris-countdown');
-            if (left <= 0) {
-                qrisStopTimers();
-                if (el) el.textContent = '0:00';
-                qrisShowState('error', 'Waktu pembayaran habis. Silakan ulangi.');
-                return;
-            }
-            if (el) {
-                const mm = Math.floor(left / 60000), ss = Math.floor((left % 60000) / 1000);
-                el.textContent = mm + ':' + (ss < 10 ? '0' : '') + ss;
-            }
-        }
-
-        async function qrisPoll() {
-            if (!qrisState) return;
-            try {
-                const r = await fetch(QRIS_API + '?action=status&order_id=' + encodeURIComponent(qrisState.order_id));
-                const d = await r.json();
-                if (d && d.status === 'paid') {
-                    qrisStopTimers();
-                    qrisShowState('activating');
-                    qrisActivate();
-                }
-            } catch (e) {}
-        }
-
-        async function qrisActivate() {
-            try {
-                const res = await fetch(SUB_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ plan: qrisState.plan, billingCycle: qrisState.billing })
-                });
-                const data = await res.json();
-                if (res.ok && data && data.success) {
-                    currentActivePlan = qrisState.plan;
-                    writeSubCache(qrisState.plan, qrisState.billing);
-                    const t = document.getElementById('qris-success-text');
-                    if (t) t.textContent = 'Pembayaran diterima. Paket ' + qrisState.plan + ' (' + qrisState.billing + ') sekarang aktif.';
-                    qrisShowState('success');
-                    updateUI();
-                    setTimeout(closeQrisModal, 2000);
-                } else {
-                    qrisShowState('error', 'Pembayaran diterima, tapi aktivasi paket gagal: ' + ((data && (data.error || data.message)) || 'coba lagi nanti'));
-                }
-            } catch (e) {
-                qrisShowState('error', 'Pembayaran diterima, tapi koneksi aktivasi terputus. Cek status paket Anda di halaman Langganan.');
-            }
-        }
-
-        function qrisStopTimers() {
-            if (qrisPollTimer) { clearInterval(qrisPollTimer); qrisPollTimer = null; }
-            if (qrisTickTimer) { clearInterval(qrisTickTimer); qrisTickTimer = null; }
-        }
-
-        function closeQrisModal() {
-            const m = document.getElementById('qris-modal');
-            if (!m) return;
-            qrisStopTimers();
-            // Order yang masih pending dibatalkan di server supaya tidak menggantung.
-            if (qrisState && qrisState.order_id) {
-                const oid = qrisState.order_id;
-                fetch(QRIS_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'cancel', order_id: oid }) }).catch(function () {});
-            }
-            qrisState = null;
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-            document.body.style.overflow = '';
+            window.location.href = '../checkout/?plan=' + encodeURIComponent(plan) + '&billing=' + encodeURIComponent(billing) + '&amount=' + amount;
         }
 
         function closeModal() {}
