@@ -1,6 +1,8 @@
 /* Adapter penyimpanan: mode API (backend D1) bila tersedia, fallback localStorage (simulasi) */
 (function () {
   const LS_KEY = 'clincoo_exp_domains';
+  // Data domain lama di perangkat dibersihkan: daftar domain kini selalu real-time dari API per akun.
+  try { localStorage.removeItem(LS_KEY); } catch (e) {}
   let apiMode = null; // null = belum dicek
 
   const API_BASE = (location.hostname === 'clincoo-domain.pages.dev') ? '/api' : 'https://clincoo-domain.pages.dev/api';
@@ -40,9 +42,10 @@
     stableToken,
     uid,
     list() {
+      // Selalu real-time dari API; tanpa fallback data lama (localStorage) supaya tiap akun melihat data terbarunya sendiri.
       return probe.then(() => apiMode
         ? api('/api/domains').then(d => d.domains || [])
-        : lsList());
+        : []);
     },
     create(name) {
       return probe.then(() => apiMode
