@@ -287,8 +287,10 @@
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         /* Item popup titik-3 khusus desktop — disembunyikan di mobile */
         @media (max-width: 899.98px) { .header-desktop-only { display: none !important; } }
-        /* Mobile: header disamakan persis dengan halaman Workspace — X di kiri, kapsul nav di tengah, titik-3 menempel rapi di kanan */
+        /* Mobile: header disamakan persis dengan halaman Workspace — X di kiri, kapsul nav di tengah, titik-3 di kanan */
         @media (max-width: 899.98px) { #chat-header-group { display: contents; } }
+        /* Mobile: beri jarak antara tombol X, kapsul, dan titik-3 */
+        @media (max-width: 899.98px) { header { gap: 8px; } }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
         #chat-nav-pill { display: none; }
