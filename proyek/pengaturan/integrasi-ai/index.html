@@ -719,9 +719,13 @@
   }
 
   async function loadAiSettings() {
+    // render awal dulu — jangan tergantung sukses/tidaknya fetch
+    renderAiModelOptions();
+    updateAiRateHint();
+    renderAiCurl();
     try {
       var res = await fetch(AI_API_BASE + '/project-settings?project_id=' + encodeURIComponent(_aiPid()), { headers: _aiHdrs(false) });
-      if (!res.ok) return;
+      if (!res.ok) { await loadAiSecret(); await loadAiLogs(); return; }
       var data = await res.json();
       var st = (data && data.settings) || {};
       var cfg = null;
@@ -732,9 +736,6 @@
         if (ml) ml.textContent = cfg.model;
       }
     } catch (e) {}
-    renderAiModelOptions();
-    updateAiRateHint();
-    renderAiCurl();
     await loadAiSecret();
     await loadAiLogs();
     try {
