@@ -407,6 +407,10 @@
             </div>
           </div>
           <div class="mt-5">
+            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian harian (14 hari terakhir)</p>
+            <div id="ai-daily-chart-wrap" class="hidden relative w-full h-[200px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden mb-4 p-2"><canvas id="ai-daily-usage-chart"></canvas></div>
+          </div>
+          <div class="mt-5">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pemakaian per model</p>
             <div id="ai-chart-wrap" class="hidden relative w-full h-[220px] rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 overflow-hidden mb-4 p-2"><canvas id="ai-usage-chart"></canvas></div>
             <div id="ai-model-usage" class="space-y-2.5"></div>
@@ -757,7 +761,10 @@
     // hapus lokal saja: log server dibersihkan otomatis (maks 500 baris per proyek)
     renderAiLogs([]); renderAiAnalytics({});
   }
+  var _aiLogsRaw = [];
   function renderAiLogs(logs) {
+    _aiLogsRaw = logs || [];
+    renderAiDailyChart();
     var list = document.getElementById('ai-log-list');
     var empty = document.getElementById('ai-log-empty');
     if (!list) return;
@@ -810,6 +817,86 @@
         : '';
     }
     renderAiChart(perModel);
+  }
+
+  // --- Grafik pemakaian harian (Chart.js) ---
+  var _aiDailyChart = { inst: null };
+  function renderAiDailyChart() {
+    var wrap = document.getElementById('ai-daily-chart-wrap');
+    if (!wrap) return;
+    var logs = _aiLogsRaw || [];
+    if (!logs.length) {
+      wrap.classList.add('hidden');
+      if (_aiDailyChart.inst) { _aiDailyChart.inst.destroy(); _aiDailyChart.inst = null; }
+      return;
+    }
+    loadChartJs(function (ok) {
+      if (!ok || !window.Chart) { wrap.classList.add('hidden'); return; }
+      wrap.classList.remove('hidden');
+      // agregasi per hari lokal, 14 hari terakhir
+      var days = [];
+      var byDay = {};
+      var d = new Date();
+      d.setHours(0, 0, 0, 0);
+      for (var i = 13; i >= 0; i--) {
+        var dt = new Date(d.getTime() - i * 86400000);
+        var key = dt.toISOString().slice(0, 10);
+        days.push({ key: key, label: dt.getDate() + '/' + (dt.getMonth() + 1), n: 0, tok: 0, c: 0 });
+        byDay[key] = days[days.length - 1];
+      }
+      logs.forEach(function (lg) {
+        var t = new Date(lg.t);
+        if (isNaN(t.getTime())) return;
+        t.setHours(0, 0, 0, 0);
+        var day = byDay[t.toISOString().slice(0, 10)];
+        if (!day) return;
+        day.n += 1;
+        day.tok += (lg.tok || 0);
+        day.c += (lg.c || 0);
+      });
+      if (_aiDailyChart.inst) { _aiDailyChart.inst.destroy(); _aiDailyChart.inst = null; }
+      var dark = _aiDark();
+      var tick = dark ? '#9ca3af' : '#6b7280';
+      var grid = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+      var line = dark ? 'rgba(255,255,255,0.9)' : 'rgba(17,17,17,0.9)';
+      var fill = dark ? 'rgba(255,255,255,0.08)' : 'rgba(17,17,17,0.06)';
+      try {
+        _aiDailyChart.inst = new Chart(document.getElementById('ai-daily-usage-chart'), {
+          type: 'line',
+          data: {
+            labels: days.map(function (x) { return x.label; }),
+            datasets: [{
+              label: 'Permintaan',
+              data: days.map(function (x) { return x.n; }),
+              borderColor: line,
+              backgroundColor: fill,
+              fill: true,
+              tension: 0.35,
+              pointRadius: 2.5,
+              pointHoverRadius: 4,
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 300 },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: function (ctx) {
+                var x = days[ctx.dataIndex];
+                return x.n + 'x · ' + x.tok + ' token · kredit ' + x.c;
+              } } }
+            },
+            scales: {
+              x: { ticks: { color: tick, font: { size: 10 }, maxRotation: 0, autoSkip: true }, grid: { display: false } },
+              y: { beginAtZero: true, ticks: { color: tick, precision: 0 }, grid: { color: grid } }
+            }
+          }
+        });
+      } catch (e) { wrap.classList.add('hidden'); }
+    });
   }
 
   // --- Grafik pemakaian per model (Chart.js) ---
