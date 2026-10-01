@@ -32,6 +32,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://clincoo-be2.pages.dev" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -122,7 +123,7 @@
         .skel { position: relative; overflow: hidden; background-color: #f3f4f6; }
         .skel::after {
             content: '';
-            position: absolute; inset: 0;
+            position: absolute; top: 32%; bottom: 32%; left: 0; right: 0;
             transform: translateX(-100%);
             background: linear-gradient(90deg, transparent, rgba(0,0,0,0.05), transparent);
             animation: clinqoo-shimmer 1.4s ease infinite;
@@ -298,10 +299,10 @@
                     <p class="text-sm text-gray-500 mt-1">Engine utama yang digunakan untuk menjalankan aplikasi ini</p>
                 </div>
                 <div class="w-full sm:w-80 relative">
-                    <div id="runtime-trigger" class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleDropdown(this, 'runtime', ['Node.js 20.x (LTS)', 'Node.js 18.x', 'Python 3.11', 'PHP 8.2', 'Static HTML/JS/CSS'])">
+                    <div id="runtime-trigger" class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleDropdown(this, 'runtime', ['Static HTML/JS/CSS', 'Cloudflare Pages + Functions'])">
                         <div class="flex items-center gap-2.5 min-w-0">
                             <i data-lucide="cpu" class="w-4 h-4 text-gray-500 shrink-0"></i>
-                            <span id="label-runtime" class="font-medium truncate">Node.js 20.x (LTS)</span>
+                            <span id="label-runtime" class="font-medium truncate">Static HTML/JS/CSS</span>
                         </div>
                         <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 pointer-events-none shrink-0"></i>
                     </div>
@@ -420,9 +421,8 @@
                 // jangan menimpa kalau user sedang mengetik (race saat load lambat)
                 if (st.app_name && document.activeElement !== nameEl) { nameEl.value = st.app_name; savedVals.app_name = st.app_name; }
                 if (st.app_desc && document.activeElement !== descEl) { descEl.value = st.app_desc; savedVals.app_desc = st.app_desc; }
-                if (st.runtime) { savedVals.runtime = st.runtime; const l = document.getElementById('label-runtime'); if (l) l.textContent = st.runtime; }
                 if (st.maintenance) { savedVals.maintenance = st.maintenance; setMaintenance(st.maintenance === 'true'); }
-                writeCache({ app_name: st.app_name || '', app_desc: st.app_desc || '', runtime: st.runtime || '', maintenance: st.maintenance || 'false' });
+                writeCache({ app_name: st.app_name || '', app_desc: st.app_desc || '', maintenance: st.maintenance || 'false' });
             } catch (e) {}
             updateNamePreview();
             showSkeletons(false);
@@ -494,9 +494,35 @@
             const bg = document.getElementById(idPrefix + '-bg');
             const on = bg.classList.contains('bg-black');
             markPending('maintenance', on ? 'true' : 'false');
+            savePending(); // real-time: langsung tersimpan saat di-toggle
         }
 
         loadUmum();
+
+        // ---- Lingkungan Runtime dibaca dari isi Workspace (bukan pilihan statis) ----
+        async function syncRuntimeFromWorkspace() {
+            try {
+                const res = await fetch(API + '/project-files?project_id=' + encodeURIComponent(pid()), { headers: authHeaders() });
+                if (!res.ok) return;
+                const data = await res.json();
+                const files = (data && data.files) || [];
+                const hasFunctions = files.some(function (f) { return f && f.path && (/^functions\//.test(f.path) || f.path === '_worker.js'); });
+                const runtime = hasFunctions ? 'Cloudflare Pages + Functions' : 'Static HTML/JS/CSS';
+                const label = document.getElementById('label-runtime');
+                if (label) label.textContent = runtime;
+                if (savedVals.runtime !== runtime) {
+                    savedVals.runtime = runtime;
+                    writeCache({ runtime: runtime });
+                    // sinkronkan nilai lama di server secara diam-diam
+                    fetch(API + '/project-settings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+                        body: JSON.stringify({ project_id: pid(), runtime: runtime })
+                    }).catch(function () {});
+                }
+            } catch (e) {}
+        }
+        syncRuntimeFromWorkspace();
 
         function toggleDropdown(element, targetId, optionsArray) {
             const wrapper = element.parentElement;
