@@ -426,66 +426,77 @@
 
     <div id="sidebar-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0 invisible pointer-events-none transition-opacity duration-300" onclick="toggleSidebar(false)"></div>
     <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-[60] w-72 max-w-[85vw] bg-white border-r border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col -translate-x-full transition-transform duration-300 ease-out" aria-label="Menu Samping" aria-hidden="true">
-        <div class="flex items-center justify-between gap-3 p-4 border-b border-gray-100">
-            <div class="flex items-center gap-2.5">
-                <img src="assets/logo-clinqoo.png" alt="App Logo" class="w-9 h-9 rounded-full bg-white shadow-sm">
-                <span class="font-[800] text-2xl tracking-tight text-black">Clincoo</span>
+        <style>
+            #menu-btn, body.dark-mode #menu-btn { background: transparent !important; border: none !important; box-shadow: none !important; }
+        </style>
+        <div class="flex items-center justify-between gap-3 p-2 pl-3">
+            <div class="flex items-center gap-1.5">
+                <img src="assets/logo-clinqoo.png" alt="App Logo" class="w-10 h-10 rounded-full bg-white shadow-sm">
+                <span class="font-[800] text-3xl tracking-tight text-black">Clincoo</span>
             </div>
             <button type="button" onclick="toggleSidebar(false)" class="flex items-center justify-center p-2 hover:opacity-70 transition-opacity cursor-pointer rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20" aria-label="Tutup Menu">
-                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6L6 18"></path>
-                </svg>
+                <i data-lucide="x" class="w-[22px] h-[22px] text-black"></i>
             </button>
         </div>
-        <nav class="flex-1 overflow-y-auto p-3 flex flex-col gap-1" onclick="toggleSidebar(false)">
-            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3 pt-2 pb-1">Utama</p>
-            <a href="/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"></path></svg>
-                Beranda
+        <div class="px-4 pt-3 pb-2">
+            <div class="relative">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                <input id="sidebar-search" type="text" placeholder="Cari fitur..." autocomplete="off" class="w-full bg-gray-50 border border-gray-100 rounded-xl pl-9 pr-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus-visible:ring-white/20 transition-colors">
+            </div>
+        </div>
+        <nav id="sidebar-nav" class="flex-1 overflow-y-auto pb-3 flex flex-col">
+            <a href="#" onclick="event.preventDefault();toggleSidebar(false);navigateTo('page-home');" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="home beranda">
+                <i data-lucide="home" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Home</span>
             </a>
-            <a href="akun/proyek/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"></path></svg>
-                Proyek
+            <a href="proyek/pengaturan/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="domain kustom">
+                <i data-lucide="globe" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Domain</span>
             </a>
-            <a href="akun/aktivitas/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Aktivitas
+            <a href="akun/proyek/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="proyek project daftar">
+                <i data-lucide="folder" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Proyek</span>
             </a>
-            <a href="akun/notifikasi/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                Notifikasi
+            <a href="templates/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="template">
+                <i data-lucide="layout-template" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Template</span>
             </a>
-            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3 pt-3 pb-1">Akun</p>
-            <a href="akun/langganan/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.426L20 12l-5.714 2.574L12 21l-2.286-6.426L4 12l5.714-2.574L12 3z"></path></svg>
-                Langganan
+            <a href="akun/notifikasi/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="notifikasi">
+                <i data-lucide="bell" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Notifikasi</span>
             </a>
-            <a href="akun/dompet/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zm14 5h3v-2h-3a1 1 0 100 2z"></path></svg>
-                Dompet
+            <a href="akun/langganan/" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="upgrade langganan paket">
+                <i data-lucide="crown" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Upgrade</span>
             </a>
-            <a href="akun/profile/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21a8 8 0 0 0-16 0"></path></svg>
-                Profil
+            <a href="https://blog.clincoo.buzz/panduan/" target="_blank" rel="noopener" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="pusat bantuan help">
+                <i data-lucide="circle-help" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900">Pusat Bantuan</span>
             </a>
-            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3 pt-3 pb-1">Lainnya</p>
-            <a href="akun/kolaborasi/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.281-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.281.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                Kolaborasi
-            </a>
-            <a href="akun/favorit/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-                Favorit
-            </a>
-            <a href="akun/tugas-terjadwal/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                Tugas Terjadwal
-            </a>
-            <a href="akun/tentang/" class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-colors text-sm font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20">
-                <svg class="w-[18px] h-[18px] text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Tentang
-            </a>
+            <div class="sb-section" data-search="favorit template">
+                <button type="button" onclick="toggleSidebarDropdown('sidebar-fav-list', this)" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="favorit template">
+                    <i data-lucide="heart" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                    <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900 flex-1 text-left">Favorit Template</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                </button>
+                <div id="sidebar-fav-list" class="hidden flex-col max-h-52 overflow-y-auto"></div>
+            </div>
+            <div class="sb-section" data-search="daftar proyek">
+                <button type="button" onclick="toggleSidebarDropdown('sidebar-proj-list', this)" class="sb-item w-full flex items-center px-6 py-2 hover:bg-gray-50 transition-colors group" data-search="daftar proyek project">
+                    <i data-lucide="layers" class="w-5 h-5 text-gray-500 mr-4 group-hover:text-gray-900 transition-colors"></i>
+                    <span class="text-[15px] font-medium text-gray-800 group-hover:text-gray-900 flex-1 text-left">Daftar Proyek</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                </button>
+                <div id="sidebar-proj-list" class="hidden flex-col max-h-52 overflow-y-auto"></div>
+            </div>
         </nav>
+        <a href="akun/profile/" onclick="toggleSidebar(false)" class="mt-auto border-t border-gray-100 flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors">
+            <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shrink-0 text-sm font-bold text-gray-500"></div>
+            <div class="flex flex-col min-w-0">
+                <span id="sidebar-user-name" class="text-sm font-semibold text-gray-900 truncate">Pengguna</span>
+                <span id="sidebar-user-email" class="text-xs text-gray-500 truncate"></span>
+            </div>
+        </a>
     </aside>
     <script>
         function toggleSidebar(forceState) {
@@ -500,6 +511,7 @@
                 backdrop.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
                 if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
                 document.body.style.overflow = 'hidden';
+                renderSidebarDynamic();
             } else {
                 sidebar.classList.add('-translate-x-full');
                 sidebar.setAttribute('aria-hidden', 'true');
@@ -508,9 +520,110 @@
                 document.body.style.overflow = '';
             }
         }
+        function toggleSidebarDropdown(listId, btn) {
+            var list = document.getElementById(listId);
+            if (!list) return;
+            var chevron = btn ? btn.querySelector('[data-lucide="chevron-down"]') : null;
+            if (list.classList.contains('hidden')) {
+                list.classList.remove('hidden');
+                list.classList.add('flex');
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            } else {
+                list.classList.add('hidden');
+                list.classList.remove('flex');
+                if (chevron) chevron.style.transform = '';
+            }
+        }
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+        function renderSidebarDynamic() {
+            // Favorit template
+            var favList = document.getElementById('sidebar-fav-list');
+            if (favList) {
+                var favs = [];
+                try { favs = JSON.parse(localStorage.getItem('clinqoo_template_favorites') || '[]'); } catch (e) {}
+                var html = '';
+                if (favs.length && typeof ClinqooTemplates !== 'undefined') {
+                    favs.forEach(function (key) {
+                        var t = ClinqooTemplates.list && ClinqooTemplates.list[key];
+                        if (!t) return;
+                        html += '<a href="' + esc(t.url) + '" onclick="toggleSidebar(false)" class="sb-sub flex items-center gap-2.5 px-6 py-2 pl-[3.25rem] hover:bg-gray-50 transition-colors" data-search="' + esc((t.name || '') + ' ' + key) + '">' +
+                            '<i data-lucide="star" class="w-4 h-4 text-gray-400 shrink-0"></i>' +
+                            '<span class="text-sm text-gray-600 truncate">' + esc(t.name || key) + '</span></a>';
+                    });
+                }
+                if (!html) html = '<p class="sb-sub px-6 py-2 pl-[3.25rem] text-xs text-gray-400">Belum ada template favorit</p>';
+                favList.innerHTML = html;
+            }
+            // Daftar proyek
+            var projList = document.getElementById('sidebar-proj-list');
+            if (projList) {
+                var projects = [];
+                try { projects = JSON.parse(localStorage.getItem('clinqoo_projects') || '[]'); } catch (e) {}
+                var html2 = '';
+                projects.forEach(function (p) {
+                    var name = (p && (p.aiName || p.title)) || 'Tanpa nama';
+                    html2 += '<a href="proyek/workspace/?id=' + encodeURIComponent(p.id) + '" onclick="toggleSidebar(false)" class="sb-sub flex items-center gap-2.5 px-6 py-2 pl-[3.25rem] hover:bg-gray-50 transition-colors" data-search="' + esc(name) + '">' +
+                        '<i data-lucide="folder" class="w-4 h-4 text-gray-400 shrink-0"></i>' +
+                        '<span class="text-sm text-gray-600 truncate">' + esc(name) + '</span></a>';
+                });
+                if (!html2) html2 = '<p class="sb-sub px-6 py-2 pl-[3.25rem] text-xs text-gray-400">Belum ada proyek</p>';
+                projList.innerHTML = html2;
+            }
+            // Profil bawah
+            var av = document.getElementById('sidebar-avatar');
+            var nm = document.getElementById('sidebar-user-name');
+            var em = document.getElementById('sidebar-user-email');
+            var name = '', email = '', pic = '';
+            try { name = localStorage.getItem('clinqoo_fullname') || ''; email = localStorage.getItem('clinqoo_email') || ''; pic = localStorage.getItem('clinqoo_profile_pic') || ''; } catch (e) {}
+            if (nm) nm.textContent = name || 'Pengguna';
+            if (em) em.textContent = email || '';
+            if (av) {
+                av.style.backgroundImage = '';
+                av.textContent = '';
+                if (pic) { av.style.backgroundImage = 'url(' + pic + ')'; av.style.backgroundSize = 'cover'; av.style.backgroundPosition = 'center'; }
+                else if (name) av.textContent = name.charAt(0).toUpperCase();
+                else av.innerHTML = '<i data-lucide="user" class="w-5 h-5 text-gray-400"></i>';
+            }
+            try { lucide.createIcons(); } catch (e) {}
+        }
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') toggleSidebar(false);
         });
+        (function () {
+            var input = document.getElementById('sidebar-search');
+            if (!input) return;
+            input.addEventListener('input', function () {
+                var q = input.value.trim().toLowerCase();
+                document.querySelectorAll('#sidebar-nav .sb-item').forEach(function (el) {
+                    el.style.display = (!q || (el.getAttribute('data-search') || '').toLowerCase().indexOf(q) !== -1) ? '' : 'none';
+                });
+                document.querySelectorAll('#sidebar-nav .sb-section').forEach(function (sec) {
+                    var secMatch = (sec.getAttribute('data-search') || '').toLowerCase().indexOf(q) !== -1;
+                    var anySub = false;
+                    sec.querySelectorAll('.sb-sub').forEach(function (sub) {
+                        var m = secMatch || (sub.getAttribute('data-search') || '').toLowerCase().indexOf(q) !== -1;
+                        sub.style.display = (!q || m) ? '' : 'none';
+                        if (m && q) anySub = true;
+                    });
+                    if (q) {
+                        var btn = sec.querySelector('button');
+                        var list = sec.querySelector('[id]');
+                        if (btn && list) {
+                            if (anySub && list.classList.contains('hidden')) toggleSidebarDropdown(list.id, btn);
+                            if (!anySub && !list.classList.contains('hidden') && !secMatch) toggleSidebarDropdown(list.id, btn);
+                        }
+                    } else {
+                        var btn2 = sec.querySelector('button');
+                        var list2 = sec.querySelector('[id]');
+                        if (btn2 && list2 && !list2.classList.contains('hidden')) toggleSidebarDropdown(list2.id, btn2);
+                    }
+                });
+            });
+        })();
     </script>
     <main id="page-home" class="page-view hidden flex-1 w-full max-w-3xl mx-auto px-5 pt-8 pb-10 flex flex-col justify-start">
         <div id="promo-early-banner" class="hidden items-center gap-3 mb-6 rounded-2xl bg-gray-50 border border-gray-100 px-4 py-3">
