@@ -182,7 +182,7 @@
         
         <div id="main-view">
             <div class="mb-6 md:mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat tracking-tight mb-2">Plugin</h1>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat tracking-tight mb-2 flex items-center gap-2.5">Plugin<span id="premium-plugin-chip" class="hidden items-center gap-1 px-2.5 py-1 rounded-full border border-amber-200/70 bg-amber-50/80" title="Kuota plugin Starter: 1 — koneksi tambahan bagian paket Premium" aria-label="Fitur Premium"><svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.019a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path></svg><span class="text-[11px] font-semibold text-amber-600">Premium</span></span></h1>
                 <p class="text-base text-gray-500 max-w-2xl">Hubungkan Clincoo dengan alat dan platform favorit Anda untuk memperluas kemampuan AI Agent dalam alur kerja Anda.</p>
             </div>
 
@@ -446,6 +446,16 @@
                 st[key] = !!connected;
                 localStorage.setItem('clincoo_plugin_status', JSON.stringify(st));
             } catch (e) {}
+            updatePluginPremiumChip();
+        }
+        function updatePluginPremiumChip() {
+            const st = readPluginStatusCache();
+            const n = ['github', 'drive', 'calendar', 'notion'].filter(k => st[k]).length;
+            const chip = document.getElementById('premium-plugin-chip');
+            if (chip) {
+                chip.classList.toggle('hidden', n < 1);
+                chip.classList.toggle('inline-flex', n >= 1);
+            }
         }
         function applyPluginStatusCache() {
             const st = readPluginStatusCache();
@@ -453,8 +463,10 @@
             if (st.drive) setDriveConnectedUI(true);
             if (st.calendar) setCalendarConnectedUI(true);
             if (st.notion) setNotionConnectedUI(true);
+            updatePluginPremiumChip();
         }
         applyPluginStatusCache();
+        window.addEventListener('storage', updatePluginPremiumChip);
         if(sidebarOverlay) sidebarOverlay.onclick = toggleSidebar;
 
         let activeSessionIdForOptions = null;
