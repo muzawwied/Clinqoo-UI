@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
     <link rel="manifest" href="../../../manifest.json">
+    <link rel="preconnect" href="https://clincoo-be2.pages.dev" crossorigin>
+    <link rel="dns-prefetch" href="https://clincoo-be2.pages.dev">
     <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
   <title>Pengaturan: Domain Kustom — Clincoo</title>
     <meta name="description" content="Pengaturan: Domain Kustom — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
@@ -688,6 +690,7 @@
             if (settings.redirect) {
                 selectPopoverOption('redirect', settings.redirect, settings.redirectLabel || 'Redirect ke domain utama');
             }
+            if (settings.redirect) writeDomainCache({ redirect: settings.redirect, redirectLabel: settings.redirectLabel || 'Redirect ke domain utama' });
             updateDNSRecords(settings.domain || '', lastPagesUrl);
         } catch(e) {
             // Jangan biarkan input tetap terkunci bila backend gagal — tampilkan penyebabnya
@@ -704,7 +707,8 @@
         // Nilai diambil real-time dari hasil deploy proyek (st.pages_url).
         // Kosongkan bila belum ada nilai — TANPA teks menunggu; fast mode mengisi nilai asli
         // hampir seketika (< 200 ms, murni baca D1) begitu halaman terbuka.
-        const target = (pagesUrl || '').replace('https://', '').replace(/\/$/, '');
+        let target = (pagesUrl || '').replace('https://', '').replace(/\/$/, '');
+        if (!target) { try { const _c = readDomainCache(); if (_c && _c.pagesUrl) target = _c.pagesUrl.replace('https://', '').replace(/\/$/, ''); } catch (e) {} }
         const aNameText = document.getElementById('dns-a-name-text');
         const aValue = document.getElementById('dns-a-value');
         const cnameNameText = document.getElementById('dns-cname-name-text');
@@ -739,7 +743,18 @@
                 body: JSON.stringify({ project_id: pid, domain_settings: JSON.stringify(settings) })
             });
             await ClinqooAPI.logActivity('domain_updated', 'Domain: ' + settings.domain);
-            updateDNSRecords('', lastPagesUrl); // nilai record = URL deploy asli, bukan placeholder
+            // Simpan semua data ke cache instan per proyek: buka lagi halaman ini = tampil detik itu juga.
+            writeDomainCache({ domain: settings.domain, redirect: settings.redirect, redirectLabel: settings.redirectLabel });
+            // Subdomain publik SIAP LANGSUNG di halaman ini begitu user memasukkan domain:
+            // section DNS langsung muncul dengan nilai record dari data terbaik yang ada
+            // (hasil deploy terbaru / cache) — tanpa menunggu API status yang lambat.
+            var _bestUrl = lastPagesUrl;
+            if (!_bestUrl) { try { var _c2 = readDomainCache(); if (_c2 && _c2.pagesUrl) _bestUrl = _c2.pagesUrl; } catch (e) {} }
+            if (settings.domain) {
+                var _dnsShow = document.getElementById('dns-section');
+                if (_dnsShow && (_bestUrl || (function(){ try { var _c3 = readDomainCache(); return _c3 && _c3.deployed; } catch (e) { return false; } })())) _dnsShow.classList.remove('hidden');
+            }
+            updateDNSRecords('', _bestUrl); // nilai record = URL deploy asli, bukan placeholder
             if (settings.domain) attachDomainToPages(settings.domain);
         } catch(e) { window.__domainSaveError = (e && e.message) ? e.message : 'gagal menyimpan'; }
     }
@@ -898,6 +913,9 @@
                 domainInput.disabled = false;
                 var _sb2 = document.getElementById('btn-save-domain'); if (_sb2) _sb2.disabled = false;
             }
+            if (cached.redirect) {
+                try { originalSelectPopover('redirect', cached.redirect, cached.redirectLabel || 'Redirect ke domain utama'); } catch (e) {}
+            }
             syncDeleteBtn();
         }
         // 1b) Nilai record DNS instan: fast mode hanya baca D1 (nama project Pages),
@@ -914,12 +932,22 @@
                     if (st.pages_url) { lastPagesUrl = st.pages_url; updateDNSRecords('', st.pages_url); writeDomainCache({ pagesUrl: st.pages_url }); }
                     // Flag 'deployed' dari log D1: section DNS tampil pasti setelah deploy pertama,
                     // tanpa bergantung pada status API Cloudflare (yang bisa gagal/rate-limit).
-                    if (st.deployed) { var _dns = document.getElementById('dns-section'); if (_dns) _dns.classList.remove('hidden'); }
+                    if (st.deployed) { var _dns = document.getElementById('dns-section'); if (_dns) _dns.classList.remove('hidden'); writeDomainCache({ deployed: true }); }
                 } catch (e) {}
             })();
         }
         // 2) Muat data segar dari server — PARALEL, bukan berurutan
         Promise.all([loadDomainSettings(), loadRealDomainStatus()]);
+        // 2b) Anti-kunci shimmer: server lambat tidak boleh bikin input terkunci lama.
+        setTimeout(function () {
+            var _di = document.querySelector('input[placeholder="contohdomain.com"]');
+            if (_di && _di.classList.contains('domain-shimmer')) {
+                try { var _cc = readDomainCache(); if (_cc && _cc.domain) return; } catch (e) {}
+                _di.classList.remove('domain-shimmer');
+                _di.disabled = false;
+                var _sb3 = document.getElementById('btn-save-domain'); if (_sb3) _sb3.disabled = false;
+            }
+        }, 2500);
         // 3) Refresh real-time: poll status deploy & domain tiap 20 detik
         setInterval(loadRealDomainStatus, 20000);
     });
