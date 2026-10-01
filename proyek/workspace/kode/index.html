@@ -163,14 +163,47 @@ body.dark-mode .kd-toast { background: #ffffff; color: #0a0a0a; }
   var data = loadData();
   var item = fname ? findItem(data) : null;
 
-  if (!item) {
+  function showEmpty() {
     elCode.style.display = 'none';
     elEditBtn.style.display = 'none';
     elEmpty.style.display = 'block';
     elFname.textContent = fname || 'Berkas';
+    elSub.textContent = '';
+  }
+
+  if (!item) {
+    // localStorage gak punya berkas ini (bisa karena kuota penuh / data belum sinkron /
+    // penyimpanan dibersihkan): tarik langsung dari cloud D1 sebelum menyerah.
+    if (!pid) { showEmpty(); return; }
+    elSub.textContent = 'Memuat dari cloud…';
+    var WS_API2 = (['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api') + '/project-files';
+    var tk2 = '';
+    try { tk2 = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+    var h2 = tk2 ? { Authorization: 'Bearer ' + tk2 } : {};
+    fetch(WS_API2 + '?project_id=' + encodeURIComponent(pid), { headers: h2 })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (d) {
+        var files = (d && d.files) || [];
+        var hit = null;
+        var want = (folder && folder !== 'root' ? folder + '/' : '') + fname;
+        for (var i = 0; i < files.length; i++) {
+          var p = files[i] && files[i].path;
+          if (!p) continue;
+          var base = String(p).replace(/\/$/, '').split('/').pop();
+          if (base === fname) { hit = files[i]; if (p === want) break; }
+        }
+        if (hit && typeof hit.content === 'string') {
+          item = { name: fname, path: hit.path, content: hit.content, _cloudOnly: true };
+          render();
+        } else {
+          showEmpty();
+        }
+      })
+      .catch(function () { showEmpty(); });
     return;
   }
 
+  function render() {
   elFname.textContent = item.name;
   function subLabel() {
     var bits = [];
@@ -193,12 +226,22 @@ body.dark-mode .kd-toast { background: #ffffff; color: #0a0a0a; }
 
   elSaveBtn.addEventListener('click', function () {
     item.content = elEdit.value;
+    if (item._cloudOnly) { // berkas baru ditarik dari cloud: masukkan dulu ke data lokal
+      var fk = (folder && folder !== 'root') ? folder : 'root';
+      if (!Array.isArray(data[fk])) data[fk] = [];
+      if (!data[fk].some(function (x) { return x && x.name === item.name; })) data[fk].push(item);
+      item._cloudOnly = false;
+    }
     try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) { toast('Gagal: penyimpanan penuh'); return; }
     elCode.textContent = item.content || '';
     subLabel();
     cloudPush();
     toast('Tersimpan');
   });
+
+  }
+
+  render();
 
   // sinkronisasi ke Cloudflare D1 (format sama dengan halaman workspace)
   var WS_API = (['clincoo-be2.pages.dev', 'localhost', '127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev/api' : '/api') + '/project-files';
