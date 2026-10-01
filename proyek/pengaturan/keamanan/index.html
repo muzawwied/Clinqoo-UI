@@ -301,62 +301,7 @@
   
 
   <script>
-    const sidebarOverlay = document.getElementById('sidebar-overlay');
-    const sidebarPopup = document.getElementById('sidebar-popup');
     // Sidebar: di desktop pertama kali dibuka terbuka; refresh mengikuti keadaan terakhir
-    let isSidebarOpen = (function () {
-      // Mobile: sidebar SELALU mulai tertutup, hanya dibuka manual via toggle.
-      if (window.innerWidth < 1024) return false;
-      try {
-        const saved = localStorage.getItem('clinqoo_sidebar_open');
-        if (saved === '1') return true;
-        if (saved === '0') return false;
-      } catch (e) {}
-      return true; // desktop pertama kali: terbuka
-    })();
-
-    function toggleSidebar() {
-      isSidebarOpen = !isSidebarOpen;
-      try { if (window.innerWidth >= 1024) localStorage.setItem('clinqoo_sidebar_open', isSidebarOpen ? '1' : '0'); } catch (e) {}
-      if (sidebarPopup && sidebarOverlay && isSidebarOpen) {
-        sidebarOverlay.classList.remove('hidden');
-        setTimeout(() => {
-          sidebarOverlay.classList.remove('opacity-0');
-          sidebarPopup.classList.remove('-translate-x-full');
-        }, 10);
-      } else {
-        sidebarOverlay.classList.add('opacity-0');
-        sidebarPopup.classList.add('-translate-x-full');
-        setTimeout(() => {
-          sidebarOverlay.classList.add('hidden');
-        }, 300);
-      }
-    }
-
-    // Klik menu di sidebar -> tutup sidebar popup (drawer), lalu navigasi berjalan normal
-    document.querySelectorAll('.sidebar-nav-link').forEach(function (link) {
-      link.addEventListener('click', function () {
-        if (!isSidebarOpen) return;
-        isSidebarOpen = false;
-        try { if (window.innerWidth >= 1024) localStorage.setItem('clinqoo_sidebar_open', '0'); } catch (e) {}
-        sidebarOverlay.classList.add('opacity-0');
-        sidebarPopup.classList.add('-translate-x-full');
-        setTimeout(function () { sidebarOverlay.classList.add('hidden'); }, 300);
-      });
-    });
-
-    // Terapkan keadaan awal (tersimpan/default) tanpa animasi slide
-    if (sidebarPopup && sidebarOverlay && isSidebarOpen) {
-      sidebarPopup.style.transition = 'none';
-      sidebarOverlay.style.transition = 'none';
-      sidebarOverlay.classList.remove('hidden', 'opacity-0');
-      sidebarPopup.classList.remove('-translate-x-full');
-      requestAnimationFrame(function () {
-        sidebarPopup.style.transition = '';
-        sidebarOverlay.style.transition = '';
-      });
-    }
-
         function toggleNotifications(e) {
       e.stopPropagation();
       const notifDropdown = document.getElementById('notif-dropdown');
