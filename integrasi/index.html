@@ -298,22 +298,6 @@
                 </div>
 
 
-                <div id="eksport-git-card" class="integration-card group bg-white border border-gray-100 rounded-2xl p-4 sm:p-4.5 hover:border-gray-200 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 w-full cursor-pointer" data-title="eksport git" data-category="developer" role="button" tabindex="0">
-                    <div class="flex items-center gap-3">
-                        <div class="w-11 h-11 flex items-center justify-center flex-shrink-0">
-                            <i class="ph ph-git-branch text-[28px] text-[#181717]"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-[15px] font-bold text-gray-900 font-montserrat tracking-tight leading-tight">Eksport ke Git</h3>
-                            <p class="text-[11.5px] text-gray-400 font-medium mt-0.5">Developer &middot; Bawaan</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <button onclick="event.stopPropagation(); openExportModal()" class="px-4 py-2 bg-[#0f1115] text-white rounded-xl text-[12.5px] font-semibold hover:bg-[#1a1d24] transition-all duration-300 active:scale-[0.97] whitespace-nowrap">Eksport</button>
-                        </div>
-                    </div>
-                    <p class="text-[12.5px] text-gray-500 leading-relaxed mt-3">Kirim semua file workspace proyek ke repo GitHub atau GitLab, lengkap dalam satu commit.</p>
-                </div>
-
                 <div id="empty-state" class="hidden flex-col items-center justify-center py-16 px-4 text-center w-full">
                     <i class="ph ph-magnifying-glass text-5xl text-gray-300 mb-4"></i>
                     <h3 class="text-xl font-bold text-gray-900 font-montserrat mb-2">Tidak ada plugin</h3>
@@ -775,6 +759,7 @@
                         </div>
                         <span class="text-[12px] font-semibold text-emerald-600">Terhubung</span>
                     </div>
+                    <button onclick="closeGitLabModal(); openExportModal(); egSetPlatform('gitlab')" class="w-full py-3 cta-capsule rounded-full font-semibold text-sm active:scale-95 transition-all">Eksport workspace ke GitLab</button>
                     <button onclick="disconnectGitLab()" class="w-full py-3 rounded-full border border-red-200 text-sm font-semibold text-red-500 hover:bg-red-50 transition">Putuskan koneksi</button>
                 </div>
                 <!-- belum terhubung -->
@@ -2639,12 +2624,6 @@
 
   // klik kartu -> buka modal
   document.addEventListener('DOMContentLoaded', function () {
-    var c = $('eksport-git-card');
-    if (c) {
-      var open = function () { openExportModal(); };
-      c.addEventListener('click', open);
-      c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
-    }
     var g = $('gitlab-integration-card');
     if (g) {
       var openGl = function () { openGitLabModal(); };
