@@ -1,3 +1,5 @@
+export const ADMIN_EMAILS = new Set(['muzawwied@gmail.com']);
+
 // Cloudflare Pages Functions — Helper Batas Paket Langganan
 // Dipakai bersama oleh projects.js (batas jumlah proyek) dan collab.js (batas kolaborator).
 // Paket & start_date dibaca real-time dari tabel `subscription` (per-akun, prefix "u<id>:").

@@ -312,9 +312,10 @@
           <!-- Belum aktif (gaya empty state ala Pembayaran) -->
           <div id="email-inactive" class="py-10 flex flex-col items-center justify-center text-center">
             <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email proyek ini belum aktif</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk mendapatkan API key per proyek — pengaturan pengirim, kuota bulanan, dan log pengiriman akan muncul di sini.</p>
+            <p id="email-empty-title" class="text-sm font-medium text-gray-500 dark:text-gray-400">Email proyek ini belum aktif</p>
+            <p id="email-empty-desc" class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk mendapatkan API key per proyek — kuota 3.000 email/bulan, pengaturan pengirim, uji kirim, dan log pengiriman.</p>
             <button type="button" onclick="activateEmail()" id="email-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Aktifkan Email</button>
+            <a id="email-login-btn" href="/auth/" class="hidden mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2">Masuk ke Clincoo</a>
           </div>
 
           <!-- Aktif -->
@@ -364,24 +365,22 @@
                 <p class="py-2.5 text-gray-400 dark:text-gray-500">Belum ada pengiriman.</p>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="py-5">
-          <p class="text-base font-semibold text-gray-900 dark:text-white mb-1">Uji kirim</p>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Coba kirim email percobaan ke alamatmu sendiri sebelum dipakai di situs.</p>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <input id="email-test-to" type="email" placeholder="Tujuan percobaan (emailmu)" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
-            <input id="email-test-subject" type="text" placeholder="Subjek percobaan" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
-          </div>
-          <button type="button" onclick="sendTestEmail()" id="email-test-btn" class="mt-4 px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Kirim Email Uji</button>
-        </div>
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Uji kirim</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Coba kirim email percobaan ke alamatmu sendiri sebelum dipakai di situs.</p>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <input id="email-test-to" type="email" placeholder="Tujuan percobaan (emailmu)" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
+                <input id="email-test-subject" type="text" placeholder="Subjek percobaan" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
+              </div>
+              <button type="button" onclick="sendTestEmail()" id="email-test-btn" class="mt-4 px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Kirim Email Uji</button>
+            </div>
 
-        <div class="py-5">
-          <p class="text-base font-semibold text-gray-900 dark:text-white mb-1">Dokumentasi API</p>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Satu endpoint untuk semua kebutuhan email situs deploy-mu.</p>
-          <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 overflow-x-auto">
-            <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST https://app.clincoo.buzz/api/email
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Dokumentasi API</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Satu endpoint untuk semua kebutuhan email situs deploy-mu.</p>
+              <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 overflow-x-auto">
+                <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST https://app.clincoo.buzz/api/email
 Content-Type: application/json
 
 { "action": "send",
@@ -390,16 +389,23 @@ Content-Type: application/json
   "subject": "Pesanan diterima",
   "html": "&lt;h1&gt;Terima kasih!&lt;/h1&gt;&lt;p&gt;Pesananmu sedang diproses.&lt;/p&gt;",
   "reply_to": "kamu@domainmu.com" }</pre>
-          </div>
-          <div class="mt-3 grid gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">api_key</span> — API key proyek (bisa juga dikirim via header <span class="font-mono">Authorization: Bearer</span>).</p>
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">to</span> — alamat tujuan.</p>
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">subject</span> — subjek email.</p>
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">html</span> — isi email dalam HTML.</p>
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">reply_to</span> — opsional, alamat balasan pelanggan.</p>
+              </div>
+              <div class="mt-3 grid gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                <p><span class="font-medium text-gray-700 dark:text-gray-300">api_key</span> — API key proyek (bisa juga dikirim via header <span class="font-mono">Authorization: Bearer</span>).</p>
+                <p><span class="font-medium text-gray-700 dark:text-gray-300">to</span> — alamat tujuan.</p>
+                <p><span class="font-medium text-gray-700 dark:text-gray-300">subject</span> — subjek email.</p>
+                <p><span class="font-medium text-gray-700 dark:text-gray-300">html</span> — isi email dalam HTML.</p>
+                <p><span class="font-medium text-gray-700 dark:text-gray-300">reply_to</span> — opsional, alamat balasan pelanggan.</p>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
+
+      <footer class="w-full py-5 text-center text-xs text-gray-400 dark:text-gray-500">
+        Penggunaan Clincoo Email API tunduk pada <a href="https://blog.clincoo.buzz/legal/syarat-ketentuan/" target="_blank" rel="noopener" class="underline hover:text-gray-600 dark:hover:text-gray-300">Syarat &amp; Ketentuan</a> dan <a href="https://blog.clincoo.buzz/legal/kebijakan-privasi/" target="_blank" rel="noopener" class="underline hover:text-gray-600 dark:hover:text-gray-300">Kebijakan Privasi</a> Clincoo.
+      </footer>
 
 </main>
   </div>
@@ -435,6 +441,27 @@ Content-Type: application/json
 
   function renderEmailInactive() {
     setEmailBadge(false);
+    var act = document.getElementById('email-activate-btn');
+    var lg = document.getElementById('email-login-btn');
+    document.getElementById('email-empty-title').textContent = 'Email proyek ini belum aktif';
+    document.getElementById('email-empty-desc').textContent = 'Aktifkan untuk mendapatkan API key per proyek — kuota 3.000 email/bulan, pengaturan pengirim, uji kirim, dan log pengiriman.';
+    act.classList.remove('hidden'); act.disabled = false; act.textContent = 'Aktifkan Email';
+    lg.classList.add('hidden');
+    document.getElementById('email-inactive').classList.remove('hidden');
+    var a = document.getElementById('email-active');
+    a.classList.add('hidden'); a.classList.remove('flex');
+  }
+
+  // 401: belum login di origin ini — tampilkan CTA masuk, bukan tombol aktifkan.
+  function renderEmailLogin() {
+    setEmailBadge(false);
+    var act = document.getElementById('email-activate-btn');
+    var lg = document.getElementById('email-login-btn');
+    document.getElementById('email-empty-title').textContent = 'Masuk dulu untuk mengelola email';
+    document.getElementById('email-empty-desc').textContent = 'Pengaturan email terhubung ke akun Clincoo Anda agar API key proyek tetap aman.';
+    act.classList.add('hidden');
+    lg.classList.remove('hidden');
+    lg.href = '/auth/?next=' + encodeURIComponent(location.pathname + location.search);
     document.getElementById('email-inactive').classList.remove('hidden');
     var a = document.getElementById('email-active');
     a.classList.add('hidden'); a.classList.remove('flex');
@@ -467,7 +494,7 @@ Content-Type: application/json
     fetch(API_BASE + '/email?action=config&project_id=' + encodeURIComponent(_pid()), { headers: _hdrs() })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(renderEmailActive)
-      .catch(renderEmailInactive);
+      .catch(function (st) { st === 401 ? renderEmailLogin() : renderEmailInactive(); });
   }
 
   function _emailPost(action, body, onOk) {
@@ -484,7 +511,8 @@ Content-Type: application/json
       .then(function () { emailToast('Email proyek ini diaktifkan', true); loadEmailConfig(); })
       .catch(function (st) {
         btn.disabled = false; btn.textContent = 'Aktifkan Email';
-        emailToast(st === 404 ? 'Backend email belum tersedia — menyusul di tahap berikutnya' : 'Gagal mengaktifkan email (' + st + ')', false);
+        if (st === 401) { renderEmailLogin(); emailToast('Masuk dulu untuk mengaktifkan email', false); }
+        else emailToast(st === 404 ? 'Backend email belum tersedia — menyusul di tahap berikutnya' : 'Gagal mengaktifkan email (' + st + ')', false);
       });
   }
 
