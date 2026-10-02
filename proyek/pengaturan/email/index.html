@@ -306,7 +306,6 @@
               <h4 class="text-base font-semibold text-gray-900 dark:text-white">Email</h4>
               <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim email otomatis dari situs deploy-mu lewat Clincoo Email API — form kontak, notifikasi, dan verifikasi.</p>
             </div>
-            <span id="email-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap flex-shrink-0">Belum aktif</span>
           </div>
 
           <!-- Belum aktif (gaya empty state ala Pembayaran) -->
@@ -391,12 +390,15 @@
             <div class="py-4">
               <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Dokumentasi API</p>
               <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Satu endpoint untuk semua kebutuhan email situs deploy-mu.</p>
-              <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 overflow-x-auto">
-                <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST https://app.clincoo.buzz/api/email
+              <div class="relative bg-gray-50 dark:bg-slate-900 rounded-xl p-4 pr-12 overflow-x-auto">
+                <button type="button" onclick="copyDocs()" title="Salin dokumentasi" class="absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.255.332 1.711.744.456.412.703.951.703 1.516v10.75a2.25 2.25 0 01-2.25 2.25h-6.75a2.25 2.25 0 01-2.25-2.25V6.75c0-.565.247-1.104.703-1.516.456-.412 1.065-.695 1.711-.744m-3.088 0A.75.75 0 016 4.5v0a.75.75 0 01.75-.75h.5m8.75 0h.5a.75.75 0 01.75.75v0a.75.75 0 01-.084.338m-8.166 0c.055-.194.084-.4.084-.612v0a.75.75 0 00-.084-.338"/></svg>
+                </button>
+                <pre id="email-docs-pre" class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST https://app.clincoo.buzz/api/email
 Content-Type: application/json
 
 { "action": "send",
-  "api_key": "clc_email_xxxxxxxx",
+  "api_key": "<span id="email-docs-key" class="text-gray-900 dark:text-white">clc_email_••••••••••••</span>",
   "to": "pelanggan@contoh.com",
   "subject": "Pesanan diterima",
   "html": "&lt;h1&gt;Terima kasih!&lt;/h1&gt;&lt;p&gt;Pesananmu sedang diproses.&lt;/p&gt;",
@@ -449,15 +451,8 @@ Content-Type: application/json
     window._emailToastT = setTimeout(function () { t.style.opacity = '0'; }, 2800);
   }
 
-  function setEmailBadge(active) {
-    var b = document.getElementById('email-status-badge');
-    b.textContent = active ? 'Aktif' : 'Belum aktif';
-    b.className = 'px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap flex-shrink-0 ' +
-      (active ? 'bg-green-50 text-green-600 dark:bg-green-900/40 dark:text-green-400' : 'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400');
-  }
 
   function renderEmailInactive() {
-    setEmailBadge(false);
     _clearEmailCache();
     var act = document.getElementById('email-activate-btn');
     var lg = document.getElementById('email-login-btn');
@@ -472,7 +467,6 @@ Content-Type: application/json
 
   // 401: belum login di origin ini — tampilkan CTA masuk, bukan tombol aktifkan.
   function renderEmailLogin() {
-    setEmailBadge(false);
     _clearEmailCache();
     var act = document.getElementById('email-activate-btn');
     var lg = document.getElementById('email-login-btn');
@@ -487,7 +481,6 @@ Content-Type: application/json
   }
 
   function renderEmailActive(cfg) {
-    setEmailBadge(true);
     document.getElementById('email-inactive').classList.add('hidden');
     var a = document.getElementById('email-active');
     a.classList.remove('hidden'); a.classList.add('flex');
@@ -499,6 +492,7 @@ Content-Type: application/json
       ? (cfg.has_custom_key ? 'Pengirim kustom aktif dari domainmu sendiri.' : 'Kunci API Brevo belum tersimpan — isi untuk mengaktifkan kirim dari domainmu.')
       : 'Kosongkan alamat untuk kembali ke pengirim default.';
     if (cfg.api_key) document.getElementById('email-key-box').textContent = cfg.api_key;
+    document.getElementById('email-docs-key').textContent = cfg.api_key || 'clc_email_••••••••••••';
     var used = cfg.used || 0, limit = cfg.limit || 1000;
     document.getElementById('email-quota').textContent = used.toLocaleString('id-ID') + ' / ' + limit.toLocaleString('id-ID');
     document.getElementById('email-quota-bar').style.width = Math.min(100, Math.round(used / limit * 100)) + '%';
@@ -569,10 +563,17 @@ Content-Type: application/json
     navigator.clipboard.writeText(key).then(function () { emailToast('API key disalin', true); });
   }
 
+  function copyDocs() {
+    var pre = document.getElementById('email-docs-pre');
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.innerText).then(function () { emailToast('Dokumentasi disalin', true); });
+  }
+
   function regenerateEmailKey() {
     if (!confirm('Buat ulang API key? Kunci lama langsung tidak berlaku.')) return;
     _emailPost('regenerate').then(function (cfg) {
       if (cfg.api_key) document.getElementById('email-key-box').textContent = cfg.api_key;
+      document.getElementById('email-docs-key').textContent = cfg.api_key || 'clc_email_••••••••••••';
       emailToast('API key baru diterbitkan', true);
     }).catch(function (e) { emailToast(e && e.error ? e.error : 'Gagal membuat ulang key (' + (e && e.status || e) + ')', false); });
   }
@@ -581,6 +582,7 @@ Content-Type: application/json
     if (!confirm('Cabut API key? Situs deploy-mu akan gagal kirim email.')) return;
     _emailPost('revoke').then(function () {
       document.getElementById('email-key-box').textContent = 'clc_email_••••••••••••';
+      document.getElementById('email-docs-key').textContent = 'clc_email_••••••••••••';
       emailToast('API key dicabut', true);
     }).catch(function (e) { emailToast(e && e.error ? e.error : 'Gagal mencabut key (' + (e && e.status || e) + ')', false); });
   }
