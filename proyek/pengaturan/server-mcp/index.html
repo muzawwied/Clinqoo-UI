@@ -333,22 +333,18 @@
               <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Endpoint MCP</p>
               <div class="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
                 <code id="mcp-url" class="flex-1 text-xs font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
-                <button type="button" onclick="copyMcpText(mcpState.url)" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Salin URL">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
-                </button>
-              </div>
+                <button type="button" onclick="copyMcpText(mcpState.url, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin URL"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg><span>Salin</span></button>
+                              </div>
             </div>
 
             <div>
               <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Token Akses</p>
               <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
                 <code id="mcp-token" class="flex-1 text-xs font-mono text-gray-700 dark:text-gray-300 break-all"></code>
-                <button type="button" onclick="toggleMcpTokenVisible()" id="mcp-eye-btn" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Tampilkan/sembunyikan token">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                <button type="button" onclick="toggleMcpTokenVisible()" id="mcp-eye-btn" class="flex-shrink-0 inline-flex items-center justify-center px-2.5 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Tampilkan/sembunyikan token">
+                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                 </button>
-                <button type="button" onclick="copyMcpText(mcpState.token)" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Salin token">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
-                </button>
+                <button type="button" onclick="copyMcpText(mcpState.token, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin token"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg><span>Salin</span></button>
               </div>
               <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">
                 <button type="button" onclick="regenerateMcp()" class="text-xs font-medium text-gray-500 hover:text-black dark:hover:text-white underline underline-offset-4 cursor-pointer bg-transparent border-0 p-0">Buat ulang token</button>
@@ -397,9 +393,7 @@
               <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">URL + Token (aplikasi 2 kolom saja)</p>
               <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
                 <code id="mcp-url-token" class="flex-1 text-[11px] font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
-                <button type="button" onclick="copyMcpText(mcpState.urlToken)" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Salin URL + token">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
-                </button>
+                <button type="button" onclick="copyMcpText(mcpState.urlToken, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin URL + token"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg><span>Salin</span></button>
               </div>
               <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Untuk aplikasi yang cuma sediain kolom nama + URL server (tanpa kolom token). Token udah nempel di URL, jadi gak perlu header Authorization.</p>
             </div>
@@ -408,9 +402,7 @@
               <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Konfigurasi Klien</p>
               <div class="relative">
                 <pre id="mcp-config" class="p-3 pr-12 rounded-xl bg-gray-900 dark:bg-black text-gray-100 text-[11px] leading-relaxed font-mono overflow-x-auto whitespace-pre"></pre>
-                <button type="button" onclick="copyMcpText(document.getElementById('mcp-config').textContent)" class="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-white/10 text-gray-300 hover:text-white hover:bg-white/20 transition-colors cursor-pointer" title="Salin konfigurasi">
-                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
-                </button>
+                <button type="button" onclick="copyMcpText(document.getElementById('mcp-config').textContent, this)" class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-white/10 text-gray-300 hover:text-white hover:bg-white/20 transition-colors cursor-pointer" title="Salin konfigurasi"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg><span>Salin</span></button>
               </div>
               <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Tempel ke pengaturan MCP aplikasi AI kamu (Cursor/Windsurf: file mcp.json). Untuk klien yang belum mendukung server remote, gunakan wrapper mcp-remote.</p>
             </div>
@@ -629,9 +621,16 @@ function toggleMcpTokenVisible() {
   renderMcp();
 }
 
-function copyMcpText(text) {
+function copyMcpText(text, btn) {
   if (!text) return;
-  var done = function () { mcpToast('Disalin'); };
+  var done = function () {
+    mcpToast('Disalin');
+    if (!btn || !btn.innerHTML) return;
+    if (!btn._orig) btn._orig = btn.innerHTML;
+    btn.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg><span>Tersalin</span>';
+    if (btn._t) clearTimeout(btn._t);
+    btn._t = setTimeout(function () { btn.innerHTML = btn._orig; }, 1800);
+  };
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(done).catch(function () { mcpCopyFallback(text, done); });
   } else {
