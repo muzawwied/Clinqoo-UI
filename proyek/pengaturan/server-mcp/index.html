@@ -408,7 +408,7 @@
 
 <script>
 // ===== Server MCP: Clincoo sebagai penyedia server MCP per proyek =====
-var MCP_TOKEN_API = 'https://clincoo.pages.dev/api/mcp-token';
+var MCP_TOKEN_API = (['app.clincoo.buzz','clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) !== -1) ? '/api/mcp-token' : 'https://app.clincoo.buzz/api/mcp-token';
 var _mcpUserToken = '';
 try { _mcpUserToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
 function _mcpPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
@@ -427,7 +427,7 @@ function mcpToast(msg) {
 }
 
 function mcpEndpointUrl() {
-  return 'https://clincoo.pages.dev/api/mcp?project_id=' + encodeURIComponent(_mcpPid() || '');
+  return 'https://app.clincoo.buzz/api/mcp?project_id=' + encodeURIComponent(_mcpPid() || '');
 }
 
 async function mcpRequest(method, body) {
