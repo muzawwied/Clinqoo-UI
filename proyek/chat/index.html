@@ -554,8 +554,7 @@
             #chat-ws-panel { display: block; }
             #chat-container { position: fixed; left: 0; right: 66.6667%; top: 0; bottom: 0; width: auto; border-right: 1px solid rgb(243 244 246 / 1); }
             #chat-input-footer { left: 0; right: 66.6667%; width: auto; }
-            /* Tab "Agent" tidak perlu di kapsul header saat split aktif (sudah tampil otomatis di kolom chat) */
-            .chat-nav-link[data-nav="agent"] { display: none; }
+            /* Konsistensi produksi: desktop 4 menu (Agent|Live preview|Workspace|Dashboard) di semua halaman */
             .chat-nav-link[data-nav="live"] { display: inline-flex; }
             /* Bar aksi split (refresh, buka tab baru, riwayat deploy) hanya relevan saat split aktif */
             #chat-split-actions { display: flex; }
@@ -816,7 +815,11 @@
         const initPanel = _initPanel;
         const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard'), live: splitSrcFor('live') };
         chatNavLinks.forEach(x => x.classList.remove('is-active'));
-        let chatNavActive = chatNavLinks.find(l => l.dataset.nav === initPanel) || chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavLinks[0];
+        // Desktop: Agent aktif (halaman chat = tampilan Agent); Mobile: ikuti panel latar
+        var _isDesk = window.matchMedia('(min-width: 900px)').matches;
+        let chatNavActive = _isDesk
+            ? (chatNavLinks.find(l => l.dataset.nav === 'agent') || chatNavLinks[0])
+            : (chatNavLinks.find(l => l.dataset.nav === initPanel) || chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavLinks[0]);
         if (chatNavActive) chatNavActive.classList.add('is-active');
         function chatNavMovePill(el) {
             if (!el) return;
@@ -831,6 +834,7 @@
         chatNavLinks.forEach(l => {
             l.addEventListener('mouseenter', () => chatNavMovePill(l));
             l.addEventListener('click', (e) => {
+                if (l.dataset.nav === 'agent' && window.matchMedia('(min-width: 900px)').matches) { e.preventDefault(); }
                 if (splitNavSrc[l.dataset.nav]) {
                     e.preventDefault();
                     if (wsFrame) { wsFrame.dataset.src = splitNavSrc[l.dataset.nav]; wsFrame.src = splitNavSrc[l.dataset.nav]; }
