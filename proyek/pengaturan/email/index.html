@@ -344,7 +344,7 @@
                   <button type="button" onclick="revokeEmailKey()" class="px-3.5 py-2 text-xs font-medium border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">Cabut</button>
                 </div>
               </div>
-              <div id="email-key-box" class="font-mono text-xs bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-gray-600 dark:text-gray-300 truncate">cl_email_••••••••••••</div>
+              <div id="email-key-box" class="font-mono text-xs bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-gray-600 dark:text-gray-300 truncate">clc_email_••••••••••••</div>
               <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">Kunci ini dipakai di header <span class="font-mono">Authorization: Bearer</span> — satu kunci hanya untuk proyek ini.</p>
             </div>
 
@@ -381,17 +381,19 @@
           <p class="text-base font-semibold text-gray-900 dark:text-white mb-1">Dokumentasi API</p>
           <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Satu endpoint untuk semua kebutuhan email situs deploy-mu.</p>
           <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 overflow-x-auto">
-            <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST /api/email/send
-Authorization: Bearer cl_email_xxxxxxxx
+            <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST https://app.clincoo.buzz/api/email
 Content-Type: application/json
 
-{ "to": "pelanggan@contoh.com",
+{ "action": "send",
+  "api_key": "clc_email_xxxxxxxx",
+  "to": "pelanggan@contoh.com",
   "subject": "Pesanan diterima",
   "html": "&lt;h1&gt;Terima kasih!&lt;/h1&gt;&lt;p&gt;Pesananmu sedang diproses.&lt;/p&gt;",
   "reply_to": "kamu@domainmu.com" }</pre>
           </div>
           <div class="mt-3 grid gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-            <p><span class="font-medium text-gray-700 dark:text-gray-300">to</span> — penerima utama (maks 50 per request).</p>
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">api_key</span> — API key proyek (bisa juga dikirim via header <span class="font-mono">Authorization: Bearer</span>).</p>
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">to</span> — alamat tujuan.</p>
             <p><span class="font-medium text-gray-700 dark:text-gray-300">subject</span> — subjek email.</p>
             <p><span class="font-medium text-gray-700 dark:text-gray-300">html</span> — isi email dalam HTML.</p>
             <p><span class="font-medium text-gray-700 dark:text-gray-300">reply_to</span> — opsional, alamat balasan pelanggan.</p>
@@ -503,7 +505,7 @@ Content-Type: application/json
 
   function copyEmailKey() {
     var key = document.getElementById('email-key-box').textContent.trim();
-    if (!key || key.indexOf('cl_email_') !== 0) { emailToast('Belum ada API key aktif', false); return; }
+    if (!key || key.indexOf('clc_email_') !== 0) { emailToast('Belum ada API key aktif', false); return; }
     navigator.clipboard.writeText(key).then(function () { emailToast('API key disalin', true); });
   }
 
@@ -518,7 +520,7 @@ Content-Type: application/json
   function revokeEmailKey() {
     if (!confirm('Cabut API key? Situs deploy-mu akan gagal kirim email.')) return;
     _emailPost('revoke').then(function () {
-      document.getElementById('email-key-box').textContent = 'cl_email_••••••••••••';
+      document.getElementById('email-key-box').textContent = 'clc_email_••••••••••••';
       emailToast('API key dicabut', true);
     }).catch(function (st) { emailToast('Gagal mencabut key (' + st + ')', false); });
   }
