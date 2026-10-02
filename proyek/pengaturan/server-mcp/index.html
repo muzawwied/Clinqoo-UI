@@ -568,8 +568,7 @@ async function loadMcp() {
     try {
       var r = await mcpRequest('GET');
       if (r && r.token) { _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp(); }
-      else if (r && (r.error === 'Token MCP tidak valid atau sudah dicabut untuk proyek ini' || r.revoked)) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
-      else if (r && r.not_found) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
+      else if (r && r.active === false) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; mcpState.created_at = null; renderMcp(); }
     } catch (e) { /* offline/lelet: tetap pakai cache */ }
     return;
   }
