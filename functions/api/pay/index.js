@@ -1,8 +1,10 @@
 // ClincooPay — Clincoo sebagai payment gateway.
 // Clincoo menerbitkan kredensial ClincooPay sendiri per proyek (account_id + secret + pay_key).
-// Saat pembeli membayar, Clincoo-lah yang memanggil provider QRIS di belakang layar
-// memakai kredensial gateway (env: PAY_PROVIDER_ACCOUNT, PAY_PROVIDER_SECRET, PAY_CALLBACK_SECRET).
+// Saat pembeli membayar, Clincoo-lah yang memanggil provider QRIS (Pakasir API v2) di belakang layar
+// memakai kredensial gateway (env: PAKASIR_SLUG, PAKASIR_API_KEY).
 // User TIDAK pernah tahu/memasukkan kredensial provider.
+//
+// Webhook masuk dari Pakasir ditangani functions/api/pay/webhook.js.
 //
 // POST {action:'activate', project_id}                    → aktifkan + terbitkan kredensial  [auth]
 // GET  ?action=config&project_id=...                      → status, pay key, saldo            [auth]
@@ -27,7 +29,33 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization'
 };
 
-const BQ_API = 'https://api.buatqris.site';
+const PAKASIR_API = 'https://app.pakasir.com';
+// throttle cek status: Pakasir membatasi 4 detik per transaksi
+const PKS_THROTTLE = new Map();
+
+function gatewayReady(env) { return !!(env.PAKASIR_SLUG && env.PAKASIR_API_KEY); }
+
+async function pakasirFetch(env, path, init) {
+  try {
+    const r = await fetch(PAKASIR_API + path, {
+      ...init,
+      headers: { 'X-Api-Key': env.PAKASIR_API_KEY, ...((init && init.headers) || {}) }
+    });
+    const text = await r.text();
+    try { return JSON.parse(text); } catch (e) { return { error: 'invalid_response', message: 'Respon tidak valid dari server pembayaran' }; }
+  } catch (e) { return { error: 'network', message: 'Tidak dapat terhubung ke server pembayaran' }; }
+}
+
+function qrImageUrl(qrString) {
+  return qrString ? 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=12&data=' + encodeURIComponent(qrString) : '';
+}
+
+function mapPksStatus(st) {
+  st = String(st || '').toLowerCase();
+  if (st === 'completed') return 'paid';
+  if (st === 'canceled' || st === 'cancelled' || st === 'expired') return 'expired';
+  return 'pending';
+}
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', ...CORS } });
@@ -118,35 +146,6 @@ async function calcBalance(db, projectId) {
   return { total_paid: totalPaid, total_withdrawn: totalWithdrawn, available: Math.max(0, totalPaid - totalWithdrawn) };
 }
 
-// ---- Panggilan provider (hanya Clincoo yang tahu) ----
-async function providerCall(env, params) {
-  const account = env.PAY_PROVIDER_ACCOUNT;
-  const secret = env.PAY_PROVIDER_SECRET;
-  if (!account || !secret) return { success: false, error: 'gateway_not_ready' };
-  const body = new URLSearchParams({ account_id: account, secret_token: secret, ...params });
-  try {
-    const r = await fetch(BQ_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body
-    });
-    const text = await r.text();
-    try { return JSON.parse(text); } catch (e) { return { success: false, message: 'Respon tidak valid dari server pembayaran' }; }
-  } catch (e) {
-    return { success: false, message: 'Tidak dapat terhubung ke server pembayaran' };
-  }
-}
-
-function pickTrxRef(d) {
-  return String(d.order_id || d.trx_id || d.transaction_id || d.id || d.invoice || d.reference || '');
-}
-
-function pickStatus(d) {
-  const s = (d.status || (d.data && d.data.status) || d.transaction_status || '').toLowerCase();
-  if (['success', 'paid', 'berhasil', 'settlement', 'completed', 'lunas'].includes(s)) return 'paid';
-  if (['expired', 'expire', 'gagal', 'failed', 'cancel', 'cancelled', 'batal'].includes(s)) return 'expired';
-  return 'pending';
-}
 
 // ---- GET ----
 export async function onRequestGet({ request, env }) {
@@ -162,11 +161,11 @@ export async function onRequestGet({ request, env }) {
     if (deny) return deny;
     const row = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
     const bal = await calcBalance(db, projectId);
-    if (!row) return json({ success: true, active: false, gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET), ...bal });
+    if (!row) return json({ success: true, active: false, gateway_ready: gatewayReady(env), ...bal });
     return json({
       success: true,
       active: true,
-      gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET),
+      gateway_ready: gatewayReady(env),
       account_id: row.account_id,
       pay_key: row.pay_key,
       ...bal
@@ -180,14 +179,14 @@ export async function onRequestGet({ request, env }) {
     const tx = await db.prepare('SELECT * FROM pay_transactions WHERE pay_key = ? AND order_id = ?').bind(key, orderId).first();
     if (!tx) return json({ error: 'transaksi tidak ditemukan' }, 404);
     if (tx.status === 'paid') return json({ success: true, status: 'paid', amount: tx.amount });
-    const d = await providerCall(env, {
-      action: 'api_check_status',
-      order_id: tx.trx_ref || tx.order_id,
-      trx_id: tx.trx_ref,
-      amount: String(tx.amount)
-    });
-    if (d.error === 'gateway_not_ready') return json({ success: true, status: tx.status, amount: tx.amount });
-    const st = pickStatus(d);
+    if (!tx.trx_ref) return json({ success: true, status: tx.status, amount: tx.amount });
+    // hormati rate limit Pakasir: 4 detik per transaksi
+    const last = PKS_THROTTLE.get(tx.id) || 0;
+    if (Date.now() - last < 4000) return json({ success: true, status: tx.status, amount: tx.amount });
+    PKS_THROTTLE.set(tx.id, Date.now());
+    const d = await pakasirFetch(env, '/api/v2/transaction-status/' + encodeURIComponent(env.PAKASIR_SLUG) + '/' + encodeURIComponent(tx.trx_ref), { method: 'GET' });
+    if (d.error) return json({ success: true, status: tx.status, amount: tx.amount, message: d.message || '' });
+    const st = mapPksStatus(d.status);
     if (st !== tx.status) {
       await db.prepare('UPDATE pay_transactions SET status = ?, updated_at = datetime(\'now\') WHERE id = ?').bind(st, tx.id).run();
     }
@@ -233,7 +232,7 @@ export async function onRequestPost({ request, env }) {
     const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const bal = await calcBalance(db, projectId);
-    return json({ success: true, ...bal, gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET) });
+    return json({ success: true, ...bal, gateway_ready: gatewayReady(env) });
   }
 
   // ===== Tarik saldo → permintaan penarikan (auth) =====
@@ -273,31 +272,31 @@ export async function onRequestPost({ request, env }) {
     if (!amount || amount < 1000 || amount > 100000000) return json({ error: 'Nominal harus Rp 1.000 – Rp 100.000.000' }, 400);
     const creds = await db.prepare('SELECT * FROM pay_creds WHERE pay_key = ?').bind(key).first();
     if (!creds) return json({ error: 'pay key tidak dikenal' }, 404);
-    if (!env.PAY_PROVIDER_ACCOUNT || !env.PAY_PROVIDER_SECRET) {
+    if (!gatewayReady(env)) {
       return json({ success: false, error: 'gateway_not_ready', message: 'Pembayaran QRIS ClincooPay sedang dalam proses aktivasi. Hubungi tim Clincoo.' }, 503);
     }
 
     const orderId = genOrderId();
-    const d = await providerCall(env, {
-      action: 'api_create_qris',
-      amount: String(amount),
-      description: description || 'Pembayaran',
-      qris_method: creds.qris_method || 'qris_two',
-      fee_target: creds.fee_target || 'merchant'
-    });
-    const trxRef = pickTrxRef(d);
+    const txn = await pakasirFetch(env,
+      '/api/v2/create-transaction/' + encodeURIComponent(env.PAKASIR_SLUG) + '/' + encodeURIComponent(orderId),
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method: 'qris', amount: amount }) });
+    const ok = txn && txn.txn_id;
     await db.prepare('INSERT INTO pay_transactions (project_id, pay_key, order_id, trx_ref, amount, description, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
-      .bind(creds.project_id, key, orderId, trxRef, amount, description, d && d.success ? 'pending' : 'failed').run();
-    if (!d || !d.success) {
-      return json({ success: false, message: (d && d.message) || 'Gagal membuat QRIS ClincooPay.' }, 502);
+      .bind(creds.project_id, key, orderId, ok ? txn.txn_id : '', amount, description, ok ? 'pending' : 'failed').run();
+    if (!ok) {
+      return json({ success: false, message: (txn && (txn.message || txn.error)) || 'Gagal membuat QRIS ClincooPay.' }, 502);
     }
     return json({
       success: true,
       order_id: orderId,
       amount: amount,
-      qr_image: d.qr_image || d.qr_string || d.qris_string || d.qr_url || d.qr_link || '',
-      payment_url: d.payment_url || d.pay_url || d.link || '',
-      total_payment: d.total_amount || d.amount || d.jumlah || amount
+      qr_image: qrImageUrl(txn.qr_string),
+      qr_string: txn.qr_string || '',
+      va_number: txn.va_number || '',
+      payment_url: txn.payment_link || '',
+      total_payment: txn.total_payment || amount,
+      expires_at: txn.expired_at || '',
+      is_sandbox: !!txn.is_sandbox
     });
   }
 
@@ -307,7 +306,7 @@ export async function onRequestPost({ request, env }) {
       const tok = request.headers.get('X-Callback-Token') || body.callback_token || '';
       if (tok !== env.PAY_CALLBACK_SECRET) return json({ error: 'unauthorized' }, 401);
     }
-    const ref = String(body.order_id || body.trx_id || body.transaction_id || body.invoice || body.reference || '').trim();
+    const ref = String(body.order_id || body.txn_id || body.trx_id || body.transaction_id || body.invoice || body.reference || '').trim();
     if (!ref) return json({ error: 'order_id/trx_id wajib diisi' }, 400);
     let tx = await db.prepare('SELECT * FROM pay_transactions WHERE trx_ref = ?').bind(ref).first();
     if (!tx) tx = await db.prepare('SELECT * FROM pay_transactions WHERE order_id = ?').bind(ref).first();
@@ -316,21 +315,32 @@ export async function onRequestPost({ request, env }) {
     if (st !== tx.status) {
       await db.prepare('UPDATE pay_transactions SET status = ?, updated_at = datetime(\'now\') WHERE id = ?').bind(st, tx.id).run();
     }
-    // forward ke webhook pembayaran milik proyek (dikonfigurasi di halaman Integrasi & Webhook)
-    try {
-      const row = await db.prepare(`SELECT value FROM project_settings WHERE project_id = ? AND key = 'webhook_settings'`).bind(tx.project_id).first();
-      let url = '';
-      if (row && row.value) { try { url = (JSON.parse(row.value) || {}).payWebhookUrl || ''; } catch (e) {} }
-      if (url && st === 'paid') {
-        await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'payment.paid', order_id: tx.order_id, amount: tx.amount, description: tx.description, status: st, paid_at: new Date().toISOString() })
-        }).catch(() => {});
-      }
-    } catch (e) {}
+    await forwardPayWebhook(db, tx, st);
     return json({ success: true, status: st });
   }
 
   return json({ error: 'action tidak dikenal' }, 400);
+}
+
+// Forward notifikasi ke webhook pembayaran milik proyek (dipakai callback internal & webhook.js Pakasir)
+export async function forwardPayWebhook(db, tx, st) {
+  try {
+    const row = await db.prepare(`SELECT value FROM project_settings WHERE project_id = ? AND key = 'webhook_settings'`).bind(tx.project_id).first();
+    let url = '';
+    if (row && row.value) { try { url = (JSON.parse(row.value) || {}).payWebhookUrl || ''; } catch (e) {} }
+    if (url && st === 'paid') {
+      await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: 'payment.paid', order_id: tx.order_id, amount: tx.amount, description: tx.description, status: st, paid_at: new Date().toISOString() })
+      }).catch(() => {});
+    }
+  } catch (e) {}
+}
+
+function pickStatus(d) {
+  const s = (d.status || (d.data && d.data.status) || d.transaction_status || '').toLowerCase();
+  if (['success', 'paid', 'berhasil', 'settlement', 'completed', 'lunas'].includes(s)) return 'paid';
+  if (['expired', 'expire', 'gagal', 'failed', 'cancel', 'cancelled', 'canceled', 'batal'].includes(s)) return 'expired';
+  return 'pending';
 }
