@@ -121,7 +121,8 @@ export async function onRequestPatch(context) {
   if (g.res) return g.res;
   await ensureTables(env);
   const scopes = normalizeScopes(body.scopes);
-  await env.DB.prepare('UPDATE mcp_tokens SET scopes = ? WHERE project_id = ?').bind(JSON.stringify(scopes), projectId).run();
+  const r = await env.DB.prepare('UPDATE mcp_tokens SET scopes = ? WHERE project_id = ?').bind(JSON.stringify(scopes), projectId).run();
+  if (!r || !r.meta || !r.meta.changes) return J({ error: 'Token MCP belum aktif untuk proyek ini — aktifkan dulu di halaman Server MCP' }, 404);
   return J({ ok: true, scopes });
 }
 

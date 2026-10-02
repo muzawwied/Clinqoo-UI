@@ -73,7 +73,9 @@ function rpcError(id, code, message) {
 
 async function fetchFiles(be2Token, projectId) {
   const r = await be2Json('/project-files?project_id=' + encodeURIComponent(projectId), be2Token);
-  if (!r.ok) throw new Error('Gagal mengambil file proyek dari backend (' + r.status + ')');
+  if (!r.ok) throw new Error(r.status === 401
+    ? 'Sesi backend Clincoo kedaluwarsa. Buka halaman Server MCP Clincoo lalu klik "Buat ulang token" untuk memperbarui akses.'
+    : 'Gagal mengambil file proyek dari backend (' + r.status + ')');
   return (r.data && r.data.files) || [];
 }
 
@@ -82,12 +84,16 @@ async function pushFiles(be2Token, projectId, files) {
   await fetch(BE2 + '/project-files?project_id=' + encodeURIComponent(projectId), {
     method: 'DELETE', headers: { Authorization: 'Bearer ' + be2Token }
   }).catch(() => {});
-  const r = await be2Json('/project-files', be2Token, {
+  const post = () => be2Json('/project-files', be2Token, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ project_id: projectId, files })
   });
-  if (!r.ok) throw new Error('Gagal menyimpan file proyek (' + r.status + ')');
+  let r = await post();
+  if (!r.ok) r = await post(); // retry 1x: jangan biarkan workspace kosong cuma gara-gara 1x gagal
+  if (!r.ok) throw new Error(r.status === 401
+    ? 'Sesi backend Clincoo kedaluwarsa. Buka halaman Server MCP Clincoo lalu klik "Buat ulang token" untuk memperbarui akses.'
+    : 'Gagal menyimpan file proyek (' + r.status + ')');
 }
 
 function safePath(p) {

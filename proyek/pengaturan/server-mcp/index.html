@@ -567,13 +567,23 @@ async function loadMcp() {
     if (Date.now() - (cached.ts || 0) < 10 * 60 * 1000) return;
     try {
       var r = await mcpRequest('GET');
-      if (r && r.token) { _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp(); }
+      if (r && r.token) {
+        if (r.token !== mcpState.token) { mcpState.token = r.token; mcpToast('Token diperbarui dari perangkat lain'); }
+        _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp();
+      }
       else if (r && r.active === false) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; mcpState.created_at = null; renderMcp(); }
     } catch (e) { /* offline/lelet: tetap pakai cache */ }
     return;
   }
   // 3) Gak ada cache: ambil seperti biasa (skeleton), lalu simpan.
-  var d = await mcpRequest('GET');
+  var d = null;
+  try { d = await mcpRequest('GET'); } catch (e) { d = null; }
+  if (d === null) {
+    mcpState.active = false; mcpState.token = '';
+    renderMcp();
+    mcpToast('Tidak bisa menghubungi server — periksa koneksi internet');
+    return;
+  }
   if (d && d.token) {
     mcpState.active = true;
     mcpState.token = d.token;
@@ -614,7 +624,9 @@ async function activateMcp() {
 
 async function regenerateMcp() {
   if (!confirm('Buat ulang token? Token lama langsung tidak berlaku.')) return;
-  var d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: mcpState.scopes });
+  var d;
+  try { d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: mcpState.scopes }); }
+  catch (e) { d = null; }
   if (d && d.token) {
     mcpState.token = d.token;
     mcpState.scopes = d.scopes || mcpState.scopes;
@@ -629,11 +641,14 @@ async function regenerateMcp() {
 
 async function revokeMcp() {
   if (!confirm('Putuskan semua akses? AI luar tidak akan bisa mengakses proyek ini lagi sampai kamu mengaktifkan ulang.')) return;
-  var d = await mcpRequest('DELETE');
+  var d;
+  try { d = await mcpRequest('DELETE'); }
+  catch (e) { d = null; }
   if (d && d.ok) {
     mcpState.active = false;
     _mcpCacheClear();
     mcpState.token = '';
+    mcpState.created_at = null;
     mcpTokenVisible = false;
     renderMcp();
     mcpToast('Akses diputuskan');
@@ -646,13 +661,16 @@ async function toggleScope(key) {
   if (!mcpState.active) return;
   var next = {};
   ['read', 'write', 'delete'].forEach(function (k) { next[k] = k === key ? mcpState.scopes[k] === false : mcpState.scopes[k] !== false; });
+  var prev = mcpState.scopes;
   mcpState.scopes = next;
   renderMcp();
-  var d = await mcpRequest('PATCH', { project_id: _mcpPid(), scopes: next });
+  var d;
+  try { d = await mcpRequest('PATCH', { project_id: _mcpPid(), scopes: next }); }
+  catch (e) { d = null; }
   if (d && d.ok) {
     mcpToast('Izin diperbarui');
   } else {
-    mcpState.scopes = next;
+    mcpState.scopes = prev; // gagal simpan -> balik ke posisi sebelum toggle
     renderMcp();
     mcpToast((d && d.error) ? d.error : 'Gagal menyimpan izin');
   }
