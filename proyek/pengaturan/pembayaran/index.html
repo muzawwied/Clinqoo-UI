@@ -394,6 +394,20 @@
   }
 
   function _rp(n) { return 'Rp ' + Number(n || 0).toLocaleString('id-ID'); }
+  function copyPayKey() {
+    var kb = document.getElementById('pay-key-box');
+    var key = (kb.textContent || '').trim();
+    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — aktifkan ClincooPay dulu.', false); return; }
+    try {
+      navigator.clipboard.writeText(key).then(function () {
+        var b = document.getElementById('pay-key-copy');
+        var old = b.innerText;
+        b.innerText = 'Tersalin!';
+        setTimeout(function () { b.innerText = old; }, 1600);
+      }).catch(function () { _payModal(key, true); });
+    } catch (e) { _payModal(key, true); }
+  }
+
 
   function renderPayActive(data) {
     document.getElementById('pay-balance-inactive').classList.add('hidden');
