@@ -131,6 +131,11 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
+        /* fix: ikon logo model AI (chip bulat putih) jangan ikut digelapkan body.dark-mode .bg-white, krn logo monokrom (hitam) jadi tak terlihat */
+        body.dark-mode #ai-model-icon .bg-white,
+        body.dark-mode #ai-model-popover-wrap .bg-white,
+        body.dark-mode #ai-model-popover .bg-white,
+        body.dark-mode #ai-model-detail-card .bg-white { background-color: #ffffff !important; }
     </style>
   <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
