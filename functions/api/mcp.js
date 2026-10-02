@@ -42,7 +42,11 @@ async function authMcp(request, env, projectId) {
   await ensureTables(env);
   const h = request.headers.get('Authorization') || '';
   const m = /^Bearer\s+(.+)$/i.exec(h);
-  const tok = m ? m[1].trim() : '';
+  // Token juga bisa lewat query param ?token= — untuk klien MCP yang hanya
+  // menyediakan kolom nama + URL (tanpa dukungan header Authorization).
+  var qtok = '';
+  try { qtok = (new URL(request.url).searchParams.get('token') || '').trim(); } catch (e) {}
+  const tok = m ? m[1].trim() : qtok;
   if (!tok) return { res: json({ jsonrpc: '2.0', id: null, error: { code: -32001, message: 'Header Authorization Bearer wajib diisi (token MCP dari halaman Server MCP Clincoo)' } }, 401) };
   const row = await env.DB.prepare('SELECT token, be2_token, scopes FROM mcp_tokens WHERE project_id = ?').bind(projectId).first();
   if (!row || row.token !== tok) {

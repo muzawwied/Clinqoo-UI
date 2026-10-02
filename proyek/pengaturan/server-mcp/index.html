@@ -158,6 +158,10 @@
 <!-- End Google tag -->
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
+<style>
+@keyframes mcpIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mcp-anim{animation:mcpIn .38s ease both}
+</style>
 </head>
 <body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
   <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
@@ -303,6 +307,16 @@
             <span id="mcp-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300">Memuat…</span>
           </div>
 
+          <!-- Memuat: skeleton animasi biar gak blank saat data diambil -->
+          <div id="mcp-loading" class="py-8 flex flex-col items-center justify-center gap-4 text-center">
+            <svg class="w-6 h-6 text-gray-400 dark:text-slate-500 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg>
+            <div class="w-full max-w-md mx-auto space-y-3 animate-pulse">
+              <div class="h-10 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
+              <div class="h-10 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
+              <div class="h-28 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
+            </div>
+          </div>
+
           <!-- Belum aktif -->
           <div id="mcp-inactive" class="py-10 flex-col items-center justify-center text-center hidden">
             <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" d="M6 6h.01M6 18h.01"></path></svg>
@@ -380,6 +394,17 @@
             </div>
 
             <div>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">URL + Token (aplikasi 2 kolom saja)</p>
+              <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
+                <code id="mcp-url-token" class="flex-1 text-[11px] font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
+                <button type="button" onclick="copyMcpText(mcpState.urlToken)" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Salin URL + token">
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
+                </button>
+              </div>
+              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Untuk aplikasi yang cuma sediain kolom nama + URL server (tanpa kolom token). Token udah nempel di URL, jadi gak perlu header Authorization.</p>
+            </div>
+
+            <div>
               <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Konfigurasi Klien</p>
               <div class="relative">
                 <pre id="mcp-config" class="p-3 pr-12 rounded-xl bg-gray-900 dark:bg-black text-gray-100 text-[11px] leading-relaxed font-mono overflow-x-auto whitespace-pre"></pre>
@@ -413,7 +438,7 @@ var _mcpUserToken = '';
 try { _mcpUserToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
 function _mcpPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
 
-var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false }, created_at: null, url: '' };
+var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false }, created_at: null, url: '', urlToken: '' };
 var mcpTokenVisible = false;
 
 var _mcpToastTimer = null;
@@ -480,12 +505,23 @@ function renderMcp() {
     badge.className = 'hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ' +
       (mcpState.active ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300' : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300');
   }
-  if (inactive) inactive.style.display = mcpState.active ? 'none' : 'flex';
-  if (active) active.style.display = mcpState.active ? 'flex' : 'none';
+  var loading = document.getElementById('mcp-loading');
+  if (loading) loading.style.display = 'none';
+  var show = function (el, on) {
+    if (!el) return;
+    el.classList.remove('mcp-anim');
+    el.style.display = on ? 'flex' : 'none';
+    if (on) { void el.offsetWidth; el.classList.add('mcp-anim'); }
+  };
+  show(inactive, !mcpState.active);
+  show(active, mcpState.active);
   if (!mcpState.active) return;
   mcpState.url = mcpEndpointUrl();
+  mcpState.urlToken = mcpState.url + '&token=' + encodeURIComponent(mcpState.token || '');
   var urlEl = document.getElementById('mcp-url');
   if (urlEl) urlEl.textContent = mcpState.url;
+  var urlTokEl = document.getElementById('mcp-url-token');
+  if (urlTokEl) urlTokEl.textContent = mcpState.urlToken;
   var tkEl = document.getElementById('mcp-token');
   if (tkEl) {
     tkEl.textContent = mcpTokenVisible ? mcpState.token : (mcpState.token ? mcpState.token.slice(0, 6) + '••••••••••••' + mcpState.token.slice(-4) : '');
@@ -523,9 +559,16 @@ async function loadMcp() {
 
 async function activateMcp() {
   var btn = document.getElementById('mcp-activate-btn');
-  if (btn) btn.disabled = true;
-  var d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: { read: true, write: false, delete: false } });
-  if (btn) btn.disabled = false;
+  var orig = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.75';
+    btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg><span>Mengaktifkan\u2026</span>';
+  }
+  var d;
+  try { d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: { read: true, write: false, delete: false } }); }
+  catch (e) { d = null; }
+  if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = orig; }
   if (d && d.token) {
     mcpState.active = true;
     mcpState.token = d.token;
