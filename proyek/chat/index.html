@@ -319,6 +319,8 @@
         html.embed-mode #chat-sheet { position: fixed !important; top: 0 !important; left: 0; right: 0; bottom: 0; border-radius: 0 !important; box-shadow: none !important; z-index: 15; }
         html.embed-mode #chat-container { padding-top: 10px !important; }
         html.embed-mode #chat-input-footer { padding-bottom: 14px; }
+        /* embed di layar lebar: sheet jadi wadah penuh (bukan display:contents), chat melebar */
+        @media (min-width: 900px) { html.embed-mode #chat-sheet { display: flex !important; flex-direction: column; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
