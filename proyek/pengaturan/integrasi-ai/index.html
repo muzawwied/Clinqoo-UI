@@ -1242,6 +1242,11 @@
         document.addEventListener('click', function(e) {
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
         });
+        // Menu titik-3 (popover di bawah header) juga tutup otomatis saat halaman discroll —
+        // window fase capture menangkap scroll dari elemen apa pun (scroll gak bubble).
+        window.addEventListener('scroll', function() {
+            if (headerMoreMenu.classList.contains('open')) closeHeaderMenu();
+        }, { capture: true, passive: true });
         window.chatExportZip = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}

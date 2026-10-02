@@ -930,6 +930,12 @@
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
             if (settingsMenuPop.classList.contains('open') && !settingsMenuPop.contains(e.target) && !settingsMenuBtn.contains(e.target)) { settingsMenuPop.classList.remove('open'); settingsMenuChev.style.transform = ''; }
         });
+        // Tutup otomatis menu pengaturan saat halaman discroll —
+        // listener di window fase capture menangkap scroll dari elemen apa pun (scroll gak bubble),
+        // supaya popover gak nyangkut melayang di bawah header fixed.
+        window.addEventListener('scroll', function() {
+            if (settingsMenuPop.classList.contains('open')) { settingsMenuPop.classList.remove('open'); settingsMenuChev.style.transform = ''; }
+        }, { capture: true, passive: true });
         window.chatExportZip = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}

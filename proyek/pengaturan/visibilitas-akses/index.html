@@ -246,6 +246,16 @@
                 chev.style.transform = '';
             }
         });
+
+        // Menu popover absolut di dalam konten scrollable: tutup otomatis saat halaman
+        // discroll supaya tidak nyangkut melayang di bawah header fixed.
+        // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
+        window.addEventListener('scroll', function () {
+            if (pop.classList.contains('open')) {
+                pop.classList.remove('open');
+                chev.style.transform = '';
+            }
+        }, { capture: true, passive: true });
     })();
     </script>
 
