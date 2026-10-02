@@ -675,6 +675,11 @@ async function toggleScope(key) {
   try { d = await mcpRequest('PATCH', { project_id: _mcpPid(), scopes: next }); }
   catch (e) { d = null; }
   if (d && d.ok) {
+    // BUG FIX (2026-10-03): cache lokal HARUS ikut diperbarui saat izin berubah.
+    // Dulu cache gak di-update di sini -> refresh dalam <10 menit (masa "cache fresh",
+    // loadMcp gak revalidate) nampilin izin LAMA dari cache -> izin kelihatan balik
+    // ke akses sebelumnya, padahal di server udah baru.
+    _mcpCacheWrite({ token: mcpState.token, scopes: mcpState.scopes, created_at: mcpState.created_at });
     mcpToast('Izin diperbarui');
   } else {
     mcpState.scopes = prev; // gagal simpan -> balik ke posisi sebelum toggle
