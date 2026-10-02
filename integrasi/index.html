@@ -2209,7 +2209,7 @@
   var platform = 'github';
   var files = [];
   var busy = false;
-  var BLOCKED = { 'muzawwied/wallet': 'Repo Wallet (situs ClincooPay) dikunci dan tidak boleh dipakai sebagai tujuan eksport.' };
+  var BLOCKED = { 'muzawwied/wallet': 'Repo Wallet dikunci dan tidak boleh dipakai sebagai tujuan eksport.' };
   var GL = { tok: 'clinqoo_gitlab_token', ref: 'clinqoo_gitlab_refresh', exp: 'clinqoo_gitlab_exp', cid: 'clinqoo_gitlab_client_id', base: 'clinqoo_gitlab_base', user: 'clinqoo_gitlab_user', st: 'clinqoo_gitlab_state', ver: 'clinqoo_gitlab_verifier' };
 
   function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ''; localStorage.setItem(k, v); } catch (e) { return ''; } }

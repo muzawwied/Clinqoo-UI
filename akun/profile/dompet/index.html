@@ -241,7 +241,7 @@
         // Backend API — hosted on Cloudflare Pages
         const API_BASE = ['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1 ? 'https://clincoo-be2.pages.dev' : '';
         const WALLET_API_URL = API_BASE + '/api/wallet';
-        // Tanpa token, backend mengira user belum login -> saldo ClincooPay (mirroring) tidak pernah diambil.
+        // Tanpa token, backend mengira user belum login -> saldo (mirroring) tidak pernah diambil.
         function walletAuthHeaders(extra) {
             const hdr = Object.assign({}, extra || {});
             const tok = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
@@ -453,7 +453,7 @@
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
-            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4">Bagikan email akun Clincoo Anda untuk menerima saldo dari pengguna lain, atau isi saldo langsung lewat ClincooPay.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4">Bagikan email akun Clincoo Anda untuk menerima saldo dari pengguna lain, atau isi saldo langsung lewat fitur Pembayaran.</p>
             <div class="flex items-center gap-2 p-3.5 rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#222] mb-4">
                 <div id="terima-email" class="flex-1 text-sm font-semibold text-gray-900 dark:text-white truncate">...</div>
                 <button type="button" onclick="copyOwnEmail()" class="px-3.5 py-2 rounded-full bg-gray-900 text-white dark:bg-white dark:text-black text-xs font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-all shrink-0">Salin</button>

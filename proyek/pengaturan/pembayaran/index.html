@@ -238,7 +238,7 @@
                 </a>
                 <a href="/proyek/pengaturan/integrasi-webhook/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-gray-50 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17H7a5 5 0 1 1 0-10h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"></path></svg>
-                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Integrasi &amp; Webhook</span><span class="block text-xs text-gray-400 truncate">Integrasi layanan luar dan webhooks</span></span>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Webhook</span><span class="block text-xs text-gray-400 truncate">Notifikasi event lewat webhook</span></span>
                 </a>
 <a href="/proyek/pengaturan/integrasi-ai/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-gray-50 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.9 5.7a2 2 0 001.4 1.4L21 12l-5.7 1.9a2 2 0 00-1.4 1.4L12 21l-1.9-5.7a2 2 0 00-1.4-1.4L3 12l5.7-1.9a2 2 0 001.4-1.4L12 3z"></path></svg>
@@ -250,7 +250,7 @@
                 </a>
                 <a href="/proyek/pengaturan/pembayaran/" class="settings-menu-item flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Pembayaran</span><span class="block text-xs text-gray-400 truncate">ClincooPay — QRIS instan, dana masuk langsung ke akunmu</span></span>
+                    <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Pembayaran</span><span class="block text-xs text-gray-400 truncate">QRIS instan, dana masuk langsung ke akunmu</span></span>
                 </a>
                 <a href="/proyek/pengaturan/zona-bahaya/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-red-50/60 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -292,7 +292,7 @@
         <div class="py-5">
           <div class="flex items-start sm:items-center justify-between gap-3 mb-4">
             <div>
-              <h4 class="text-base font-semibold text-gray-900 dark:text-white">ClincooPay</h4>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Pembayaran</h4>
               <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Terima pembayaran QRIS di situs deploy-mu — dana masuk otomatis ke saldo ini.</p>
             </div>
             <span id="pay-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap flex-shrink-0">Belum aktif</span>
@@ -301,9 +301,9 @@
           <!-- Belum aktif (gaya empty state ala Server MCP) -->
           <div id="pay-inactive" class="py-10 flex flex-col items-center justify-center text-center">
             <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"></rect><path stroke-linecap="round" d="M2 10h20M16 14h.01"></path></svg>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">ClincooPay proyek ini belum aktif</p>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pembayaran proyek ini belum aktif</p>
             <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk menerima pembayaran QRIS — saldo, tarik dana, dan riwayat transaksi akan muncul di sini.</p>
-            <button type="button" onclick="activatePay()" id="pay-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">Aktifkan ClincooPay</button>
+            <button type="button" onclick="activatePay()" id="pay-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">Aktifkan Pembayaran</button>
           </div>
 
           <!-- Aktif -->
@@ -365,7 +365,7 @@
     <script>if (window.lucide) { lucide.createIcons(); }</script>
 
 <script>
-  // ===== ClincooPay: saldo, tarik, log — kredensial diterbitkan Clincoo =====
+  // ===== Pembayaran: saldo, tarik, log — kredensial diterbitkan Clincoo =====
   var API_BASE = (['clincoo-be2.pages.dev','app.clincoo.buzz','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://app.clincoo.buzz/api' : '/api';
   var _apiToken = '';
   try { _apiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
@@ -500,7 +500,7 @@
       if (!res.ok || !data.success) {
         btn.innerHTML = _origActivateHtml;
         btn.disabled = false;
-        _payModal(data.message || data.error || 'Gagal mengaktifkan ClincooPay.', false);
+        _payModal(data.message || data.error || 'Gagal mengaktifkan Pembayaran.', false);
         return;
       }
       // simpan cache + transisi smooth ke dashboard saldo
@@ -508,7 +508,7 @@
       writePayCache(minimal);
       renderPayActive(minimal, true);
       loadPayConfig();
-      setTimeout(function () { _payModal('ClincooPay aktif! Situs deploy-mu sekarang bisa menerima pembayaran QRIS.', true); }, 450);
+      setTimeout(function () { _payModal('Pembayaran aktif! Situs deploy-mu sekarang bisa menerima pembayaran QRIS.', true); }, 450);
     } catch (e) {
       btn.innerHTML = _origActivateHtml;
       btn.disabled = false;
@@ -519,7 +519,7 @@
   function copyPayKey() {
     var kb = document.getElementById('pay-key-box');
     var key = (kb.textContent || '').trim();
-    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — aktifkan ClincooPay dulu.', false); return; }
+    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — aktifkan Pembayaran dulu.', false); return; }
     try {
       navigator.clipboard.writeText(key).then(function () {
         var b = document.getElementById('pay-key-copy');
