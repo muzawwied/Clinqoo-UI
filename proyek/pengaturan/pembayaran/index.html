@@ -290,65 +290,57 @@
 
       <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
         <div class="py-5">
-          <div class="flex items-start sm:items-center justify-between gap-3 mb-3">
+          <div class="flex items-start sm:items-center justify-between gap-3 mb-4">
             <div>
-              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Metode Pembayaran</h4>
-              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Terima pembayaran QRIS langsung ke akunmu</p>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">ClincooPay</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Terima pembayaran QRIS di situs deploy-mu — dana masuk otomatis ke saldo ini.</p>
             </div>
-            <span id="pay-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap">Belum aktif</span>
+            <span id="pay-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap flex-shrink-0">Belum aktif</span>
           </div>
-          <div id="pay-method-card" class="flex items-center gap-3.5 p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
-            <div class="w-11 h-11 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-center shrink-0">
-              <svg class="w-6 h-6 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+
+          <!-- Belum aktif (gaya empty state ala Server MCP) -->
+          <div id="pay-inactive" class="py-10 flex flex-col items-center justify-center text-center">
+            <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"></rect><path stroke-linecap="round" d="M2 10h20M16 14h.01"></path></svg>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">ClincooPay proyek ini belum aktif</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk menerima pembayaran QRIS — saldo, tarik dana, dan riwayat transaksi akan muncul di sini.</p>
+            <button type="button" onclick="activatePay()" id="pay-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">Aktifkan ClincooPay</button>
+          </div>
+
+          <!-- Aktif -->
+          <div id="pay-active" class="hidden flex-col gap-5">
+            <div class="flex items-center justify-end">
+              <button type="button" id="pay-withdraw-btn" onclick="openWithdrawModal()" class="px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"></path></svg>
+                Tarik Saldo
+              </button>
             </div>
-            <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">QRIS — ClincooPay</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">GoPay, OVO, DANA, ShopeePay &amp; m-banking. Dana masuk langsung ke saldo ClincooPay kamu.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="p-4 rounded-xl bg-black dark:bg-white text-white dark:text-black">
+                <p class="text-xs opacity-70 font-medium">Saldo tersedia</p>
+                <p id="pay-bal-available" class="text-2xl font-bold mt-1 font-mono">Rp 0</p>
+              </div>
+              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total masuk</p>
+                <p id="pay-bal-paid" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
+              </div>
+              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total ditarik</p>
+                <p id="pay-bal-withdrawn" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
+              </div>
             </div>
           </div>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Kredensial API diterbitkan oleh Clincoo — hubungi kami untuk mengaktifkan QRIS di proyekmu.</p>
         </div>
-        <div class="py-5">
-          <div class="flex items-center justify-between mb-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Saldo ClincooPay</h4>
-            <button type="button" id="pay-withdraw-btn" onclick="openWithdrawModal()" class="px-4 py-2 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors flex-shrink-0 cursor-pointer flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed" disabled>
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"></path></svg>
-              Tarik Saldo
+        <div class="py-5" id="pay-key-section" style="display:none">
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Kunci Publik Pembayaran</p>
+          <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
+            <code id="pay-key-box" class="flex-1 text-xs font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
+            <button type="button" id="pay-key-copy" onclick="copyPayKey()" class="p-2 rounded-lg text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex-shrink-0" title="Salin kunci">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h2a2 2 0 012 2v12a2 2 0 01-2 2h-2"></path></svg>
             </button>
           </div>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Hasil pembayaran QRIS di situs deploy-mu masuk ke sini. Tarik kapan saja ke rekeningmu.</p>
-          <div id="pay-balance-inactive" class="p-3.5 rounded-xl border border-dashed border-gray-300 dark:border-slate-600 flex items-center gap-3">
-            <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <div class="min-w-0 flex-1">
-              <p class="text-sm font-medium text-gray-900 dark:text-white">ClincooPay belum aktif</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Aktifkan untuk menerima pembayaran QRIS.</p>
-            </div>
-            <button type="button" id="pay-activate-btn" onclick="activatePay()" class="px-4 py-2 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors flex-shrink-0 cursor-pointer">Aktifkan</button>
-          </div>
-          <div id="pay-balance-grid" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="p-4 rounded-xl bg-black dark:bg-white text-white dark:text-black">
-              <p class="text-xs opacity-70 font-medium">Saldo tersedia</p>
-              <p id="pay-bal-available" class="text-2xl font-bold mt-1 font-mono">Rp 0</p>
-            </div>
-            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
-              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total masuk</p>
-              <p id="pay-bal-paid" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
-            </div>
-            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
-              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total ditarik</p>
-              <p id="pay-bal-withdrawn" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
-            </div>
-          </div>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Dipakai situs deploy-mu untuk membuat QR bayar via <span class="font-mono" id="pay-endpoint">/api/pay</span></p>
         </div>
-        <div class="py-5">
-          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Kunci Publik Pembayaran</h4>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3">Kunci publik dari Clincoo — dipakai situs hasil deploy-mu untuk memanggil API ClincooPay. Aman dipasang di halaman publik.</p>
-          <div class="flex items-center gap-2">
-            <div id="pay-key-box" class="flex-1 min-w-0 px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 text-gray-500 dark:text-gray-400 truncate">Belum tersedia — simpan kredensial dulu</div>
-            <button type="button" id="pay-key-copy" onclick="copyPayKey()" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Salin</button>
-          </div>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Endpoint situsmu: <code class="font-mono" id="pay-endpoint">/api/pay</code> <span>— kirim dari situsmu untuk membuat QR bayar.</span></p>
-        </div>
+        <div id="pay-logs-section" style="display:none">
         <div class="py-5">
           <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Transaksi Masuk</h4>
           <div id="pay-tx-list" class="space-y-2"></div>
@@ -358,6 +350,7 @@
           <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Penarikan Saldo</h4>
           <div id="pay-wd-list" class="space-y-2"></div>
           <p id="pay-wd-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada penarikan.</p>
+        </div>
         </div>
       </div>
       <div id="action-buttons" class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700/60 hidden justify-end gap-3 opacity-0 transition-opacity duration-300">
@@ -401,71 +394,10 @@
     try {
       navigator.clipboard.writeText(key).then(function () {
         var b = document.getElementById('pay-key-copy');
-        var old = b.innerText;
-        b.innerText = 'Tersalin!';
-        setTimeout(function () { b.innerText = old; }, 1600);
+        b.classList.add('text-emerald-500');
+        setTimeout(function () { b.classList.remove('text-emerald-500'); }, 1200);
       }).catch(function () { _payModal(key, true); });
     } catch (e) { _payModal(key, true); }
-  }
-
-
-  function renderPayActive(data) {
-    document.getElementById('pay-balance-inactive').classList.add('hidden');
-    document.getElementById('pay-balance-grid').classList.remove('hidden');
-    _available = data.available || 0;
-    document.getElementById('pay-bal-available').textContent = _rp(data.available);
-    document.getElementById('pay-bal-paid').textContent = _rp(data.total_paid);
-    document.getElementById('pay-bal-withdrawn').textContent = _rp(data.total_withdrawn);
-    var wb = document.getElementById('pay-withdraw-btn');
-    if (wb) wb.disabled = false;
-    var kb = document.getElementById('pay-key-box');
-    kb.textContent = data.pay_key || '';
-    kb.classList.remove('text-gray-500');
-    var badge = document.getElementById('pay-status-badge');
-    if (badge) { badge.textContent = data.gateway_ready === false ? 'Aktif — gateway menyusun' : 'Aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 whitespace-nowrap'; }
-  }
-
-  async function loadPayConfig() {
-    try {
-      var hdrs = _apiToken ? { Authorization: 'Bearer ' + _apiToken } : {};
-      var res = await fetch(API_BASE + '/pay?action=config&project_id=' + encodeURIComponent(_pid()), { headers: hdrs });
-      if (!res.ok) return;
-      var data = await res.json();
-      if (data.active) renderPayActive(data);
-      var ep = document.getElementById('pay-endpoint');
-      if (ep) ep.textContent = API_BASE + '/pay';
-      var c = document.getElementById('action-buttons');
-      if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
-    } catch (e) {}
-    loadPayTransactions();
-    loadPayWithdrawals();
-  }
-
-  async function activatePay() {
-    var btn = document.getElementById('pay-activate-btn');
-    if (!btn) return;
-    btn.innerText = 'Mengaktifkan...';
-    btn.disabled = true;
-    try {
-      var res = await fetch(API_BASE + '/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
-        body: JSON.stringify({ action: 'activate', project_id: _pid() })
-      });
-      var data = await res.json().catch(function () { return {}; });
-      if (!res.ok || !data.success) {
-        _payModal(data.message || data.error || 'Gagal mengaktifkan ClincooPay.', false);
-        btn.innerText = 'Aktifkan';
-        btn.disabled = false;
-        return;
-      }
-      _payModal('ClincooPay aktif! Situs deploy-mu sekarang bisa menerima pembayaran QRIS.', true);
-      loadPayConfig();
-    } catch (e) {
-      _payModal('Tidak dapat terhubung ke server.', false);
-      btn.innerText = 'Aktifkan';
-      btn.disabled = false;
-    }
   }
 
   // ===== Tarik saldo =====
