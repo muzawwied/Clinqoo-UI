@@ -257,12 +257,17 @@ body.light .fico-mono{color:#2b2b30}
 #split-close{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;color:var(--text3)}
 #split-close:hover{background:var(--bg4);color:var(--text)}
 #monaco2{flex:1;min-height:0}
-#media-preview{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:30px;background:var(--editor-bg);z-index:5;text-align:center}
-#media-preview.show{display:flex}
-#media-preview img,#media-preview video{max-width:100%;max-height:62vh;border-radius:10px;box-shadow:0 6px 28px rgba(0,0,0,.35);background:#000}
-#media-preview audio{width:min(440px,90%)}
-#media-preview .mp-name{font-size:13px;color:var(--text2);font-family:'Fira Code',monospace;word-break:break-all}
-#media-preview .mp-size{font-size:11.5px;color:var(--text3)}
+#media-viewer{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);z-index:3000}
+#media-viewer.show{display:flex}
+#mv-top{height:48px;flex:none;display:flex;align-items:center;gap:10px;padding:0 10px;background:var(--bg2);border-bottom:1px solid var(--line)}
+#mv-back{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:var(--text2);flex:none}
+#mv-back:hover{background:var(--bg4);color:var(--text)}
+#mv-top .mv-name{font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Fira Code',monospace}
+#mv-top .mv-size{font-size:11.5px;color:var(--text3);flex:none;margin-left:auto}
+#mv-body{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:30px;overflow:auto;text-align:center}
+#mv-body img,#mv-body video{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 6px 28px rgba(0,0,0,.35);background:#000}
+#mv-body audio{width:min(440px,90%)}
+#mv-body .mp-size{font-size:11.5px;color:var(--text3)}
 
 kbd{font-family:'Fira Code',monospace;background:var(--bg4);border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;padding:2px 6px;font-size:10.5px;color:var(--text2)}
 
@@ -565,13 +570,6 @@ body.light #titlebar,body.light #sidebar{background:rgba(238,238,241,.93);backdr
     <div id="monaco-wrap">
       <div id="monaco-main">
       <div id="monaco"></div>
-      <div id="media-preview">
-        <img id="mp-img" style="display:none" alt="">
-        <video id="mp-video" controls style="display:none"></video>
-        <audio id="mp-audio" controls style="display:none"></audio>
-        <div class="mp-name" id="mp-name"></div>
-        <div class="mp-size" id="mp-size"></div>
-      </div>
       </div>
       <div id="split-pane" class="hidden">
         <div id="split-head"><span id="split-name">—</span><button id="split-close" onclick="closeSplit()" title="Tutup panel split"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -637,6 +635,20 @@ body.light #titlebar,body.light #sidebar{background:rgba(238,238,241,.93);backdr
   <div class="sb" id="sb-cursor" onclick="toast('Gunakan Ctrl+G untuk pergi ke baris')">Ln 1, Col 1</div>
   <div class="sb" id="sb-indent" onclick="cycleIndent()">Spasi: 2</div>
   <div class="sb" id="sb-lang">Plain Text</div>
+</div>
+
+<!-- Viewer media (terpisah dari code editor) -->
+<div id="media-viewer">
+  <div id="mv-top">
+    <button id="mv-back" onclick="hideMediaPreview()" title="Kembali ke editor" aria-label="Kembali ke editor"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <span class="mv-name" id="mp-name"></span>
+    <span class="mv-size" id="mp-size"></span>
+  </div>
+  <div id="mv-body">
+    <img id="mp-img" style="display:none" alt="">
+    <video id="mp-video" controls style="display:none"></video>
+    <audio id="mp-audio" controls style="display:none"></audio>
+  </div>
 </div>
 
 <!-- overlays -->
@@ -722,12 +734,11 @@ function showMediaPreview(path){
   const isDataUri=src.indexOf('base64,')>=0;
   const kb=isDataUri?((src.length-src.indexOf('base64,')-7)*0.75/1024).toFixed(1):null;
   $('#mp-size').textContent=kb?kb+' KB':(isDataUri?'':'Berkas tidak valid (bukan base64) — import ulang berkas ini');
-  $('#media-preview').classList.add('show');
-  $('#monaco').style.display='none';
+  $('#media-viewer').classList.add('show');
+  closeMobileSidebar();
 }
 function hideMediaPreview(){
-  $('#media-preview').classList.remove('show');
-  $('#monaco').style.display='';
+  $('#media-viewer').classList.remove('show');
 }
 const FICO_LETTER={'.env':['ENV','#d6ae58'],'.env.local':['ENV','#d6ae58'],'.env.example':['ENV','#d6ae58'],'.gitignore':['GIT','#f34f29'],'dockerfile':['🐳','#4a9fd8'],'makefile':['MK','#ac9370'],'package.json':['NPM','#cb5c55'],'package-lock.json':['NPM','#cb5c55'],'readme.md':['MD','#519aba'],mjs:['JS','#e8d44d'],jsx:['JS','#e8d44d'],ts:['TS','#3178c6'],tsx:['TS','#3178c6'],scss:['#','#cd6799'],md:['M','#519aba'],sh:['$','#89e051'],yml:['Y','#cb171e'],yaml:['Y','#cb171e'],sql:['DB','#e38c00'],svg:['SVG','#ffb13b'],php:['PHP','#8892bf'],go:['GO','#00add8'],rs:['RS','#a99a8a'],java:['J','#e76f52'],rb:['RB','#cc514e'],vue:['V','#41b883'],svelte:['S','#ff765b'],astro:['A','#e78155'],toml:['T','#a58872'],ini:['CFG','#98a6ad'],lock:['LOCK','#8f9ca5'],dockerfile:['🐳','#4a9fd8'],graphql:['GQL','#e06da9'],gql:['GQL','#e06da9'],mdx:['MDX','#519aba'],bash:['$','#89e051'],zsh:['$','#89e051'],bat:['BAT','#89e051'],ps1:['PS','#569cd6']};
 const ficoHTML=p=>{
