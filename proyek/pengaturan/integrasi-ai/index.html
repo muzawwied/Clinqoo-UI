@@ -577,9 +577,11 @@
   // Dropdown model memakai absolute positioning di dalam konten yang bisa discroll:
   // tutup otomatis saat halaman discroll supaya tidak nyangkut/terpotong di bawah header fixed.
   // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
-  window.addEventListener('scroll', function () {
+  window.addEventListener('scroll', function (e) {
     var p = document.getElementById('ai-model-popover');
-    if (p && !p.classList.contains('hidden')) p.classList.add('hidden');
+    if (!p || p.classList.contains('hidden')) return;
+    if (p.contains(e.target)) return; // scroll terjadi di DALAM list popover sendiri (overflow-y-auto) — jangan tutup, biar bisa discroll
+    p.classList.add('hidden');
   }, { capture: true, passive: true });
   // Favorit model: disimpan per-browser, dipakai di modal detail
   function aiFavModels() {
