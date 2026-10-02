@@ -792,13 +792,16 @@
             window.location.href = '/';
         });
 
+        var CHAT_LAST_VIEW_KEY = 'clinqoo_last_view';
+        function chatSaveLastView(v) { try { if (v === 'agent' || v === 'code' || v === 'dashboard' || v === 'live') localStorage.setItem(CHAT_LAST_VIEW_KEY, v); } catch (e) {} }
+        function chatLastView() { try { var v = localStorage.getItem(CHAT_LAST_VIEW_KEY); return (v === 'agent' || v === 'code' || v === 'dashboard' || v === 'live') ? v : ''; } catch (e) { return ''; } }
         // Panel workspace: latar penuh di mobile, split di desktop — selalu dimuat
         (function () {
             var frame = document.getElementById('chat-ws-frame');
             if (!frame || document.documentElement.classList.contains('embed-mode')) return;
             if (!frame.getAttribute('src')) {
                 var panel = 'code';
-                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live' || pp === 'code') panel = pp; else if (pp === 'workspace') panel = 'code'; } catch (e) {}
+                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live' || pp === 'code') panel = pp; else if (pp === 'workspace') panel = 'code'; else { var pv0 = chatLastView(); if (pv0 === 'dashboard' || pv0 === 'live' || pv0 === 'code') panel = pv0; } } catch (e) {}
                 frame.dataset.src = splitSrcFor(panel);
                 frame.src = frame.dataset.src;
             }
@@ -820,7 +823,7 @@
             return '/proyek/code/?embed=1';
         }
         var _initPanel = 'code';
-        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live' || _p === 'code') _initPanel = _p; else if (_p === 'workspace') _initPanel = 'code'; } catch (e) {}
+        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live' || _p === 'code') _initPanel = _p; else if (_p === 'workspace') _initPanel = 'code'; else { var pv1 = chatLastView(); if (pv1 === 'dashboard' || pv1 === 'live' || pv1 === 'code') _initPanel = pv1; } } catch (e) {}
         const initPanel = _initPanel;
         const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard'), live: splitSrcFor('live') };
         chatNavLinks.forEach(x => x.classList.remove('is-active'));
@@ -849,6 +852,7 @@
             l.addEventListener('mouseenter', () => chatNavMovePill(l));
             l.addEventListener('click', (e) => {
                 var nav = l.dataset.nav;
+                chatSaveLastView(nav);
                 var isDesk = window.matchMedia('(min-width: 900px)').matches;
                 if (splitNavSrc[nav]) {
                     e.preventDefault();
@@ -884,11 +888,21 @@
         // Bottom sheet chat (mobile): buka/tutup via FAB Agent & handle
         var _sheetEl = document.getElementById('chat-sheet');
         var _chatEmbed = document.documentElement.classList.contains('embed-mode');
-        window.chatSheetOpen = function () { document.body.classList.remove('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = ''; };
+        window.chatSheetOpen = function () { chatSaveLastView('agent'); document.body.classList.remove('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = ''; };
         window.chatSheetClose = function () {
             if (_chatEmbed) { try { window.parent.postMessage('clinqoo:chat-close', '*'); } catch (e) {} return; }
             document.body.classList.add('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = '';
+            chatSaveLastView(chatNavActive ? chatNavActive.dataset.nav : 'code');
         };
+        (function () {
+            if (document.documentElement.classList.contains('embed-mode')) return;
+            try {
+                if (window.matchMedia('(min-width: 900px)').matches) return;
+                var pv2 = chatLastView();
+                if (pv2 === 'code' || pv2 === 'dashboard' || pv2 === 'live') document.body.classList.add('sheet-closed');
+                else if (!pv2) { var qp0 = new URLSearchParams(location.search).get('panel'); if (qp0 === 'dashboard' || qp0 === 'live' || qp0 === 'code' || qp0 === 'workspace') document.body.classList.add('sheet-closed'); }
+            } catch (e) {}
+        })();
         // Geser sheet: tarik turun utk tutup (lempar / lewat 25% tinggi), lepas utk buka kembali
         (function () {
             var sheet = _sheetEl, handle = document.getElementById('chat-sheet-handle');
