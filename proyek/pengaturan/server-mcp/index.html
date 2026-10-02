@@ -535,13 +535,43 @@ function renderMcp() {
   renderMcpTools();
 }
 
+// ===== Cache lokal: refresh gak loading terus — state terakhir langsung tampil,
+// lalu dicegarkan diam-diam di background (cuma kalau memang berubah). =====
+function _mcpCacheKey() { return 'clinqoo_mcp_' + (_mcpPid() || 'none'); }
+function _mcpCacheRead() { try { return JSON.parse(localStorage.getItem(_mcpCacheKey()) || 'null'); } catch (e) { return null; } }
+function _mcpCacheWrite(d) {
+  try { localStorage.setItem(_mcpCacheKey(), JSON.stringify({ token: d.token, scopes: d.scopes || { read: true, write: false, delete: false }, created_at: d.created_at || null, ts: Date.now() })); } catch (e) {}
+}
+function _mcpCacheClear() { try { localStorage.removeItem(_mcpCacheKey()); } catch (e) {} }
+
 async function loadMcp() {
+  // 1) Ada cache? Tampilin LANGSUNG tanpa skeleton.
+  var cached = _mcpCacheRead();
+  if (cached && cached.token && _mcpPid()) {
+    mcpState.active = true;
+    mcpState.token = cached.token;
+    mcpState.scopes = cached.scopes || { read: true, write: false, delete: false };
+    mcpState.created_at = cached.created_at || null;
+    renderMcp();
+    // 2) Cegarkan diam-diam: gak ada skeleton, UI gak berkedip.
+    //    Cukup tiap 10 menit; lebih baru dari itu percuma (datanya sama terus).
+    if (Date.now() - (cached.ts || 0) < 10 * 60 * 1000) return;
+    try {
+      var r = await mcpRequest('GET');
+      if (r && r.token) { _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp(); }
+      else if (r && (r.error === 'Token MCP tidak valid atau sudah dicabut untuk proyek ini' || r.revoked)) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
+      else if (r && r.not_found) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
+    } catch (e) { /* offline/lelet: tetap pakai cache */ }
+    return;
+  }
+  // 3) Gak ada cache: ambil seperti biasa (skeleton), lalu simpan.
   var d = await mcpRequest('GET');
   if (d && d.token) {
     mcpState.active = true;
     mcpState.token = d.token;
     mcpState.scopes = d.scopes || { read: true, write: false, delete: false };
     mcpState.created_at = d.created_at || null;
+    _mcpCacheWrite(d);
   } else {
     mcpState.active = false;
     mcpState.token = '';
@@ -565,6 +595,8 @@ async function activateMcp() {
     mcpState.active = true;
     mcpState.token = d.token;
     mcpState.scopes = d.scopes || mcpState.scopes;
+    mcpState.created_at = d.created_at || mcpState.created_at;
+    _mcpCacheWrite(d);
     renderMcp();
     mcpToast('Server MCP aktif');
   } else {
@@ -578,6 +610,7 @@ async function regenerateMcp() {
   if (d && d.token) {
     mcpState.token = d.token;
     mcpState.scopes = d.scopes || mcpState.scopes;
+    _mcpCacheWrite(d);
     mcpTokenVisible = true;
     renderMcp();
     mcpToast('Token baru dibuat');
@@ -591,6 +624,7 @@ async function revokeMcp() {
   var d = await mcpRequest('DELETE');
   if (d && d.ok) {
     mcpState.active = false;
+    _mcpCacheClear();
     mcpState.token = '';
     mcpTokenVisible = false;
     renderMcp();
