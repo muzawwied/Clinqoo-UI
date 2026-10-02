@@ -80,7 +80,7 @@ export async function sendEmail(env, opts) {
       method: 'POST',
       headers: { 'api-key': apiKey, 'Content-Type': 'application/json', accept: 'application/json' },
       body: JSON.stringify({
-        sender: { name: senderName, email: senderEmail },
+        sender: { name: opts.senderName || senderName, email: senderEmail },
         to: [{ email: opts.toEmail, ...(opts.toName ? { name: opts.toName } : {}) }],
         subject: opts.subject,
         htmlContent: opts.html,
