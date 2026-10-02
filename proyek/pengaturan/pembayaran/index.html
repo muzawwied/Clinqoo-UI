@@ -131,7 +131,13 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-    </style>
+      /* Animasi & skeleton halaman Pembayaran */
+    @keyframes payFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .pay-fade { animation: payFadeUp .35s ease both; }
+    @keyframes payShimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+    .pay-skel { background: linear-gradient(90deg, rgba(0,0,0,.06) 25%, rgba(0,0,0,.12) 37%, rgba(0,0,0,.06) 63%); background-size: 400% 100%; animation: payShimmer 1.2s ease infinite; }
+    .dark-mode .pay-skel { background: linear-gradient(90deg, rgba(255,255,255,.06) 25%, rgba(255,255,255,.12) 37%, rgba(255,255,255,.06) 63%); background-size: 400% 100%; }
+  
   <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
@@ -314,18 +320,34 @@
                 Tarik Saldo
               </button>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="p-4 rounded-xl bg-black dark:bg-white text-white dark:text-black">
-                <p class="text-xs opacity-70 font-medium">Saldo tersedia</p>
-                <p id="pay-bal-available" class="text-2xl font-bold mt-1 font-mono">Rp 0</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div class="p-4 rounded-xl bg-black dark:bg-white text-white dark:text-black flex flex-col justify-between min-h-[92px]">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-xs opacity-70 font-medium">Saldo tersedia</p>
+                  <svg class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h.01M11 15h2m-8-6h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z"></path></svg>
+                </div>
+                <p id="pay-bal-available" class="text-2xl font-bold mt-1.5 font-mono">Rp 0</p>
               </div>
-              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
-                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total masuk</p>
-                <p id="pay-bal-paid" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
+              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40 flex flex-col justify-between min-h-[92px]">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total masuk</p>
+                  <svg class="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path></svg>
+                </div>
+                <p id="pay-bal-paid" class="text-xl font-semibold mt-1.5 font-mono text-gray-900 dark:text-white">Rp 0</p>
               </div>
-              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
-                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total ditarik</p>
-                <p id="pay-bal-withdrawn" class="text-xl font-semibold mt-1 font-mono text-gray-900 dark:text-white">Rp 0</p>
+              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40 flex flex-col justify-between min-h-[92px]">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total ditarik</p>
+                  <svg class="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
+                </div>
+                <p id="pay-bal-withdrawn" class="text-xl font-semibold mt-1.5 font-mono text-gray-900 dark:text-white">Rp 0</p>
+              </div>
+              <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40 flex flex-col justify-between min-h-[92px]">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total transaksi</p>
+                  <svg class="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                </div>
+                <p id="pay-bal-count" class="text-xl font-semibold mt-1.5 font-mono text-gray-900 dark:text-white">0</p>
               </div>
             </div>
           </div>
@@ -341,10 +363,78 @@
           <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Dipakai situs deploy-mu untuk membuat QR bayar via <span class="font-mono" id="pay-endpoint">/api/pay</span></p>
         </div>
         <div id="pay-logs-section" style="display:none">
+        <div class="py-5" id="pay-stats-section" style="display:none">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Statistik</h4>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Dana masuk per hari · 7 hari terakhir</p>
+              <div class="h-52 relative">
+                <div class="pay-chart-skel pay-skel absolute inset-0 rounded-lg"></div>
+                <canvas id="pay-daily-chart" class="opacity-0 transition-opacity duration-500"></canvas>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Tren transaksi · 14 hari terakhir</p>
+              <div class="h-52 relative">
+                <div class="pay-chart-skel pay-skel absolute inset-0 rounded-lg"></div>
+                <canvas id="pay-trend-chart" class="opacity-0 transition-opacity duration-500"></canvas>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Status transaksi · jumlah</p>
+              <div class="h-52 relative">
+                <div class="pay-chart-skel pay-skel absolute inset-0 rounded-lg"></div>
+                <canvas id="pay-status-chart" class="opacity-0 transition-opacity duration-500"></canvas>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Nominal per status · Rupiah</p>
+              <div class="h-52 relative">
+                <div class="pay-chart-skel pay-skel absolute inset-0 rounded-lg"></div>
+                <canvas id="pay-amount-chart" class="opacity-0 transition-opacity duration-500"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="py-5">
-          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Transaksi Masuk</h4>
-          <div id="pay-tx-list" class="space-y-2"></div>
+          <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Transaksi Masuk</h4>
+            <div class="flex items-center gap-2">
+              <input type="text" id="pay-tx-search" placeholder="Cari deskripsi / order ID" oninput="applyTxFilter('q', this.value.toLowerCase())" class="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/40 text-gray-700 dark:text-gray-300 placeholder-gray-400 focus:outline-none focus:border-gray-400 dark:focus:border-slate-500 w-44 sm:w-56 transition-colors" />
+              <select id="pay-tx-period" onchange="applyTxFilter('period', this.value)" class="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/40 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-gray-400 dark:focus:border-slate-500 cursor-pointer transition-colors">
+                <option value="0">Semua waktu</option>
+                <option value="7">7 hari terakhir</option>
+                <option value="30">30 hari terakhir</option>
+              </select>
+            </div>
+          </div>
+          <div id="pay-tx-pills" class="flex flex-wrap gap-1.5 mb-3">
+            <button type="button" data-st="all" onclick="applyTxFilter('status', 'all')" class="px-3 py-1.5 text-xs font-medium rounded-full bg-black text-white dark:bg-white dark:text-black transition-colors">Semua</button>
+            <button type="button" data-st="paid" onclick="applyTxFilter('status', 'paid')" class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">Berhasil</button>
+            <button type="button" data-st="pending" onclick="applyTxFilter('status', 'pending')" class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">Menunggu</button>
+            <button type="button" data-st="expired" onclick="applyTxFilter('status', 'expired')" class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">Kedaluwarsa</button>
+            <button type="button" data-st="failed" onclick="applyTxFilter('status', 'failed')" class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">Gagal</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                  <th class="py-2 px-3 font-semibold whitespace-nowrap">Deskripsi</th>
+                  <th class="py-2 px-3 font-semibold whitespace-nowrap">Order ID</th>
+                  <th class="py-2 px-3 font-semibold whitespace-nowrap">Tanggal</th>
+                  <th class="py-2 px-3 font-semibold text-right whitespace-nowrap">Jumlah</th>
+                  <th class="py-2 px-3 font-semibold text-right whitespace-nowrap">Status</th>
+                </tr>
+              </thead>
+              <tbody id="pay-tx-rows" class="divide-y divide-gray-200 dark:divide-slate-700/60">
+              <tr><td colspan="5" class="py-3 px-3"><div class="h-3 rounded pay-skel w-2/3"></div></td></tr>
+              <tr><td colspan="5" class="py-3 px-3"><div class="h-3 rounded pay-skel w-1/2"></div></td></tr>
+              <tr><td colspan="5" class="py-3 px-3"><div class="h-3 rounded pay-skel w-3/5"></div></td></tr>
+            </tbody>
+            </table>
+          </div>
           <p id="pay-tx-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada transaksi.</p>
+          <p id="pay-tx-nofilter" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center" style="display:none">Tidak ada transaksi yang cocok dengan filter.</p>
         </div>
         <div class="py-5">
           <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Penarikan Saldo</h4>
@@ -571,22 +661,164 @@
       var res = await fetch(API_BASE + '/pay', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, hdrs), body: JSON.stringify({ action: 'transactions', project_id: _pid() }) });
       if (!res.ok) return;
       var data = await res.json();
-      var list = document.getElementById('pay-tx-list');
+      var rows = document.getElementById('pay-tx-rows');
       var empty = document.getElementById('pay-tx-empty');
+      var nofilter = document.getElementById('pay-tx-nofilter');
       var txs = (data && data.transactions) || [];
-      if (!txs.length) { empty.style.display = 'block'; return; }
+      _payTxs = txs;
+      var cnt = document.getElementById('pay-bal-count');
+      if (cnt) cnt.textContent = String(txs.length);
+      renderPayStats(txs);
+      if (!txs.length) { rows.innerHTML = ''; empty.style.display = 'block'; nofilter.style.display = 'none'; return; }
       empty.style.display = 'none';
-      list.innerHTML = '';
-      txs.forEach(function (t) {
+      renderTxRows();
+    } catch (e) {}
+  }
+
+  // ===== Filter transaksi =====
+  var _payTxs = [];
+  var _txFilter = { status: 'all', q: '', period: '0' };
+  function _txPass(t) {
+    if (_txFilter.status !== 'all' && t.status !== _txFilter.status) return false;
+    if (_txFilter.q && (((t.description || '') + ' ' + (t.order_id || '')).toLowerCase().indexOf(_txFilter.q) === -1)) return false;
+    var p = Number(_txFilter.period) || 0;
+    if (p > 0) {
+      var ts = Date.parse(String(t.created_at || '').replace(' ', 'T') + 'Z');
+      if (!(ts > 0) || ts < Date.now() - p * 86400000) return false;
+    }
+    return true;
+  }
+  function renderTxRows() {
+    var rows = document.getElementById('pay-tx-rows');
+    var nofilter = document.getElementById('pay-tx-nofilter');
+    if (!rows) return;
+    rows.innerHTML = '';
+    var txs = _payTxs.filter(_txPass);
+    if (!txs.length) { if (nofilter) nofilter.style.display = 'block'; return; }
+    if (nofilter) nofilter.style.display = 'none';
+    txs.forEach(function (t, idx) {
         var stClass = t.status === 'paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : (t.status === 'expired' || t.status === 'failed' ? 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300');
         var stLabel = t.status === 'paid' ? 'Berhasil' : (t.status === 'expired' ? 'Kedaluwarsa' : (t.status === 'failed' ? 'Gagal' : 'Menunggu'));
-        var row = document.createElement('div');
-        row.className = 'flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700';
-        row.innerHTML = '<div class="min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white truncate">' + (t.description || 'Pembayaran') + '</p><p class="text-xs text-gray-400 font-mono">' + t.order_id + ' · ' + (t.created_at || '') + '</p></div>' +
-          '<div class="flex items-center gap-2.5 flex-shrink-0"><span class="text-sm font-semibold text-gray-900 dark:text-white">Rp ' + Number(t.amount || 0).toLocaleString('id-ID') + '</span><span class="px-2 py-0.5 text-xs font-semibold rounded-full ' + stClass + '">' + stLabel + '</span></div>';
-        list.appendChild(row);
+        var tr = document.createElement('tr');
+        tr.className = 'text-sm';
+        tr.className = 'pay-fade';
+        tr.style.animationDelay = Math.min(idx * 40, 400) + 'ms';
+        tr.innerHTML = '<td class="py-2.5 px-3 text-gray-900 dark:text-white font-medium max-w-[220px] truncate">' + (t.description || 'Pembayaran') + '</td>' +
+          '<td class="py-2.5 px-3 text-xs text-gray-400 font-mono whitespace-nowrap">' + t.order_id + '</td>' +
+          '<td class="py-2.5 px-3 text-xs text-gray-400 font-mono whitespace-nowrap">' + (t.created_at || '') + '</td>' +
+          '<td class="py-2.5 px-3 text-right font-semibold text-gray-900 dark:text-white whitespace-nowrap">Rp ' + Number(t.amount || 0).toLocaleString('id-ID') + '</td>' +
+          '<td class="py-2.5 px-3 text-right whitespace-nowrap"><span class="px-2 py-0.5 text-xs font-semibold rounded-full ' + stClass + '">' + stLabel + '</span></td>';
+        rows.appendChild(tr);
       });
-    } catch (e) {}
+  }
+  function applyTxFilter(key, val) {
+    _txFilter[key] = (key === 'q') ? String(val || '').toLowerCase() : String(val || '');
+    var pills = document.getElementById('pay-tx-pills');
+    if (pills && key === 'status') {
+      pills.querySelectorAll('button[data-st]').forEach(function (b) {
+        var on = b.getAttribute('data-st') === _txFilter.status;
+        b.className = on ? 'px-3 py-1.5 text-xs font-medium rounded-full bg-black text-white dark:bg-white dark:text-black transition-colors' : 'px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors';
+      });
+    }
+    renderTxRows();
+  }
+
+  // ===== Statistik (Chart.js) — pola sama dengan halaman Integrasi AI =====
+  var _payChart = { loaded: false, failed: false, insts: [] };
+  function _payDark() { return document.body.classList.contains('dark-mode') || document.documentElement.classList.contains('dark-mode'); }
+  function _loadChartJs(cb) {
+    if (_payChart.loaded) { cb(true); return; }
+    if (_payChart.failed) { cb(false); return; }
+    var sc = document.createElement('script');
+    sc.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
+    sc.onload = function () { _payChart.loaded = true; cb(true); };
+    sc.onerror = function () { _payChart.failed = true; cb(false); };
+    document.head.appendChild(sc);
+  }
+  function _chartReady(id) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    c.classList.remove('opacity-0');
+    var sk = c.parentElement ? c.parentElement.querySelector('.pay-chart-skel') : null;
+    if (sk) sk.remove();
+  }
+  function _destroyPayStats() {
+    _payChart.insts.forEach(function (ch) { try { ch.destroy(); } catch (e) {} });
+    _payChart.insts = [];
+    var sec = document.getElementById('pay-stats-section');
+    if (sec) sec.style.display = 'none';
+  }
+  function renderPayStats(txs) {
+    if (!txs || !txs.length) { _destroyPayStats(); return; }
+    _loadChartJs(function (ok) {
+      var sec = document.getElementById('pay-stats-section');
+      if (!ok || !window.Chart || !sec) return;
+      sec.style.display = 'block';
+      _payChart.insts.forEach(function (ch) { try { ch.destroy(); } catch (e) {} });
+      _payChart.insts = [];
+      var dark = _payDark();
+      var tick = dark ? '#9ca3af' : '#6b7280';
+      var grid = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+      var anim = { duration: 600, easing: 'easeOutQuart' };
+      var rpTip = { callbacks: { label: function (c) { return (c.dataset.label || '') + ' Rp ' + Number(c.parsed.y || 0).toLocaleString('id-ID'); } } };
+      var kTip = { callbacks: { label: function (c) { return (c.dataset.label || '') + ': ' + Number(c.parsed.y || 0); } } };
+      var rpAxis = { ticks: { color: tick, font: { size: 11 }, callback: function (v) { return v >= 1000000 ? (v / 1000000) + 'jt' : (v >= 1000 ? (v / 1000) + 'rb' : v); } }, grid: { color: grid }, beginAtZero: true };
+      var stMap = { paid: ['Berhasil', 'rgba(16,185,129,0.85)'], pending: ['Menunggu', 'rgba(245,158,11,0.85)'], expired: ['Kedaluwarsa', 'rgba(239,68,68,0.85)'], failed: ['Gagal', 'rgba(127,127,127,0.85)'] };
+      var stKeys = ['paid', 'pending', 'expired', 'failed'];
+      var dayKey = function (d) { return d.toISOString().slice(0, 10); };
+      var dayRp = function (key) { return txs.filter(function (t) { return t.status === 'paid' && String(t.created_at || '').slice(0, 10) === key; }).reduce(function (a, t) { return a + Number(t.amount || 0); }, 0); };
+      var dayCnt = function (key) { return txs.filter(function (t) { return String(t.created_at || '').slice(0, 10) === key; }).length; };
+
+      // 1) Bar: dana masuk per hari — 7 hari terakhir
+      var days7 = [], rp7 = [];
+      for (var i = 6; i >= 0; i--) {
+        var d = new Date(Date.now() - i * 86400000);
+        days7.push(d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+        rp7.push(dayRp(dayKey(d)));
+      }
+      _payChart.insts.push(new Chart(document.getElementById('pay-daily-chart'), {
+        type: 'bar',
+        data: { labels: days7, datasets: [{ label: 'Dana masuk', data: rp7, backgroundColor: dark ? 'rgba(255,255,255,0.85)' : 'rgba(17,17,17,0.85)', borderRadius: 6, maxBarThickness: 42 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: anim, plugins: { legend: { display: false }, tooltip: rpTip }, scales: { x: { ticks: { color: tick, font: { size: 11 } }, grid: { display: false } }, y: rpAxis } }
+      }));
+      _chartReady('pay-daily-chart');
+
+      // 2) Campuran bar+line: dana masuk & jumlah transaksi — 14 hari terakhir
+      var days14 = [], rp14 = [], cnt14 = [];
+      for (var j = 13; j >= 0; j--) {
+        var d2 = new Date(Date.now() - j * 86400000);
+        days14.push(d2.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+        var k2 = dayKey(d2);
+        rp14.push(dayRp(k2)); cnt14.push(dayCnt(k2));
+      }
+      _payChart.insts.push(new Chart(document.getElementById('pay-trend-chart'), {
+        type: 'bar',
+        data: { labels: days14, datasets: [
+          { label: 'Dana masuk', data: rp14, backgroundColor: 'rgba(16,185,129,0.75)', borderRadius: 5, maxBarThickness: 24, yAxisID: 'y' },
+          { type: 'line', label: 'Jumlah transaksi', data: cnt14, borderColor: dark ? '#f59e0b' : '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)', tension: 0.35, pointRadius: 3, borderWidth: 2, fill: true, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: false, animation: anim, plugins: { legend: { labels: { color: tick, boxWidth: 10, boxHeight: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: function (c) { return c.dataset.yAxisID === 'y1' ? 'Jumlah transaksi: ' + Number(c.parsed.y || 0) : 'Dana masuk: Rp ' + Number(c.parsed.y || 0).toLocaleString('id-ID'); } } } }, scales: { x: { ticks: { color: tick, font: { size: 10 }, maxRotation: 0, autoSkip: true }, grid: { display: false } }, y: rpAxis, y1: { position: 'right', ticks: { color: tick, font: { size: 11 }, precision: 0 }, grid: { display: false }, beginAtZero: true } } }
+      }));
+      _chartReady('pay-trend-chart');
+
+      // 3) Doughnut: komposisi status (jumlah transaksi)
+      var stCounts = stKeys.map(function (k) { return txs.filter(function (t) { return t.status === k; }).length; });
+      _payChart.insts.push(new Chart(document.getElementById('pay-status-chart'), {
+        type: 'doughnut',
+        data: { labels: stKeys.map(function (k) { return stMap[k][0]; }), datasets: [{ data: stCounts, backgroundColor: stKeys.map(function (k) { return stMap[k][1]; }), borderWidth: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: anim, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { color: tick, boxWidth: 10, boxHeight: 10, font: { size: 11 } } }, tooltip: kTip } }
+      }));
+      _chartReady('pay-status-chart');
+
+      // 4) Bar horizontal: nominal Rp per status
+      var stRp = stKeys.map(function (k) { return txs.filter(function (t) { return t.status === k; }).reduce(function (a, t) { return a + Number(t.amount || 0); }, 0); });
+      _payChart.insts.push(new Chart(document.getElementById('pay-amount-chart'), {
+        type: 'bar',
+        data: { labels: stKeys.map(function (k) { return stMap[k][0]; }), datasets: [{ label: 'Nominal', data: stRp, backgroundColor: stKeys.map(function (k) { return stMap[k][1]; }), borderRadius: 6, maxBarThickness: 26 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: anim, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return 'Rp ' + Number(c.parsed.x || 0).toLocaleString('id-ID'); } } } }, scales: { x: rpAxis, y: { ticks: { color: tick, font: { size: 11 } }, grid: { display: false } } } }
+      }));
+      _chartReady('pay-amount-chart');
+    });
   }
 
   // ===== Log penarikan =====
