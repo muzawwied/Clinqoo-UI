@@ -310,58 +310,53 @@
         </div>
         <div class="py-5">
           <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Kredensial ClincooPay</h4>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Diterbitkan khusus untuk proyekmu oleh Clincoo. Disimpan di backend kami, tidak pernah dikirim ke browser pembeli.</p>
-          <div class="space-y-4">
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Diterbitkan oleh Clincoo khusus untuk proyekmu. Untuk aktivasi, hubungi tim Clincoo.</p>
+          <div id="pay-creds-inactive" class="space-y-3">
+            <div class="flex items-center gap-3 p-3.5 rounded-xl border border-dashed border-gray-300 dark:border-slate-600">
+              <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">ClincooPay belum aktif</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Aktifkan untuk menerbitkan kredensial pembayaran proyek ini.</p>
+              </div>
+              <button type="button" id="pay-activate-btn" onclick="activatePay()" class="px-4 py-2 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors flex-shrink-0 cursor-pointer">Aktifkan</button>
+            </div>
+          </div>
+          <div id="pay-creds-active" class="hidden space-y-4">
             <div>
               <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Account ID</label>
-              <input id="bq-account-id" type="text" autocomplete="off" spellcheck="false" class="w-full px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Account ID ClincooPay">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Secret Token</label>
-              <div class="relative">
-                <input id="bq-secret-token" type="password" autocomplete="off" spellcheck="false" class="w-full px-3.5 py-2.5 pr-12 text-sm font-mono rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Secret token (server-only)">
-                <button type="button" onclick="toggleSecret(this)" class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors" aria-label="Tampilkan sembunyikan token">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </button>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Nama di QR (UMKM)</label>
-                <input id="bq-umkm-name" type="text" maxlength="60" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Nama toko yang tampil saat scan">
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Metode QRIS</label>
-                <select id="bq-qris-method" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 cursor-pointer">
-                  <option value="qris_one">QRIS 1</option>
-                  <option value="qris_two" selected>QRIS 2</option>
-                  <option value="qris_three">QRIS 3</option>
-                  <option value="qris_four">QRIS 4</option>
-                </select>
+              <div class="flex items-center gap-2">
+                <div id="pay-account-box" class="flex-1 min-w-0 px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 text-gray-800 dark:text-gray-200 truncate">—</div>
+                <button type="button" onclick="copyCred('pay-account-box', this)" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Salin</button>
               </div>
             </div>
             <div>
-              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Biaya layanan ditanggung</label>
-              <select id="bq-fee-target" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 cursor-pointer">
-                <option value="merchant">Saya (merchant)</option>
-                <option value="customer">Pembeli (customer)</option>
-              </select>
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Secret Key</label>
+              <div class="flex items-center gap-2">
+                <div id="pay-secret-box" class="flex-1 min-w-0 px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 text-gray-800 dark:text-gray-200 truncate">••••••••</div>
+                <button type="button" onclick="toggleSecret()" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Lihat</button>
+                <button type="button" onclick="copyCred('pay-secret-box', this)" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Salin</button>
+              </div>
+              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Rahasia — jangan bagikan. Bisa diganti kapan saja.</p>
             </div>
+          </div>
+          <div class="mt-4">
+            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Nama di QR (UMKM)</label>
+            <input id="bq-umkm-name" type="text" maxlength="60" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Nama toko yang tampil saat scan">
           </div>
         </div>
         <div class="py-5">
           <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Kunci Publik Pembayaran</h4>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3">Dipakai situs hasil deploy-mu untuk bikin QR pembayaran — aman dipasang di halaman publik.</p>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3">Kunci publik dari Clincoo — dipakai situs hasil deploy-mu untuk memanggil API ClincooPay. Aman dipasang di halaman publik.</p>
           <div class="flex items-center gap-2">
             <div id="pay-key-box" class="flex-1 min-w-0 px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 text-gray-500 dark:text-gray-400 truncate">Belum tersedia — simpan kredensial dulu</div>
             <button type="button" id="pay-key-copy" onclick="copyPayKey()" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Salin</button>
           </div>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Endpoint situsmu: <code class="font-mono" id="pay-endpoint">/api/pay</code> <span>— pasang bersama kunci publik di tombol bayar.</span></p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Endpoint situsmu: <code class="font-mono" id="pay-endpoint">/api/pay</code> <span>— kirim dari situsmu untuk membuat QR bayar.</span></p>
         </div>
         <div class="py-5 flex items-center justify-between gap-4">
           <div class="min-w-0 flex-1">
             <h4 class="text-base font-semibold text-gray-900 dark:text-white">Uji Koneksi</h4>
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Bikin QR Rp 1.000 untuk memastikan kredensial valid</p>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Cek QR pembayaran proyekmu siap dipakai</p>
           </div>
           <button type="button" id="pay-test-btn" onclick="testPayConnection()" class="px-4 py-2.5 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors flex-shrink-0 cursor-pointer">Uji</button>
         </div>
@@ -383,17 +378,14 @@
     <script>if (window.lucide) { lucide.createIcons(); }</script>
 
 <script>
-  // ===== Pembayaran QRIS: load & simpan kredensial per-proyek =====
+  // ===== ClincooPay: kredensial diterbitkan Clincoo, bukan input user =====
   var API_BASE = (['clincoo-be2.pages.dev','app.clincoo.buzz','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://app.clincoo.buzz/api' : '/api';
   var _apiToken = '';
   try { _apiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
   function _pid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
 
-  function toggleSecret(btn) {
-    var inp = document.getElementById('bq-secret-token');
-    if (!inp) return;
-    inp.type = inp.type === 'password' ? 'text' : 'password';
-  }
+  var _paySecret = '';
+  var _secretShown = false;
 
   function _payModal(msg, ok) {
     try {
@@ -408,11 +400,54 @@
     alert(msg);
   }
 
-  function _closeModal() {
+  function toggleSecret() {
+    var box = document.getElementById('pay-secret-box');
+    if (!box || !_paySecret) return;
+    _secretShown = !_secretShown;
+    box.textContent = _secretShown ? _paySecret : '••••••••';
+    event.target.innerText = _secretShown ? 'Sembunyi' : 'Lihat';
+  }
+
+  function copyCred(id, btn) {
+    var el = document.getElementById(id);
+    var val = (el.textContent || '').trim();
+    if (!val || val === '—' || val === '••••••••') { _payModal('Belum tersedia untuk disalin.', false); return; }
     try {
-      var m = document.getElementById('system-modal');
-      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
-    } catch (e) {}
+      navigator.clipboard.writeText(val).then(function () {
+        var old = btn.innerText;
+        btn.innerText = 'Tersalin!';
+        setTimeout(function () { btn.innerText = old; }, 1600);
+      }).catch(function () { _payModal(val, true); });
+    } catch (e) { _payModal(val, true); }
+  }
+
+  function copyPayKey() {
+    var kb = document.getElementById('pay-key-box');
+    var key = (kb.textContent || '').trim();
+    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — aktifkan ClincooPay dulu.', false); return; }
+    try {
+      navigator.clipboard.writeText(key).then(function () {
+        var b = document.getElementById('pay-key-copy');
+        var old = b.innerText;
+        b.innerText = 'Tersalin!';
+        setTimeout(function () { b.innerText = old; }, 1600);
+      }).catch(function () { _payModal(key, true); });
+    } catch (e) { _payModal(key, true); }
+  }
+
+  function renderPayActive(data) {
+    document.getElementById('pay-creds-inactive').classList.add('hidden');
+    document.getElementById('pay-creds-active').classList.remove('hidden');
+    document.getElementById('pay-account-box').textContent = data.account_id || '';
+    _paySecret = data.secret || '';
+    _secretShown = false;
+    document.getElementById('pay-secret-box').textContent = '••••••••';
+    document.getElementById('bq-umkm-name').value = data.umkm_name || '';
+    var kb = document.getElementById('pay-key-box');
+    kb.textContent = data.pay_key || '';
+    kb.classList.remove('text-gray-500');
+    var badge = document.getElementById('pay-status-badge');
+    if (badge) { badge.textContent = data.gateway_ready === false ? 'Aktif — gateway menyusun' : 'Aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 whitespace-nowrap'; }
   }
 
   async function loadPayConfig() {
@@ -421,19 +456,7 @@
       var res = await fetch(API_BASE + '/pay?action=config&project_id=' + encodeURIComponent(_pid()), { headers: hdrs });
       if (!res.ok) return;
       var data = await res.json();
-      var badge = document.getElementById('pay-status-badge');
-      if (data.configured) {
-        document.getElementById('bq-account-id').value = '';
-        document.getElementById('bq-account-id').placeholder = data.account_id_masked + ' (tersimpan — isi ulang untuk mengganti)';
-        document.getElementById('bq-secret-token').placeholder = '•••••••• (tersimpan — isi ulang untuk mengganti)';
-        document.getElementById('bq-umkm-name').value = data.umkm_name || '';
-        document.getElementById('bq-qris-method').value = data.qris_method || 'qris_two';
-        document.getElementById('bq-fee-target').value = data.fee_target || 'merchant';
-        var kb = document.getElementById('pay-key-box');
-        kb.textContent = data.pay_key || '';
-        kb.classList.remove('text-gray-500');
-        if (badge) { badge.textContent = 'Aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 whitespace-nowrap'; }
-      }
+      if (data.active) renderPayActive(data);
       var ep = document.getElementById('pay-endpoint');
       if (ep) ep.textContent = API_BASE + '/pay';
       isEdited = false;
@@ -441,6 +464,85 @@
       if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
     } catch (e) {}
     loadPayTransactions();
+  }
+
+  async function activatePay() {
+    var btn = document.getElementById('pay-activate-btn');
+    if (!btn) return;
+    btn.innerText = 'Mengaktifkan...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({ action: 'activate', project_id: _pid(), umkm_name: (document.getElementById('bq-umkm-name').value || '').trim() })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.success) {
+        _payModal(data.message || data.error || 'Gagal mengaktifkan ClincooPay.', false);
+        btn.innerText = 'Aktifkan';
+        btn.disabled = false;
+        return;
+      }
+      _payModal('ClincooPay aktif! Kredensial pembayaran proyekmu sudah diterbitkan.', true);
+      loadPayConfig();
+    } catch (e) {
+      _payModal('Tidak dapat terhubung ke server.', false);
+      btn.innerText = 'Aktifkan';
+      btn.disabled = false;
+    }
+  }
+
+  async function savePayConfig() {
+    var btn = document.querySelector('#action-buttons button.bg-black');
+    if (!btn) return;
+    var umkm = (document.getElementById('bq-umkm-name').value || '').trim();
+    btn.innerText = 'Menyimpan...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({ action: 'save', project_id: _pid(), umkm_name: umkm })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.success) {
+        _payModal(data.message || data.error || 'Gagal menyimpan.', false);
+        btn.innerText = 'Simpan Perubahan';
+        btn.disabled = false;
+        return;
+      }
+      btn.innerText = 'Tersimpan!';
+      btn.classList.replace('bg-black', 'bg-emerald-500');
+      btn.classList.replace('hover:bg-gray-800', 'hover:bg-emerald-600');
+      btn.disabled = false;
+      isEdited = false;
+      loadPayConfig();
+    } catch (e) {
+      _payModal('Tidak dapat terhubung ke server.', false);
+      btn.innerText = 'Simpan Perubahan';
+      btn.disabled = false;
+    }
+  }
+
+  async function testPayConnection() {
+    var btn = document.getElementById('pay-test-btn');
+    if (!btn) return;
+    btn.innerText = 'Menguji...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({ action: 'test', project_id: _pid() })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      _payModal(data.message || data.error || (data.success ? 'ClincooPay aktif.' : 'Uji gagal.'), !!(data && data.success));
+    } catch (e) {
+      _payModal('Tidak dapat terhubung ke server.', false);
+    }
+    btn.innerText = 'Uji';
+    btn.disabled = false;
   }
 
   async function loadPayTransactions() {
@@ -465,87 +567,6 @@
         list.appendChild(row);
       });
     } catch (e) {}
-  }
-
-  async function savePayConfig() {
-    var btn = document.querySelector('#action-buttons button.bg-black');
-    if (!btn) return;
-    var accountId = (document.getElementById('bq-account-id').value || '').trim();
-    var secretToken = (document.getElementById('bq-secret-token').value || '').trim();
-    if (!accountId && !secretToken) { _payModal('Tidak ada perubahan kredensial untuk disimpan.', false); return; }
-    if (!accountId || !secretToken) { _payModal('Account ID dan Secret Token wajib diisi keduanya.', false); return; }
-    btn.innerText = 'Menyimpan...';
-    btn.disabled = true;
-    btn.classList.add('opacity-80', 'cursor-not-allowed');
-    try {
-      var res = await fetch(API_BASE + '/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
-        body: JSON.stringify({
-          action: 'save_config',
-          project_id: _pid(),
-          account_id: accountId,
-          secret_token: secretToken,
-          umkm_name: (document.getElementById('bq-umkm-name').value || '').trim(),
-          qris_method: document.getElementById('bq-qris-method').value,
-          fee_target: document.getElementById('bq-fee-target').value
-        })
-      });
-      var data = await res.json().catch(function () { return {}; });
-      if (!res.ok || !data.success) {
-        btn.innerText = 'Simpan Perubahan';
-        btn.disabled = false;
-        btn.classList.remove('opacity-80', 'cursor-not-allowed');
-        _payModal(data.message || data.error || 'Gagal menyimpan kredensial.', false);
-        return;
-      }
-      btn.innerText = 'Tersimpan!';
-      btn.classList.replace('bg-black', 'bg-emerald-500');
-      btn.classList.replace('hover:bg-gray-800', 'hover:bg-emerald-600');
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      isEdited = false;
-      loadPayConfig();
-    } catch (e) {
-      btn.innerText = 'Simpan Perubahan';
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      _payModal('Tidak dapat terhubung ke server.', false);
-    }
-  }
-
-  async function testPayConnection() {
-    var btn = document.getElementById('pay-test-btn');
-    if (!btn) return;
-    btn.innerText = 'Menguji...';
-    btn.disabled = true;
-    try {
-      var res = await fetch(API_BASE + '/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
-        body: JSON.stringify({ action: 'test', project_id: _pid() })
-      });
-      var data = await res.json().catch(function () { return {}; });
-      _payModal(data.message || data.error || (data.success ? 'Kredensial valid.' : 'Kredensial ditolak.'), !!(data && data.success));
-    } catch (e) {
-      _payModal('Tidak dapat terhubung ke server.', false);
-    }
-    btn.innerText = 'Uji';
-    btn.disabled = false;
-  }
-
-  function copyPayKey() {
-    var kb = document.getElementById('pay-key-box');
-    var key = (kb.textContent || '').trim();
-    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — simpan kredensial dulu.', false); return; }
-    try {
-      navigator.clipboard.writeText(key).then(function () {
-        var b = document.getElementById('pay-key-copy');
-        var old = b.innerText;
-        b.innerText = 'Tersalin!';
-        setTimeout(function () { b.innerText = old; }, 1600);
-      }).catch(function () { _payModal(key, true); });
-    } catch (e) { _payModal(key, true); }
   }
 
   document.addEventListener('DOMContentLoaded', function () { loadPayConfig(); });

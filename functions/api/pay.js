@@ -1,17 +1,18 @@
-// Pembayaran QRIS per-proyek via BuatQris (https://buatqris.site).
-// Duit masuk LANGSUNG ke akun BuatQris milik user masing-masing — Clincoo
-// hanya menjembatani pembuatan QR & cek status (tidak memegang dana).
-// Kredensial disimpan di tabel pay_creds (bukan project_settings) supaya
-// secret token tidak pernah bocor lewat endpoint settings lain.
+// ClincooPay — Clincoo sebagai payment gateway.
+// Clincoo menerbitkan kredensial ClincooPay sendiri per proyek (account_id + secret + pay_key).
+// Saat pembeli membayar, Clincoo-lah yang memanggil provider QRIS di belakang layar
+// memakai kredensial gateway (env: PAY_PROVIDER_ACCOUNT, PAY_PROVIDER_SECRET).
+// User TIDAK pernah tahu/memasukkan kredensial provider.
 //
-// POST {action:'save_config', project_id, account_id, secret_token, umkm_name, qris_method, fee_target}  [auth]
-// GET  ?action=config&project_id=...          → status kredensial (disamarkan) + pay_key  [auth]
-// POST {action:'test', project_id}            → uji kredensial dgn QR Rp 1.000           [auth]
-// POST {action:'create', key, amount, description}  → buat transaksi QRIS               [publik, via pay_key]
-// GET  ?action=status&key=...&order_id=...   → cek status transaksi                    [publik, via pay_key]
-// POST {action:'transactions', project_id}   → riwayat transaksi terakhir              [auth]
+// POST {action:'activate', project_id, umkm_name}      → aktifkan + terbitkan kredensial  [auth]
+// GET  ?action=config&project_id=...                    → status + kredensial ClincooPay [auth]
+// POST {action:'save', project_id, umkm_name}          → simpan nama UMKM                [auth]
+// POST {action:'regenerate', project_id}               → ganti secret                    [auth]
+// POST {action:'test', project_id}                     → uji QR Rp 1.000 via gateway     [auth]
+// POST {action:'create', key, amount, description}     → buat transaksi QRIS            [publik via pay_key]
+// GET  ?action=status&key=...&order_id=...             → cek status transaksi            [publik via pay_key]
+// POST {action:'transactions', project_id}             → riwayat transaksi               [auth]
 
-import { currentUser } from './user-scope.js';
 import { guardProject } from './user-scope.js';
 
 const CORS = {
@@ -34,15 +35,16 @@ async function ensureTables(db) {
   await db.prepare(`CREATE TABLE IF NOT EXISTS pay_creds (
     project_id TEXT PRIMARY KEY,
     account_id TEXT NOT NULL,
-    secret_token TEXT NOT NULL,
+    secret TEXT NOT NULL,
+    pay_key TEXT NOT NULL,
     umkm_name TEXT DEFAULT '',
     qris_method TEXT DEFAULT 'qris_two',
     fee_target TEXT DEFAULT 'merchant',
-    pay_key TEXT NOT NULL,
     created_at TEXT DEFAULT (datetime('now')),
     updated_at TEXT DEFAULT (datetime('now'))
   )`).run();
   await db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_pay_creds_key ON pay_creds(pay_key)`).run();
+  await db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_pay_creds_account ON pay_creds(account_id)`).run();
   await db.prepare(`CREATE TABLE IF NOT EXISTS pay_transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     project_id TEXT NOT NULL,
@@ -70,15 +72,16 @@ function genOrderId() {
   return 'PAY' + Date.now().toString(36).toUpperCase() + randKey(4).toUpperCase();
 }
 
-function maskAccount(accountId) {
-  const a = String(accountId || '');
-  if (a.length <= 4) return '••••';
-  return a.slice(0, 2) + '••••' + a.slice(-2);
+function gatewayNotReady() {
+  return json({ success: false, error: 'gateway_not_ready', message: 'Pembayaran QRIS ClincooPay sedang dalam proses aktivasi. Hubungi tim Clincoo.' }, 503);
 }
 
-// ---- Panggilan upstream BuatQris ----
-async function bqCall(params) {
-  const body = new URLSearchParams(params);
+// ---- Panggilan provider (hanya Clincoo yang tahu) ----
+async function providerCall(env, params) {
+  const account = env.PAY_PROVIDER_ACCOUNT;
+  const secret = env.PAY_PROVIDER_SECRET;
+  if (!account || !secret) return { success: false, error: 'gateway_not_ready' };
+  const body = new URLSearchParams({ account_id: account, secret_token: secret, ...params });
   try {
     const r = await fetch(BQ_API, {
       method: 'POST',
@@ -116,15 +119,15 @@ export async function onRequestGet({ request, env }) {
     const deny = await guardProject(env, request, projectId);
     if (deny) return deny;
     const row = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
-    if (!row) return json({ success: true, configured: false });
+    if (!row) return json({ success: true, active: false, gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET) });
     return json({
       success: true,
-      configured: true,
-      account_id_masked: maskAccount(row.account_id),
-      umkm_name: row.umkm_name || '',
-      qris_method: row.qris_method || 'qris_two',
-      fee_target: row.fee_target || 'merchant',
-      pay_key: row.pay_key
+      active: true,
+      gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET),
+      account_id: row.account_id,
+      secret: row.secret,
+      pay_key: row.pay_key,
+      umkm_name: row.umkm_name || ''
     });
   }
 
@@ -135,16 +138,13 @@ export async function onRequestGet({ request, env }) {
     const tx = await db.prepare('SELECT * FROM pay_transactions WHERE pay_key = ? AND order_id = ?').bind(key, orderId).first();
     if (!tx) return json({ error: 'transaksi tidak ditemukan' }, 404);
     if (tx.status === 'paid') return json({ success: true, status: 'paid', amount: tx.amount });
-    const creds = await db.prepare('SELECT * FROM pay_creds WHERE pay_key = ?').bind(key).first();
-    if (!creds) return json({ success: true, status: tx.status, amount: tx.amount });
-    const d = await bqCall({
+    const d = await providerCall(env, {
       action: 'api_check_status',
-      account_id: creds.account_id,
-      secret_token: creds.secret_token,
       order_id: tx.trx_ref || tx.order_id,
       trx_id: tx.trx_ref,
       amount: String(tx.amount)
     });
+    if (d.error === 'gateway_not_ready') return json({ success: true, status: tx.status, amount: tx.amount });
     const st = pickStatus(d);
     if (st !== tx.status) {
       await db.prepare('UPDATE pay_transactions SET status = ?, updated_at = datetime(\'now\') WHERE id = ?').bind(st, tx.id).run();
@@ -166,52 +166,73 @@ export async function onRequestPost({ request, env }) {
   const action = body.action || '';
   const projectId = body.project_id || '';
 
-  // ===== Simpan kredensial (auth + pemilik proyek) =====
-  if (action === 'save_config') {
+  // ===== Aktifkan ClincooPay + terbitkan kredensial (auth) =====
+  if (action === 'activate') {
     const deny = await guardProject(env, request, projectId);
     if (deny) return deny;
-    const accountId = String(body.account_id || '').trim();
-    const secretToken = String(body.secret_token || '').trim();
     const umkmName = String(body.umkm_name || '').trim().slice(0, 60);
-    const qrisMethod = ['qris_one', 'qris_two', 'qris_three', 'qris_four'].includes(body.qris_method) ? body.qris_method : 'qris_two';
-    const feeTarget = ['merchant', 'customer'].includes(body.fee_target) ? body.fee_target : 'merchant';
-    if (!accountId || !secretToken) return json({ error: 'account_id dan secret_token wajib diisi' }, 400);
-
-    const existing = await db.prepare('SELECT pay_key FROM pay_creds WHERE project_id = ?').bind(projectId).first();
-    const payKey = existing?.pay_key || ('pk_' + randKey(28));
-    // hapus mapping pay_key lama bila berganti proyek (pay_key unik)
+    const existing = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
     if (existing) {
-      await db.prepare('DELETE FROM pay_creds WHERE pay_key = ? AND project_id != ?').bind(payKey, projectId).run();
+      if (umkmName && umkmName !== existing.umkm_name) {
+        await db.prepare(`UPDATE pay_creds SET umkm_name = ?, updated_at = datetime('now') WHERE project_id = ?`).bind(umkmName, projectId).run();
+      }
+      return json({ success: true, account_id: existing.account_id, secret: existing.secret, pay_key: existing.pay_key, umkm_name: existing.umkm_name || '' });
     }
-    await db.prepare(`INSERT INTO pay_creds (project_id, account_id, secret_token, umkm_name, qris_method, fee_target, pay_key, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
-      ON CONFLICT(project_id) DO UPDATE SET
-        account_id = excluded.account_id, secret_token = excluded.secret_token,
-        umkm_name = excluded.umkm_name, qris_method = excluded.qris_method,
-        fee_target = excluded.fee_target, pay_key = excluded.pay_key,
-        updated_at = datetime('now')`).bind(projectId, accountId, secretToken, umkmName, qrisMethod, feeTarget, payKey).run();
-    return json({ success: true, pay_key: payKey, account_id_masked: maskAccount(accountId) });
+    // terbitkan kredensial ClincooPay baru (unik)
+    let accountId, secret, payKey;
+    for (let i = 0; i < 5; i++) {
+      accountId = 'CP' + randKey(10).toUpperCase();
+      secret = 'cps_' + randKey(32);
+      payKey = 'pk_' + randKey(28);
+      try {
+        await db.prepare(`INSERT INTO pay_creds (project_id, account_id, secret, pay_key, umkm_name) VALUES (?, ?, ?, ?, ?)`)
+          .bind(projectId, accountId, secret, payKey, umkmName).run();
+        return json({ success: true, account_id: accountId, secret: secret, pay_key: payKey, umkm_name: umkmName });
+      } catch (e) { /* unik bentrok — ulangi */ }
+    }
+    return json({ error: 'Gagal menerbitkan kredensial, coba lagi.' }, 500);
   }
 
-  // ===== Uji kredensial (auth): bikin QR Rp 1.000, kalau sukses kredensial valid =====
+  // ===== Simpan nama UMKM (auth) =====
+  if (action === 'save') {
+    const deny = await guardProject(env, request, projectId);
+    if (deny) return deny;
+    const umkmName = String(body.umkm_name || '').trim().slice(0, 60);
+    const r = await db.prepare(`UPDATE pay_creds SET umkm_name = ?, updated_at = datetime('now') WHERE project_id = ?`).bind(umkmName, projectId).run();
+    if (!r.success) return json({ error: 'Aktifkan ClincooPay dulu.' }, 400);
+    return json({ success: true, umkm_name: umkmName });
+  }
+
+  // ===== Ganti secret (auth) =====
+  if (action === 'regenerate') {
+    const deny = await guardProject(env, request, projectId);
+    if (deny) return deny;
+    const newSecret = 'cps_' + randKey(32);
+    const r = await db.prepare(`UPDATE pay_creds SET secret = ?, updated_at = datetime('now') WHERE project_id = ?`).bind(newSecret, projectId).run();
+    if (!r.success) return json({ error: 'Aktifkan ClincooPay dulu.' }, 400);
+    return json({ success: true, secret: newSecret });
+  }
+
+  // ===== Uji gateway: QR Rp 1.000 (auth) =====
   if (action === 'test') {
     const deny = await guardProject(env, request, projectId);
     if (deny) return deny;
     const creds = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
-    if (!creds) return json({ success: false, error: 'payment_not_configured', message: 'Simpan kredensial ClincooPay dulu.' }, 400);
-    const d = await bqCall({
+    if (!creds) return json({ success: false, error: 'payment_not_active', message: 'Aktifkan ClincooPay dulu.' }, 400);
+    if (!env.PAY_PROVIDER_ACCOUNT || !env.PAY_PROVIDER_SECRET) return gatewayNotReady();
+    const d = await providerCall(env, {
       action: 'api_create_qris',
-      account_id: creds.account_id,
-      secret_token: creds.secret_token,
       amount: '1000',
-      description: 'Uji koneksi Clincoo',
-      qris_method: creds.qris_method || 'qris_two'
+      description: 'Uji ClincooPay',
+      qris_method: creds.qris_method || 'qris_two',
+      umkm_name: creds.umkm_name || ''
     });
-    if (d && d.success) return json({ success: true, message: 'Kredensial ClincooPay valid — QR uji berhasil dibuat.' });
-    return json({ success: false, message: (d && d.message) || 'Kredensial ClincooPay tidak valid.' });
+    if (d && d.success) return json({ success: true, message: 'ClincooPay aktif — QR uji berhasil dibuat.' });
+    if (d.error === 'gateway_not_ready') return gatewayNotReady();
+    return json({ success: false, message: (d && d.message) || 'QR uji gagal dibuat.' });
   }
 
-  // ===== Buat transaksi (PUBLIK via pay_key — dipanggil situs yang di-deploy) =====
+  // ===== Buat transaksi (PUBLIK via pay_key — dipanggil situs deploy user) =====
   if (action === 'create') {
     const key = String(body.key || '').trim();
     const amount = Math.floor(Number(body.amount || 0));
@@ -220,12 +241,11 @@ export async function onRequestPost({ request, env }) {
     if (!amount || amount < 1000 || amount > 100000000) return json({ error: 'Nominal harus Rp 1.000 – Rp 100.000.000' }, 400);
     const creds = await db.prepare('SELECT * FROM pay_creds WHERE pay_key = ?').bind(key).first();
     if (!creds) return json({ error: 'pay key tidak dikenal' }, 404);
+    if (!env.PAY_PROVIDER_ACCOUNT || !env.PAY_PROVIDER_SECRET) return gatewayNotReady();
 
     const orderId = genOrderId();
-    const d = await bqCall({
+    const d = await providerCall(env, {
       action: 'api_create_qris',
-      account_id: creds.account_id,
-      secret_token: creds.secret_token,
       amount: String(amount),
       description: description || 'Pembayaran',
       qris_method: creds.qris_method || 'qris_two',
