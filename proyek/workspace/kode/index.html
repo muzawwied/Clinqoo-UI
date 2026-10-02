@@ -35,12 +35,6 @@ body.dark-mode .kd-back:hover{background:#26262b}
 .kd-fname{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kd-sub{font-size:11.5px;color:#5c5c66;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.dark-mode .kd-sub{color:#9a9aa4}
-.kd-lang{
-  flex-shrink:0;font-size:11px;font-weight:600;letter-spacing:.02em;
-  padding:4px 9px;border-radius:999px;
-  background:#fff;border:1px solid #d8d8de;color:#5c5c66;
-}
-body.dark-mode .kd-lang{background:#202024;border-color:#3a3a42;color:#9a9aa4}
 .kd-btn{
   flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:12.5px;
   height:34px;padding:0 16px;border-radius:999px;transition:.15s;
@@ -167,9 +161,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     <div class="kd-fname" id="kd-fname">…</div>
     <div class="kd-sub" id="kd-sub"></div>
   </div>
-  <span class="kd-lang" id="kd-lang" hidden></span>
-  <button class="kd-btn ghost" id="kd-edit-btn" type="button">Sunting</button>
-  <button class="kd-btn" id="kd-save-btn" type="button" style="display:none">Simpan</button>
+  <button class="kd-btn" id="kd-save-btn" type="button">Simpan</button>
 </div>
 <div class="kd-tools" id="kd-tools" hidden>
   <button class="kd-qt-btn" id="kd-undo-btn" title="Urungkan" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg></button>
@@ -193,7 +185,6 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
   </div>
 </div>
 <div class="kd-status" id="kd-status" hidden>
-  <span id="kd-st-lang">—</span>
   <span id="kd-st-size">—</span>
   <span class="spacer"></span>
   <span id="kd-st-cursor">Ln 1, Col 1</span>
@@ -214,12 +205,9 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
   var elCode = document.getElementById('kd-code');
   var elEdit = document.getElementById('kd-edit');
   var elEmpty = document.getElementById('kd-empty');
-  var elEditBtn = document.getElementById('kd-edit-btn');
   var elSaveBtn = document.getElementById('kd-save-btn');
   var elToast = document.getElementById('kd-toast');
-  var elLang = document.getElementById('kd-lang');
   var elStatus = document.getElementById('kd-status');
-  var elStLang = document.getElementById('kd-st-lang');
   var elStSize = document.getElementById('kd-st-size');
   var elStCursor = document.getElementById('kd-st-cursor');
   var elFallback = document.getElementById('kd-fallback');
@@ -339,7 +327,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
           renderLineHighlight: 'all',
           scrollBeyondLastLine: false,
           padding: { top: 12 },
-          readOnly: true,
+          readOnly: false,
           scrollbar: { verticalScrollbarSize: 10, horizontalScrollbarSize: 10 }
         });
         editor.onDidChangeCursorPosition(function (e) {
@@ -368,8 +356,8 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     document.getElementById('kd-editor').style.display = 'none';
     elFallback.style.display = 'none';
     elEmpty.style.display = 'block';
-    elEditBtn.style.display = 'none';
     elSaveBtn.style.display = 'none';
+    elTools.hidden = true;
     elStatus.hidden = true;
     elFname.textContent = fname || 'Berkas';
     elSub.textContent = '';
@@ -495,10 +483,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
     elFname.textContent = item.name;
     var ext = extOf(item.name);
     var kind = mediaKind(ext);
-    elLang.textContent = ext ? langLabel(item.name) : '';
-    elLang.hidden = !ext;
     elStatus.hidden = false;
-    elStLang.textContent = langLabel(item.name);
     function subLabel() {
       var bits = [];
       if (item.path) bits.push(item.path);
@@ -512,16 +497,13 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
       // ---------- berkas media: tampilkan preview, bukan teks mentah ----------
       document.getElementById('kd-editor').style.display = 'none';
       elFallback.style.display = 'none';
-      elEditBtn.style.display = 'none';
       elSaveBtn.style.display = 'none';
+      elTools.hidden = true;
       elPreview.classList.add('on');
       var raw = item.content || '';
       var isDataUri = /^data:/.test(raw);
       var src = isDataUri ? raw : raw; // berkas lama/non-dataURI tampil as-is
       if (kind === 'image') {
-        elLang.textContent = (ext || 'IMG').toUpperCase();
-        elLang.hidden = false;
-        elStLang.textContent = (ext || 'Gambar').toUpperCase();
         elPreview.innerHTML = '<img src="' + src.replace(/"/g, '&quot;') + '" alt="' + item.name.replace(/"/g, '&quot;') + '">';
       } else if (kind === 'audio') {
         elPreview.innerHTML = '<audio controls src="' + src.replace(/"/g, '&quot;') + '"></audio>';
@@ -551,25 +533,12 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:6px;bo
       return (monacoReady && editor && !elFallback.classList.contains('on')) ? model.getValue() : elEdit.value;
     }
 
-    elEditBtn.addEventListener('click', function () {
-      if (monacoReady && editor && !elFallback.classList.contains('on')) {
-        var editing = elEditBtn.getAttribute('data-on') === '1';
-        editing = !editing;
-        elEditBtn.setAttribute('data-on', editing ? '1' : '0');
-        editor.updateOptions({ readOnly: !editing });
-        elSaveBtn.style.display = editing ? '' : 'none';
-        elTools.hidden = !editing;
-        elEditBtn.textContent = editing ? 'Lihat' : 'Sunting';
-        if (editing) editor.focus();
-      } else {
-        var on = elEdit.classList.toggle('on');
-        elCode.style.display = on ? 'none' : 'block';
-        elSaveBtn.style.display = on ? '' : 'none';
-        elTools.hidden = !on;
-        elEditBtn.textContent = on ? 'Lihat' : 'Sunting';
-        if (on) elEdit.focus();
-      }
-    });
+    // langsung bisa diedit tanpa toggle: Monaco editable + toolbar quick-tools tampil
+    elTools.hidden = false;
+    elEdit.classList.add('on');
+    elCode.style.display = 'none';
+    if (monacoReady && editor && !elFallback.classList.contains('on')) editor.updateOptions({ readOnly: false });
+    else elEdit.focus();
 
     elSaveBtn.addEventListener('click', function () {
       item.content = getContent();
