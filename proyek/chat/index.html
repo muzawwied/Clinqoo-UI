@@ -789,7 +789,7 @@
             if (!frame) return;
             if (!frame.getAttribute('src')) {
                 var panel = 'code';
-                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live') panel = pp; } catch (e) {}
+                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live') panel = pp; else if (pp === 'workspace') panel = 'code'; } catch (e) {}
                 frame.dataset.src = splitSrcFor(panel);
                 frame.src = frame.dataset.src;
             }
@@ -811,7 +811,7 @@
             return '/proyek/code/?embed=1';
         }
         var _initPanel = 'code';
-        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live') _initPanel = _p; } catch (e) {}
+        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live') _initPanel = _p; else if (_p === 'workspace') _initPanel = 'code'; } catch (e) {}
         const initPanel = _initPanel;
         const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard'), live: splitSrcFor('live') };
         chatNavLinks.forEach(x => x.classList.remove('is-active'));
@@ -827,16 +827,42 @@
         chatNavPill.style.transition = 'none';
         chatNavMovePill(chatNavActive);
         requestAnimationFrame(function() { requestAnimationFrame(function() { chatNavPill.style.transition = 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'; }); });
+        // URL per-tab: ?panel=workspace|dashboard|live — bisa dibookmark/dishare, back/forward jalan
+        function chatNavUrl(nav) {
+            var kept = [];
+            try {
+                new URLSearchParams(location.search).forEach(function (v, k) { if (k !== 'panel') kept.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); });
+            } catch (e) {}
+            kept.push('panel=' + (nav === 'code' ? 'workspace' : nav));
+            return location.pathname + '?' + kept.join('&');
+        }
         chatNavLinks.forEach(l => {
             l.addEventListener('mouseenter', () => chatNavMovePill(l));
             l.addEventListener('click', (e) => {
-                if (splitNavSrc[l.dataset.nav]) {
+                var nav = l.dataset.nav;
+                var isDesk = window.matchMedia('(min-width: 900px)').matches;
+                if (splitNavSrc[nav]) {
                     e.preventDefault();
-                    if (wsFrame) { wsFrame.dataset.src = splitNavSrc[l.dataset.nav]; wsFrame.src = splitNavSrc[l.dataset.nav]; }
+                    if (wsFrame) { wsFrame.dataset.src = splitNavSrc[nav]; wsFrame.src = splitNavSrc[nav]; }
                     chatNavActive = l;
+                    try { history.pushState({ panel: nav }, '', chatNavUrl(nav)); } catch (err) {}
+                    // mobile: tutup sheet agent biar panel kelihatan (balik ke chat via FAB Agent)
+                    if (!isDesk && typeof window.chatSheetClose === 'function') window.chatSheetClose();
                 }
                 chatNavLinks.forEach(x => x.classList.remove('is-active')); l.classList.add('is-active'); chatNavMovePill(l);
             });
+        });
+        // tombol back/forward browser: ikuti panel yang tersimpan di URL
+        window.addEventListener('popstate', function (ev) {
+            var panel = (ev.state && ev.state.panel) || '';
+            if (!panel || !splitNavSrc[panel]) {
+                try { var q = new URLSearchParams(location.search).get('panel'); if (q === 'dashboard' || q === 'live') panel = q; else if (q === 'workspace') panel = 'code'; } catch (e) {}
+            }
+            if (!splitNavSrc[panel]) panel = 'code';
+            if (wsFrame) { wsFrame.dataset.src = splitNavSrc[panel]; wsFrame.src = splitNavSrc[panel]; }
+            var l = chatNavLinks.find(x => x.dataset.nav === panel) || chatNavLinks.find(x => x.dataset.nav === 'code') || chatNavLinks[0];
+            chatNavActive = l;
+            chatNavLinks.forEach(x => x.classList.remove('is-active')); if (l) l.classList.add('is-active'); chatNavMovePill(l);
         });
         chatNav.addEventListener('mouseleave', () => chatNavMovePill(chatNavActive));
         window.addEventListener('resize', () => chatNavMovePill(chatNavActive));
