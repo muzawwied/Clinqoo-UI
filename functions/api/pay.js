@@ -49,6 +49,28 @@ async function ensureTables(db) {
     updated_at TEXT DEFAULT (datetime('now'))
   )`).run();
   await db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_pay_creds_key ON pay_creds(pay_key)`).run();
+  // ---- Migrasi skema lama (era BuatQris: secret_token/umkm_name, tanpa kolom secret) ----
+  try {
+    await db.prepare('SELECT secret FROM pay_creds LIMIT 1').first();
+  } catch (e) {
+    // skema lama: pindahkan isi, buang kolom usang
+    await db.prepare('DROP INDEX IF EXISTS idx_pay_creds_key').run();
+    await db.prepare('DROP INDEX IF EXISTS idx_pay_creds_account').run();
+    await db.prepare('ALTER TABLE pay_creds RENAME TO pay_creds_old').run();
+    await db.prepare(`CREATE TABLE pay_creds (
+      project_id TEXT PRIMARY KEY,
+      account_id TEXT NOT NULL,
+      secret TEXT NOT NULL,
+      pay_key TEXT NOT NULL,
+      qris_method TEXT DEFAULT 'qris_two',
+      fee_target TEXT DEFAULT 'merchant',
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    )`).run();
+    await db.prepare(`INSERT OR IGNORE INTO pay_creds (project_id, account_id, secret, pay_key, qris_method, fee_target, created_at, updated_at)
+      SELECT project_id, account_id, COALESCE(secret_token, ''), pay_key, COALESCE(qris_method, 'qris_two'), COALESCE(fee_target, 'merchant'), created_at, updated_at FROM pay_creds_old`).run();
+    await db.prepare('DROP TABLE pay_creds_old').run();
+  }
   await db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_pay_creds_account ON pay_creds(account_id)`).run();
   await db.prepare(`CREATE TABLE IF NOT EXISTS pay_transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
