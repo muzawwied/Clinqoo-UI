@@ -67,10 +67,9 @@
     .expand-collapse { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out; overflow: hidden; }
     .collapsed { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border-top-width: 0 !important; }
   #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* Kapsul disamakan dgn halaman chat: mobile = Workspace|Dashboard; desktop = Live preview|Workspace|Dashboard (tanpa FAB Agent) */
-        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        /* Kapsul: mobile = Agent|Workspace|Dashboard; desktop = Agent|Live preview|Workspace|Dashboard (FAB Agent hanya di halaman chat) */
         .chat-nav-link[data-nav="live"] { display: none; }
-        @media (min-width: 900px) { .chat-nav-link[data-nav="agent"] { display: none; } .chat-nav-link[data-nav="live"] { display: inline-flex; } }
+        @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */

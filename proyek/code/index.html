@@ -207,10 +207,9 @@
         #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-        /* Kapsul disamakan dgn halaman chat: mobile = Workspace|Dashboard; desktop = Live preview|Workspace|Dashboard (tanpa FAB Agent) */
-        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        /* Kapsul: mobile = Agent|Workspace|Dashboard; desktop = Agent|Live preview|Workspace|Dashboard (FAB Agent hanya di halaman chat) */
         .chat-nav-link[data-nav="live"] { display: none; }
-        @media (min-width: 900px) { .chat-nav-link[data-nav="agent"] { display: none; } .chat-nav-link[data-nav="live"] { display: inline-flex; } }
+        @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */

@@ -124,10 +124,9 @@
     body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
 #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* Kapsul disamakan dgn halaman chat: mobile = Workspace|Dashboard; desktop = Live preview|Workspace|Dashboard (tanpa FAB Agent) */
-        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        /* Kapsul: mobile = Agent|Workspace|Dashboard; desktop = Agent|Live preview|Workspace|Dashboard (FAB Agent hanya di halaman chat) */
         .chat-nav-link[data-nav="live"] { display: none; }
-        @media (min-width: 900px) { .chat-nav-link[data-nav="agent"] { display: none; } .chat-nav-link[data-nav="live"] { display: inline-flex; } }
+        @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
