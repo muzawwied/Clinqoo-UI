@@ -86,9 +86,9 @@ async function bqCall(params) {
       body
     });
     const text = await r.text();
-    try { return JSON.parse(text); } catch (e) { return { success: false, message: 'Respon tidak valid dari BuatQris' }; }
+    try { return JSON.parse(text); } catch (e) { return { success: false, message: 'Respon tidak valid dari penyedia pembayaran' }; }
   } catch (e) {
-    return { success: false, message: 'Tidak dapat terhubung ke BuatQris' };
+    return { success: false, message: 'Tidak dapat terhubung ke penyedia pembayaran' };
   }
 }
 
@@ -198,7 +198,7 @@ export async function onRequestPost({ request, env }) {
     const deny = await guardProject(env, request, projectId);
     if (deny) return deny;
     const creds = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
-    if (!creds) return json({ success: false, error: 'payment_not_configured', message: 'Simpan kredensial BuatQris dulu.' }, 400);
+    if (!creds) return json({ success: false, error: 'payment_not_configured', message: 'Simpan kredensial pembayaran dulu.' }, 400);
     const d = await bqCall({
       action: 'api_create_qris',
       account_id: creds.account_id,
@@ -208,7 +208,7 @@ export async function onRequestPost({ request, env }) {
       qris_method: creds.qris_method || 'qris_two'
     });
     if (d && d.success) return json({ success: true, message: 'Kredensial valid — QR uji berhasil dibuat.' });
-    return json({ success: false, message: (d && d.message) || 'Kredensial ditolak BuatQris.' });
+    return json({ success: false, message: (d && d.message) || 'Kredensial ditolak penyedia pembayaran.' });
   }
 
   // ===== Buat transaksi (PUBLIK via pay_key — dipanggil situs yang di-deploy) =====
@@ -236,7 +236,7 @@ export async function onRequestPost({ request, env }) {
     await db.prepare('INSERT INTO pay_transactions (project_id, pay_key, order_id, trx_ref, amount, description, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
       .bind(creds.project_id, key, orderId, trxRef, amount, description, d && d.success ? 'pending' : 'failed').run();
     if (!d || !d.success) {
-      return json({ success: false, message: (d && d.message) || 'Gagal membuat QRIS di BuatQris.' }, 502);
+      return json({ success: false, message: (d && d.message) || 'Gagal membuat QRIS pembayaran.' }, 502);
     }
     return json({
       success: true,
