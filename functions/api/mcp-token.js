@@ -44,7 +44,11 @@ async function guardOwner(request, env, projectId) {
   const tok = m[1].trim();
   const me = await be2Json('/auth/me', tok);
   if (!me.ok || !me.data.authenticated) return { res: J({ error: 'Token tidak valid' }, 401) };
+  // Cek kepemilikan via /api/projects — BUG LAMA: kalau fetch ini gagal (jaringan/server lelet,
+  // cold start, dll), pj.data.projects jadi undefined dan kode salah nyimpulkan "bukan milik akun ini"
+  // padahal sebenarnya cuma gagal cek sementara. Sekarang gagal-fetch dibedakan dari gagal-kepemilikan.
   const pj = await be2Json('/projects', tok);
+  if (!pj.ok) return { res: J({ error: 'Gagal memeriksa daftar proyek, coba lagi sebentar' }, 503) };
   const owned = (pj.data.projects || []).some(p => String(p.id) === String(projectId));
   if (!owned) return { res: J({ error: 'Proyek tidak ditemukan atau bukan milik akun ini' }, 403) };
   return { token: tok };

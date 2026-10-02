@@ -390,6 +390,20 @@
 
         function saveSession(data) {
             try {
+                // Ganti akun (login sebagai email berbeda dari sebelumnya) di device/browser yang sama:
+                // bersihkan SEMUA cache milik akun lama (daftar proyek, proyek aktif, workspace, token
+                // GitHub, dll) supaya gak ketinggalan nyangkut dan dipakai salah oleh akun baru.
+                // Bug lama: cache ini gak pernah dibersihkan -> proyek akun lama kebawa tampil/terpilih
+                // di akun baru, lalu aksi yang butuh verifikasi kepemilikan di server (misal "Aktifkan
+                // Server MCP") ditolak dengan "Proyek tidak ditemukan atau bukan milik akun ini".
+                var prevEmail = (localStorage.getItem('clinqoo_email') || '').toLowerCase();
+                var newEmail = ((data.user && data.user.email) || '').toLowerCase();
+                if (prevEmail && newEmail && prevEmail !== newEmail) {
+                    var KEEP = ['clinqoo_theme', 'clinqoo_language', 'clinqoo_accent', 'clinqoo_agent_mode'];
+                    Object.keys(localStorage).forEach(function (k) {
+                        if (k.indexOf('clinqoo_') === 0 && KEEP.indexOf(k) === -1) localStorage.removeItem(k);
+                    });
+                }
                 localStorage.setItem(TOKEN_KEY, data.token);
                 // simpan user lebih dulu -> data profil di bawah otomatis masuk namespace akun
                 localStorage.setItem('clinqoo_auth_user', JSON.stringify(data.user || {}));
