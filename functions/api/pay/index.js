@@ -217,7 +217,7 @@ export async function onRequestPost({ request, env }) {
     for (let i = 0; i < 5; i++) {
       accountId = 'CP' + randKey(10).toUpperCase();
       secret = 'cps_' + randKey(32);
-      payKey = 'pk_' + randKey(28);
+      payKey = 'clc_pk_' + randKey(28);
       try {
         await db.prepare(`INSERT INTO pay_creds (project_id, account_id, secret, pay_key) VALUES (?, ?, ?, ?)`)
           .bind(projectId, accountId, secret, payKey).run();
