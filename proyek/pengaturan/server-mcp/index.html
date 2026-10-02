@@ -437,7 +437,14 @@
 var MCP_TOKEN_API = (['app.clincoo.buzz','clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) !== -1) ? '/api/mcp-token' : 'https://app.clincoo.buzz/api/mcp-token';
 var _mcpUserToken = '';
 try { _mcpUserToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
-function _mcpPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
+function _mcpPid() {
+  // Pakai helper current-project.js: resolve dari ?id=, plain key, DAN namespace per-akun
+  // (u<id>:clinqoo_current_project_id). Bug lama: cuma baca plain key -> kalau plain key
+  // kosong (mis. setelah bersihin cache ganti akun) tombol Aktifkan kirim project_id kosong
+  // -> error server 'project_id wajib diisi' padahal proyek aktif jelas ada.
+  try { if (window.getClinqooProjectId) return window.getClinqooProjectId() || ''; } catch (e) {}
+  try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; }
+}
 
 var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false }, created_at: null, url: '', urlToken: '' };
 var mcpTokenVisible = false;
