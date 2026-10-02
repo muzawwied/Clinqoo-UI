@@ -1,28 +1,97 @@
-// Validasi proyek aktif — cegah state basi antar-proyek di halaman fitur (MCP, Email, Environment, dst).
-// Jika 'clinqoo_current_project_id' menunjuk proyek yang sudah tidak ada (terhapus / pindah proyek),
-// otomatis pindah ke proyek terbaru dalam daftar, sehingga fitur & secret selalu mengikuti proyek yang benar.
-//
-// BUG LAMA (ketemu 2026-10-03): kalau cache 'clinqoo_projects' KOSONG/belum pernah diisi di halaman ini
-// (bukan berarti proyeknya gak ada — cuma daftar referensinya belum ke-cache di halaman ini), kode lama
-// menganggap pid "tidak ditemukan di daftar" dan MENGHAPUS clinqoo_current_project_id yang sebenarnya
-// valid. Efeknya: pindah ke sub-halaman settings (semua link menu di dashboard gak bawa ?id=) bikin pid
-// kehapus sendiri -> aksi berikutnya (misal Aktifkan Server MCP) gagal "project_id wajib diisi".
-// Fix: list kosong = kita gak punya bukti apa pun soal pid -> JANGAN DIUTAK-ATIK, biarkan apa adanya.
+// Validasi proyek aktif + expose getClinqooProjectId() untuk halaman fitur (MCP/Email)
+// yang tidak memuat auth-client (namespace localStorage per akun).
 (function () {
-    try {
-        var pid = localStorage.getItem('clinqoo_current_project_id') || '';
-        var list = JSON.parse(localStorage.getItem('clinqoo_projects') || '[]');
-        if (!Array.isArray(list) || !list.length) return; // gak ada referensi -> jangan hapus/ubah apa pun
+    function readNamespacedPid() {
+        try {
+            var v = localStorage.getItem('clinqoo_current_project_id');
+            if (v) return v;
+            // Tanpa auth-client proxy: cari u<id>:clinqoo_current_project_id
+            for (var i = 0; i < localStorage.length; i++) {
+                var k = localStorage.key(i);
+                if (k && /(?:^|:)clinqoo_current_project_id$/.test(k)) {
+                    var x = localStorage.getItem(k);
+                    if (x) return x;
+                }
+            }
+        } catch (e) {}
+        return '';
+    }
+
+    function resolvePid() {
+        var qid = '';
+        try { qid = new URLSearchParams(location.search).get('id') || ''; } catch (e) {}
+        if (qid) {
+            try { localStorage.setItem('clinqoo_current_project_id', qid); } catch (e) {}
+            return qid;
+        }
+        var list = [];
+        try { list = JSON.parse(localStorage.getItem('clinqoo_projects') || '[]'); } catch (e) {}
+        if (!list.length) {
+            try {
+                for (var i = 0; i < localStorage.length; i++) {
+                    var k = localStorage.key(i);
+                    if (k && /(?:^|:)clinqoo_projects$/.test(k)) {
+                        list = JSON.parse(localStorage.getItem(k) || '[]');
+                        if (list.length) break;
+                    }
+                }
+            } catch (e) {}
+        }
         var ids = {};
         list.forEach(function (p) { if (p && p.id) ids[p.id] = true; });
-        if (!pid || !ids[pid]) {
+        var pid = readNamespacedPid();
+        if (!pid || (Object.keys(ids).length && !ids[pid])) {
             var latest = null;
             list.forEach(function (p) {
                 if (!p || !p.id) return;
                 if (!latest || (p.updatedAt || '') > (latest.updatedAt || '')) latest = p;
             });
-            if (latest && latest.id) localStorage.setItem('clinqoo_current_project_id', latest.id);
-            else localStorage.removeItem('clinqoo_current_project_id');
+            pid = (latest && latest.id) || '';
+            try {
+                if (pid) localStorage.setItem('clinqoo_current_project_id', pid);
+                else localStorage.removeItem('clinqoo_current_project_id');
+            } catch (e) {}
         }
+        return pid || '';
+    }
+
+    var pid = '';
+    try { pid = resolvePid(); } catch (e) {}
+
+    try {
+        var list2 = [];
+        try { list2 = JSON.parse(localStorage.getItem('clinqoo_projects') || '[]'); } catch (e) {}
+        var ids2 = {};
+        list2.forEach(function (p) { if (p && p.id) ids2[p.id] = true; });
+        var prev = '';
+        try { prev = sessionStorage.getItem('clinqoo_last_feature_pid') || ''; } catch (e) {}
+        if (pid && prev && prev !== pid) {
+            var keys = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                var k = localStorage.key(i);
+                if (k && (k.indexOf('clinqoo_mcp_') >= 0 || k.indexOf('clincoo_email_') >= 0 || k.indexOf('clinqoo_pay_') >= 0))
+                    keys.push(k);
+            }
+            keys.forEach(function (k) {
+                if (k.indexOf(pid) === -1) try { localStorage.removeItem(k); } catch (e) {}
+            });
+        }
+        var drop = [];
+        for (var j = 0; j < localStorage.length; j++) {
+            var key = localStorage.key(j);
+            if (!key) continue;
+            var m = key.match(/(?:^|:)(?:clinqoo_mcp_|clincoo_email_|clinqoo_pay_)(.+)$/);
+            if (m && m[1] && m[1] !== 'none' && Object.keys(ids2).length && !ids2[m[1]]) drop.push(key);
+        }
+        drop.forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} });
+        if (pid) try { sessionStorage.setItem('clinqoo_last_feature_pid', pid); } catch (e) {}
     } catch (e) {}
+
+    window.getClinqooProjectId = function () {
+        try {
+            var q = new URLSearchParams(location.search).get('id');
+            if (q) return q;
+        } catch (e) {}
+        return readNamespacedPid() || pid || '';
+    };
 })();
