@@ -15,7 +15,7 @@
 // GET  ?action=status&key=...&order_id=...               → cek status transaksi              [publik via pay_key]
 // POST {action:'callback', ...}                          → notifikasi dari provider → forward ke webhook proyek [callback secret]
 
-import { guardProject } from './user-scope.js';
+import { guardProject } from '../user-scope.js';
 
 // Semua aksi ClincooPay wajib login + project_id — tidak ada jalur legacy global.
 async function guardPay(env, request, projectId) {
