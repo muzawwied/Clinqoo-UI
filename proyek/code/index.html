@@ -250,6 +250,7 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
   /* embed=1: sembunyikan header saat halaman ini ditampilkan dalam split view chat */
   html.embed-mode body > header { display: none !important; }
+  html.embed-mode #chat-fab { display: none !important; } /* FAB Agent tak perlu di split view: chat sudah ada di kiri */
 </style>
   <script>
     (function() {
