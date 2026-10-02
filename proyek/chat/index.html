@@ -320,7 +320,11 @@
         html.embed-mode #chat-container { padding-top: 10px !important; }
         html.embed-mode #chat-input-footer { padding-bottom: 14px; }
         /* embed di layar lebar: sheet jadi wadah penuh (bukan display:contents), chat melebar */
-        @media (min-width: 900px) { html.embed-mode #chat-sheet { display: flex !important; flex-direction: column; } }
+        @media (min-width: 900px) {
+            html.embed-mode #chat-sheet { display: flex !important; flex-direction: column; }
+            html.embed-mode #chat-container { position: static !important; left: auto !important; right: auto !important; width: 100% !important; border-right: none !important; }
+            html.embed-mode #chat-input-footer { left: 0 !important; right: 0 !important; width: 100% !important; }
+        }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
