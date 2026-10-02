@@ -92,10 +92,14 @@
     body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
 #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* Kapsul: mobile = Agent|Workspace|Dashboard; desktop = Agent|Live preview|Workspace|Dashboard (FAB Agent hanya di halaman chat) */
+        /* Kapsul: mobile = Workspace|Dashboard + FAB Agent; desktop = Agent|Live preview|Workspace|Dashboard (dashboard: tab Agent, tanpa FAB) */
+        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
         .chat-nav-link[data-nav="live"] { display: none; }
         @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
+        /* FAB Agent (mobile): langsung ke halaman chat */
+        #chat-fab { display: none; }
+        @media (max-width: 899.98px) { #chat-fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 9999px; border: none; background: #111111; color: #ffffff; font-size: 14px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,0.28); cursor: pointer; } }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
         @media (prefers-reduced-motion: no-preference) {
@@ -750,5 +754,9 @@ window.chatLivePreview = function () {
   }).catch(function(){});
 })();
 </script>
+    <button id="chat-fab" type="button" onclick="location.href='/proyek/chat/'" aria-label="Buka chat Agent">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.9 5.7a2 2 0 0 0 1.3 1.3L21 12l-5.8 2a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.7a2 2 0 0 0-1.3-1.3L3 12l5.8-2a2 2 0 0 0 1.3-1.3L12 3z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M19 3v.01M5 19v.01"></path></svg>
+        Agent
+    </button>
 </body>
 </html>
