@@ -274,13 +274,13 @@
         });
         // Menu popover absolut di dalam konten scrollable: tutup otomatis saat halaman
         // discroll supaya tidak nyangkut melayang di bawah header fixed.
-        var scroller = document.querySelector('.hide-scrollbar');
-        if (scroller) scroller.addEventListener('scroll', function () {
+        // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
+        window.addEventListener('scroll', function () {
             if (pop.classList.contains('open')) {
                 pop.classList.remove('open');
                 chev.style.transform = '';
             }
-        }, { passive: true });
+        }, { capture: true, passive: true });
     })();
     </script>
 
@@ -579,14 +579,11 @@
   });
   // Dropdown model memakai absolute positioning di dalam konten yang bisa discroll:
   // tutup otomatis saat halaman discroll supaya tidak nyangkut/terpotong di bawah header fixed.
-  (function () {
-    var scroller = document.querySelector('.hide-scrollbar');
-    if (!scroller) return;
-    scroller.addEventListener('scroll', function () {
-      var p = document.getElementById('ai-model-popover');
-      if (p && !p.classList.contains('hidden')) p.classList.add('hidden');
-    }, { passive: true });
-  })();
+  // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
+  window.addEventListener('scroll', function () {
+    var p = document.getElementById('ai-model-popover');
+    if (p && !p.classList.contains('hidden')) p.classList.add('hidden');
+  }, { capture: true, passive: true });
   // Favorit model: disimpan per-browser, dipakai di modal detail
   function aiFavModels() {
     try { return JSON.parse(localStorage.getItem('clincoo_ai_fav_models') || '[]'); } catch (e) { return []; }
