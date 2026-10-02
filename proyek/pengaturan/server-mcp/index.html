@@ -4,91 +4,58 @@
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
   <script src="../../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>/* embed=1: halaman ini di dalam panel split view chat (kolom kanan halaman chat) */(function(){try{if(/(^|[?&])embed=1(&|$)/.test(location.search)){document.documentElement.classList.add('embed-mode');}}catch(e){}})();</script>
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
     <link rel="manifest" href="../../../manifest.json">
     <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
-    <title>Pengaturan: Keamanan HTTPS — Clincoo</title>
-    <meta name="description" content="Pengaturan: Keamanan HTTPS — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+  <title>Pengaturan: Server MCP — Clincoo</title>
+    <meta name="description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Clincoo">
-    <meta property="og:title" content="Pengaturan: Keamanan HTTPS — Clincoo">
-    <meta property="og:description" content="Pengaturan: Keamanan HTTPS — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:title" content="Pengaturan: Integrasi AI — Clincoo">
+    <meta property="og:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Clincoo">
     <meta property="og:url" content="https://app.clincoo.buzz/">
     <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pengaturan: Keamanan HTTPS — Clincoo">
-    <meta name="twitter:description" content="Pengaturan: Keamanan HTTPS — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:title" content="Pengaturan: Integrasi AI — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
-    
-    <!-- Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        /* Dark Mode Configuration */
-        body.dark-mode { background-color: #000000; color: #ffffff; }
-        body.dark-mode .bg-white { background-color: #0a0a0a !important; }
-        
-        /* Header Buttons Dark Mode */
-        body.dark-mode button[onclick="history.back()"],
-        body.dark-mode header button[onclick]:not(.header-menu-item) {
-            background-color: #000000 !important;
-            border: 1.5px solid rgba(255,255,255,0.4) !important;
-            color: #ffffff !important;
-        }
-        body.dark-mode button[onclick="history.back()"] svg,
-        body.dark-mode header button[onclick]:not(.header-menu-item) svg { stroke: #ffffff !important; }
-        body.dark-mode button[onclick="history.back()"]:hover,
-        body.dark-mode header button[onclick]:not(.header-menu-item):hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
-        
-        /* Typography & Borders Dark Mode */
-        body.dark-mode .text-gray-900, body.dark-mode .text-gray-800, body.dark-mode .text-black { color: #ffffff !important; }
-        body.dark-mode .text-gray-700, body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
-        body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray-300 { border-color: #222222 !important; }
-        body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
-        body.dark-mode .bg-\[#ffffff\], body.dark-mode .bg-gray-50 { background-color: #000000 !important; }
-        body.dark-mode .bg-gray-100 { background-color: #111111 !important; }
-        body.dark-mode .hover\:bg-gray-50:hover, body.dark-mode .hover\:bg-gray-100:hover { background-color: #1a1a1a !important; }
-        
-        /* Inputs & Buttons Custom Dark Mode */
-        body.dark-mode input[type="text"], 
-        body.dark-mode textarea, 
-        body.dark-mode .custom-select-trigger, 
-        body.dark-mode .custom-dropdown-menu { 
-            background-color: #0a0a0a; 
-            color: #ffffff; 
-            border-color: #222222; 
-        }
-        body.dark-mode input[type="text"]:focus, body.dark-mode textarea:focus { border-color: #555555; }
-        body.dark-mode .bg-black.text-white { background-color: #ffffff !important; color: #000000 !important; }
-        body.dark-mode .hover\:bg-gray-800:hover { background-color: #dddddd !important; }
-
-        /* Animation Utilities */
-        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Hide scrollbar */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    /* auto-dark-fix v1 */
+    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body.dark-mode { background-color: #000000; color: #e0e0e0; }
+    body.dark-mode .text-gray-900, body.dark-mode .text-gray-800 { color: #f0f0f0; }
+    body.dark-mode .text-gray-700 { color: #b0b0b0; }
+    body.dark-mode .text-gray-500, body.dark-mode .text-gray-600 { color: #888888; }
+    body.dark-mode .text-gray-400 { color: #666666; }
+    body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+    body.dark-mode header button[onclick="history.back()"], body.dark-mode header button[aria-label="Kembali"] { background-color: #000000 !important; border: 1.5px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"] svg, body.dark-mode header button[aria-label="Kembali"] svg { color: #ffffff !important; stroke: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"]:hover, body.dark-mode header button[aria-label="Kembali"]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+    body.dark-mode .bg-gray-50 { background-color: #222222 !important; }
+    body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
+    body.dark-mode .border-gray-200, body.dark-mode .border-gray-100 { border-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover { background-color: #222222 !important; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus { border-color: #222222; outline: none; }
+    body.dark-mode header { background-color: #000000 !important; }
+    body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
+  /* auto-dark-fix v1 */
     body.dark-mode .bg-gray-50\/80 { background-color: #141414 !important; }
     body.dark-mode .bg-gray-200 { background-color: #262626 !important; }
     body.dark-mode .bg-gray-300 { background-color: #333333 !important; }
@@ -165,7 +132,15 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-    </style>
+        /* fix: ikon logo model AI (chip bulat putih) jangan ikut digelapkan body.dark-mode .bg-white, krn logo monokrom (hitam) jadi tak terlihat. Pakai class khusus ai-logo-chip-bg (bukan selector ID kontainer) biar TIDAK ikut nimpa background popover/modal yg juga punya class bg-white. */
+        body.dark-mode .ai-logo-chip-bg { background-color: #ffffff !important; }
+      /* embed=1: dalam panel split view chat — sembunyikan header & FAB lokal */
+  html.embed-mode body > header { display: none !important; }
+  html.embed-mode #chat-fab { display: none !important; }
+  html.embed-mode body { padding-top: 76px; }
+  html.embed-mode .pt-\[84px\] { padding-top: 0 !important; }
+</style>
+  <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
 
@@ -184,16 +159,9 @@
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
 </head>
-<body class="min-h-screen flex flex-col text-gray-900 relative hide-scrollbar">
-    <script>
-        (function(){
-            var t=localStorage.getItem("clinqoo_theme");
-            var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
-            if(isDark){document.body.classList.add("dark-mode");}
-        })();
-    </script>
-    
-    <!-- Header Sesuai Preferensi -->
+<body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
+  <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
+  <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col items-center">
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
         <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -215,11 +183,6 @@
                 </svg>
             </button>
             <div id="header-more-menu" class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 flex-col gap-0.5 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200 z-50 hidden">
-                <a id="header-live-url" href="/proyek/live/" target="_blank" rel="noopener" onclick="var __pid='';try{__pid=localStorage.getItem('clinqoo_current_project_id')||''}catch(e){}if(__pid){this.href='/proyek/live/?id='+encodeURIComponent(__pid)}" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path stroke-linecap="round" stroke-linejoin="round" d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                    Live URL proyek
-                    <svg class="ml-auto w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"></path></svg>
-                </a>
                 <button id="header-live-preview" type="button" onclick="chatLivePreview()" class="header-menu-item w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-sm font-medium text-gray-800 text-left">
                     <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>
                     Live preview
@@ -244,9 +207,7 @@
             </div>
         </div>
     </header>
-
-    <!-- Area Utama Konten -->
-    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-20 pb-24 relative">
+    <main class="w-full max-w-5xl px-4 sm:px-6 pt-20 pb-24">
     <style>
         #settings-menu-pop.open { display: flex; }
         .settings-menu-item { cursor: pointer; }
@@ -261,8 +222,8 @@
     <div class="relative mb-5 -mx-2.5 sm:-mx-[70px] sm:max-w-[860px]" id="settings-menu-wrap">
             <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
                 <span class="flex items-center gap-2.5">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    Keamanan &amp; HTTPS
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.01M6 18h.01"></path></svg>
+                    Server MCP
                 </span>
                 <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -295,7 +256,7 @@
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.01M6 18h.01"></path></svg>
                     <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Server MCP</span><span class="block text-xs text-gray-400 truncate">Model Context Protocol: tools AI per proyek</span></span>
                 </a>
-<a href="/proyek/pengaturan/zona-bahaya/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-red-50/60 rounded-lg transition-colors text-left">
+                <a href="/proyek/pengaturan/zona-bahaya/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-red-50/60 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                     <span class="min-w-0"><span class="block text-sm font-medium text-red-600">Zona Bahaya</span><span class="block text-xs text-red-500/70 truncate">Hapus situs atau proyek</span></span>
                 </a>
@@ -318,7 +279,6 @@
                 chev.style.transform = '';
             }
         });
-
         // Menu popover absolut di dalam konten scrollable: tutup otomatis saat halaman
         // discroll supaya tidak nyangkut melayang di bawah header fixed.
         // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
@@ -331,248 +291,191 @@
     })();
     </script>
 
-        <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-gray-800">
-            
-            <!-- 1. Paksa HTTPS -->
-            <div class="py-6 flex items-center justify-between gap-4">
-                <div class="min-w-0 flex-1">
-                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Paksa HTTPS</h4>
-                    <p class="text-sm text-gray-500 mt-1">Redirect semua permintaan HTTP ke HTTPS secara otomatis</p>
-                </div>
-                <button type="button" onclick="toggleSwitch('forceHttps')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
-                    <div id="forceHttps-bg" class="w-11 h-6 bg-black dark:bg-white rounded-full transition-colors duration-200 ease-in-out"></div>
-                    <div id="forceHttps-knob" class="absolute left-0.5 top-0.5 bg-white dark:bg-black w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5"></div>
-                </button>
-            </div>
+      <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
 
-            <!-- 2. HSTS -->
-            <div class="py-6 flex items-center justify-between gap-4">
-                <div class="min-w-0 flex-1">
-                    <h4 class="text-base font-bold text-gray-900 tracking-tight">HSTS (HTTP Strict Transport Security)</h4>
-                    <p class="text-sm text-gray-500 mt-1">Perlindungan ekstra untuk memaksa browser menggunakan koneksi aman</p>
-                </div>
-                <button type="button" onclick="toggleSwitch('hsts')" class="relative flex-shrink-0 cursor-pointer focus:outline-none">
-                    <div id="hsts-bg" class="w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full transition-colors duration-200 ease-in-out"></div>
-                    <div id="hsts-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out"></div>
-                </button>
+        <!-- 1. Server MCP -->
+        <div class="py-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Server MCP</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Tambahkan server Model Context Protocol untuk memperluas kemampuan AI proyek ini: tools, resource, dan prompt tambahan.</p>
             </div>
+            <span id="mcp-count-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300">0 server</span>
+          </div>
 
-            <!-- 3. Status Sertifikat SSL -->
-            <div class="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="min-w-0 flex-1">
-                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Status Sertifikat SSL</h4>
-                    <p class="text-sm text-gray-500 mt-1">Sertifikat enkripsi TLS/SSL yang aktif untuk domain Anda</p>
-                </div>
-                <div class="w-full sm:w-80 flex items-center gap-3">
-                    <span id="ssl-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50">
-                        <span id="ssl-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                        <span id="ssl-status-text">Memuat...</span>
-                    </span>
-                    <span id="ssl-valid-text" class="text-xs text-gray-500 font-medium">mengambil status...</span>
-                </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="text" id="mcp-name-input" class="sm:w-48 px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-slate-400 transition-colors" placeholder="Nama server (opsional)">
+            <div class="relative flex-1">
+              <input type="url" id="mcp-url-input" class="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-slate-400 transition-colors" placeholder="https://contoh.com/mcp">
             </div>
+            <button type="button" onclick="addMcpServer()" class="px-4 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+              Tambah
+            </button>
+          </div>
+          <p id="mcp-input-hint" class="text-xs text-gray-400 dark:text-gray-500 mt-1.5 hidden"></p>
 
-            <!-- 4. Min TLS Version (Menggunakan Popover Preferensi) -->
-            <div class="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="min-w-0 flex-1">
-                    <h4 class="text-base font-bold text-gray-900 tracking-tight">Versi Minimum TLS</h4>
-                    <p class="text-sm text-gray-500 mt-1">Standar protokol enkripsi minimum yang diizinkan untuk klien</p>
-                </div>
-                <div class="w-full sm:w-80 relative">
-                    <div class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleDropdown(this, 'tls', ['TLS 1.3 (Direkomendasikan)', 'TLS 1.2'])">
-                        <div class="flex items-center gap-2.5 min-w-0">
-                            <i data-lucide="shield-check" class="w-4 h-4 text-gray-500 shrink-0"></i>
-                            <span id="label-tls" class="font-medium truncate">TLS 1.3 (Direkomendasikan)</span>
-                        </div>
-                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 pointer-events-none shrink-0"></i>
-                    </div>
-                </div>
-            </div>
+          <!-- Daftar server -->
+          <div id="mcp-list" class="mt-4 flex flex-col gap-2"></div>
 
+          <!-- Empty state terpusat -->
+          <div id="mcp-empty" class="py-12 flex flex-col items-center justify-center text-center">
+            <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" d="M6 6h.01M6 18h.01"></path></svg>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Belum ada server MCP</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Tambahkan URL server MCP pertama melalui form di atas</p>
+          </div>
+
+          <div class="mt-4 p-3.5 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-100 dark:border-slate-700/60">
+            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Format yang didukung: MCP over HTTP/SSE (JSON-RPC 2.0). Server dipanggil otomatis oleh Agent saat memproses permintaan yang berkaitan dengan tools yang tersedia.</p>
+          </div>
         </div>
-    </main>
+      </div>
+</main>
+  </div>
+  <script>
+    let isEdited=false;function showActionButtons(){if(!isEdited){isEdited=true;const c=document.getElementById('action-buttons');c.classList.remove('hidden');c.classList.add('flex');void c.offsetWidth;c.classList.remove('opacity-0');c.classList.add('opacity-100');}}function cancelChanges(){window.location.reload();}function saveChanges(){saveMcpNow();}document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input,textarea,select').forEach(input=>{input.addEventListener('input',showActionButtons);input.addEventListener('change',showActionButtons);});});function toggleSwitch(idPrefix){showActionButtons();const bg=document.getElementById(idPrefix+'-bg');const knob=document.getElementById(idPrefix+'-knob');if(bg.classList.contains('bg-blue-500')){bg.classList.replace('bg-blue-500','bg-gray-200');bg.classList.add('dark:bg-slate-700');knob.classList.remove('translate-x-5');}else{bg.classList.remove('bg-gray-200','dark:bg-slate-700');bg.classList.add('bg-blue-500');knob.classList.add('translate-x-5');}}
+  </script>
+    <script>if (window.lucide) { lucide.createIcons(); }</script>
 
-    <!-- Modal Dialog Sistem -->
-    <div id="system-modal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="bg-white dark:bg-[#0a0a0a] rounded-2xl p-6 w-full max-w-sm relative z-10 shadow-2xl border border-gray-100 dark:border-gray-800">
-            <h3 id="modal-title" class="text-lg font-bold text-gray-900 dark:text-white mb-2"></h3>
-            <p id="modal-message" class="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed"></p>
-            <button onclick="closeModal()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl font-semibold text-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">Tutup</button>
-        </div>
-    </div>
+<script>
+  // ===== Server MCP: daftar server Model Context Protocol per proyek =====
+  var MCP_API_BASE = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
+  var _mcpToken = '';
+  try { _mcpToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+  function _mcpPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
+  function _mcpHdrs(json) {
+    var h = json ? { 'Content-Type': 'application/json' } : {};
+    if (_mcpToken) h['Authorization'] = 'Bearer ' + _mcpToken;
+    return h;
+  }
+  function _mcpCacheKey() { return 'clincoo_mcp_cache_' + (_mcpPid() || 'global'); }
 
-    <script src="../../../js/api.js"></script>
-    
-    <!-- Header Sesuai Preferensi -->
+  var mcpServers = [];
 
-    <!-- Modal Dialog Sistem -->
-    <script>
-        // Render Lucide Icons
-        lucide.createIcons();
+  function mcpEsc(t) {
+    return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
-        // --- Logika Popover Dropdown Preferensi ---
-        function toggleDropdown(element, targetId, optionsArray) {
-            const wrapper = element.parentElement;
-            const existingDropdown = wrapper.querySelector('.custom-dropdown-menu');
-            
-            closeAllDropdowns();
+  var _mcpToastTimer = null;
+  function mcpToast(msg) {
+    var el = document.getElementById('mcp-toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove('opacity-0', 'translate-y-2');
+    if (_mcpToastTimer) clearTimeout(_mcpToastTimer);
+    _mcpToastTimer = setTimeout(function () {
+      el.classList.add('opacity-0', 'translate-y-2');
+    }, 2200);
+  }
 
-            if (existingDropdown) return; 
+  function renderMcp() {
+    var list = document.getElementById('mcp-list');
+    var empty = document.getElementById('mcp-empty');
+    var badge = document.getElementById('mcp-count-badge');
+    if (!list) return;
+    list.innerHTML = '';
+    if (empty) empty.style.display = mcpServers.length ? 'none' : 'flex';
+    if (badge) { badge.textContent = mcpServers.length + ' server'; }
+    mcpServers.forEach(function (sv, i) {
+      var row = document.createElement('div');
+      row.className = 'flex items-center gap-3 p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-[#0a0a0a]';
+      var name = sv.name || ('Server ' + (i + 1));
+      var on = sv.on !== false;
+      row.innerHTML =
+        '<div class="min-w-0 flex-1">' +
+          '<p class="text-sm font-medium text-gray-900 dark:text-white truncate">' + mcpEsc(name) + '</p>' +
+          '<p class="text-xs text-gray-500 dark:text-gray-400 truncate font-mono">' + mcpEsc(sv.url) + '</p>' +
+        '</div>' +
+        '<span class="hidden xs:inline-flex sm:inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full ' + (on ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300' : 'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400') + '">' + (on ? 'Aktif' : 'Nonaktif') + '</span>' +
+        '<button type="button" onclick="toggleMcpServer(' + i + ')" title="' + (on ? 'Nonaktifkan' : 'Aktifkan') + '" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Toggle aktif">' +
+          '<div class="w-11 h-6 ' + (on ? 'bg-blue-500' : 'bg-gray-200 dark:bg-slate-700') + ' rounded-full transition-colors duration-200"></div>' +
+          '<div class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ' + (on ? 'translate-x-5' : '') + '"></div>' +
+        '</button>' +
+        '<button type="button" onclick="delMcpServer(' + i + ')" class="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer flex-shrink-0" aria-label="Hapus server" title="Hapus">' +
+          '<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>' +
+        '</button>';
+      list.appendChild(row);
+    });
+  }
 
-            const labelEl = document.getElementById('label-' + targetId);
-            const currentValue = labelEl ? labelEl.textContent.trim() : '';
-            
-            const dropdown = document.createElement('div');
-            dropdown.className = 'custom-dropdown-menu absolute top-full left-0 w-full mt-1 z-50 bg-white dark:bg-[#111] border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl overflow-hidden flex flex-col fade-in';
-            
-            let optionsHtml = '';
-            optionsArray.forEach(option => {
-                const isActive = option === currentValue;
-                optionsHtml += `
-                    <div class="w-full px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer flex items-center justify-between ${isActive ? 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}" onclick="selectOption(event, '${targetId}', '${option}')">
-                        <span>${option}</span>
-                        ${isActive ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
-                    </div>
-                `;
-            });
-            
-            dropdown.innerHTML = optionsHtml;
-            wrapper.appendChild(dropdown);
-            
-            const chevron = element.querySelector('[data-lucide="chevron-down"]');
-            if(chevron) chevron.classList.add('rotate-180');
-            
-            lucide.createIcons();
+  function mcpHint(msg, isErr) {
+    var h = document.getElementById('mcp-input-hint');
+    if (!h) return;
+    h.textContent = msg;
+    h.classList.remove('hidden', 'text-red-500', 'text-gray-400');
+    h.classList.add(isErr ? 'text-red-500' : 'text-gray-400');
+    if (isErr) setTimeout(function () { h.classList.add('hidden'); }, 3500);
+  }
 
-            setTimeout(() => {
-                document.addEventListener('click', outsideClickListener);
-            }, 10);
-        }
+  async function saveMcpNow(silent) {
+    var payload = { project_id: _mcpPid(), mcp_servers: JSON.stringify({ servers: mcpServers }) };
+    try { localStorage.setItem(_mcpCacheKey(), JSON.stringify(mcpServers)); } catch (e) {}
+    var ok = false;
+    try {
+      var r = await fetch(MCP_API_BASE + '/project-settings', { method: 'POST', headers: _mcpHdrs(true), body: JSON.stringify(payload) });
+      ok = r.ok;
+    } catch (e) {}
+    if (!silent) mcpToast(ok ? 'Tersimpan' : 'Tersimpan (offline cache)');
+    return ok;
+  }
 
-        function closeAllDropdowns() {
-            const openDropdowns = document.querySelectorAll('.custom-dropdown-menu');
-            openDropdowns.forEach(dropdown => {
-                const chevron = dropdown.parentElement.querySelector('.rotate-180');
-                if(chevron) chevron.classList.remove('rotate-180');
-                dropdown.remove();
-            });
-            document.removeEventListener('click', outsideClickListener);
-        }
+  function addMcpServer() {
+    var nameEl = document.getElementById('mcp-name-input');
+    var urlEl = document.getElementById('mcp-url-input');
+    var name = (nameEl && nameEl.value || '').trim();
+    var url = (urlEl && urlEl.value || '').trim();
+    if (!/^https?:\/\/.+/.test(url)) { mcpHint('URL harus diawali http:// atau https://', true); return; }
+    if (mcpServers.some(function (s) { return s.url === url; })) { mcpHint('URL server sudah terdaftar', true); return; }
+    mcpServers.push({ name: name, url: url, on: true });
+    if (nameEl) nameEl.value = '';
+    if (urlEl) urlEl.value = '';
+    mcpHint('Server ditambahkan', false);
+    renderMcp();
+    saveMcpNow();
+  }
 
-        function outsideClickListener(e) {
-            if (!e.target.closest('.custom-select-trigger') && !e.target.closest('.custom-dropdown-menu')) {
-                closeAllDropdowns();
-            }
-        }
+  function delMcpServer(i) {
+    mcpServers.splice(i, 1);
+    renderMcp();
+    saveMcpNow();
+  }
 
-        function selectOption(event, targetId, value) {
-            event.stopPropagation();
-            const label = document.getElementById('label-' + targetId);
-            if (label) {
-                label.textContent = value;
-            }
-            closeAllDropdowns();
-            // Simpan versi TLS minimum ke backend
-            if (targetId === 'tls' && typeof ClinqooAPI !== 'undefined' && ClinqooAPI.updateSecurity) {
-                ClinqooAPI.updateSecurity('min_tls', value.indexOf('1.2') !== -1 ? '1.2' : '1.3').catch(e => console.warn('Gagal menyimpan min_tls:', e));
-            }
-        }
+  function toggleMcpServer(i) {
+    mcpServers[i].on = !(mcpServers[i].on !== false);
+    renderMcp();
+    saveMcpNow();
+  }
 
-        // --- Logika Switch Toggle ---
-        // Peta id toggle -> kunci setting di backend
-        const SECURITY_KEYS = { forceHttps: 'force_https', hsts: 'hsts' };
-        function toggleSwitch(idPrefix) {
-            const bg = document.getElementById(idPrefix + '-bg');
-            const knob = document.getElementById(idPrefix + '-knob');
-            
-            const isActive = bg.classList.contains('bg-black') || bg.classList.contains('bg-white');
-            
-            if (isActive) {
-                bg.className = 'w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full transition-colors duration-200 ease-in-out';
-                knob.className = 'absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out';
-            } else {
-                bg.className = 'w-11 h-6 bg-black dark:bg-white rounded-full transition-colors duration-200 ease-in-out';
-                knob.className = 'absolute left-0.5 top-0.5 bg-white dark:bg-black w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5';
-            }
-            // Simpan perubahan ke backend (bukan sekadar tampilan)
-            const newActive = !isActive;
-            const key = SECURITY_KEYS[idPrefix];
-            if (key && typeof ClinqooAPI !== 'undefined' && ClinqooAPI.updateSecurity) {
-                ClinqooAPI.updateSecurity(key, newActive ? '1' : '0').catch(e => console.warn('Gagal menyimpan ' + key + ':', e));
-            }
-        }
+  async function loadMcp() {
+    // cache dulu supaya instan
+    try {
+      var c = JSON.parse(localStorage.getItem(_mcpCacheKey()) || 'null');
+      if (Array.isArray(c) && c.length) { mcpServers = c; renderMcp(); }
+    } catch (e) {}
+    try {
+      var res = await fetch(MCP_API_BASE + '/project-settings?project_id=' + encodeURIComponent(_mcpPid()), { headers: _mcpHdrs(false) });
+      if (!res.ok) return;
+      var data = await res.json();
+      var st = (data && data.settings) || {};
+      var cfg = null;
+      try { cfg = st.mcp_servers ? JSON.parse(st.mcp_servers) : null; } catch (e) {}
+      if (cfg && Array.isArray(cfg.servers)) { mcpServers = cfg.servers; }
+      else if (!cfg) { return; } // tidak ada data server di cloud: pertahankan cache
+      renderMcp();
+    } catch (e) {}
+  }
 
-        // API Integration
-        async function loadSecuritySettings() {
-            try {
-                if (typeof ClinqooAPI !== 'undefined' && ClinqooAPI.getSecurity) {
-                    const data = await ClinqooAPI.getSecurity();
-                    const settings = data.settings || {};
-                    if (settings.force_https === '0') {
-                        const bg = document.getElementById('forceHttps-bg');
-                        const knob = document.getElementById('forceHttps-knob');
-                        bg.className = 'w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full transition-colors duration-200 ease-in-out';
-                        knob.className = 'absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out';
-                    }
-                    if (settings.hsts === '1') {
-                        const bg = document.getElementById('hsts-bg');
-                        const knob = document.getElementById('hsts-knob');
-                        bg.className = 'w-11 h-6 bg-black dark:bg-white rounded-full transition-colors duration-200 ease-in-out';
-                        knob.className = 'absolute left-0.5 top-0.5 bg-white dark:bg-black w-5 h-5 rounded-full shadow transition-transform duration-200 ease-in-out translate-x-5';
-                    }
-                    if (settings.min_tls) {
-                        const label = document.getElementById('label-tls');
-                        if (label) label.textContent = settings.min_tls === '1.2' ? 'TLS 1.2' : 'TLS 1.3 (Direkomendasikan)';
-                    }
-                }
-            } catch (e) { console.error('Security settings load failed:', e); }
-        }
+  document.addEventListener('DOMContentLoaded', function () {
+    renderMcp();
+    loadMcp();
+    var urlEl = document.getElementById('mcp-url-input');
+    if (urlEl) urlEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') addMcpServer(); });
+  });
+</script>
 
-        // Modal Helpers
-        function showModal(title, message) {
-        return;
-    }
 
-        function closeModal() {
-            const modal = document.getElementById('system-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        loadSecuritySettings();
-        loadSslStatus();
-
-        // Status sertifikat SSL dari data deployment nyata (Cloudflare Pages selalu otomatis HTTPS)
-        async function loadSslStatus() {
-            const badge = document.getElementById('ssl-status-badge');
-            const dot = document.getElementById('ssl-status-dot');
-            const text = document.getElementById('ssl-status-text');
-            const valid = document.getElementById('ssl-valid-text');
-            if (!badge || !text || !valid) return;
-            let st = null;
-            try {
-                if (typeof ClinqooAPI !== 'undefined' && ClinqooAPI.getDeployInfo) st = await ClinqooAPI.getDeployInfo();
-            } catch (e) { st = null; }
-            const dep = st && st.last_deployment;
-            const ok = dep && ['success', 'active'].includes(dep.status);
-            const activeDomain = (st && (st.domains || []).find(d => d.status === 'active') || {}).name || '';
-            if (ok) {
-                text.textContent = 'Aktif';
-                valid.textContent = 'Otomatis oleh Cloudflare — ' + (activeDomain || (st.public_url || '').replace(/^https?:\/\//, '').replace(/\/$/, '') || 'domain situs Anda');
-            } else if (st && dep) {
-                badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/50';
-                dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-500';
-                text.textContent = 'Menunggu';
-                valid.textContent = 'Deployment terakhir belum aktif — jalankan deploy lagi';
-            } else {
-                badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 dark:bg-gray-800/60 dark:text-gray-400 border border-gray-200/60 dark:border-gray-700/50';
-                dot.className = 'w-1.5 h-1.5 rounded-full bg-gray-400';
-                text.textContent = 'Belum ada situs';
-                valid.textContent = 'Deploy proyek untuk mendapat SSL otomatis';
-            }
-        }
-    </script>
 
     <script>/* clinqoo-sw-register */
     if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
@@ -612,6 +515,11 @@
         document.addEventListener('click', function(e) {
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
         });
+        // Menu titik-3 (popover di bawah header) juga tutup otomatis saat halaman discroll —
+        // window fase capture menangkap scroll dari elemen apa pun (scroll gak bubble).
+        window.addEventListener('scroll', function() {
+            if (headerMoreMenu.classList.contains('open')) closeHeaderMenu();
+        }, { capture: true, passive: true });
         window.chatExportZip = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
@@ -870,5 +778,6 @@ window.chatLivePreview = function () {
   }).catch(function(){});
 })();
 </script>
+<div id="mcp-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] px-4 py-2 rounded-full bg-black text-white text-sm font-medium shadow-lg opacity-0 translate-y-2 transition-all duration-200 pointer-events-none">Tersimpan</div>
 </body>
 </html>
