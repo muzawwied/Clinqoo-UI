@@ -2,113 +2,97 @@
 <html lang="id">
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
-  <script src="../../js/accent-init.js"></script>
+  <script src="../../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon.png">
-    <link rel="manifest" href="../../manifest.json">
-    <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
-    <title>Build & Deployment — Clincoo</title>
-    <meta name="description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
+    <link rel="manifest" href="../../../manifest.json">
+    <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+  <title>Pengaturan: Pembayaran — Clincoo</title>
+    <meta name="description" content="Pengaturan: Pembayaran — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Clincoo">
-    <meta property="og:title" content="Build & Deployment — Clincoo">
-    <meta property="og:description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:title" content="Pengaturan: Pembayaran — Clincoo">
+    <meta property="og:description" content="Pengaturan: Pembayaran — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Clincoo">
     <meta property="og:url" content="https://app.clincoo.buzz/">
     <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Build & Deployment — Clincoo">
-    <meta name="twitter:description" content="Build & Deployment — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:title" content="Pengaturan: Pembayaran — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Pembayaran — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f9;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        /* Dark Mode Configuration */
-        body.dark-mode { background-color: #000000; color: #ffffff; }
-        body.dark-mode .bg-white { background-color: #0a0a0a !important; }
-        
-        /* Header Buttons Dark Mode */
-        body.dark-mode button[onclick="history.back()"],
-        body.dark-mode header button[onclick]:not(.header-menu-item) {
-            background-color: #000000 !important;
-            border: 1.5px solid rgba(255,255,255,0.4) !important;
-            color: #ffffff !important;
-        }
-        body.dark-mode button[onclick="history.back()"] svg,
-        body.dark-mode header button[onclick]:not(.header-menu-item) svg { stroke: #ffffff !important; }
-        body.dark-mode button[onclick="history.back()"]:hover,
-        body.dark-mode header button[onclick]:not(.header-menu-item):hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
-        
-        /* Typography & Borders Dark Mode */
-        body.dark-mode .text-gray-900, body.dark-mode .text-gray-800, body.dark-mode .text-black { color: #ffffff !important; }
-        body.dark-mode .text-gray-700, body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #888888 !important; }
-        body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray-300 { border-color: #222222 !important; }
-        body.dark-mode header { background-color: #000000 !important; border-color: #222222 !important; }
-        body.dark-mode .bg-\[#f7f7f9\], body.dark-mode .bg-gray-50 { background-color: #000000 !important; }
-        body.dark-mode .bg-gray-100 { background-color: #111111 !important; }
-        body.dark-mode .hover\:bg-gray-50:hover, body.dark-mode .hover\:bg-gray-100:hover { background-color: #1a1a1a !important; }
-        
-        /* Inputs & Buttons Custom Dark Mode */
-        body.dark-mode input[type="text"], body.dark-mode .custom-select-trigger, body.dark-mode .dropdown-menu { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
-        body.dark-mode input[type="text"]:focus { border-color: #222222; }
-        body.dark-mode .bg-black.text-white { background-color: #ffffff !important; color: #000000 !important; }
-        body.dark-mode .hover\:bg-gray-800:hover { background-color: #dddddd !important; }
-        body.dark-mode .custom-domain-btn { background-color: #111111 !important; color: #ffffff !important; border-color: #444444 !important; }
-        body.dark-mode .custom-domain-btn:hover { background-color: #222222 !important; }
-
-        /* Animation Utilities */
-        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Shimmer Loading Effect */
-        .shimmer {
-            background: #f6f7f8;
-            background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
-            background-repeat: no-repeat;
-            background-size: 800px 100%; 
-            display: inline-block;
-            position: relative;
-            animation-duration: 1.5s;
-            animation-fill-mode: forwards; 
-            animation-iteration-count: infinite;
-            animation-name: placeholderShimmer;
-            animation-timing-function: linear;
-            border-radius: 4px;
-        }
-        
-        body.dark-mode .shimmer {
-            background: #111;
-            background-image: linear-gradient(to right, #111 0%, #222 20%, #111 40%, #111 100%);
-        }
-
-        @keyframes placeholderShimmer {
-            0% { background-position: -468px 0; }
-            100% { background-position: 468px 0; }
-        }
-
-        /* Hide scrollbar */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    <script>tailwind.config = { darkMode: ["class", ".dark-mode"] };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body.dark-mode { background-color: #000000; color: #e0e0e0; }
+    body.dark-mode .text-gray-900, body.dark-mode .text-gray-800 { color: #f0f0f0; }
+    body.dark-mode .text-gray-700 { color: #b0b0b0; }
+    body.dark-mode .text-gray-500, body.dark-mode .text-gray-600 { color: #888888; }
+    body.dark-mode .text-gray-400 { color: #666666; }
+    body.dark-mode .bg-white { background-color: #0a0a0a !important; }
+    body.dark-mode header button[onclick="history.back()"], body.dark-mode header button[aria-label="Kembali"] { background-color: #000000 !important; border: 1.5px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"] svg, body.dark-mode header button[aria-label="Kembali"] svg { color: #ffffff !important; stroke: #ffffff !important; }
+    body.dark-mode header button[onclick="history.back()"]:hover, body.dark-mode header button[aria-label="Kembali"]:hover { background-color: #1a1a1a !important; border-color: rgba(255,255,255,0.7) !important; }
+    body.dark-mode .bg-gray-50 { background-color: #222222 !important; }
+    body.dark-mode .bg-gray-100 { background-color: #222222 !important; }
+    body.dark-mode .border-gray-200, body.dark-mode .border-gray-100 { border-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #222222 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover { background-color: #222222 !important; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background-color: #0a0a0a; color: #ffffff; border-color: #222222; }
+    body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus { border-color: #222222; outline: none; }
+    body.dark-mode header { background-color: #000000 !important; }
+    body.dark-mode .bg-black { background-color: #ffffff !important; color: #000000 !important; }
+  /* auto-dark-fix v1 */
+    body.dark-mode .bg-gray-50\/80 { background-color: #141414 !important; }
+    body.dark-mode .bg-gray-200 { background-color: #262626 !important; }
+    body.dark-mode .bg-gray-300 { background-color: #333333 !important; }
+    body.dark-mode .bg-gray-400 { background-color: #444444 !important; }
+    body.dark-mode .border-gray-50 { border-color: #0a0a0a !important; }
+    body.dark-mode .border-gray-200\/50,
+    body.dark-mode .border-gray-200\/60,
+    body.dark-mode .border-gray-200\/70 { border-color: #222222 !important; }
+    body.dark-mode .border-gray-300 { border-color: #333333 !important; }
+    body.dark-mode .border-gray-400 { border-color: #444444 !important; }
+    body.dark-mode .bg-blue-50,
+    body.dark-mode .bg-blue-50\/50 { background-color: #0d1a26 !important; }
+    body.dark-mode .border-blue-100,
+    body.dark-mode .border-blue-200 { border-color: #1e3a52 !important; }
+    body.dark-mode .bg-red-50,
+    body.dark-mode .bg-red-50\/50 { background-color: #2a1414 !important; }
+    body.dark-mode .bg-red-100 { background-color: #3a1a1a !important; }
+    body.dark-mode .border-red-100,
+    body.dark-mode .border-red-200 { border-color: #4a2020 !important; }
+    body.dark-mode .bg-green-100 { background-color: #14301c !important; }
+    body.dark-mode .bg-white\/95 { background-color: rgba(10,10,10,0.95) !important; }
+    body.dark-mode .hover\:bg-gray-50:hover,
+    body.dark-mode .hover\:bg-gray-50\/50:hover,
+    body.dark-mode .hover\:bg-gray-50\/80:hover { background-color: #1a1a1a !important; }
+    body.dark-mode .hover\:bg-gray-100:hover { background-color: #262626 !important; }
+    body.dark-mode .hover\:bg-gray-200:hover,
+    body.dark-mode .hover\:bg-gray-200\/50:hover { background-color: #333333 !important; }
+    body.dark-mode .hover\:bg-blue-50:hover,
+    body.dark-mode .hover\:bg-blue-100:hover { background-color: #163247 !important; }
+    body.dark-mode .hover\:bg-red-50:hover,
+    body.dark-mode .hover\:bg-red-100:hover { background-color: #3a1a1a !important; }
+    body.dark-mode .hover\:border-gray-300:hover,
+    body.dark-mode .hover\:border-gray-400:hover,
+    body.dark-mode .hover\:border-gray-900:hover { border-color: #555555 !important; }
+    body.dark-mode .focus\:border-gray-400:focus,
+    body.dark-mode .focus\:border-gray-900:focus { border-color: #666666 !important; }
+    body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
+#chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         /* Kapsul: mobile 2 menu (Workspace|Dashboard), desktop 3 menu (Live preview|Workspace|Dashboard) */
         .chat-nav-link[data-nav="agent"] { display: none !important; }
         .chat-nav-link[data-nav="live"] { display: none; }
@@ -148,11 +132,12 @@
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
     </style>
+  <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
 
     <script>/* clinqoo-seo-auto: canonical & og mengikuti domain aktif */
-(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<2;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
+(function(){try{var u=location.origin+location.pathname.replace(/(index\.html|[^\/]+\.html)$/,"").replace(/\/$/,"");var s2=u;for(var i=0;i<3;i++)s2=s2.slice(0,s2.lastIndexOf("/"));var c=document.querySelector('link[rel="canonical"]');if(!c){c=document.createElement("link");c.setAttribute("rel","canonical");document.head.appendChild(c);}c.setAttribute("href",u+"/");var m=document.querySelector('meta[property="og:url"]');if(m)m.setAttribute("content",u+"/");var g=document.querySelector('meta[property="og:image"]');if(g)g.setAttribute("content",s2+"/assets/og-image.png?v=7");var t=document.querySelector('meta[name="twitter:image"]');if(t)t.setAttribute("content",s2+"/assets/og-image.png?v=7");}catch(e){}})();
     </script>
 <!-- Google tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMQ8WBZF6E"></script>
@@ -163,18 +148,12 @@
   gtag('config', 'G-KMQ8WBZF6E');
 </script>
 <!-- End Google tag -->
-<script src="../../js/i18n-dict.js" defer></script>
-<script src="../../js/i18n.js" defer></script>
+<script src="../../../js/i18n-dict.js" defer></script>
+<script src="../../../js/i18n.js" defer></script>
 </head>
-<body class="min-h-screen flex flex-col text-gray-900 relative">
-    <script>
-        (function(){
-            var t=localStorage.getItem("clinqoo_theme");
-            var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
-            if(isDark){document.body.classList.add("dark-mode");}
-        })();
-    </script>
-    
+<body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
+  <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
+  <div class="w-full h-full overflow-y-auto hide-scrollbar flex flex-col items-center">
     <header class="fixed top-0 left-0 right-0 z-30 px-3 pt-3 pointer-events-none flex justify-between items-center">
         <button id="sidebar-toggle" type="button" class="pointer-events-auto flex-shrink-0 flex items-center justify-center text-[#222222] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 hover:text-black hover:bg-gray-100 transition-all rounded-full w-11 h-11" aria-label="Kembali ke Beranda">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -220,8 +199,7 @@
             </div>
         </div>
     </header>
-
-    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-20 pb-24 relative overflow-x-hidden">
+    <main class="w-full max-w-5xl px-4 sm:px-6 pt-20 pb-24">
     <style>
         #settings-menu-pop.open { display: flex; }
         .settings-menu-item { cursor: pointer; }
@@ -236,8 +214,8 @@
     <div class="relative mb-5 -mx-2.5 sm:-mx-[70px] sm:max-w-[860px]" id="settings-menu-wrap">
             <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
                 <span class="flex items-center gap-2.5">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
-                    Build &amp; Deployment
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    Pembayaran
                 </span>
                 <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -310,115 +288,272 @@
     })();
     </script>
 
-                <!-- VIEW 0: Loading — cek data deployment dulu sebelum menampilkan state -->
-        <div id="view-loading" class="flex flex-col items-center justify-center min-h-[70vh] fade-in">
-            <div class="text-center">
-                <i data-lucide="loader-2" class="w-9 h-9 animate-spin text-gray-400 mx-auto"></i>
+      <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
+        <div class="py-5">
+          <div class="flex items-start sm:items-center justify-between gap-3 mb-3">
+            <div>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Metode Pembayaran</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Terima pembayaran QRIS langsung ke akunmu</p>
             </div>
+            <span id="pay-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap">Belum aktif</span>
+          </div>
+          <div id="pay-method-card" class="flex items-center gap-3.5 p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/60 dark:bg-slate-800/40">
+            <div class="w-11 h-11 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white">QRIS — BuatQris</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">GoPay, OVO, DANA, ShopeePay &amp; m-banking. Dana masuk langsung ke saldo BuatQris kamu (fee mulai 1%).</p>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Belum punya akun? Daftar gratis di buatqris.site (tanpa KYC), lalu ambil <code class="font-mono">account_id</code> &amp; <code class="font-mono">secret_token</code> dari menu Developer.</p>
         </div>
-                <!-- VIEW 1: CTA Awal (Gaya Elegan) — muncul hanya jika belum ada deployment -->
-        <div id="view-cta" class="hidden flex-col items-center justify-center min-h-[70vh] fade-in">
-            <div class="text-center w-full max-w-sm mx-auto">
-                <div class="w-20 h-20 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i data-lucide="rocket" class="w-10 h-10 text-gray-900"></i>
-                </div>
-                <h2 class="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">Siap untuk Rilis?</h2>
-                <p class="text-sm text-gray-500 mb-8 leading-relaxed">
-                    Mulai proses konfigurasi untuk mempublikasikan pembaruan terbaru aplikasi Anda ke server publik.
-                </p>
-                <button onclick="window.location.href='../build-deployment/config/'" class="w-full py-3.5 px-6 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white rounded-xl font-semibold text-sm hover:from-black hover:to-gray-900 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.25)] flex items-center justify-center gap-3 group border border-gray-800/80 active:scale-[0.99]">
-                    <span>Mulai Konfigurasi</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 opacity-90"></i>
+        <div class="py-5">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Kredensial BuatQris</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Disimpan di backend Clincoo — hanya dipakai server, tidak pernah dikirim ke browser pembeli.</p>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Account ID</label>
+              <input id="bq-account-id" type="text" autocomplete="off" spellcheck="false" class="w-full px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Account ID dari dashboard BuatQris">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Secret Token</label>
+              <div class="relative">
+                <input id="bq-secret-token" type="password" autocomplete="off" spellcheck="false" class="w-full px-3.5 py-2.5 pr-12 text-sm font-mono rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Secret token (server-only)">
+                <button type="button" onclick="toggleSecret(this)" class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors" aria-label="Tampilkan sembunyikan token">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                 </button>
+              </div>
             </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Nama di QR (UMKM)</label>
+                <input id="bq-umkm-name" type="text" maxlength="60" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500" placeholder="Nama toko yang tampil saat scan">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Metode QRIS</label>
+                <select id="bq-qris-method" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 cursor-pointer">
+                  <option value="qris_one">QRIS 1</option>
+                  <option value="qris_two" selected>QRIS 2</option>
+                  <option value="qris_three">QRIS 3</option>
+                  <option value="qris_four">QRIS 4</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Biaya layanan ditanggung</label>
+              <select id="bq-fee-target" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 cursor-pointer">
+                <option value="merchant">Saya (merchant)</option>
+                <option value="customer">Pembeli (customer)</option>
+              </select>
+            </div>
+          </div>
         </div>
+        <div class="py-5">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Kunci Publik Pembayaran</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3">Dipakai situs hasil deploy-mu untuk bikin QR pembayaran — aman dipasang di halaman publik.</p>
+          <div class="flex items-center gap-2">
+            <div id="pay-key-box" class="flex-1 min-w-0 px-3.5 py-2.5 text-sm font-mono rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 text-gray-500 dark:text-gray-400 truncate">Belum tersedia — simpan kredensial dulu</div>
+            <button type="button" id="pay-key-copy" onclick="copyPayKey()" class="px-3.5 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer">Salin</button>
+          </div>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">Endpoint situsmu: <code class="font-mono" id="pay-endpoint">/api/pay</code> <span>— pasang bersama kunci publik di tombol bayar.</span></p>
+        </div>
+        <div class="py-5 flex items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white">Uji Koneksi</h4>
+            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Bikin QR Rp 1.000 untuk memastikan kredensial valid</p>
+          </div>
+          <button type="button" id="pay-test-btn" onclick="testPayConnection()" class="px-4 py-2.5 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors flex-shrink-0 cursor-pointer">Uji</button>
+        </div>
+        <div class="py-5">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-3">Transaksi Terbaru</h4>
+          <div id="pay-tx-list" class="space-y-2"></div>
+          <p id="pay-tx-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada transaksi.</p>
+        </div>
+      </div>
+      <div id="action-buttons" class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700/60 hidden justify-end gap-3 opacity-0 transition-opacity duration-300">
+        <button type="button" onclick="cancelChanges()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors">Batal</button>
+        <button type="button" onclick="saveChanges()" class="px-5 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 rounded-lg shadow-sm transition-colors focus:outline-none cursor-pointer">Simpan Perubahan</button>
+      </div>
     </main>
+  </div>
+  <script>
+    let isEdited=false;function showActionButtons(){if(!isEdited){isEdited=true;const c=document.getElementById('action-buttons');c.classList.remove('hidden');c.classList.add('flex');void c.offsetWidth;c.classList.remove('opacity-0');c.classList.add('opacity-100');}}function cancelChanges(){window.location.reload();}function saveChanges(){savePayConfig();}document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input,textarea,select').forEach(input=>{input.addEventListener('input',showActionButtons);input.addEventListener('change',showActionButtons);});});function toggleSwitch(idPrefix){showActionButtons();const bg=document.getElementById(idPrefix+'-bg');const knob=document.getElementById(idPrefix+'-knob');if(bg.classList.contains('bg-blue-500')){bg.classList.replace('bg-blue-500','bg-gray-200');bg.classList.add('dark:bg-slate-700');knob.classList.remove('translate-x-5');}else{bg.classList.remove('bg-gray-200','dark:bg-slate-700');bg.classList.add('bg-blue-500');knob.classList.add('translate-x-5');}}
+  </script>
+    <script>if (window.lucide) { lucide.createIcons(); }</script>
 
-    <script>
-        // Render Icons Awal
-        lucide.createIcons();
+<script>
+  // ===== Pembayaran BuatQris: load & simpan kredensial per-proyek =====
+  var API_BASE = (['clincoo-be2.pages.dev','app.clincoo.buzz','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://app.clincoo.buzz/api' : '/api';
+  var _apiToken = '';
+  try { _apiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+  function _pid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
 
-        // ===================== DEPLOY ASLI (Cloudflare Pages) =====================
-        // API deploy engine: same-origin di Cloudflare Pages; be2 hanya utk GitHub Pages
-        // (konsisten dgn dashboard & js/api.js — mencegah data domain terpecah antar backend)
-        const API = (['clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://clincoo-be2.pages.dev/api' : '/api';
-        const pid = () => localStorage.getItem('clinqoo_current_project_id') || '';
-        let deployState = { pages_url: '', pollTimer: null, domainTimer: null, deploying: false };
+  function toggleSecret(btn) {
+    var inp = document.getElementById('bq-secret-token');
+    if (!inp) return;
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  }
 
-        // ===================== SESI DEPLOY (klik deploy cukup sekali) =====================
-        // Sesi per proyek tersimpan di localStorage: halaman langsung membuka dashboard
-        // situs yang sudah dideploy tanpa harus menekan tombol Deploy lagi.
-        const DEPLOY_SESSION_KEY = 'clinqoo_deploy_session';
-        function readDeploySession() {
-            try {
-                const ses = JSON.parse(localStorage.getItem(DEPLOY_SESSION_KEY) || 'null');
-                return (ses && ses.project_id && ses.project_id === pid()) ? ses : null;
-            } catch (e) { return null; }
-        }
-        function writeDeploySession(patch) {
-            try {
-                const cur = readDeploySession() || { project_id: pid() };
-                localStorage.setItem(DEPLOY_SESSION_KEY, JSON.stringify(Object.assign(cur, patch)));
-            } catch (e) {}
-        }
-        function clearDeploySession() {
-            try { localStorage.removeItem(DEPLOY_SESSION_KEY); } catch (e) {}
-        }
+  function _payModal(msg, ok) {
+    try {
+      var m = document.getElementById('system-modal');
+      if (m) {
+        document.getElementById('modal-title').innerText = ok ? 'Berhasil' : 'Gagal';
+        document.getElementById('modal-message').innerText = msg;
+        m.classList.remove('hidden'); m.classList.add('flex');
+        return;
+      }
+    } catch (e) {}
+    alert(msg);
+  }
 
-        async function apiFetch(path, opts = {}) {
-            const token = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || '';
-            const res = await fetch(API + path, {
-                ...opts,
-                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(opts.headers || {}) }
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
-            return data;
-        }
+  function _closeModal() {
+    try {
+      var m = document.getElementById('system-modal');
+      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    } catch (e) {}
+  }
 
-        function timeAgoIso(iso) {
-            if (!iso) return 'baru saja';
-            const t = new Date(iso + (iso.endsWith('Z') ? '' : 'Z')).getTime();
-            return timeAgo(t);
-        }
+  async function loadPayConfig() {
+    try {
+      var hdrs = _apiToken ? { Authorization: 'Bearer ' + _apiToken } : {};
+      var res = await fetch(API_BASE + '/pay?action=config&project_id=' + encodeURIComponent(_pid()), { headers: hdrs });
+      if (!res.ok) return;
+      var data = await res.json();
+      var badge = document.getElementById('pay-status-badge');
+      if (data.configured) {
+        document.getElementById('bq-account-id').value = '';
+        document.getElementById('bq-account-id').placeholder = data.account_id_masked + ' (tersimpan — isi ulang untuk mengganti)';
+        document.getElementById('bq-secret-token').placeholder = '•••••••• (tersimpan — isi ulang untuk mengganti)';
+        document.getElementById('bq-umkm-name').value = data.umkm_name || '';
+        document.getElementById('bq-qris-method').value = data.qris_method || 'qris_two';
+        document.getElementById('bq-fee-target').value = data.fee_target || 'merchant';
+        var kb = document.getElementById('pay-key-box');
+        kb.textContent = data.pay_key || '';
+        kb.classList.remove('text-gray-500');
+        if (badge) { badge.textContent = 'Aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 whitespace-nowrap'; }
+      }
+      var ep = document.getElementById('pay-endpoint');
+      if (ep) ep.textContent = API_BASE + '/pay';
+      isEdited = false;
+      var c = document.getElementById('action-buttons');
+      if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
+    } catch (e) {}
+    loadPayTransactions();
+  }
 
-        async function fetchStatus() {
-            return apiFetch('/deploy?project_id=' + encodeURIComponent(pid()));
-        }
+  async function loadPayTransactions() {
+    try {
+      var hdrs = _apiToken ? { Authorization: 'Bearer ' + _apiToken } : {};
+      var res = await fetch(API_BASE + '/pay', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, hdrs), body: JSON.stringify({ action: 'transactions', project_id: _pid() }) });
+      if (!res.ok) return;
+      var data = await res.json();
+      var list = document.getElementById('pay-tx-list');
+      var empty = document.getElementById('pay-tx-empty');
+      var txs = (data && data.transactions) || [];
+      if (!txs.length) { empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      list.innerHTML = '';
+      txs.forEach(function (t) {
+        var stClass = t.status === 'paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : (t.status === 'expired' || t.status === 'failed' ? 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300');
+        var stLabel = t.status === 'paid' ? 'Berhasil' : (t.status === 'expired' ? 'Kedaluwarsa' : (t.status === 'failed' ? 'Gagal' : 'Menunggu'));
+        var row = document.createElement('div');
+        row.className = 'flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700';
+        row.innerHTML = '<div class="min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white truncate">' + (t.description || 'Pembayaran') + '</p><p class="text-xs text-gray-400 font-mono">' + t.order_id + ' · ' + (t.created_at || '') + '</p></div>' +
+          '<div class="flex items-center gap-2.5 flex-shrink-0"><span class="text-sm font-semibold text-gray-900 dark:text-white">Rp ' + Number(t.amount || 0).toLocaleString('id-ID') + '</span><span class="px-2 py-0.5 text-xs font-semibold rounded-full ' + stClass + '">' + stLabel + '</span></div>';
+        list.appendChild(row);
+      });
+    } catch (e) {}
+  }
 
-        // Kalau situs sudah aktif / deploy sedang berjalan -> langsung ke dashboard.
-        // Selama pengecekan, halaman menampilkan icon loading (view-loading);
-        // CTA "Mulai Konfigurasi" hanya muncul jika benar-benar belum ada deployment,
-        // jadi user tidak perlu klik konfigurasi ulang setiap kali membuka halaman ini.
-        document.addEventListener("DOMContentLoaded", async () => {
-            const showCTA = () => {
-                const loading = document.getElementById('view-loading');
-                if (loading) loading.remove();
-                const cta = document.getElementById('view-cta');
-                if (cta) cta.classList.remove('hidden');
-            };
-            // 1) INSTAN dari cache sesi lokal — tampilkan dashboard deploy tanpa
-            //    nunggu server. Dulu urutannya kebalik: fetchStatus() jalan duluan,
-            //    jadi masuk halaman deployment selalu loading dulu walau sudah deploy.
-            const ses = readDeploySession();
-            if (ses && (ses.status === 'done' || ses.status === 'deploying')) {
-                window.location.replace('../build-deployment/dashboard/');
-                return;
-            }
-            // 2) Tanpa sesi lokal: cek server (deploy dari device lain / cache hilang)
-            try {
-                const st = await fetchStatus();
-                if (st && (st.last_deployment || st.deployed === true || (st.domains || []).length)) {
-                    window.location.replace('../build-deployment/dashboard/'); return;
-                }
-            } catch (e) {}
-            showCTA();
-        });
+  async function savePayConfig() {
+    var btn = document.querySelector('#action-buttons button.bg-black');
+    if (!btn) return;
+    var accountId = (document.getElementById('bq-account-id').value || '').trim();
+    var secretToken = (document.getElementById('bq-secret-token').value || '').trim();
+    if (!accountId && !secretToken) { _payModal('Tidak ada perubahan kredensial untuk disimpan.', false); return; }
+    if (!accountId || !secretToken) { _payModal('Account ID dan Secret Token wajib diisi keduanya.', false); return; }
+    btn.innerText = 'Menyimpan...';
+    btn.disabled = true;
+    btn.classList.add('opacity-80', 'cursor-not-allowed');
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({
+          action: 'save_config',
+          project_id: _pid(),
+          account_id: accountId,
+          secret_token: secretToken,
+          umkm_name: (document.getElementById('bq-umkm-name').value || '').trim(),
+          qris_method: document.getElementById('bq-qris-method').value,
+          fee_target: document.getElementById('bq-fee-target').value
+        })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.success) {
+        btn.innerText = 'Simpan Perubahan';
+        btn.disabled = false;
+        btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        _payModal(data.message || data.error || 'Gagal menyimpan kredensial.', false);
+        return;
+      }
+      btn.innerText = 'Tersimpan!';
+      btn.classList.replace('bg-black', 'bg-emerald-500');
+      btn.classList.replace('hover:bg-gray-800', 'hover:bg-emerald-600');
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      isEdited = false;
+      loadPayConfig();
+    } catch (e) {
+      btn.innerText = 'Simpan Perubahan';
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      _payModal('Tidak dapat terhubung ke server.', false);
+    }
+  }
 
-    </script>
+  async function testPayConnection() {
+    var btn = document.getElementById('pay-test-btn');
+    if (!btn) return;
+    btn.innerText = 'Menguji...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({ action: 'test', project_id: _pid() })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      _payModal(data.message || data.error || (data.success ? 'Kredensial valid.' : 'Kredensial ditolak.'), !!(data && data.success));
+    } catch (e) {
+      _payModal('Tidak dapat terhubung ke server.', false);
+    }
+    btn.innerText = 'Uji';
+    btn.disabled = false;
+  }
+
+  function copyPayKey() {
+    var kb = document.getElementById('pay-key-box');
+    var key = (kb.textContent || '').trim();
+    if (!key || key.indexOf('pk_') !== 0) { _payModal('Kunci belum tersedia — simpan kredensial dulu.', false); return; }
+    try {
+      navigator.clipboard.writeText(key).then(function () {
+        var b = document.getElementById('pay-key-copy');
+        var old = b.innerText;
+        b.innerText = 'Tersalin!';
+        setTimeout(function () { b.innerText = old; }, 1600);
+      }).catch(function () { _payModal(key, true); });
+    } catch (e) { _payModal(key, true); }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () { loadPayConfig(); });
+</script>
+
 
     <script>/* clinqoo-sw-register */
-    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js').catch(function () {}); }); }
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('../../../sw.js').catch(function () {}); }); }
     </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"cb77214bf0fd47f79f21070b533e9742","r":1,"spa":2}' crossorigin="anonymous"></script>
 <script>
@@ -539,8 +674,6 @@ window.chatLivePreview = function () {
                 .then(function (res2) {
                     var d = res2.d || {};
                     if (!res2.ok || d.error) throw new Error(d.error || 'Gagal mempublikasikan situs ke Cloudflare.');
-                    // DNS cache: hasil deploy langsung siap di halaman Domain Kustom (tanpa buka halaman itu dulu)
-                    try { var _dk = 'clinqoo_' + pid + "_domain_cache", _dc = {}; try { _dc = JSON.parse(localStorage.getItem(_dk) || '{}') || {}; } catch (e) {} localStorage.setItem(_dk, JSON.stringify(Object.assign(_dc, { pagesUrl: d.pages_url || '', deployed: true, ts: Date.now() }))); } catch (e) {}
                     var url = d.public_url || (d.public_domain ? 'https://' + d.public_domain : '') || (d.deployment && d.deployment.url) || d.pages_url || '';
                     setLoading(false);
                     if (url) window.open(url, '_blank');
