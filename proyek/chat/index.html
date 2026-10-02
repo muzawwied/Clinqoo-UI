@@ -4,6 +4,7 @@
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
   <script src="../../js/accent-init.js"></script>
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+<script>/* embed=1: chat dalam overlay sheet di halaman lain (tanpa panel workspace sendiri) */(function(){try{if(/(^|[?&])embed=1(&|$)/.test(location.search)){document.documentElement.classList.add('embed-mode');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
     <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon.png">
@@ -311,6 +312,13 @@
         }
         @media (min-width: 900px) { #chat-sheet { display: contents; } #chat-sheet-handle { display: none; } }
         .chat-nav-link[data-nav="agent"] { display: none !important; } /* Agent via FAB, bukan kapsul */
+        /* embed=1 (chat dalam sheet overlay halaman lain): penuhi layar, tanpa header/ws/FAB */
+        html.embed-mode body > header { display: none !important; }
+        html.embed-mode #chat-ws-panel { display: none !important; }
+        html.embed-mode #chat-fab { display: none !important; }
+        html.embed-mode #chat-sheet { position: fixed !important; top: 0 !important; left: 0; right: 0; bottom: 0; border-radius: 0 !important; box-shadow: none !important; z-index: 15; }
+        html.embed-mode #chat-container { padding-top: 10px !important; }
+        html.embed-mode #chat-input-footer { padding-bottom: 14px; }
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
@@ -786,10 +794,10 @@
         // Panel workspace: latar penuh di mobile, split di desktop — selalu dimuat
         (function () {
             var frame = document.getElementById('chat-ws-frame');
-            if (!frame) return;
+            if (!frame || document.documentElement.classList.contains('embed-mode')) return;
             if (!frame.getAttribute('src')) {
                 var panel = 'code';
-                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live') panel = pp; else if (pp === 'workspace') panel = 'code'; } catch (e) {}
+                try { var pp = new URLSearchParams(location.search).get('panel'); if (pp === 'dashboard' || pp === 'live' || pp === 'code') panel = pp; else if (pp === 'workspace') panel = 'code'; } catch (e) {}
                 frame.dataset.src = splitSrcFor(panel);
                 frame.src = frame.dataset.src;
             }
@@ -811,7 +819,7 @@
             return '/proyek/code/?embed=1';
         }
         var _initPanel = 'code';
-        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live') _initPanel = _p; else if (_p === 'workspace') _initPanel = 'code'; } catch (e) {}
+        try { var _p = new URLSearchParams(location.search).get('panel'); if (_p === 'dashboard' || _p === 'live' || _p === 'code') _initPanel = _p; else if (_p === 'workspace') _initPanel = 'code'; } catch (e) {}
         const initPanel = _initPanel;
         const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard'), live: splitSrcFor('live') };
         chatNavLinks.forEach(x => x.classList.remove('is-active'));
@@ -833,7 +841,7 @@
             try {
                 new URLSearchParams(location.search).forEach(function (v, k) { if (k !== 'panel') kept.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); });
             } catch (e) {}
-            kept.push('panel=' + (nav === 'code' ? 'workspace' : nav));
+            kept.push('panel=' + nav);
             return location.pathname + '?' + kept.join('&');
         }
         chatNavLinks.forEach(l => {
@@ -856,7 +864,7 @@
         window.addEventListener('popstate', function (ev) {
             var panel = (ev.state && ev.state.panel) || '';
             if (!panel || !splitNavSrc[panel]) {
-                try { var q = new URLSearchParams(location.search).get('panel'); if (q === 'dashboard' || q === 'live') panel = q; else if (q === 'workspace') panel = 'code'; } catch (e) {}
+                try { var q = new URLSearchParams(location.search).get('panel'); if (q === 'dashboard' || q === 'live' || q === 'code') panel = q; else if (q === 'workspace') panel = 'code'; } catch (e) {}
             }
             if (!splitNavSrc[panel]) panel = 'code';
             if (wsFrame) { wsFrame.dataset.src = splitNavSrc[panel]; wsFrame.src = splitNavSrc[panel]; }
@@ -874,8 +882,12 @@
         }
         // Bottom sheet chat (mobile): buka/tutup via FAB Agent & handle
         var _sheetEl = document.getElementById('chat-sheet');
+        var _chatEmbed = document.documentElement.classList.contains('embed-mode');
         window.chatSheetOpen = function () { document.body.classList.remove('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = ''; };
-        window.chatSheetClose = function () { document.body.classList.add('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = ''; };
+        window.chatSheetClose = function () {
+            if (_chatEmbed) { try { window.parent.postMessage('clinqoo:chat-close', '*'); } catch (e) {} return; }
+            document.body.classList.add('sheet-closed'); if (_sheetEl) _sheetEl.style.transform = '';
+        };
         // Geser sheet: tarik turun utk tutup (lempar / lewat 25% tinggi), lepas utk buka kembali
         (function () {
             var sheet = _sheetEl, handle = document.getElementById('chat-sheet-handle');

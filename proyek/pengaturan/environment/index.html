@@ -182,6 +182,12 @@
         #chat-nav-pill { display: none; }
         /* FAB Agent (semua ukuran layar): langsung ke halaman chat */
         #chat-fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 9999px; border: none; background: #111111; color: #ffffff; font-size: 14px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,0.28); cursor: pointer; }
+
+        /* Chat Agent overlay: muncul mulus dari bawah, tanpa reload halaman */
+        #agent-sheet { position: fixed; inset: 0; z-index: 80; transform: translateY(102%); transition: transform .35s cubic-bezier(.4,0,.2,1); background: #ffffff; }
+        #agent-sheet.open { transform: translateY(0); }
+        #agent-sheet-frame { width: 100%; height: 100%; border: 0; display: block; }
+        body.dark-mode #agent-sheet { background: #0a0a0a; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
         @media (prefers-reduced-motion: no-preference) {
@@ -1056,9 +1062,27 @@ window.chatLivePreview = function () {
     if(sheetEl){sheetEl.querySelector('#pps-track').innerHTML=plans.map(function(p){return cardHtml(p,currentPlan()||'Starter');}).join('');sheetEl.__render();}
   }).catch(function(){});
 })();
-</script>    <button id="chat-fab" type="button" onclick="location.href='/proyek/chat/'" aria-label="Buka chat Agent">
+</script>    <button id="chat-fab" type="button" onclick="agentSheetOpen()" aria-label="Buka chat Agent">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.9 5.7a2 2 0 0 0 1.3 1.3L21 12l-5.8 2a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.7a2 2 0 0 0-1.3-1.3L3 12l5.8-2a2 2 0 0 0 1.3-1.3L12 3z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M19 3v.01M5 19v.01"></path></svg>
         Agent
     </button>
+
+    <!-- Chat Agent sebagai sheet overlay (iframe chat, tanpa reload) -->
+    <div id="agent-sheet" aria-hidden="true"><iframe id="agent-sheet-frame" title="Chat Agent" tabindex="-1"></iframe></div>
+
+<script>
+/* FAB Agent: buka chat sebagai overlay mulus dari bawah (URL halaman tetap) */
+(function () {
+    var sh = document.getElementById('agent-sheet'), fr = document.getElementById('agent-sheet-frame');
+    if (!sh || !fr) return;
+    window.agentSheetOpen = function () {
+        if (!fr.getAttribute('src')) fr.src = '/proyek/chat/?embed=1';
+        sh.classList.add('open');
+    };
+    window.agentSheetClose = function () { sh.classList.remove('open'); };
+    window.addEventListener('message', function (ev) { if (ev && ev.data === 'clinqoo:chat-close') window.agentSheetClose(); });
+})();
+</script>
+
 </body>
 </html>
