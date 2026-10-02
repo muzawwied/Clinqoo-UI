@@ -3,7 +3,7 @@
 <head>
 <script>(function(){var m={"clinqoo.pages.dev":"app.clincoo.buzz","clinqoo.biz.id":"app.clincoo.buzz","www.clinqoo.biz.id":"app.clincoo.buzz"};var t=m[location.hostname];if(t)location.replace("https://"+t+location.pathname+location.search+location.hash);})();</script>
   <script src="../../../js/accent-init.js"></script>
-<script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
+<script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}else{var __c=localStorage.getItem('clinqoo_current_project_id')||'';if(__c){var __l=null;try{__l=JSON.parse(localStorage.getItem('clinqoo_projects')||'[]');}catch(e){}if(Array.isArray(__l)&&__l.length&&!__l.some(function(p){return p&&p.id===__c;})){localStorage.removeItem('clinqoo_current_project_id');}}}}catch(e){}})();</script>
   <script src="../../../js/current-project.js?v=1"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

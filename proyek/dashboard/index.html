@@ -948,6 +948,20 @@
         window.addEventListener('scroll', function() {
             if (settingsMenuPop.classList.contains('open')) { settingsMenuPop.classList.remove('open'); settingsMenuChev.style.transform = ''; }
         }, { capture: true, passive: true });
+        // Link menu popover pengaturan selalu membawa id proyek aktif saat ini,
+        // supaya halaman fitur tidak memakai data/cache proyek lama yang sudah dihapus.
+        document.addEventListener('click', function (e) {
+            var a = e.target && e.target.closest ? e.target.closest('a.settings-menu-item') : null;
+            if (!a) return;
+            try {
+                var pid = localStorage.getItem('clinqoo_current_project_id') || '';
+                if (pid) {
+                    var u = new URL(a.getAttribute('href') || '', location.origin);
+                    if (!u.searchParams.get('id')) { u.searchParams.set('id', pid); a.setAttribute('href', u.pathname + u.search); }
+                }
+            } catch (err) {}
+        });
+
         window.chatExportZip = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
