@@ -334,6 +334,8 @@
                 const res = await apiFetch('/deploy', { method: 'POST', body: JSON.stringify({ project_id: pid(), ...(subdomain ? { subdomain } : {}) }) });
                 clearInterval(phaseTimer);
                 deployState.deploying = false;
+                // DNS cache: hasil deploy langsung siap di halaman Domain Kustom (tanpa buka halaman itu dulu)
+                try { var _dk = 'clinqoo_' + pid() + "_domain_cache", _dc = {}; try { _dc = JSON.parse(localStorage.getItem(_dk) || '{}') || {}; } catch (e) {} localStorage.setItem(_dk, JSON.stringify(Object.assign(_dc, { pagesUrl: (res && res.pages_url) || '', deployed: true, ts: Date.now() }))); } catch (e) {}
                 writeDeploySession({ status: 'done', pages_url: (res && res.pages_url) || deployState.pages_url || '', public_url: (res && res.public_url) || '', done_at: Date.now() });
                 btn.innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5"></i> <span class="inline-block">Berhasil Deploy!</span>`;
                 lucide.createIcons();

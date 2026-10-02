@@ -2601,6 +2601,8 @@ window.chatLivePreview = function () {
                 .then(function (res2) {
                     var d = res2.d || {};
                     if (!res2.ok || d.error) throw new Error(d.error || 'Gagal mempublikasikan situs ke Cloudflare.');
+                    // DNS cache: hasil deploy langsung siap di halaman Domain Kustom (tanpa buka halaman itu dulu)
+                    try { var _dk = 'clinqoo_' + pid + "_domain_cache", _dc = {}; try { _dc = JSON.parse(localStorage.getItem(_dk) || '{}') || {}; } catch (e) {} localStorage.setItem(_dk, JSON.stringify(Object.assign(_dc, { pagesUrl: d.pages_url || '', deployed: true, ts: Date.now() }))); } catch (e) {}
                     var url = d.public_url || (d.public_domain ? 'https://' + d.public_domain : '') || (d.deployment && d.deployment.url) || d.pages_url || '';
                     setLoading(false);
                     if (url) window.open(url, '_blank');
