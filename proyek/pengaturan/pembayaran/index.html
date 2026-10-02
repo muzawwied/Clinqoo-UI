@@ -372,6 +372,7 @@
   function _pid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
 
   var _available = 0;
+  var _origActivateHtml = null;
 
   function _payModal(msg, ok) {
     try {
@@ -387,6 +388,134 @@
   }
 
   function _rp(n) { return 'Rp ' + Number(n || 0).toLocaleString('id-ID'); }
+
+  // ---- cache lokal: state aktif tidak hilang saat refresh ----
+  function _payCacheKey() { return 'clincoo_pay_' + _pid(); }
+  function readPayCache() { try { return JSON.parse(localStorage.getItem(_payCacheKey()) || 'null'); } catch (e) { return null; } }
+  function writePayCache(d) { try { localStorage.setItem(_payCacheKey(), JSON.stringify(d)); } catch (e) {} }
+  function clearPayCache() { try { localStorage.removeItem(_payCacheKey()); } catch (e) {} }
+
+  // ---- swap animasi antar state ----
+  function swapPayView(showId, hideId, animate) {
+    var show = document.getElementById(showId);
+    var hide = document.getElementById(hideId);
+    if (!animate) {
+      if (hide) { hide.style.display = 'none'; hide.style.opacity = ''; hide.style.transform = ''; }
+      if (show) { show.classList.remove('hidden'); show.classList.add('flex'); show.style.opacity = ''; show.style.transform = ''; }
+      return;
+    }
+    function reveal(el) {
+      el.classList.remove('hidden'); el.classList.add('flex');
+      el.style.opacity = '0'; el.style.transform = 'translateY(10px)';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+          setTimeout(function () { el.style.opacity = ''; el.style.transform = ''; }, 400);
+        });
+      });
+    }
+    if (hide) {
+      hide.style.opacity = '0';
+      hide.style.transform = 'translateY(10px)';
+      setTimeout(function () {
+        hide.style.display = 'none';
+        hide.style.opacity = ''; hide.style.transform = '';
+        if (show) reveal(show);
+      }, 340);
+    } else if (show) { reveal(show); }
+  }
+
+  function renderPayActive(data, animate) {
+    swapPayView('pay-active', 'pay-inactive', !!animate);
+    ['pay-key-section', 'pay-logs-section'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
+    _available = data.available || 0;
+    document.getElementById('pay-bal-available').textContent = _rp(data.available);
+    document.getElementById('pay-bal-paid').textContent = _rp(data.total_paid);
+    document.getElementById('pay-bal-withdrawn').textContent = _rp(data.total_withdrawn);
+    var wb = document.getElementById('pay-withdraw-btn');
+    if (wb) wb.disabled = false;
+    var kb = document.getElementById('pay-key-box');
+    if (data.pay_key) kb.textContent = data.pay_key;
+    var badge = document.getElementById('pay-status-badge');
+    if (badge) { badge.textContent = data.gateway_ready === false ? 'Aktif — gateway menyusun' : 'Aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 whitespace-nowrap flex-shrink-0'; }
+  }
+
+  function renderPayInactive() {
+    swapPayView('pay-inactive', 'pay-active', false);
+    ['pay-key-section', 'pay-logs-section'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    var wb = document.getElementById('pay-withdraw-btn');
+    if (wb) wb.disabled = true;
+    var badge = document.getElementById('pay-status-badge');
+    if (badge) { badge.textContent = 'Belum aktif'; badge.className = 'px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap flex-shrink-0'; }
+  }
+
+  async function loadPayConfig() {
+    // 1) render cache dulu supaya state tidak hilang saat refresh
+    var cached = readPayCache();
+    if (cached && cached.active) renderPayActive(cached, false);
+    // 2) sinkronkan dengan server
+    try {
+      var hdrs = _apiToken ? { Authorization: 'Bearer ' + _apiToken } : {};
+      var res = await fetch(API_BASE + '/pay?action=config&project_id=' + encodeURIComponent(_pid()), { headers: hdrs });
+      if (res.ok) {
+        var data = await res.json();
+        if (data.active) {
+          renderPayActive(data, false);
+          writePayCache(data);
+          loadPayTransactions();
+          loadPayWithdrawals();
+        } else {
+          // server memastikan belum aktif → bersihkan cache palsu
+          clearPayCache();
+          renderPayInactive();
+        }
+      }
+      // fetch gagal (offline / backend sibuk) → cache tetap dipakai
+    } catch (e) {}
+    var ep = document.getElementById('pay-endpoint');
+    if (ep) ep.textContent = API_BASE + '/pay';
+    var c = document.getElementById('action-buttons');
+    if (c) { c.classList.add('hidden', 'opacity-0'); c.classList.remove('flex', 'opacity-100'); }
+  }
+
+  async function activatePay() {
+    var btn = document.getElementById('pay-activate-btn');
+    if (!btn) return;
+    if (!_origActivateHtml) _origActivateHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg> Mengaktifkan...';
+    try {
+      var res = await fetch(API_BASE + '/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + _apiToken },
+        body: JSON.stringify({ action: 'activate', project_id: _pid() })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.success) {
+        btn.innerHTML = _origActivateHtml;
+        btn.disabled = false;
+        _payModal(data.message || data.error || 'Gagal mengaktifkan ClincooPay.', false);
+        return;
+      }
+      // simpan cache + transisi smooth ke dashboard saldo
+      var minimal = { active: true, account_id: data.account_id || '', pay_key: data.pay_key || '', available: 0, total_paid: 0, total_withdrawn: 0 };
+      writePayCache(minimal);
+      renderPayActive(minimal, true);
+      loadPayConfig();
+      setTimeout(function () { _payModal('ClincooPay aktif! Situs deploy-mu sekarang bisa menerima pembayaran QRIS.', true); }, 450);
+    } catch (e) {
+      btn.innerHTML = _origActivateHtml;
+      btn.disabled = false;
+      _payModal('Tidak dapat terhubung ke server.', false);
+    }
+  }
+
   function copyPayKey() {
     var kb = document.getElementById('pay-key-box');
     var key = (kb.textContent || '').trim();

@@ -15,6 +15,12 @@
 
 import { guardProject } from './user-scope.js';
 
+// Semua aksi ClincooPay wajib login + project_id — tidak ada jalur legacy global.
+async function guardPay(env, request, projectId) {
+  if (!projectId) return json({ error: 'unauthorized', need_login: true }, 401);
+  return await guardProject(env, request, projectId);
+}
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -130,7 +136,7 @@ export async function onRequestGet({ request, env }) {
   const projectId = url.searchParams.get('project_id') || '';
 
   if (action === 'config') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const row = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
     const bal = await calcBalance(db, projectId);
@@ -182,7 +188,7 @@ export async function onRequestPost({ request, env }) {
 
   // ===== Aktifkan ClincooPay + terbitkan kredensial (auth) =====
   if (action === 'activate') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const existing = await db.prepare('SELECT * FROM pay_creds WHERE project_id = ?').bind(projectId).first();
     if (existing) return json({ success: true, account_id: existing.account_id, pay_key: existing.pay_key });
@@ -202,7 +208,7 @@ export async function onRequestPost({ request, env }) {
 
   // ===== Saldo ringkas (auth) =====
   if (action === 'summary') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const bal = await calcBalance(db, projectId);
     return json({ success: true, ...bal, gateway_ready: !!(env.PAY_PROVIDER_ACCOUNT && env.PAY_PROVIDER_SECRET) });
@@ -210,7 +216,7 @@ export async function onRequestPost({ request, env }) {
 
   // ===== Tarik saldo → permintaan penarikan (auth) =====
   if (action === 'withdraw') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const amount = Math.floor(Number(body.amount || 0));
     if (!amount || amount < 10000) return json({ success: false, message: 'Penarikan minimal Rp 10.000.' }, 400);
@@ -222,7 +228,7 @@ export async function onRequestPost({ request, env }) {
 
   // ===== Log transaksi (auth) =====
   if (action === 'transactions') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const rows = await db.prepare('SELECT order_id, amount, description, status, created_at FROM pay_transactions WHERE project_id = ? ORDER BY id DESC LIMIT 25').bind(projectId).all();
     return json({ success: true, transactions: rows.results || [] });
@@ -230,7 +236,7 @@ export async function onRequestPost({ request, env }) {
 
   // ===== Log penarikan (auth) =====
   if (action === 'withdrawals') {
-    const deny = await guardProject(env, request, projectId);
+    const deny = await guardPay(env, request, projectId);
     if (deny) return deny;
     const rows = await db.prepare('SELECT id, amount, status, note, created_at FROM pay_withdrawals WHERE project_id = ? ORDER BY id DESC LIMIT 25').bind(projectId).all();
     return json({ success: true, withdrawals: rows.results || [] });
