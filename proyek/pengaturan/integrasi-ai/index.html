@@ -447,42 +447,42 @@
   // Daftar model: nama dirapikan (tanpa duplikasi brand, tanpa suffix teknis), dikelompokkan per brand.
   // Sumber: model gratis OpenRouter + model Workers AI Cloudflare (alokasi gratis), dialihkan Clincoo.
   var AI_MODELS = [
-    { id: 'clincoo/auto', label: 'Auto (rantai otomatis)', rate: 'gratis' },
-    { id: 'clincoo/deepseek-v4-flash', label: 'DeepSeek V4 Flash', rate: 'gratis · konteks besar' },
-    { id: 'clincoo/deepseek-v4-pro', label: 'DeepSeek V4 Pro', rate: 'gratis · reasoning · konteks 1M' },
-    { id: 'clincoo/glm-5.2', label: 'Z.ai: GLM 5.2', rate: 'gratis · reasoning & kode' },
-    { id: 'clincoo/glm-5.3', label: 'Z.ai: GLM 5.3', rate: 'gratis · coding & agen' },
-    { id: 'clincoo/glm-5.3-flash', label: 'Z.ai: GLM 5.3 Flash', rate: 'gratis · multimodal' },
-    { id: 'clincoo/glm-4.7-flash', label: 'Z.ai: GLM 4.7 Flash', rate: 'gratis · multilingual' },
-    { id: 'clincoo/gpt-oss-120b', label: 'OpenAI: GPT-OSS 120B', rate: 'gratis · reasoning terbuka' },
-    { id: 'clincoo/gpt-oss-20b', label: 'OpenAI: GPT-OSS 20B', rate: 'gratis · ringan' },
-    { id: 'clincoo/kimi-k2.6', label: 'Moonshot: Kimi K2.6', rate: 'gratis · frontier 1T' },
-    { id: 'clincoo/kimi-k2.7-code', label: 'Moonshot: Kimi K2.7 Code', rate: 'gratis · fokus kode' },
-    { id: 'clincoo/llama-4-scout', label: 'Meta: Llama 4 Scout', rate: 'gratis · multimodal' },
-    { id: 'clincoo/llama-3.3-70b', label: 'Meta: Llama 3.3 70B', rate: 'gratis · serba guna' },
-    { id: 'clincoo/mistral-small-3.1', label: 'Mistral: Small 3.1', rate: 'gratis · cepat · konteks besar' },
-    { id: 'clincoo/reasoning-120b', label: 'NVIDIA: Nemotron 3 Super', rate: 'gratis · reasoning umum' },
-    { id: 'clincoo/reasoning-550b', label: 'NVIDIA: Nemotron 3 Ultra', rate: 'gratis · konteks 1M token' },
-    { id: 'clincoo/lightning', label: 'NVIDIA: Nemotron 3.5 Lightning', rate: 'gratis · ringan & cepat' },
-    { id: 'clincoo/omni-nano', label: 'NVIDIA: Nemotron 3 Nano Omni', rate: 'gratis · multimodal' },
-    { id: 'clincoo/vision-31b', label: 'Google: Gemma 4 31B', rate: 'gratis · teks & gambar' },
-    { id: 'clincoo/vision-26b', label: 'Google: Gemma 4 26B', rate: 'gratis · ringan' },
-    { id: 'clincoo/multimodal-27b', label: 'Qwen 3.8 27B', rate: 'gratis · multimodal' },
-    { id: 'clincoo/qwq-32b', label: 'QwQ 32B', rate: 'gratis · reasoning' },
-    { id: 'clincoo/qwen-coder-32b', label: 'Qwen 2.5 Coder 32B', rate: 'gratis · fokus kode' },
-    { id: 'clincoo/granite-4-micro', label: 'IBM: Granite 4.0 Micro', rate: 'gratis · super ringan' },
-    { id: 'clincoo/sea-lion-27b', label: 'AI Singapore: SEA-LION 27B', rate: 'gratis · bahasa Asia Tenggara' },
-    { id: 'clincoo/reasoning-mini', label: 'Apodex 1.1 Mini', rate: 'gratis · reasoning panjang' },
-    { id: 'clincoo/ling-flash', label: 'InclusionAI: Ling 3.0 Flash', rate: 'gratis · cepat' },
-    { id: 'clincoo/dots-note', label: 'Dots3-Note Preview', rate: 'gratis · multimodal' },
-    { id: 'clincoo/lfm-mini', label: 'Liquid AI: LFM 2.5 2.6B', rate: 'gratis · super ringan' },
-    { id: 'clincoo/inkling', label: 'Thinking Machines: Inkling', rate: 'gratis · multimodal' },
-    { id: 'clincoo/inkling-small', label: 'Thinking Machines: Inkling Small', rate: 'gratis · multimodal ringan' },
-    { id: 'clincoo/laguna-s', label: 'Poolside: Laguna S 2.1', rate: 'gratis · serba guna' },
-    { id: 'clincoo/laguna-xs', label: 'Poolside: Laguna XS 2.1', rate: 'gratis · super ringan' },
-    { id: 'clincoo/north-code', label: 'Cohere: North Mini Code', rate: 'gratis · fokus kode' },
-    { id: 'clincoo/space-bunny', label: 'Space Bunny Alpha', rate: 'gratis · eksperimental' },
-    { id: 'clincoo/acak', label: 'Acak (jaringan mitra)', rate: 'gratis · otomatis' }
+    { id: 'clincoo/auto', label: 'Auto (rantai otomatis)', rate: 'gratis', ctx: 'Mengikuti model terpilih', vision: false, desc: 'Memilih model terbaik secara otomatis untuk tiap permintaan, menyeimbangkan kecepatan dan kualitas jawaban.' },
+    { id: 'clincoo/deepseek-v4-flash', label: 'DeepSeek V4 Flash', rate: 'gratis · konteks besar', ctx: '160K token', vision: false, desc: 'Model cepat dari DeepSeek dengan jendela konteks besar, cocok untuk percakapan panjang dan ringkasan dokumen.' },
+    { id: 'clincoo/deepseek-v4-pro', label: 'DeepSeek V4 Pro', rate: 'gratis · reasoning · konteks 1M', ctx: '1M token', vision: false, desc: 'Varian reasoning DeepSeek dengan konteks hingga 1 juta token, untuk analisis mendalam dan tugas multi-langkah.' },
+    { id: 'clincoo/glm-5.2', label: 'Z.ai: GLM 5.2', rate: 'gratis · reasoning & kode', ctx: '128K token', vision: false, desc: 'Model Zhipu (Z.ai) yang kuat untuk reasoning dan pembuatan kode.' },
+    { id: 'clincoo/glm-5.3', label: 'Z.ai: GLM 5.3', rate: 'gratis · coding & agen', ctx: '128K token', vision: false, desc: 'Versi lanjutan GLM untuk coding dan tugas agentic (otomasi multi-langkah).' },
+    { id: 'clincoo/glm-5.3-flash', label: 'Z.ai: GLM 5.3 Flash', rate: 'gratis · multimodal', ctx: '128K token', vision: true, desc: 'Varian cepat GLM 5.3 dengan dukungan input gambar, cocok untuk tugas multimodal ringan.' },
+    { id: 'clincoo/glm-4.7-flash', label: 'Z.ai: GLM 4.7 Flash', rate: 'gratis · multilingual', ctx: '128K token', vision: false, desc: 'Model Zhipu yang ringan dan mendukung banyak bahasa.' },
+    { id: 'clincoo/gpt-oss-120b', label: 'OpenAI: GPT-OSS 120B', rate: 'gratis · reasoning terbuka', ctx: '128K token', vision: false, desc: 'Model open-weight OpenAI untuk reasoning umum dengan performa tinggi.' },
+    { id: 'clincoo/gpt-oss-20b', label: 'OpenAI: GPT-OSS 20B', rate: 'gratis · ringan', ctx: '128K token', vision: false, desc: 'Versi ringan GPT-OSS, lebih cepat dan hemat untuk tugas sehari-hari.' },
+    { id: 'clincoo/kimi-k2.6', label: 'Moonshot: Kimi K2.6', rate: 'gratis · frontier 1T', ctx: '256K token', vision: false, desc: 'Model skala besar (1T parameter) dari Moonshot untuk tugas kompleks dan reasoning frontier.' },
+    { id: 'clincoo/kimi-k2.7-code', label: 'Moonshot: Kimi K2.7 Code', rate: 'gratis · fokus kode', ctx: '256K token', vision: false, desc: 'Varian Kimi yang difokuskan untuk pemrograman dan debugging.' },
+    { id: 'clincoo/llama-4-scout', label: 'Meta: Llama 4 Scout', rate: 'gratis · multimodal', ctx: '128K token', vision: true, desc: 'Model multimodal Meta, bisa memahami teks dan gambar sekaligus.' },
+    { id: 'clincoo/llama-3.3-70b', label: 'Meta: Llama 3.3 70B', rate: 'gratis · serba guna', ctx: '128K token', vision: false, desc: 'Model serba guna Meta dengan performa seimbang untuk berbagai tugas.' },
+    { id: 'clincoo/mistral-small-3.1', label: 'Mistral: Small 3.1', rate: 'gratis · cepat · konteks besar', ctx: '256K token', vision: false, desc: 'Model Mistral yang cepat dengan jendela konteks besar.' },
+    { id: 'clincoo/reasoning-120b', label: 'NVIDIA: Nemotron 3 Super', rate: 'gratis · reasoning umum', ctx: '128K token', vision: false, desc: 'Model NVIDIA Nemotron untuk reasoning umum dengan performa andal.' },
+    { id: 'clincoo/reasoning-550b', label: 'NVIDIA: Nemotron 3 Ultra', rate: 'gratis · konteks 1M token', ctx: '1M token', vision: false, desc: 'Model Nemotron terbesar dengan konteks hingga 1 juta token, untuk analisis dokumen panjang.' },
+    { id: 'clincoo/lightning', label: 'NVIDIA: Nemotron 3.5 Lightning', rate: 'gratis · ringan & cepat', ctx: '64K token', vision: false, desc: 'Model Nemotron yang ringan dan sangat cepat merespons.' },
+    { id: 'clincoo/omni-nano', label: 'NVIDIA: Nemotron 3 Nano Omni', rate: 'gratis · multimodal', ctx: '128K token', vision: true, desc: 'Model Nemotron multimodal berukuran kecil, mendukung input gambar.' },
+    { id: 'clincoo/vision-31b', label: 'Google: Gemma 4 31B', rate: 'gratis · teks & gambar', ctx: '128K token', vision: true, desc: 'Model Google Gemma yang memahami teks dan gambar.' },
+    { id: 'clincoo/vision-26b', label: 'Google: Gemma 4 26B', rate: 'gratis · ringan', ctx: '64K token', vision: true, desc: 'Varian Gemma yang lebih ringan, tetap mendukung gambar.' },
+    { id: 'clincoo/multimodal-27b', label: 'Qwen 3.8 27B', rate: 'gratis · multimodal', ctx: '256K token', vision: true, desc: 'Model Qwen multimodal dengan konteks besar.' },
+    { id: 'clincoo/qwq-32b', label: 'QwQ 32B', rate: 'gratis · reasoning', ctx: '128K token', vision: false, desc: 'Model Qwen yang difokuskan pada reasoning langkah demi langkah.' },
+    { id: 'clincoo/qwen-coder-32b', label: 'Qwen 2.5 Coder 32B', rate: 'gratis · fokus kode', ctx: '128K token', vision: false, desc: 'Model Qwen yang dioptimalkan khusus untuk pemrograman.' },
+    { id: 'clincoo/granite-4-micro', label: 'IBM: Granite 4.0 Micro', rate: 'gratis · super ringan', ctx: '32K token', vision: false, desc: 'Model IBM Granite yang sangat ringan dan hemat resource.' },
+    { id: 'clincoo/sea-lion-27b', label: 'AI Singapore: SEA-LION 27B', rate: 'gratis · bahasa Asia Tenggara', ctx: '128K token', vision: false, desc: 'Model dari AI Singapore yang dilatih khusus untuk bahasa-bahasa Asia Tenggara.' },
+    { id: 'clincoo/reasoning-mini', label: 'Apodex 1.1 Mini', rate: 'gratis · reasoning panjang', ctx: '128K token', vision: false, desc: 'Model ringan dengan kemampuan reasoning panjang untuk tugas yang butuh penalaran bertahap.' },
+    { id: 'clincoo/ling-flash', label: 'InclusionAI: Ling 3.0 Flash', rate: 'gratis · cepat', ctx: '64K token', vision: false, desc: 'Model InclusionAI yang cepat untuk respons singkat.' },
+    { id: 'clincoo/dots-note', label: 'Dots3-Note Preview', rate: 'gratis · multimodal', ctx: '128K token', vision: true, desc: 'Model multimodal untuk membaca dan meringkas catatan atau dokumen bergambar.' },
+    { id: 'clincoo/lfm-mini', label: 'Liquid AI: LFM 2.5 2.6B', rate: 'gratis · super ringan', ctx: '32K token', vision: false, desc: 'Model Liquid AI yang super ringan, cocok untuk tugas sederhana dan cepat.' },
+    { id: 'clincoo/inkling', label: 'Thinking Machines: Inkling', rate: 'gratis · multimodal', ctx: '128K token', vision: true, desc: 'Model multimodal dari Thinking Machines untuk tugas teks dan gambar.' },
+    { id: 'clincoo/inkling-small', label: 'Thinking Machines: Inkling Small', rate: 'gratis · multimodal ringan', ctx: '64K token', vision: true, desc: 'Varian ringan Inkling, tetap mendukung gambar dengan lebih cepat.' },
+    { id: 'clincoo/laguna-s', label: 'Poolside: Laguna S 2.1', rate: 'gratis · serba guna', ctx: '128K token', vision: false, desc: 'Model serba guna dari Poolside untuk berbagai kebutuhan umum.' },
+    { id: 'clincoo/laguna-xs', label: 'Poolside: Laguna XS 2.1', rate: 'gratis · super ringan', ctx: '32K token', vision: false, desc: 'Varian super ringan Laguna, cepat dan hemat.' },
+    { id: 'clincoo/north-code', label: 'Cohere: North Mini Code', rate: 'gratis · fokus kode', ctx: '128K token', vision: false, desc: 'Model Cohere yang difokuskan khusus untuk pemrograman.' },
+    { id: 'clincoo/space-bunny', label: 'Space Bunny Alpha', rate: 'gratis · eksperimental', ctx: '64K token', vision: false, desc: 'Model eksperimental untuk eksplorasi fitur baru.' },
+    { id: 'clincoo/acak', label: 'Acak (jaringan mitra)', rate: 'gratis · otomatis', ctx: 'Bervariasi (jaringan mitra)', vision: false, desc: 'Memilih model secara acak dari jaringan mitra yang tersedia, cocok untuk pemerataan beban.' }
   ];
 
   function toggleAiModelPopover(e) {
@@ -563,41 +563,127 @@
     var p = document.getElementById('ai-model-popover');
     if (p && wrap && !wrap.contains(e.target)) p.classList.add('hidden');
   });
-  // Modal detail model: nama, keunggulan, id + tombol salin, tombol pakai
+  // Dropdown model memakai absolute positioning di dalam konten yang bisa discroll:
+  // tutup otomatis saat halaman discroll supaya tidak nyangkut/terpotong di bawah header fixed.
+  (function () {
+    var scroller = document.querySelector('.hide-scrollbar');
+    if (!scroller) return;
+    scroller.addEventListener('scroll', function () {
+      var p = document.getElementById('ai-model-popover');
+      if (p && !p.classList.contains('hidden')) p.classList.add('hidden');
+    }, { passive: true });
+  })();
+  // Favorit model: disimpan per-browser, dipakai di modal detail
+  function aiFavModels() {
+    try { return JSON.parse(localStorage.getItem('clincoo_ai_fav_models') || '[]'); } catch (e) { return []; }
+  }
+  function isAiModelFav(id) { return aiFavModels().indexOf(id) !== -1; }
+  function toggleAiModelFav(id) {
+    var favs = aiFavModels();
+    var i = favs.indexOf(id);
+    if (i === -1) favs.push(id); else favs.splice(i, 1);
+    try { localStorage.setItem('clincoo_ai_fav_models', JSON.stringify(favs)); } catch (e) {}
+    return isAiModelFav(id);
+  }
+  function aiModelCategory(rate) {
+    var parts = String(rate || '').split('\u00b7');
+    var cat = parts.length > 1 ? parts.slice(1).join(',').trim() : 'Umum';
+    return cat ? (cat.charAt(0).toUpperCase() + cat.slice(1)) : 'Umum';
+  }
+  // Modal detail model (bottom sheet, gaya Clincoo): logo + nama, favorit, id capsule + salin,
+  // deskripsi (bisa diperluas), info modalitas/konteks/kategori, tombol pakai model.
+  var _aiDetailSheet = null, _aiDetailCloseTimer = null, _aiDetailPrevOverflow = '';
+  function _aiScroller() { return document.querySelector('.hide-scrollbar') || document.body; }
+  function closeAiModelDetail() {
+    var mod = _aiDetailSheet;
+    if (!mod || mod.__closing) return;
+    mod.__closing = true;
+    _aiScroller().style.overflow = _aiDetailPrevOverflow;
+    var b = mod.querySelector('#ai-model-detail-backdrop'), c = mod.querySelector('#ai-model-detail-card');
+    if (b) b.classList.add('opacity-0');
+    if (c) c.classList.add('translate-y-full');
+    _aiDetailCloseTimer = setTimeout(function () { if (mod && mod.parentNode) mod.remove(); if (_aiDetailSheet === mod) _aiDetailSheet = null; }, 300);
+  }
   function openAiModelDetail(id) {
     var m = AI_MODELS.filter(function (x) { return x.id === id; })[0];
     if (!m) return;
     var p = document.getElementById('ai-model-popover');
     if (p) p.classList.add('hidden');
-    var old = document.getElementById('ai-model-detail-modal');
-    if (old) old.remove();
+    if (_aiDetailSheet) { if (_aiDetailCloseTimer) { clearTimeout(_aiDetailCloseTimer); _aiDetailCloseTimer = null; } _aiDetailSheet.remove(); _aiDetailSheet = null; }
     var sel = m.id === _aiModelValue;
+    var fav = isAiModelFav(m.id);
+    var cat = aiModelCategory(m.rate);
+    var modalitas = m.vision ? 'Teks &amp; Gambar' : 'Teks';
+    var descLong = (m.desc || '').length > 90;
+    var descShort = descLong ? (m.desc.slice(0, 88).trim() + '\u2026') : (m.desc || '');
     var mod = document.createElement('div');
     mod.id = 'ai-model-detail-modal';
+    mod.setAttribute('role', 'dialog');
+    mod.setAttribute('aria-modal', 'true');
+    mod.setAttribute('aria-label', 'Detail model ' + m.label);
     mod.innerHTML =
-      '<div class="fixed inset-0 z-[95] overflow-y-auto p-3 sm:p-4" style="background:rgba(0,0,0,0.45)">' +
-      '<div class="min-h-full flex items-center justify-center">' +
-      '<div class="bg-white dark:bg-[#0a0a0a] rounded-2xl w-full max-w-sm relative px-4 sm:px-5 pt-9 pb-5 my-2">' +
-      '<button id="ai-model-detail-x" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors z-10" aria-label="Tutup"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18M6 6l12 12"></path></svg></button>' +
-      '<div class="flex items-center gap-3 pr-6">' + aiModelIconChip(id) +
-      '<div class="min-w-0"><h3 class="text-base font-semibold text-gray-900 dark:text-white truncate">' + m.label + '</h3>' +
-      '<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">' + m.rate + '</p></div></div>' +
-      '<div class="mt-4 flex items-center gap-2 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40">' +
-      '<code class="flex-1 min-w-0 text-[13px] font-mono text-gray-700 dark:text-gray-200 truncate">' + m.id + '</code>' +
-      '<button id="ai-model-detail-copy" class="p-1.5 rounded-md text-gray-400 hover:text-gray-700 dark:text-slate-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors cursor-pointer shrink-0" aria-label="Salin id model" title="Salin id model"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>' +
-      '</div>' +
-      '<button id="ai-model-detail-use" class="w-full mt-3 py-2 rounded-xl text-[14px] font-semibold transition-colors ' +
-      (sel ? 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-300 cursor-default' : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 cursor-pointer') + '">' +
-      (sel ? 'Dipakai saat ini' : 'Pakai model ini') + '</button>' +
-      '</div></div>';
+      '<div id="ai-model-detail-backdrop" class="fixed inset-0 z-[95] opacity-0 transition-opacity duration-300" style="background:rgba(0,0,0,.45)"></div>' +
+      '<div class="fixed bottom-0 left-0 right-0 z-[96] flex justify-center pointer-events-none">' +
+        '<div id="ai-model-detail-card" class="pointer-events-auto relative w-full max-w-md bg-white dark:bg-[#0a0a0a] rounded-t-3xl px-4 sm:px-5 pt-3 translate-y-full transition-transform duration-300 ease-out shadow-2xl" style="max-height:88dvh;overflow-y:auto;padding-bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));">' +
+          '<div class="flex justify-center"><div class="w-10 h-1.5 rounded-full bg-gray-200 dark:bg-slate-700 mb-2"></div></div>' +
+          '<button id="ai-model-detail-x" aria-label="Tutup" class="absolute top-3 right-3 sm:right-4 w-7 h-7 rounded-full bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors z-10"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18M6 6l12 12"></path></svg></button>' +
+          '<div class="flex items-start gap-3 pr-8">' + aiModelIconChip(m.id) +
+          '<div class="min-w-0 flex-1"><h3 class="text-base font-semibold text-gray-900 dark:text-white leading-snug">' + m.label + '</h3>' +
+          '<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">' + m.rate + '</p></div>' +
+          '<button id="ai-model-detail-fav" aria-label="' + (fav ? 'Hapus dari favorit' : 'Tandai favorit') + '" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ' + (fav ? 'text-amber-500 bg-amber-50 dark:bg-amber-500/10' : 'text-gray-300 dark:text-slate-600 hover:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800') + '">' +
+          '<svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="' + (fav ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.5a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385c.117.489-.417.874-.846.61l-4.725-2.885a.562.562 0 0 0-.588 0L5.973 20.54c-.429.264-.963-.12-.846-.61l1.285-5.385a.563.563 0 0 0-.182-.557L2.026 10.386c-.38-.325-.178-.948.321-.988l5.518-.442a.563.563 0 0 0 .475-.345L10.465 3.5Z"></path></svg>' +
+          '</button></div>' +
+          '<div class="flex items-center gap-1.5 mt-3 px-3 py-1.5 rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-black/40 w-fit max-w-full">' +
+          '<code class="min-w-0 text-[12.5px] font-mono text-gray-600 dark:text-gray-300 truncate">' + m.id + '</code>' +
+          '<button id="ai-model-detail-copy" class="p-1 rounded-full text-gray-400 hover:text-gray-700 dark:text-slate-400 dark:hover:text-gray-200 hover:bg-gray-200/70 dark:hover:bg-slate-600 transition-colors cursor-pointer shrink-0" aria-label="Salin id model" title="Salin id model"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>' +
+          '</div>' +
+          (m.desc ? ('<p id="ai-model-detail-desc" class="text-[13px] text-gray-600 dark:text-gray-300 mt-3 leading-relaxed">' + (descLong ? descShort : m.desc) + '</p>' +
+            (descLong ? '<button id="ai-model-detail-more" class="text-[12.5px] font-medium text-gray-900 dark:text-white mt-1 cursor-pointer hover:underline" data-open="0">Lihat selengkapnya</button>' : '')) : '') +
+          '<div class="grid grid-cols-3 gap-2 mt-4">' +
+          '<div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2.5"><p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wide truncate">Modalitas</p><p class="text-[13px] font-semibold text-gray-900 dark:text-white mt-0.5">' + modalitas + '</p></div>' +
+          '<div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2.5"><p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wide truncate">Konteks</p><p class="text-[13px] font-semibold text-gray-900 dark:text-white mt-0.5">' + (m.ctx || '-') + '</p></div>' +
+          '<div class="rounded-xl border border-gray-200 dark:border-slate-700 p-2.5"><p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wide truncate">Kategori</p><p class="text-[13px] font-semibold text-gray-900 dark:text-white mt-0.5 truncate">' + cat + '</p></div>' +
+          '</div>' +
+          '<button id="ai-model-detail-use" class="w-full mt-4 py-2.5 rounded-xl text-[14px] font-semibold transition-colors ' +
+          (sel ? 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-300 cursor-default' : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 cursor-pointer') + '">' +
+          (sel ? 'Dipakai saat ini' : 'Pakai model ini') + '</button>' +
+        '</div>' +
+      '</div>';
     document.body.appendChild(mod);
-    mod.querySelector('#ai-model-detail-x').onclick = function () { mod.remove(); };
-    mod.querySelector('.fixed').addEventListener('click', function (ev) { if (ev.target === this) mod.remove(); });
-    mod.querySelector('#ai-model-detail-copy').onclick = function () { copyAiModelId(id, this); };
-    mod.querySelector('#ai-model-detail-use').onclick = function () {
+    _aiDetailSheet = mod;
+    mod.querySelector('#ai-model-detail-backdrop').addEventListener('click', closeAiModelDetail);
+    mod.querySelector('#ai-model-detail-x').addEventListener('click', closeAiModelDetail);
+    mod.querySelector('#ai-model-detail-copy').addEventListener('click', function () { copyAiModelId(id, this); });
+    var favBtn = mod.querySelector('#ai-model-detail-fav');
+    if (favBtn) favBtn.addEventListener('click', function () {
+      var on = toggleAiModelFav(m.id);
+      favBtn.setAttribute('aria-label', on ? 'Hapus dari favorit' : 'Tandai favorit');
+      favBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ' + (on ? 'text-amber-500 bg-amber-50 dark:bg-amber-500/10' : 'text-gray-300 dark:text-slate-600 hover:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800');
+      var svg = favBtn.querySelector('svg');
+      if (svg) svg.setAttribute('fill', on ? 'currentColor' : 'none');
+    });
+    var moreBtn = mod.querySelector('#ai-model-detail-more');
+    if (moreBtn) moreBtn.addEventListener('click', function () {
+      var open = moreBtn.getAttribute('data-open') === '1';
+      var descEl = mod.querySelector('#ai-model-detail-desc');
+      if (descEl) descEl.textContent = open ? descShort : m.desc;
+      moreBtn.textContent = open ? 'Lihat selengkapnya' : 'Lihat lebih sedikit';
+      moreBtn.setAttribute('data-open', open ? '0' : '1');
+    });
+    mod.querySelector('#ai-model-detail-use').addEventListener('click', function () {
       if (!sel) pickAiModel(id);
-      mod.remove();
-    };
+      closeAiModelDetail();
+    });
+    if (_aiDetailCloseTimer) { clearTimeout(_aiDetailCloseTimer); _aiDetailCloseTimer = null; }
+    _aiDetailPrevOverflow = _aiScroller().style.overflow;
+    _aiScroller().style.overflow = 'hidden';
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var b = mod.querySelector('#ai-model-detail-backdrop'), c = mod.querySelector('#ai-model-detail-card');
+        if (b) b.classList.remove('opacity-0');
+        if (c) c.classList.remove('translate-y-full');
+      });
+    });
   }
 
   function copyAiModelId(id, btn) {
