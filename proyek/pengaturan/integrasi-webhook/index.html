@@ -303,6 +303,12 @@
           <div id="webhook-list" class="space-y-2"></div>
           <p id="webhook-empty" class="text-xs text-gray-400 dark:text-gray-500 py-4 text-center">Belum ada webhook — klik "Tambah" untuk menambah URL endpoint.</p>
         </div>
+        <div class="py-5">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Webhook Pembayaran (ClincooPay)</h4>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 mb-3">URL yang menerima notifikasi saat pembayaran QRIS di situs deploy-mu berhasil</p>
+          <input id="pay-webhook-url" type="url" oninput="showActionButtons()" placeholder="https://situsmu.com/webhook/bayar" class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500">
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">Clincoo mengirim <code class="font-mono">POST</code> berisi <code class="font-mono">order_id</code>, <code class="font-mono">amount</code>, <code class="font-mono">status</code> saat transaksi dibayar.</p>
+        </div>
         <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="min-w-0 flex-1">
             <h4 class="text-base font-semibold text-gray-900 dark:text-white">Event Deploy</h4>
@@ -428,7 +434,8 @@
       webhook_settings: JSON.stringify({
         webhooks: collectWebhookRows(),
         deployEvent: _deployEventValue || 'all',
-        retry: !!(document.getElementById('retryHook-bg') && document.getElementById('retryHook-bg').classList.contains('bg-blue-500'))
+        retry: !!(document.getElementById('retryHook-bg') && document.getElementById('retryHook-bg').classList.contains('bg-blue-500')),
+        payWebhookUrl: ((document.getElementById('pay-webhook-url') || {}).value || '').trim()
       })
     };
     var ok = false;
@@ -460,6 +467,8 @@
       var cfg = null;
       try { cfg = st.webhook_settings ? JSON.parse(st.webhook_settings) : null; } catch (e) {}
       if (cfg) {
+        var pw = document.getElementById('pay-webhook-url');
+        if (pw && cfg.payWebhookUrl) pw.value = cfg.payWebhookUrl;
         if (Array.isArray(cfg.webhooks)) {
           cfg.webhooks.forEach(function (h) { addWebhookRow(h.url, h.method); });
         }
