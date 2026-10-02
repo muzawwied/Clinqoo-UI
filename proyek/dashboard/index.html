@@ -149,8 +149,8 @@
         body.dark-mode .skel { background-color: #1a1a1a; }
         body.dark-mode .skel::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
     #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* Konsistensi produksi: mobile 2 menu (Workspace|Dashboard), desktop 4 menu; dashboard tanpa FAB, akses Agent via Workspace */
-        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        /* Konsistensi produksi: mobile 2 menu (Workspace|Dashboard), desktop 3 menu (Live preview|Workspace|Dashboard); dashboard tanpa FAB */
+        .chat-nav-link[data-nav="agent"] { display: none !important; }
         .chat-nav-link[data-nav="live"] { display: none; }
         @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }

@@ -164,14 +164,13 @@
     body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #666666 !important; }
 
 #chat-header-capsule { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* Kapsul: mobile = Workspace|Dashboard + FAB Agent; desktop = Agent|Live preview|Workspace|Dashboard (dashboard: tab Agent, tanpa FAB) */
-        @media (max-width: 899.98px) { .chat-nav-link[data-nav="agent"] { display: none !important; } }
+        /* Kapsul: mobile 2 menu (Workspace|Dashboard), desktop 3 menu (Live preview|Workspace|Dashboard) */
+        .chat-nav-link[data-nav="agent"] { display: none !important; }
         .chat-nav-link[data-nav="live"] { display: none; }
         @media (min-width: 900px) { .chat-nav-link[data-nav="live"] { display: inline-flex; } }
         #chat-nav-pill { display: none; }
-        /* FAB Agent (mobile): langsung ke halaman chat */
-        #chat-fab { display: none; }
-        @media (max-width: 899.98px) { #chat-fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 9999px; border: none; background: #111111; color: #ffffff; font-size: 14px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,0.28); cursor: pointer; } }
+        /* FAB Agent (semua ukuran layar): langsung ke halaman chat */
+        #chat-fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 9999px; border: none; background: #111111; color: #ffffff; font-size: 14px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,0.28); cursor: pointer; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
         @media (prefers-reduced-motion: no-preference) {

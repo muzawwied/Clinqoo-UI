@@ -297,7 +297,6 @@
         /* ===== Mobile: chat jadi bottom sheet + FAB Agent; panel workspace jadi latar penuh ===== */
         #chat-fab { display: none; }
         @media (max-width: 899.98px) {
-            .chat-nav-link[data-nav="agent"] { display: none !important; }
             #chat-ws-panel { display: block !important; left: 0 !important; }
             #chat-sheet { position: fixed; left: 0; right: 0; bottom: 0; top: 76px; z-index: 15; display: flex; flex-direction: column; background: #ffffff; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 32px rgba(0,0,0,0.18); transform: translateY(0); transition: transform .3s cubic-bezier(.4,0,.2,1); }
             body.dark-mode #chat-sheet { background: #0a0a0a; }
@@ -311,6 +310,7 @@
             body:not(.sheet-closed) #chat-fab { display: none; }
         }
         @media (min-width: 900px) { #chat-sheet { display: contents; } #chat-sheet-handle { display: none; } }
+        .chat-nav-link[data-nav="agent"] { display: none !important; } /* Agent via FAB, bukan kapsul */
         #chat-nav-pill { display: none; }
         @view-transition { navigation: auto; }
         /* pindah antar halaman: crossfade singkat + pill morph singkat, biar gak kedip */
@@ -815,11 +815,7 @@
         const initPanel = _initPanel;
         const splitNavSrc = { code: splitSrcFor('code'), dashboard: splitSrcFor('dashboard'), live: splitSrcFor('live') };
         chatNavLinks.forEach(x => x.classList.remove('is-active'));
-        // Desktop: Agent aktif (halaman chat = tampilan Agent); Mobile: ikuti panel latar
-        var _isDesk = window.matchMedia('(min-width: 900px)').matches;
-        let chatNavActive = _isDesk
-            ? (chatNavLinks.find(l => l.dataset.nav === 'agent') || chatNavLinks[0])
-            : (chatNavLinks.find(l => l.dataset.nav === initPanel) || chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavLinks[0]);
+        let chatNavActive = chatNavLinks.find(l => l.dataset.nav === initPanel) || chatNavLinks.find(l => l.dataset.nav === 'code') || chatNavLinks[0];
         if (chatNavActive) chatNavActive.classList.add('is-active');
         function chatNavMovePill(el) {
             if (!el) return;
@@ -834,7 +830,6 @@
         chatNavLinks.forEach(l => {
             l.addEventListener('mouseenter', () => chatNavMovePill(l));
             l.addEventListener('click', (e) => {
-                if (l.dataset.nav === 'agent' && window.matchMedia('(min-width: 900px)').matches) { e.preventDefault(); }
                 if (splitNavSrc[l.dataset.nav]) {
                     e.preventDefault();
                     if (wsFrame) { wsFrame.dataset.src = splitNavSrc[l.dataset.nav]; wsFrame.src = splitNavSrc[l.dataset.nav]; }
