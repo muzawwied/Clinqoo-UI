@@ -137,7 +137,8 @@
     @keyframes payShimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
     .pay-skel { background: linear-gradient(90deg, rgba(0,0,0,.06) 25%, rgba(0,0,0,.12) 37%, rgba(0,0,0,.06) 63%); background-size: 400% 100%; animation: payShimmer 1.2s ease infinite; }
     .dark-mode .pay-skel { background: linear-gradient(90deg, rgba(255,255,255,.06) 25%, rgba(255,255,255,.12) 37%, rgba(255,255,255,.06) 63%); background-size: 400% 100%; }
-  
+    </style>
+
   <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
