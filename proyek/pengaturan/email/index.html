@@ -6,26 +6,25 @@
 <script>(function(){try{var __p=new URLSearchParams(location.search).get('id');if(__p){localStorage.setItem('clinqoo_current_project_id',__p);}}catch(e){}})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>/* embed=1: halaman ini di dalam panel split view chat (kolom kanan halaman chat) */(function(){try{if(/(^|[?&])embed=1(&|$)/.test(location.search)){document.documentElement.classList.add('embed-mode');}}catch(e){}})();</script>
     <link rel="icon" type="image/png" sizes="64x64" href="../../../assets/favicon.png">
     <link rel="manifest" href="../../../manifest.json">
     <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
-  <title>Pengaturan: Server MCP — Clincoo</title>
-    <meta name="description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+  <title>Pengaturan: Email — Clincoo</title>
+    <meta name="description" content="Pengaturan: Email — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Clincoo">
-    <meta property="og:title" content="Pengaturan: Integrasi AI — Clincoo">
-    <meta property="og:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta property="og:title" content="Pengaturan: Email — Clincoo">
+    <meta property="og:description" content="Pengaturan: Email — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Clincoo">
     <meta property="og:url" content="https://app.clincoo.buzz/">
     <meta property="og:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pengaturan: Integrasi AI — Clincoo">
-    <meta name="twitter:description" content="Pengaturan: Integrasi AI — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
+    <meta name="twitter:title" content="Pengaturan: Email — Clincoo">
+    <meta name="twitter:description" content="Pengaturan: Email — kelola langsung di Clincoo. Bangun situs profesional dengan bantuan AI dan Monaco Editor, lalu publikasikan ke internet hanya dengan satu klik. Tanpa setup, tanpa ribet.">
     <meta name="twitter:image" content="https://app.clincoo.buzz/assets/og-image.png?v=7">
   <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -132,14 +131,14 @@
         body.dark-mode .header-menu-item svg { color: #9ca3af; }
         @media (max-width: 384px) { #sidebar-toggle, #header-more-btn { width: 38px; height: 38px; } }
         @media (max-width: 330px) { #sidebar-toggle, #header-more-btn { width: 34px; height: 34px; } .chat-nav-link { padding-left: 0.5rem; padding-right: 0.5rem; } }
-        /* fix: ikon logo model AI (chip bulat putih) jangan ikut digelapkan body.dark-mode .bg-white, krn logo monokrom (hitam) jadi tak terlihat. Pakai class khusus ai-logo-chip-bg (bukan selector ID kontainer) biar TIDAK ikut nimpa background popover/modal yg juga punya class bg-white. */
-        body.dark-mode .ai-logo-chip-bg { background-color: #ffffff !important; }
-      /* embed=1: dalam panel split view chat — sembunyikan header & FAB lokal */
-  html.embed-mode body > header { display: none !important; }
-  html.embed-mode #chat-fab { display: none !important; }
-  html.embed-mode body { padding-top: 76px; }
-  html.embed-mode .pt-\[84px\] { padding-top: 0 !important; }
-</style>
+      /* Animasi & skeleton halaman Pembayaran */
+    @keyframes payFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .pay-fade { animation: payFadeUp .35s ease both; }
+    @keyframes payShimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+    .pay-skel { background: linear-gradient(90deg, rgba(0,0,0,.06) 25%, rgba(0,0,0,.12) 37%, rgba(0,0,0,.06) 63%); background-size: 400% 100%; animation: payShimmer 1.2s ease infinite; }
+    .dark-mode .pay-skel { background: linear-gradient(90deg, rgba(255,255,255,.06) 25%, rgba(255,255,255,.12) 37%, rgba(255,255,255,.06) 63%); background-size: 400% 100%; }
+    </style>
+
   <script>(function(){var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var isDark=(t==='Gelap')||(t==='Sistem (Default)'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(isDark)document.documentElement.classList.add('dark-mode');})();</script>
 <!-- no-flash-v2: background tema diterapkan sebelum paint pertama (warna persis tema gelap Clincoo) -->
 <script>(function(){try{var t=localStorage.getItem('clinqoo_theme')||'Sistem (Default)';var d=(t==='Gelap')||((t==='Sistem (Default)'||!t)&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.style.background='#0a0a0a';document.documentElement.style.colorScheme='dark';var tm=document.querySelector('meta[name="theme-color"]');if(tm){tm.setAttribute('content','#0a0a0a');}}}catch(e){}})();</script>
@@ -158,10 +157,6 @@
 <!-- End Google tag -->
 <script src="../../../js/i18n-dict.js" defer></script>
 <script src="../../../js/i18n.js" defer></script>
-<style>
-@keyframes mcpIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.mcp-anim{animation:mcpIn .38s ease both}
-</style>
 </head>
 <body class="text-gray-900 antialiased h-screen w-full overflow-hidden relative bg-white">
   <script>(function(){var t=localStorage.getItem("clinqoo_theme")||"Sistem (Default)";var isDark=(t==="Gelap")||((!t||t==="Sistem (Default)")&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(isDark){document.body.classList.add("dark-mode");}})();</script>
@@ -226,8 +221,8 @@
     <div class="relative mb-5 -mx-2.5 sm:-mx-[70px] sm:max-w-[860px]" id="settings-menu-wrap">
             <button id="settings-menu-btn" type="button" onclick="toggleSettingsMenu(event)" class="w-full flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition-all">
                 <span class="flex items-center gap-2.5">
-                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.01M6 18h.01"></path></svg>
-                    Server MCP
+                    <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
+                    Email
                 </span>
                 <svg id="settings-menu-chev" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -260,11 +255,11 @@
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.01M6 18h.01"></path></svg>
                     <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Server MCP</span><span class="block text-xs text-gray-400 truncate">Sambungkan proyek ke platform AI lain (MCP)</span></span>
                 </a>
-                <a href="/proyek/pengaturan/pembayaran/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                <a href="/proyek/pengaturan/pembayaran/" class="settings-menu-item flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                     <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Pembayaran</span><span class="block text-xs text-gray-400 truncate">QRIS instan, dana masuk langsung ke akunmu</span></span>
                 </a>
-                <a href="/proyek/pengaturan/email/" class="settings-menu-item flex items-center gap-2.5 px-3 py-1 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                <a href="/proyek/pengaturan/email/" class="settings-menu-item flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors text-left">
                     <svg class="w-[18px] h-[18px] text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
                     <span class="min-w-0"><span class="block text-sm font-medium text-gray-800">Email</span><span class="block text-xs text-gray-400 truncate">Kirim email otomatis lewat API Clincoo</span></span>
                 </a>
@@ -291,6 +286,7 @@
                 chev.style.transform = '';
             }
         });
+
         // Menu popover absolut di dalam konten scrollable: tutup otomatis saat halaman
         // discroll supaya tidak nyangkut melayang di bawah header fixed.
         // Listener di window fase capture: nangkap scroll dari elemen apa pun (scroll gak bubble).
@@ -303,396 +299,247 @@
     })();
     </script>
 
-      <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
-
-        <!-- 1. Server MCP (Clincoo sebagai penyedia server MCP proyek ini) -->
+            <div class="w-full flex flex-col divide-y divide-gray-200 dark:divide-slate-700/60">
         <div class="py-5">
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex items-start sm:items-center justify-between gap-3 mb-4">
             <div>
-              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Server MCP</h4>
-              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Sambungkan proyek ini ke AI platform lain (Claude, Cursor, Windsurf, dll.) lewat Model Context Protocol. AI luar bisa mengakses workspace proyek ini secara real-time sesuai izin yang kamu atur.</p>
+              <h4 class="text-base font-semibold text-gray-900 dark:text-white">Email</h4>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kirim email otomatis dari situs deploy-mu lewat Clincoo Email API — form kontak, notifikasi, dan verifikasi.</p>
             </div>
-            <span id="mcp-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300">Memuat…</span>
+            <span id="email-status-badge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400 whitespace-nowrap flex-shrink-0">Belum aktif</span>
           </div>
 
-          <!-- Memuat: skeleton animasi biar gak blank saat data diambil -->
-          <div id="mcp-loading" class="py-8 flex flex-col items-center justify-center gap-4 text-center">
-            <svg class="w-6 h-6 text-gray-400 dark:text-slate-500 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg>
-            <div class="w-full max-w-md mx-auto space-y-3 animate-pulse">
-              <div class="h-10 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
-              <div class="h-10 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
-              <div class="h-28 rounded-xl bg-gray-100 dark:bg-slate-800/80"></div>
-            </div>
-          </div>
-
-          <!-- Belum aktif -->
-          <div id="mcp-inactive" class="py-10 flex-col items-center justify-center text-center hidden">
-            <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><path stroke-linecap="round" d="M6 6h.01M6 18h.01"></path></svg>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Server MCP proyek ini belum aktif</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk mendapatkan endpoint + token yang bisa dipasang di platform AI lain.</p>
-            <button type="button" onclick="activateMcp()" id="mcp-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">
-              Aktifkan Server MCP
-            </button>
+          <!-- Belum aktif (gaya empty state ala Pembayaran) -->
+          <div id="email-inactive" class="py-10 flex flex-col items-center justify-center text-center">
+            <svg class="w-10 h-10 text-gray-300 dark:text-slate-600 mb-3 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email proyek ini belum aktif</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-sm mx-auto">Aktifkan untuk mendapatkan API key per proyek — pengaturan pengirim, kuota bulanan, dan log pengiriman akan muncul di sini.</p>
+            <button type="button" onclick="activateEmail()" id="email-activate-btn" class="mt-4 mx-auto px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Aktifkan Email</button>
           </div>
 
           <!-- Aktif -->
-          <div id="mcp-active" class="hidden flex-col gap-5">
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Endpoint MCP</p>
-              <div class="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
-                <code id="mcp-url" class="flex-1 text-xs font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
-                <button type="button" onclick="copyMcpText(mcpState.url, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin URL"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M5 15.4A2 2 0 0 1 3.6 14V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 1.4"></path></svg><span>Salin</span></button>
-                              </div>
-            </div>
-
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Token Akses</p>
-              <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
-                <code id="mcp-token" class="flex-1 text-xs font-mono text-gray-700 dark:text-gray-300 break-all"></code>
-                <button type="button" onclick="toggleMcpTokenVisible()" id="mcp-eye-btn" class="flex-shrink-0 inline-flex items-center justify-center px-2.5 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Tampilkan/sembunyikan token">
-                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                </button>
-                <button type="button" onclick="copyMcpText(mcpState.token, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin token"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M5 15.4A2 2 0 0 1 3.6 14V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 1.4"></path></svg><span>Salin</span></button>
-              </div>
-              <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">
-                <button type="button" onclick="regenerateMcp()" class="text-xs font-medium text-gray-500 hover:text-black dark:hover:text-white underline underline-offset-4 cursor-pointer bg-transparent border-0 p-0">Buat ulang token</button>
-                <button type="button" onclick="revokeMcp()" class="text-xs font-medium text-red-500 hover:text-red-600 underline underline-offset-4 cursor-pointer bg-transparent border-0 p-0">Putuskan semua akses</button>
-              </div>
-            </div>
-
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Konfigurasi Akses</p>
-              <p class="text-xs text-gray-400 dark:text-gray-500 mb-2">Tentukan apa saja yang boleh dilakukan AI luar di workspace proyek ini. Perubahan tersimpan otomatis.</p>
-              <div class="rounded-xl border border-gray-200 dark:border-slate-700 divide-y divide-gray-100 dark:divide-slate-800 overflow-hidden">
-                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
-                  <div class="min-w-0">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Lihat &amp; baca file</p>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa melihat daftar file dan membaca isinya</p>
-                  </div>
-                  <button type="button" onclick="toggleScope('read')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan baca file">
-                    <div id="sw-read-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
-                    <div id="sw-read-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
-                  </button>
+          <div id="email-active" class="hidden flex-col gap-5">
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Pengaturan pengirim</p>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Nama pengirim</label>
+                  <input id="email-from-name" type="text" placeholder="Nama aplikasi" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
                 </div>
-                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
-                  <div class="min-w-0">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Tulis &amp; ubah file</p>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa membuat file baru dan mengubah isi file</p>
-                  </div>
-                  <button type="button" onclick="toggleScope('write')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan tulis file">
-                    <div id="sw-write-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
-                    <div id="sw-write-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
-                  </button>
-                </div>
-                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
-                  <div class="min-w-0">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Hapus file</p>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa menghapus file atau folder di workspace</p>
-                  </div>
-                  <button type="button" onclick="toggleScope('delete')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan hapus file">
-                    <div id="sw-delete-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
-                    <div id="sw-delete-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
-                  </button>
+                <div>
+                  <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Email tujuan form kontak</label>
+                  <input id="email-contact-to" type="email" placeholder="email@pemilik-proyek.com" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
                 </div>
               </div>
+              <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2.5">Alamat pengirim tetap <span class="font-mono">noreply@clincoo.buzz</span>; balasan pelanggan diarahkan ke reply-to yang kamu atur.</p>
+              <button type="button" onclick="saveSenderSettings()" id="email-save-btn" class="mt-4 px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Simpan Pengirim</button>
             </div>
 
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">URL + Token (aplikasi 2 kolom saja)</p>
-              <div class="flex items-center gap-1 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-[#0f0f0f]">
-                <code id="mcp-url-token" class="flex-1 text-[11px] font-mono text-gray-700 dark:text-gray-300 break-all select-all"></code>
-                <button type="button" onclick="copyMcpText(mcpState.urlToken, this)" class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-500 transition-colors cursor-pointer" title="Salin URL + token"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M5 15.4A2 2 0 0 1 3.6 14V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 1.4"></path></svg><span>Salin</span></button>
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <div class="flex items-center justify-between mb-3">
+                <p class="text-sm font-semibold text-gray-900 dark:text-white">API Key</p>
+                <div class="flex gap-2">
+                  <button type="button" onclick="copyEmailKey()" class="px-3.5 py-2 text-xs font-medium border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">Salin</button>
+                  <button type="button" onclick="regenerateEmailKey()" class="px-3.5 py-2 text-xs font-medium border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">Buat Ulang</button>
+                  <button type="button" onclick="revokeEmailKey()" class="px-3.5 py-2 text-xs font-medium border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">Cabut</button>
+                </div>
               </div>
-              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Untuk aplikasi yang cuma sediain kolom nama + URL server (tanpa kolom token). Token udah nempel di URL, jadi gak perlu header Authorization.</p>
+              <div id="email-key-box" class="font-mono text-xs bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-gray-600 dark:text-gray-300 truncate">cl_email_••••••••••••</div>
+              <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">Kunci ini dipakai di header <span class="font-mono">Authorization: Bearer</span> — satu kunci hanya untuk proyek ini.</p>
             </div>
 
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Konfigurasi Klien</p>
-              <div class="relative">
-                <pre id="mcp-config" class="p-3 pr-12 rounded-xl bg-gray-900 dark:bg-black text-gray-100 text-[11px] leading-relaxed font-mono overflow-x-auto whitespace-pre"></pre>
-                <button type="button" onclick="copyMcpText(document.getElementById('mcp-config').textContent, this)" class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-white/10 text-gray-300 hover:text-white hover:bg-white/20 transition-colors cursor-pointer" title="Salin konfigurasi"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M5 15.4A2 2 0 0 1 3.6 14V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 1.4"></path></svg><span>Salin</span></button>
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <div class="flex items-center justify-between mb-3">
+                <p class="text-sm font-semibold text-gray-900 dark:text-white">Kuota bulan ini</p>
+                <span id="email-quota" class="text-xs text-gray-500 dark:text-gray-400">0 / 3.000</span>
               </div>
-              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">Tempel ke pengaturan MCP aplikasi AI kamu (Cursor/Windsurf: file mcp.json). Untuk klien yang belum mendukung server remote, gunakan wrapper mcp-remote.</p>
+              <div class="h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div id="email-quota-bar" class="h-full bg-gray-900 dark:bg-white rounded-full transition-all" style="width:0%"></div>
+              </div>
             </div>
 
-            <div>
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Tools untuk AI</p>
-              <div id="mcp-tools" class="flex flex-wrap gap-1.5"></div>
-            </div>
-
-            <div class="p-3.5 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-100 dark:border-slate-700/60">
-              <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Akses bersifat real-time: perubahan yang dilakukan AI luar langsung tersimpan di workspace proyek ini. "Putuskan semua akses" mencabut token sepenuhnya.</p>
+            <div class="rounded-2xl border border-gray-200 dark:border-slate-700/60 p-4 sm:p-5">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Log pengiriman terakhir</p>
+              <div id="email-log" class="divide-y divide-gray-100 dark:divide-slate-800 text-xs">
+                <p class="py-2.5 text-gray-400 dark:text-gray-500">Belum ada pengiriman.</p>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="py-5">
+          <p class="text-base font-semibold text-gray-900 dark:text-white mb-1">Uji kirim</p>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Coba kirim email percobaan ke alamatmu sendiri sebelum dipakai di situs.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <input id="email-test-to" type="email" placeholder="Tujuan percobaan (emailmu)" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
+            <input id="email-test-subject" type="text" placeholder="Subjek percobaan" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 transition-colors">
+          </div>
+          <button type="button" onclick="sendTestEmail()" id="email-test-btn" class="mt-4 px-5 py-2.5 text-sm font-medium text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Kirim Email Uji</button>
+        </div>
+
+        <div class="py-5">
+          <p class="text-base font-semibold text-gray-900 dark:text-white mb-1">Dokumentasi API</p>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Satu endpoint untuk semua kebutuhan email situs deploy-mu.</p>
+          <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-[11px] leading-relaxed font-mono text-gray-700 dark:text-gray-300 whitespace-pre">POST /api/email/send
+Authorization: Bearer cl_email_xxxxxxxx
+Content-Type: application/json
+
+{ "to": "pelanggan@contoh.com",
+  "subject": "Pesanan diterima",
+  "html": "&lt;h1&gt;Terima kasih!&lt;/h1&gt;&lt;p&gt;Pesananmu sedang diproses.&lt;/p&gt;",
+  "reply_to": "kamu@domainmu.com" }</pre>
+          </div>
+          <div class="mt-3 grid gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">to</span> — penerima utama (maks 50 per request).</p>
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">subject</span> — subjek email.</p>
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">html</span> — isi email dalam HTML.</p>
+            <p><span class="font-medium text-gray-700 dark:text-gray-300">reply_to</span> — opsional, alamat balasan pelanggan.</p>
+            <p>Kuota 3.000 email per bulan, habis itu dihitung per 1.000. Ada rate limit per API key.</p>
+          </div>
+        </div>
       </div>
+
 </main>
   </div>
-  
+  <script>
+    let isEdited=false;function showActionButtons(){if(!isEdited){isEdited=true;const c=document.getElementById('action-buttons');c.classList.remove('hidden');c.classList.add('flex');void c.offsetWidth;c.classList.remove('opacity-0');c.classList.add('opacity-100');}}function cancelChanges(){window.location.reload();}function saveChanges(){showActionButtons();}document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input,textarea,select').forEach(input=>{input.addEventListener('input',showActionButtons);input.addEventListener('change',showActionButtons);});});function toggleSwitch(idPrefix){showActionButtons();const bg=document.getElementById(idPrefix+'-bg');const knob=document.getElementById(idPrefix+'-knob');if(bg.classList.contains('bg-blue-500')){bg.classList.replace('bg-blue-500','bg-gray-200');bg.classList.add('dark:bg-slate-700');knob.classList.remove('translate-x-5');}else{bg.classList.remove('bg-gray-200','dark:bg-slate-700');bg.classList.add('bg-blue-500');knob.classList.add('translate-x-5');}}
+  </script>
     <script>if (window.lucide) { lucide.createIcons(); }</script>
 
 <script>
-// ===== Server MCP: Clincoo sebagai penyedia server MCP per proyek =====
-var MCP_TOKEN_API = (['app.clincoo.buzz','clincoo-be2.pages.dev','localhost','127.0.0.1'].indexOf(location.hostname) !== -1) ? '/api/mcp-token' : 'https://app.clincoo.buzz/api/mcp-token';
-var _mcpUserToken = '';
-try { _mcpUserToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
-function _mcpPid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
+  // ===== Email: pengaturan pengirim, API key, kuota, log — Clincoo Email API =====
+  var API_BASE = (['clincoo-be2.pages.dev','app.clincoo.buzz','localhost','127.0.0.1'].indexOf(location.hostname) === -1) ? 'https://app.clincoo.buzz/api' : '/api';
+  var _apiToken = '';
+  try { _apiToken = localStorage.getItem('clinqoo_auth_token') || localStorage.getItem('clinqoo_token') || ''; } catch (e) {}
+  function _pid() { try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; } }
+  function _hdrs() { return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _apiToken }; }
 
-var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false }, created_at: null, url: '', urlToken: '' };
-var mcpTokenVisible = false;
-
-var _mcpToastTimer = null;
-function mcpToast(msg) {
-  var el = document.getElementById('mcp-toast');
-  if (!el) return;
-  el.textContent = msg;
-  el.classList.remove('opacity-0', 'translate-y-2');
-  if (_mcpToastTimer) clearTimeout(_mcpToastTimer);
-  _mcpToastTimer = setTimeout(function () { el.classList.add('opacity-0', 'translate-y-2'); }, 2200);
-}
-
-function mcpEndpointUrl() {
-  return 'https://app.clincoo.buzz/api/mcp?project_id=' + encodeURIComponent(_mcpPid() || '');
-}
-
-async function mcpRequest(method, body) {
-  var headers = { 'Authorization': 'Bearer ' + (_mcpUserToken || '') };
-  if (body) headers['Content-Type'] = 'application/json';
-  var r = await fetch(MCP_TOKEN_API + '?project_id=' + encodeURIComponent(_mcpPid() || ''), {
-    method: method, headers: headers, body: body ? JSON.stringify(body) : undefined
-  });
-  return r.json().catch(function () { return {}; });
-}
-
-function applyScopeSwitch(key) {
-  var bg = document.getElementById('sw-' + key + '-bg');
-  var knob = document.getElementById('sw-' + key + '-knob');
-  if (!bg || !knob) return;
-  var on = mcpState.scopes[key] !== false;
-  if (on) {
-    bg.className = 'w-11 h-6 bg-blue-500 rounded-full transition-colors duration-200';
-    knob.classList.add('translate-x-5');
-  } else {
-    bg.className = 'w-11 h-6 bg-gray-200 dark:bg-slate-700 rounded-full transition-colors duration-200';
-    knob.classList.remove('translate-x-5');
+  function emailToast(msg, ok) {
+    var t = document.getElementById('email-toast');
+    if (!t) { return; }
+    t.textContent = msg;
+    t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full text-xs font-medium shadow-lg transition-opacity duration-300 ' + (ok ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-800 text-white dark:bg-slate-700 dark:text-gray-100');
+    t.style.opacity = '1';
+    clearTimeout(window._emailToastT);
+    window._emailToastT = setTimeout(function () { t.style.opacity = '0'; }, 2800);
   }
-}
 
-function renderMcpTools() {
-  var wrap = document.getElementById('mcp-tools');
-  if (!wrap) return;
-  var defs = [
-    ['list_items', null],
-    ['read_file', 'read'],
-    ['write_file', 'write'],
-    ['delete_item', 'delete'],
-    ['get_project_info', null]
-  ];
-  wrap.innerHTML = defs.map(function (d) {
-    var enabled = !d[1] || mcpState.scopes[d[1]] !== false;
-    return '<span class="inline-flex items-center px-2 py-0.5 text-[11px] font-mono rounded-full ' +
-      (enabled ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300' : 'bg-gray-100 text-gray-400 dark:bg-slate-800 dark:text-gray-500') +
-      '">' + d[0] + (enabled ? '' : ' (nonaktif)') + '</span>';
-  }).join('');
-}
+  function setEmailBadge(active) {
+    var b = document.getElementById('email-status-badge');
+    b.textContent = active ? 'Aktif' : 'Belum aktif';
+    b.className = 'px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap flex-shrink-0 ' +
+      (active ? 'bg-green-50 text-green-600 dark:bg-green-900/40 dark:text-green-400' : 'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-400');
+  }
 
-function renderMcp() {
-  var inactive = document.getElementById('mcp-inactive');
-  var active = document.getElementById('mcp-active');
-  var badge = document.getElementById('mcp-status-badge');
-  if (badge) {
-    badge.textContent = mcpState.active ? 'Aktif' : 'Belum aktif';
-    badge.className = 'hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ' +
-      (mcpState.active ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300' : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300');
+  function renderEmailInactive() {
+    setEmailBadge(false);
+    document.getElementById('email-inactive').classList.remove('hidden');
+    var a = document.getElementById('email-active');
+    a.classList.add('hidden'); a.classList.remove('flex');
   }
-  var loading = document.getElementById('mcp-loading');
-  if (loading) loading.style.display = 'none';
-  var show = function (el, on) {
-    if (!el) return;
-    el.classList.remove('mcp-anim');
-    el.style.display = on ? 'flex' : 'none';
-    if (on) { void el.offsetWidth; el.classList.add('mcp-anim'); }
-  };
-  show(inactive, !mcpState.active);
-  show(active, mcpState.active);
-  if (!mcpState.active) return;
-  mcpState.url = mcpEndpointUrl();
-  mcpState.urlToken = mcpState.url + '&token=' + encodeURIComponent(mcpState.token || '');
-  var urlEl = document.getElementById('mcp-url');
-  if (urlEl) urlEl.textContent = mcpState.url;
-  var urlTokEl = document.getElementById('mcp-url-token');
-  if (urlTokEl) urlTokEl.textContent = mcpState.urlToken;
-  var tkEl = document.getElementById('mcp-token');
-  if (tkEl) {
-    tkEl.textContent = mcpTokenVisible ? mcpState.token : (mcpState.token ? mcpState.token.slice(0, 6) + '••••••••••••' + mcpState.token.slice(-4) : '');
-  }
-  var cfg = document.getElementById('mcp-config');
-  if (cfg) {
-    cfg.textContent = JSON.stringify({
-      mcpServers: {
-        clincoo: {
-          url: mcpState.url,
-          headers: { Authorization: 'Bearer ' + mcpState.token }
-        }
-      }
-    }, null, 2);
-  }
-  applyScopeSwitch('read');
-  applyScopeSwitch('write');
-  applyScopeSwitch('delete');
-  renderMcpTools();
-}
 
-// ===== Cache lokal: refresh gak loading terus — state terakhir langsung tampil,
-// lalu dicegarkan diam-diam di background (cuma kalau memang berubah). =====
-function _mcpCacheKey() { return 'clinqoo_mcp_' + (_mcpPid() || 'none'); }
-function _mcpCacheRead() { try { return JSON.parse(localStorage.getItem(_mcpCacheKey()) || 'null'); } catch (e) { return null; } }
-function _mcpCacheWrite(d) {
-  try { localStorage.setItem(_mcpCacheKey(), JSON.stringify({ token: d.token, scopes: d.scopes || { read: true, write: false, delete: false }, created_at: d.created_at || null, ts: Date.now() })); } catch (e) {}
-}
-function _mcpCacheClear() { try { localStorage.removeItem(_mcpCacheKey()); } catch (e) {} }
-
-async function loadMcp() {
-  // 1) Ada cache? Tampilin LANGSUNG tanpa skeleton.
-  var cached = _mcpCacheRead();
-  if (cached && cached.token && _mcpPid()) {
-    mcpState.active = true;
-    mcpState.token = cached.token;
-    mcpState.scopes = cached.scopes || { read: true, write: false, delete: false };
-    mcpState.created_at = cached.created_at || null;
-    renderMcp();
-    // 2) Cegarkan diam-diam: gak ada skeleton, UI gak berkedip.
-    //    Cukup tiap 10 menit; lebih baru dari itu percuma (datanya sama terus).
-    if (Date.now() - (cached.ts || 0) < 10 * 60 * 1000) return;
-    try {
-      var r = await mcpRequest('GET');
-      if (r && r.token) { _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp(); }
-      else if (r && (r.error === 'Token MCP tidak valid atau sudah dicabut untuk proyek ini' || r.revoked)) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
-      else if (r && r.not_found) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; renderMcp(); }
-    } catch (e) { /* offline/lelet: tetap pakai cache */ }
-    return;
+  function renderEmailActive(cfg) {
+    setEmailBadge(true);
+    document.getElementById('email-inactive').classList.add('hidden');
+    var a = document.getElementById('email-active');
+    a.classList.remove('hidden'); a.classList.add('flex');
+    if (cfg.from_name) document.getElementById('email-from-name').value = cfg.from_name;
+    if (cfg.contact_to) document.getElementById('email-contact-to').value = cfg.contact_to;
+    if (cfg.api_key) document.getElementById('email-key-box').textContent = cfg.api_key;
+    var used = cfg.used || 0, limit = cfg.limit || 3000;
+    document.getElementById('email-quota').textContent = used.toLocaleString('id-ID') + ' / ' + limit.toLocaleString('id-ID');
+    document.getElementById('email-quota-bar').style.width = Math.min(100, Math.round(used / limit * 100)) + '%';
+    var log = document.getElementById('email-log');
+    if (cfg.log && cfg.log.length) {
+      log.innerHTML = cfg.log.map(function (r) {
+        return '<div class="flex items-center justify-between gap-3 py-2.5">' +
+          '<span class="text-gray-500 dark:text-gray-400 shrink-0">' + (r.time || '') + '</span>' +
+          '<span class="text-gray-800 dark:text-gray-200 truncate min-w-0">' + (r.subject || '') + '</span>' +
+          '<span class="text-gray-500 dark:text-gray-400 truncate min-w-0">' + (r.to || '') + '</span>' +
+          '<span class="font-medium ' + (r.status === 'terkirim' ? 'text-green-600' : 'text-red-500') + ' shrink-0">' + (r.status || '') + '</span></div>';
+      }).join('');
+    }
   }
-  // 3) Gak ada cache: ambil seperti biasa (skeleton), lalu simpan.
-  var d = await mcpRequest('GET');
-  if (d && d.token) {
-    mcpState.active = true;
-    mcpState.token = d.token;
-    mcpState.scopes = d.scopes || { read: true, write: false, delete: false };
-    mcpState.created_at = d.created_at || null;
-    _mcpCacheWrite(d);
-  } else {
-    mcpState.active = false;
-    mcpState.token = '';
-  }
-  renderMcp();
-}
 
-async function activateMcp() {
-  var btn = document.getElementById('mcp-activate-btn');
-  var orig = btn ? btn.innerHTML : '';
-  if (btn) {
-    btn.disabled = true;
-    btn.style.opacity = '0.75';
-    btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg><span>Mengaktifkan\u2026</span>';
+  function loadEmailConfig() {
+    fetch(API_BASE + '/email?action=config&project_id=' + encodeURIComponent(_pid()), { headers: _hdrs() })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(renderEmailActive)
+      .catch(renderEmailInactive);
   }
-  var d;
-  try { d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: { read: true, write: false, delete: false } }); }
-  catch (e) { d = null; }
-  if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = orig; }
-  if (d && d.token) {
-    mcpState.active = true;
-    mcpState.token = d.token;
-    mcpState.scopes = d.scopes || mcpState.scopes;
-    mcpState.created_at = d.created_at || mcpState.created_at;
-    _mcpCacheWrite(d);
-    renderMcp();
-    mcpToast('Server MCP aktif');
-  } else {
-    mcpToast((d && d.error) ? d.error : 'Gagal mengaktifkan server MCP');
+
+  function _emailPost(action, body, onOk) {
+    var payload = Object.assign({ action: action, project_id: _pid() }, body || {});
+    return fetch(API_BASE + '/email', { method: 'POST', headers: _hdrs(), body: JSON.stringify(payload) })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(onOk || function () {});
   }
-}
 
-async function regenerateMcp() {
-  if (!confirm('Buat ulang token? Token lama langsung tidak berlaku.')) return;
-  var d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: mcpState.scopes });
-  if (d && d.token) {
-    mcpState.token = d.token;
-    mcpState.scopes = d.scopes || mcpState.scopes;
-    _mcpCacheWrite(d);
-    mcpTokenVisible = true;
-    renderMcp();
-    mcpToast('Token baru dibuat');
-  } else {
-    mcpToast((d && d.error) ? d.error : 'Gagal membuat ulang token');
+  function activateEmail() {
+    var btn = document.getElementById('email-activate-btn');
+    btn.disabled = true; btn.textContent = 'Mengaktifkan…';
+    _emailPost('activate')
+      .then(function () { emailToast('Email proyek ini diaktifkan', true); loadEmailConfig(); })
+      .catch(function (st) {
+        btn.disabled = false; btn.textContent = 'Aktifkan Email';
+        emailToast(st === 404 ? 'Backend email belum tersedia — menyusul di tahap berikutnya' : 'Gagal mengaktifkan email (' + st + ')', false);
+      });
   }
-}
 
-async function revokeMcp() {
-  if (!confirm('Putuskan semua akses? AI luar tidak akan bisa mengakses proyek ini lagi sampai kamu mengaktifkan ulang.')) return;
-  var d = await mcpRequest('DELETE');
-  if (d && d.ok) {
-    mcpState.active = false;
-    _mcpCacheClear();
-    mcpState.token = '';
-    mcpTokenVisible = false;
-    renderMcp();
-    mcpToast('Akses diputuskan');
-  } else {
-    mcpToast((d && d.error) ? d.error : 'Gagal memutuskan akses');
+  function saveSenderSettings() {
+    var btn = document.getElementById('email-save-btn');
+    btn.disabled = true; btn.textContent = 'Menyimpan…';
+    _emailPost('sender', {
+      from_name: document.getElementById('email-from-name').value.trim(),
+      contact_to: document.getElementById('email-contact-to').value.trim()
+    }).then(function () {
+      btn.disabled = false; btn.textContent = 'Simpan Pengirim';
+      emailToast('Pengaturan pengirim tersimpan', true);
+    }).catch(function (st) {
+      btn.disabled = false; btn.textContent = 'Simpan Pengirim';
+      emailToast('Gagal menyimpan pengaturan (' + st + ')', false);
+    });
   }
-}
 
-async function toggleScope(key) {
-  if (!mcpState.active) return;
-  var next = {};
-  ['read', 'write', 'delete'].forEach(function (k) { next[k] = k === key ? mcpState.scopes[k] === false : mcpState.scopes[k] !== false; });
-  mcpState.scopes = next;
-  renderMcp();
-  var d = await mcpRequest('PATCH', { project_id: _mcpPid(), scopes: next });
-  if (d && d.ok) {
-    mcpToast('Izin diperbarui');
-  } else {
-    mcpState.scopes = next;
-    renderMcp();
-    mcpToast((d && d.error) ? d.error : 'Gagal menyimpan izin');
+  function copyEmailKey() {
+    var key = document.getElementById('email-key-box').textContent.trim();
+    if (!key || key.indexOf('cl_email_') !== 0) { emailToast('Belum ada API key aktif', false); return; }
+    navigator.clipboard.writeText(key).then(function () { emailToast('API key disalin', true); });
   }
-}
 
-function toggleMcpTokenVisible() {
-  mcpTokenVisible = !mcpTokenVisible;
-  renderMcp();
-}
-
-function copyMcpText(text, btn) {
-  if (!text) return;
-  var done = function () {
-    mcpToast('Disalin');
-    if (!btn || !btn.innerHTML) return;
-    if (!btn._orig) btn._orig = btn.innerHTML;
-    btn.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg><span>Tersalin</span>';
-    if (btn._t) clearTimeout(btn._t);
-    btn._t = setTimeout(function () { btn.innerHTML = btn._orig; }, 1800);
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done).catch(function () { mcpCopyFallback(text, done); });
-  } else {
-    mcpCopyFallback(text, done);
+  function regenerateEmailKey() {
+    if (!confirm('Buat ulang API key? Kunci lama langsung tidak berlaku.')) return;
+    _emailPost('regenerate').then(function (cfg) {
+      if (cfg.api_key) document.getElementById('email-key-box').textContent = cfg.api_key;
+      emailToast('API key baru diterbitkan', true);
+    }).catch(function (st) { emailToast('Gagal membuat ulang key (' + st + ')', false); });
   }
-}
-function mcpCopyFallback(text, done) {
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  document.body.appendChild(ta);
-  ta.select();
-  try { document.execCommand('copy'); done(); } catch (e) {}
-  ta.remove();
-}
 
-document.addEventListener('DOMContentLoaded', loadMcp);
+  function revokeEmailKey() {
+    if (!confirm('Cabut API key? Situs deploy-mu akan gagal kirim email.')) return;
+    _emailPost('revoke').then(function () {
+      document.getElementById('email-key-box').textContent = 'cl_email_••••••••••••';
+      emailToast('API key dicabut', true);
+    }).catch(function (st) { emailToast('Gagal mencabut key (' + st + ')', false); });
+  }
+
+  function sendTestEmail() {
+    var to = document.getElementById('email-test-to').value.trim();
+    var subject = document.getElementById('email-test-subject').value.trim() || 'Uji coba email Clincoo';
+    if (!to) { emailToast('Isi alamat tujuan percobaan dulu', false); return; }
+    var btn = document.getElementById('email-test-btn');
+    btn.disabled = true; btn.textContent = 'Mengirim…';
+    _emailPost('test', { to: to, subject: subject })
+      .then(function () { btn.disabled = false; btn.textContent = 'Kirim Email Uji'; emailToast('Email uji terkirim ke ' + to, true); })
+      .catch(function (st) {
+        btn.disabled = false; btn.textContent = 'Kirim Email Uji';
+        emailToast(st === 404 ? 'Backend email belum tersedia — menyusul di tahap berikutnya' : 'Gagal mengirim email uji (' + st + ')', false);
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadEmailConfig);
 </script>
-
 
 
     <script>/* clinqoo-sw-register */
@@ -733,11 +580,6 @@ document.addEventListener('DOMContentLoaded', loadMcp);
         document.addEventListener('click', function(e) {
             if (headerMoreMenu.classList.contains('open') && !headerMoreMenu.contains(e.target) && e.target !== headerMoreBtn) closeHeaderMenu();
         });
-        // Menu titik-3 (popover di bawah header) juga tutup otomatis saat halaman discroll —
-        // window fase capture menangkap scroll dari elemen apa pun (scroll gak bubble).
-        window.addEventListener('scroll', function() {
-            if (headerMoreMenu.classList.contains('open')) closeHeaderMenu();
-        }, { capture: true, passive: true });
         window.chatExportZip = function () {
     closeHeaderMenu();
     var pid = ''; try { pid = localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) {}
@@ -996,6 +838,21 @@ window.chatLivePreview = function () {
   }).catch(function(){});
 })();
 </script>
-<div id="mcp-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] px-4 py-2 rounded-full bg-black text-white text-sm font-medium shadow-lg opacity-0 translate-y-2 transition-all duration-200 pointer-events-none">Tersimpan</div>
+
+<div id="withdraw-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+  <div class="w-full max-w-sm p-5 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl">
+    <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1">Tarik Saldo</h3>
+    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Saldo tersedia: <span id="wd-avail" class="font-semibold text-gray-900 dark:text-white">Rp 0</span></p>
+    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Nominal (min. Rp 10.000)</label>
+    <input id="wd-amount" type="number" min="10000" step="1000" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-gray-500 mb-4" placeholder="Contoh: 50000">
+    <div class="flex gap-3 justify-end">
+      <button type="button" onclick="closeWithdrawModal()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer">Batal</button>
+      <button type="button" id="wd-submit" onclick="submitWithdraw()" class="px-4 py-2 text-sm font-semibold text-white bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 rounded-xl shadow-sm transition-colors cursor-pointer">Kirim Permintaan</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="email-toast" style="opacity:0" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full text-xs font-medium shadow-lg transition-opacity duration-300 pointer-events-none"></div>
 </body>
 </html>
