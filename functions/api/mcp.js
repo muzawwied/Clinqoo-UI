@@ -319,17 +319,20 @@ async function callTool(name, args, ctx) {
       const prompt = String(args.prompt == null ? '' : args.prompt).trim();
       if (!prompt) throw new Error('Parameter prompt wajib diisi');
       if (prompt.length > 8000) throw new Error('Prompt terlalu panjang (maks 8000 karakter)');
-      const r = await selfJson('/chat', ctx.be2Token, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }],
-          project_id: projectId,
-          save_user_message: false, // hop tool: gak makan kuota chat harian pengguna
-          stream: false
-        })
+      const payload = JSON.stringify({
+        messages: [{ role: 'user', content: prompt }],
+        project_id: projectId,
+        save_user_message: false, // hop tool: gak makan kuota chat harian pengguna
+        stream: false
       });
-      if (!r.ok) throw new Error(r.status === 429 ? 'Kuota AI harian pemilik proyek habis — coba lagi besok' : 'Chat AI gagal (' + r.status + '): ' + ((r.data && r.data.error) || ''));
+      // Rantai fallback: proxy utama (kuota per-user) -> backend AI langsung.
+      // Kalau BE2 lagi tidak menerima sesi (redeploy sesi paralel), coba jalur kedua.
+      let r = await selfJson('/chat', ctx.be2Token, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload });
+      if (!r.ok || !(r.data && (r.data.text || r.data.reply || r.data.message))) {
+        const r2 = await be2Json('/chat', ctx.be2Token, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload });
+        if (r2.ok && r2.data && (r2.data.text || r2.data.reply || r2.data.message)) r = r2;
+      }
+      if (!r.ok) throw new Error(r.status === 429 ? 'Kuota AI harian pemilik proyek habis — coba lagi besok' : 'Chat AI sedang tidak bisa dihubungi (' + r.status + ') — backend AI Clincoo mungkin sedang diperbarui. Coba lagi sebentar lagi.');
       const text = r.data && (r.data.text || r.data.reply || r.data.message);
       if (!text) throw new Error('Chat AI tidak mengembalikan jawaban');
       return { content: [{ type: 'text', text: String(text) }] };
