@@ -2,7 +2,8 @@
 // Endpoint: https://clincoo.pages.dev/api/mcp?project_id=<pid>
 // Transport: Streamable HTTP (JSON-RPC 2.0), auth Bearer token MCP per proyek.
 // Tools: list_items, read_file, write_file, delete_item, get_project_info,
-//        chat_ai, deploy_project, deploy_status, get_settings, update_settings, send_email
+//        chat_ai, deploy_project, deploy_status, get_settings, update_settings, send_email,
+//        list_notifications, send_notification
 // Data file real-time diambil dari backend utama clincoo-be2 (/api/project-files).
 
 const CORS = {
@@ -74,7 +75,8 @@ async function authMcp(request, env, projectId) {
     chat: !!(scopes && scopes.chat === true),
     deploy: !!(scopes && scopes.deploy === true),
     settings: !!(scopes && scopes.settings === true),
-    email: !!(scopes && scopes.email === true)
+    email: !!(scopes && scopes.email === true),
+    notif: !!(scopes && scopes.notif === true)
   };
   return { token: tok, be2Token: row.be2_token, scopes };
 }
@@ -128,7 +130,8 @@ function safePath(p) {
 const TOOL_SCOPES = {
   list_items: null, read_file: 'read', write_file: 'write', delete_item: 'delete', get_project_info: null,
   chat_ai: 'chat', deploy_project: 'deploy', deploy_status: 'deploy',
-  get_settings: 'settings', update_settings: 'settings', send_email: 'email'
+  get_settings: 'settings', update_settings: 'settings', send_email: 'email',
+  list_notifications: 'notif', send_notification: 'notif'
 };
 function toolScope(name) {
   return TOOL_SCOPES[name] !== undefined ? TOOL_SCOPES[name] : 'unknown';
@@ -231,6 +234,30 @@ const TOOLS = [
         visibility: { type: 'string', description: 'Visibilitas proyek' }
       },
       required: []
+    }
+  },
+  {
+    name: 'list_notifications',
+    description: 'Baca notifikasi terbaru pemilik proyek di dashboard Clincoo (maks 50 terbaru).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        unread_only: { type: 'boolean', description: 'true = hanya yang belum dibaca (opsional)' }
+      }
+    }
+  },
+  {
+    name: 'send_notification',
+    description: 'Kirim notifikasi ke dashboard Clincoo pemilik proyek (muncul di panel notifikasi + halaman Notifikasi). Tipe: info/success/warning/error.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', description: 'Isi notifikasi (teks singkat)' },
+        type: { type: 'string', description: 'Tipe notifikasi: info/success/warning/error (default info)' },
+        link: { type: 'string', description: 'Link saat notifikasi diklik, mis. /proyek/ (opsional)' },
+        source: { type: 'string', description: 'Nama sumber yang tampil (default "MCP Clincoo")' }
+      },
+      required: ['message']
     }
   },
   {
@@ -379,6 +406,32 @@ async function callTool(name, args, ctx) {
       const set = {};
       SAFE.forEach(k => { if (body[k] !== undefined) set[k] = body[k]; });
       return { content: [{ type: 'text', text: 'Berhasil menyimpan pengaturan:\n' + JSON.stringify(set, null, 2) }] };
+    }
+    case 'list_notifications': {
+      const unreadOnly = args.unread_only === true;
+      const r = await selfJson('/notifications' + (unreadOnly ? '?unread=true' : ''), ctx.be2Token);
+      if (!r.ok) throw new Error('Gagal membaca notifikasi (' + r.status + ')');
+      const list = (r.data && r.data.notifications) || [];
+      const lines = list.map(n => {
+        return '[' + (n.read ? 'sudah dibaca' : 'BARU') + '] ' + (n.source || '-') + ' (' + (n.type || 'info') + ', ' + (n.created_at || '') + (n.link ? ', link: ' + n.link : '') + '): ' + n.message;
+      });
+      return { content: [{ type: 'text', text: (r.data ? 'Belum dibaca: ' + (r.data.unreadCount || 0) + ' dari ' + list.length + ' notifikasi terbaru.\n' : '') + (lines.length ? lines.join('\n') : 'Tidak ada notifikasi.') }] };
+    }
+    case 'send_notification': {
+      const message = String(args.message == null ? '' : args.message).trim();
+      if (!message) throw new Error('Parameter "message" wajib diisi');
+      if (message.length > 500) throw new Error('Parameter "message" maksimal 500 karakter');
+      const type = ['info', 'success', 'warning', 'error'].includes(args.type) ? args.type : 'info';
+      let link = String(args.link == null ? '' : args.link).trim();
+      if (link && !link.startsWith('/') && !/^https:\/\//.test(link)) throw new Error('Parameter "link" harus mulai dengan "/" (path Clincoo) atau "https://"');
+      const source = String(args.source == null ? '' : args.source).trim().slice(0, 40) || 'MCP Clincoo';
+      const r = await selfJson('/notifications', ctx.be2Token, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source, message, type, link })
+      });
+      if (!r.ok) throw new Error('Gagal mengirim notifikasi (' + r.status + '): ' + ((r.data && r.data.error) || ''));
+      return { content: [{ type: 'text', text: 'Notifikasi terkirim ke dashboard Clincoo: "' + message.slice(0, 80) + '"' }] };
     }
     case 'send_email': {
       const to = String(args.to == null ? '' : args.to).trim();

@@ -85,7 +85,8 @@ function normalizeScopes(raw) {
     chat: r.chat === true,
     deploy: r.deploy === true,
     settings: r.settings === true,
-    email: r.email === true
+    email: r.email === true,
+    notif: r.notif === true
   };
 }
 

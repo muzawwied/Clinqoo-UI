@@ -435,6 +435,16 @@
                     <div id="sw-email-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
                   </button>
                 </div>
+                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Notifikasi</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa membaca dan mengirim notifikasi ke dashboard Clincoo kamu</p>
+                  </div>
+                  <button type="button" onclick="toggleScope('notif')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan kelola notifikasi">
+                    <div id="sw-notif-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
+                    <div id="sw-notif-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -486,9 +496,9 @@ function _mcpPid() {
   try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; }
 }
 
-var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false, chat: false, deploy: false, settings: false, email: false }, created_at: null, url: '', urlToken: '' };
-// 7 izin MCP: read default ON, sisanya default OFF (least privilege).
-var MCP_SCOPE_KEYS = ['read', 'write', 'delete', 'chat', 'deploy', 'settings', 'email'];
+var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false, chat: false, deploy: false, settings: false, email: false, notif: false }, created_at: null, url: '', urlToken: '' };
+// 8 izin MCP: read default ON, sisanya default OFF (least privilege).
+var MCP_SCOPE_KEYS = ['read', 'write', 'delete', 'chat', 'deploy', 'settings', 'email', 'notif'];
 function _mcpNormScopes(r) {
   r = (r && typeof r === 'object') ? r : {};
   var o = {};
@@ -548,7 +558,9 @@ function renderMcpTools() {
     ['deploy_status', 'deploy'],
     ['get_settings', 'settings'],
     ['update_settings', 'settings'],
-    ['send_email', 'email']
+    ['send_email', 'email'],
+    ['list_notifications', 'notif'],
+    ['send_notification', 'notif']
   ];
   wrap.innerHTML = defs.map(function (d) {
     var enabled = !d[1] || mcpState.scopes[d[1]] === true;
