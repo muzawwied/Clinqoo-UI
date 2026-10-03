@@ -31,4 +31,4 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
       - name: Ringkasan
-        run: echo "Deploy selesai: $(date -u +'%Y-%m-%d %H:%M UTC') dari commit $GITHUB_SHA"
+        run: echo "Deploy selesai dari commit " + "$GITHUB_SHA"
