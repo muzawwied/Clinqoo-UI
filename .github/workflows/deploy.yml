@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Tarik ClincooPay dari build produksi
-        run: python3 scripts/strip-clincoopay.py
-
       - name: Deploy ke Cloudflare Pages
         run: npx wrangler pages deploy . --project-name=clincoo --branch=main
         env:
