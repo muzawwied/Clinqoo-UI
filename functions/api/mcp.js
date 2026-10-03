@@ -13,11 +13,21 @@ const CORS = {
 };
 
 const BE2 = 'https://clincoo-be2.pages.dev/api';
+// Domain utama deployment INI — dipakai tools baru (chat/deploy/settings/email),
+// karena endpoint-nya divalidasi middleware D1 LOKAL (sesi user pemilik proyek),
+// bukan backend paralel lama.
+const SELF_API = 'https://app.clincoo.buzz/api';
 const PROTOCOL_VERSION = '2025-06-18';
 const SERVER_INFO = { name: 'clincoo-mcp', version: '1.0.0' };
 
 async function be2Json(path, token, init = {}) {
   const res = await fetch(BE2 + path, { ...init, headers: { ...(init.headers || {}), Authorization: 'Bearer ' + token } });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data };
+}
+
+async function selfJson(path, token, init = {}) {
+  const res = await fetch(SELF_API + path, { ...init, headers: { ...(init.headers || {}), Authorization: 'Bearer ' + token } });
   const data = await res.json().catch(() => ({}));
   return { ok: res.ok, status: res.status, data };
 }
@@ -309,7 +319,7 @@ async function callTool(name, args, ctx) {
       const prompt = String(args.prompt == null ? '' : args.prompt).trim();
       if (!prompt) throw new Error('Parameter prompt wajib diisi');
       if (prompt.length > 8000) throw new Error('Prompt terlalu panjang (maks 8000 karakter)');
-      const r = await be2Json('/chat', ctx.be2Token, {
+      const r = await selfJson('/chat', ctx.be2Token, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -325,7 +335,7 @@ async function callTool(name, args, ctx) {
       return { content: [{ type: 'text', text: String(text) }] };
     }
     case 'deploy_project': {
-      const r = await be2Json('/deploy', ctx.be2Token, {
+      const r = await selfJson('/deploy', ctx.be2Token, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ project_id: projectId })
@@ -334,12 +344,12 @@ async function callTool(name, args, ctx) {
       return { content: [{ type: 'text', text: 'Deploy dipicu. Status:\n' + JSON.stringify(r.data, null, 2) }] };
     }
     case 'deploy_status': {
-      const r = await be2Json('/deploy?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
+      const r = await selfJson('/deploy?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
       if (!r.ok) throw new Error('Gagal mengambil status deployment (' + r.status + ')');
       return { content: [{ type: 'text', text: JSON.stringify(r.data, null, 2) }] };
     }
     case 'get_settings': {
-      const r = await be2Json('/project-settings?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
+      const r = await selfJson('/project-settings?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
       if (!r.ok) throw new Error('Gagal membaca pengaturan (' + r.status + ')');
       const out = {};
       Object.keys(r.data || {}).forEach(k => {
@@ -357,7 +367,7 @@ async function callTool(name, args, ctx) {
         if (args[k] !== undefined) { body[k] = String(args[k]); n++; }
       });
       if (!n) throw new Error('Tidak ada field yang diubah. Field aman: ' + SAFE.join(', '));
-      const r = await be2Json('/project-settings', ctx.be2Token, {
+      const r = await selfJson('/project-settings', ctx.be2Token, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -374,7 +384,7 @@ async function callTool(name, args, ctx) {
       if (!to || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) throw new Error('Parameter "to" wajib alamat email yang valid');
       if (!subject) throw new Error('Parameter "subject" wajib diisi');
       if (!html) throw new Error('Parameter "html" wajib diisi');
-      const r = await be2Json('/email', ctx.be2Token, {
+      const r = await selfJson('/email', ctx.be2Token, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'test', project_id: projectId, to, subject, html, reply_to: args.reply_to ? String(args.reply_to) : undefined })
