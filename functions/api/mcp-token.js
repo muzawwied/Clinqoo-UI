@@ -1,8 +1,17 @@
 // Cloudflare Pages Functions — Manajemen token MCP per proyek (dipanggil halaman Server MCP)
 // POST   /api/mcp-token { project_id }        -> buat/ganti token MCP (butuh login Clincoo)
 // GET    /api/mcp-token?project_id=xxx       -> status + token (butuh login)
+// PATCH  /api/mcp-token { project_id, scopes } -> ubah izin tanpa ganti token
 // DELETE /api/mcp-token?project_id=xxx        -> cabut akses (butuh login)
 // Token dipakai platform AI lain sebagai Bearer untuk endpoint /api/mcp.
+//
+// PENYIMPANAN GANDA (unifikasi 2026-10-03): sumber kebenaran = tabel mcp_tokens
+// (satu-satunya yang menyimpan be2_token, wajib untuk endpoint /api/mcp).
+// Sebagai CERMIN, token+izin+created_at juga ditulis ke project-settings
+// (mcp_token / mcp_scopes / mcp_created_at) — dipakai versi lama sesi paralel.
+// GET: kalau tabel kosong tapi cermin berisi (token aktif dari versi lama),
+// otomatis DIMIGRASI ke tabel (be2_token = sesi pemilik yang sedang login),
+// sehingga token lama langsung dipakai endpoint /api/mcp tanpa aktivasi ulang.
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -64,13 +73,44 @@ export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS });
 }
 
+// Izin MCP — read default ON, sisanya default OFF (least privilege).
+// 2026-10-03: izin baru chat (AI Clincoo), deploy (publikasi situs),
+// settings (panel pengaturan/integrasi), email (kirim email proyek).
 function normalizeScopes(raw) {
   const r = raw && typeof raw === 'object' ? raw : {};
   return {
-    read: r.read !== false,          // default: boleh lihat & baca file
-    write: r.write === true,        // default: TIDAK boleh menulis
-    delete: r.delete === true       // default: TIDAK boleh menghapus
+    read: r.read !== false,
+    write: r.write === true,
+    delete: r.delete === true,
+    chat: r.chat === true,
+    deploy: r.deploy === true,
+    settings: r.settings === true,
+    email: r.email === true
   };
+}
+
+// ---- Cermin di project-settings (kompatibilitas versi lama sesi paralel) ----
+async function mirrorRead(token, projectId) {
+  const r = await be2Json('/project-settings?project_id=' + encodeURIComponent(projectId) + '&key=mcp_token', token);
+  if (!r.ok || !r.data) return null;
+  const tok = String(r.data.value || '').trim();
+  if (!tok) return null;
+  const [sc, ca] = await Promise.all([
+    be2Json('/project-settings?project_id=' + encodeURIComponent(projectId) + '&key=mcp_scopes', token),
+    be2Json('/project-settings?project_id=' + encodeURIComponent(projectId) + '&key=mcp_created_at', token)
+  ]);
+  let scopes = null;
+  try { scopes = sc.ok && sc.data && sc.data.value ? JSON.parse(sc.data.value) : null; } catch (e) {}
+  return { token: tok, scopes, created_at: (ca.ok && ca.data && ca.data.value) || null };
+}
+
+async function mirrorWrite(token, projectId, payload) {
+  // payload: { token, scopes, created_at } — null/undefined berarti pertahankan nilai lama
+  const body = { project_id: projectId };
+  if (payload.token !== undefined) body.mcp_token = payload.token || '';
+  if (payload.scopes !== undefined) body.mcp_scopes = payload.scopes ? JSON.stringify(payload.scopes) : '';
+  if (payload.created_at !== undefined) body.mcp_created_at = payload.created_at || '';
+  await be2Json('/project-settings', token, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 }
 
 export async function onRequestGet(context) {
@@ -80,13 +120,27 @@ export async function onRequestGet(context) {
   const g = await guardOwner(request, env, projectId);
   if (g.res) return g.res;
   await ensureTables(env);
-  const row = await env.DB.prepare('SELECT token, scopes, created_at FROM mcp_tokens WHERE project_id = ?').bind(projectId).first();
+  let row = await env.DB.prepare('SELECT token, scopes, created_at FROM mcp_tokens WHERE project_id = ?').bind(projectId).first();
+  // MIGRASI: tabel kosong tapi cermin versi lama berisi -> pindahkan ke tabel.
+  // be2_token diisi sesi pemilik yang sedang login (token lama versi paralel tidak
+  // menyimpan be2_token, jadi endpoint /api/mcp sebelumnya pasti menolaknya).
+  if (!row) {
+    const mir = await mirrorRead(g.token, projectId);
+    if (mir && mir.token) {
+      const scopes = normalizeScopes(mir.scopes);
+      await env.DB.prepare(
+        `INSERT INTO mcp_tokens (project_id, token, be2_token, scopes, created_at) VALUES (?, ?, ?, ?, ?)
+         ON CONFLICT(project_id) DO UPDATE SET token = excluded.token, be2_token = excluded.be2_token, scopes = excluded.scopes, created_at = excluded.created_at`
+      ).bind(projectId, mir.token, g.token, JSON.stringify(scopes), mir.created_at || new Date().toISOString()).run();
+      row = { token: mir.token, scopes: JSON.stringify(scopes), created_at: mir.created_at };
+    }
+  }
   let scopes = null;
   try { scopes = row && row.scopes ? JSON.parse(row.scopes) : null; } catch (e) {}
   return J({
     active: !!row,
     token: row ? row.token : null,
-    scopes: scopes || normalizeScopes(null),
+    scopes: normalizeScopes(scopes),
     created_at: row ? row.created_at : null,
     url: 'https://app.clincoo.buzz/api/mcp?project_id=' + encodeURIComponent(projectId)
   });
@@ -103,14 +157,17 @@ export async function onRequestPost(context) {
   const token = newMcpToken();
   // Izin akses default (least privilege): hanya baca. Halaman Server MCP bisa mengubahnya per proyek.
   const scopes = normalizeScopes(body.scopes);
+  const created = new Date().toISOString();
   await env.DB.prepare(
-    `INSERT INTO mcp_tokens (project_id, token, be2_token, scopes, created_at) VALUES (?, ?, ?, ?, datetime('now'))
+    `INSERT INTO mcp_tokens (project_id, token, be2_token, scopes, created_at) VALUES (?, ?, ?, ?, ?)
      ON CONFLICT(project_id) DO UPDATE SET token = excluded.token, be2_token = excluded.be2_token, scopes = excluded.scopes, created_at = excluded.created_at`
-  ).bind(projectId, token, g.token, JSON.stringify(scopes)).run();
+  ).bind(projectId, token, g.token, JSON.stringify(scopes), created).run();
+  await mirrorWrite(g.token, projectId, { token, scopes, created_at: created });
   return J({
     ok: true,
     token,
     scopes,
+    created_at: created,
     url: 'https://app.clincoo.buzz/api/mcp?project_id=' + encodeURIComponent(projectId)
   });
 }
@@ -127,6 +184,7 @@ export async function onRequestPatch(context) {
   const scopes = normalizeScopes(body.scopes);
   const r = await env.DB.prepare('UPDATE mcp_tokens SET scopes = ? WHERE project_id = ?').bind(JSON.stringify(scopes), projectId).run();
   if (!r || !r.meta || !r.meta.changes) return J({ error: 'Token MCP belum aktif untuk proyek ini — aktifkan dulu di halaman Server MCP' }, 404);
+  await mirrorWrite(g.token, projectId, { scopes });
   return J({ ok: true, scopes });
 }
 
@@ -138,5 +196,6 @@ export async function onRequestDelete(context) {
   if (g.res) return g.res;
   await ensureTables(env);
   await env.DB.prepare('DELETE FROM mcp_tokens WHERE project_id = ?').bind(projectId).run();
+  await mirrorWrite(g.token, projectId, { token: '', scopes: '', created_at: '' });
   return J({ ok: true });
 }

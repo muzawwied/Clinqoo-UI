@@ -1,7 +1,8 @@
 // Cloudflare Pages Functions — Server MCP Clincoo (Clincoo SEBAGAI server MCP)
 // Endpoint: https://clincoo.pages.dev/api/mcp?project_id=<pid>
 // Transport: Streamable HTTP (JSON-RPC 2.0), auth Bearer token MCP per proyek.
-// Tools: list_items, read_file, write_file, delete_item, get_project_info
+// Tools: list_items, read_file, write_file, delete_item, get_project_info,
+//        chat_ai, deploy_project, deploy_status, get_settings, update_settings, send_email
 // Data file real-time diambil dari backend utama clincoo-be2 (/api/project-files).
 
 const CORS = {
@@ -54,7 +55,17 @@ async function authMcp(request, env, projectId) {
   }
   let scopes = null;
   try { scopes = row.scopes ? JSON.parse(row.scopes) : null; } catch (e) {}
-  if (!scopes) scopes = { read: true, write: false, delete: false };
+  // Normalisasi (2026-10-03): token lama tanpa izin baru (chat/deploy/settings/email)
+  // dianggap TIDAK punya izin baru (least privilege), bukan kebetulan terbuka.
+  scopes = {
+    read: !scopes || scopes.read !== false,
+    write: !!(scopes && scopes.write === true),
+    delete: !!(scopes && scopes.delete === true),
+    chat: !!(scopes && scopes.chat === true),
+    deploy: !!(scopes && scopes.deploy === true),
+    settings: !!(scopes && scopes.settings === true),
+    email: !!(scopes && scopes.email === true)
+  };
   return { token: tok, be2Token: row.be2_token, scopes };
 }
 
@@ -104,10 +115,13 @@ function safePath(p) {
 }
 
 // Pemetaan tool -> izin yang dibutuhkan (null = selalu diizinkan)
+const TOOL_SCOPES = {
+  list_items: null, read_file: 'read', write_file: 'write', delete_item: 'delete', get_project_info: null,
+  chat_ai: 'chat', deploy_project: 'deploy', deploy_status: 'deploy',
+  get_settings: 'settings', update_settings: 'settings', send_email: 'email'
+};
 function toolScope(name) {
-  return { list_items: null, read_file: 'read', write_file: 'write', delete_item: 'delete', get_project_info: null }[name] !== undefined
-    ? { list_items: null, read_file: 'read', write_file: 'write', delete_item: 'delete', get_project_info: null }[name]
-    : 'unknown';
+  return TOOL_SCOPES[name] !== undefined ? TOOL_SCOPES[name] : 'unknown';
 }
 
 function allowedTools(scopes) {
@@ -167,6 +181,61 @@ const TOOLS = [
     name: 'get_project_info',
     description: 'Info proyek Clincoo: nama aplikasi, pengaturan, dan jumlah file.',
     inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'chat_ai',
+    description: 'Kirim prompt ke AI Clincoo (Gemini via AI Router proyek). Berguna untuk minta kompilasi, refactor, atau saran kode dengan konteks proyek. Gak memakai kuota chat harian pengguna (hop tool).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        prompt: { type: 'string', description: 'Pertanyaan/perintah untuk AI Clincoo' }
+      },
+      required: ['prompt']
+    }
+  },
+  {
+    name: 'deploy_project',
+    description: 'Publikasikan workspace proyek ke situs live (Cloudflare Pages). Mengembalikan status deployment.',
+    inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'deploy_status',
+    description: 'Status deployment situs proyek: URL publik, waktu deploy terakhir, domain kustom, log singkat.',
+    inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'get_settings',
+    description: 'Baca pengaturan proyek Clincoo (panel integrasi & pengaturan umum: nama app, runtime, webhook, dll).',
+    inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'update_settings',
+    description: 'Ubah pengaturan proyek. Hanya key aman yang diizinkan: app_name, app_desc, webhook_url, hak_akses, visibility.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        app_name: { type: 'string', description: 'Nama aplikasi' },
+        app_desc: { type: 'string', description: 'Deskripsi aplikasi' },
+        webhook_url: { type: 'string', description: 'URL webhook notifikasi' },
+        hak_akses: { type: 'string', description: 'Hak akses proyek' },
+        visibility: { type: 'string', description: 'Visibilitas proyek' }
+      },
+      required: []
+    }
+  },
+  {
+    name: 'send_email',
+    description: 'Kirim email lewat email API proyek Clincoo (harus sudah diaktifkan di pengaturan Email). Mengikuti kuota bulanan proyek.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        to: { type: 'string', description: 'Alamat email penerima' },
+        subject: { type: 'string', description: 'Subjek email' },
+        html: { type: 'string', description: 'Isi email (HTML)' },
+        reply_to: { type: 'string', description: 'Alamat reply-to (opsional)' }
+      },
+      required: ['to', 'subject', 'html']
+    }
   }
 ];
 
@@ -235,6 +304,83 @@ async function callTool(name, args, ctx) {
       const settings = (st.ok && st.data && !st.data.error) ? (st.data.settings || {}) : {};
       let info = { project_id: projectId, total_files: files.filter(f => !String(f.path).endsWith('/')).length, app_name: settings.app_name || null };
       return { content: [{ type: 'text', text: JSON.stringify(info, null, 2) }] };
+    }
+    case 'chat_ai': {
+      const prompt = String(args.prompt == null ? '' : args.prompt).trim();
+      if (!prompt) throw new Error('Parameter prompt wajib diisi');
+      if (prompt.length > 8000) throw new Error('Prompt terlalu panjang (maks 8000 karakter)');
+      const r = await be2Json('/chat', ctx.be2Token, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: prompt }],
+          project_id: projectId,
+          save_user_message: false, // hop tool: gak makan kuota chat harian pengguna
+          stream: false
+        })
+      });
+      if (!r.ok) throw new Error(r.status === 429 ? 'Kuota AI harian pemilik proyek habis — coba lagi besok' : 'Chat AI gagal (' + r.status + '): ' + ((r.data && r.data.error) || ''));
+      const text = r.data && (r.data.text || r.data.reply || r.data.message);
+      if (!text) throw new Error('Chat AI tidak mengembalikan jawaban');
+      return { content: [{ type: 'text', text: String(text) }] };
+    }
+    case 'deploy_project': {
+      const r = await be2Json('/deploy', ctx.be2Token, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ project_id: projectId })
+      });
+      if (!r.ok) throw new Error('Deploy gagal (' + r.status + '): ' + ((r.data && (r.data.error || r.data.message)) || ''));
+      return { content: [{ type: 'text', text: 'Deploy dipicu. Status:\n' + JSON.stringify(r.data, null, 2) }] };
+    }
+    case 'deploy_status': {
+      const r = await be2Json('/deploy?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
+      if (!r.ok) throw new Error('Gagal mengambil status deployment (' + r.status + ')');
+      return { content: [{ type: 'text', text: JSON.stringify(r.data, null, 2) }] };
+    }
+    case 'get_settings': {
+      const r = await be2Json('/project-settings?project_id=' + encodeURIComponent(projectId), ctx.be2Token);
+      if (!r.ok) throw new Error('Gagal membaca pengaturan (' + r.status + ')');
+      const out = {};
+      Object.keys(r.data || {}).forEach(k => {
+        // Jangan bocorkan kredensial MCP internal lewat tool ini
+        if (k === 'mcp_token' || k === 'mcp_created_at') return;
+        out[k] = r.data[k];
+      });
+      return { content: [{ type: 'text', text: JSON.stringify(out, null, 2) }] };
+    }
+    case 'update_settings': {
+      const SAFE = ['app_name', 'app_desc', 'webhook_url', 'hak_akses', 'visibility'];
+      const body = { project_id: projectId };
+      let n = 0;
+      SAFE.forEach(k => {
+        if (args[k] !== undefined) { body[k] = String(args[k]); n++; }
+      });
+      if (!n) throw new Error('Tidak ada field yang diubah. Field aman: ' + SAFE.join(', '));
+      const r = await be2Json('/project-settings', ctx.be2Token, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!r.ok) throw new Error('Gagal menyimpan pengaturan (' + r.status + '): ' + ((r.data && r.data.error) || ''));
+      const set = {};
+      SAFE.forEach(k => { if (body[k] !== undefined) set[k] = body[k]; });
+      return { content: [{ type: 'text', text: 'Berhasil menyimpan pengaturan:\n' + JSON.stringify(set, null, 2) }] };
+    }
+    case 'send_email': {
+      const to = String(args.to == null ? '' : args.to).trim();
+      const subject = String(args.subject == null ? '' : args.subject).trim();
+      const html = String(args.html == null ? '' : args.html);
+      if (!to || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) throw new Error('Parameter "to" wajib alamat email yang valid');
+      if (!subject) throw new Error('Parameter "subject" wajib diisi');
+      if (!html) throw new Error('Parameter "html" wajib diisi');
+      const r = await be2Json('/email', ctx.be2Token, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'test', project_id: projectId, to, subject, html, reply_to: args.reply_to ? String(args.reply_to) : undefined })
+      });
+      if (!r.ok) throw new Error('Gagal mengirim email (' + r.status + '): ' + ((r.data && (r.data.error || r.data.message)) || ''));
+      return { content: [{ type: 'text', text: 'Email terkirim ke ' + to + '. ' + JSON.stringify(r.data) }] };
     }
     default:
       throw new Error('Tool tidak dikenal: ' + name);

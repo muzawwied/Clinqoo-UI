@@ -395,6 +395,46 @@
                     <div id="sw-delete-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
                   </button>
                 </div>
+                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Chat AI Clincoo</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa minta bantuan AI Clincoo: kompilasi, refactor, tanya konteks proyek (gak makan kuota chat kamu)</p>
+                  </div>
+                  <button type="button" onclick="toggleScope('chat')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan chat AI Clincoo">
+                    <div id="sw-chat-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
+                    <div id="sw-chat-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
+                  </button>
+                </div>
+                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Deployment</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa mempublikasikan situs proyek dan melihat status deployment</p>
+                  </div>
+                  <button type="button" onclick="toggleScope('deploy')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan deploy proyek">
+                    <div id="sw-deploy-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
+                    <div id="sw-deploy-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
+                  </button>
+                </div>
+                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Pengaturan &amp; Integrasi</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa membaca dan mengubah pengaturan proyek (nama app, deskripsi, webhook)</p>
+                  </div>
+                  <button type="button" onclick="toggleScope('settings')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan kelola pengaturan">
+                    <div id="sw-settings-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
+                    <div id="sw-settings-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
+                  </button>
+                </div>
+                <div class="flex items-center justify-between gap-3 px-3.5 py-3 bg-white dark:bg-[#0a0a0a]">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Kirim Email</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">AI bisa mengirim email lewat email API proyek (mengikuti kuota bulanan proyek)</p>
+                  </div>
+                  <button type="button" onclick="toggleScope('email')" class="relative w-11 h-6 flex-shrink-0 cursor-pointer focus:outline-none" aria-label="Izinkan kirim email">
+                    <div id="sw-email-bg" class="w-11 h-6 rounded-full transition-colors duration-200"></div>
+                    <div id="sw-email-knob" class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></div>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -446,7 +486,15 @@ function _mcpPid() {
   try { return localStorage.getItem('clinqoo_current_project_id') || ''; } catch (e) { return ''; }
 }
 
-var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false }, created_at: null, url: '', urlToken: '' };
+var mcpState = { active: false, token: '', scopes: { read: true, write: false, delete: false, chat: false, deploy: false, settings: false, email: false }, created_at: null, url: '', urlToken: '' };
+// 7 izin MCP: read default ON, sisanya default OFF (least privilege).
+var MCP_SCOPE_KEYS = ['read', 'write', 'delete', 'chat', 'deploy', 'settings', 'email'];
+function _mcpNormScopes(r) {
+  r = (r && typeof r === 'object') ? r : {};
+  var o = {};
+  MCP_SCOPE_KEYS.forEach(function (k) { o[k] = k === 'read' ? r[k] !== false : r[k] === true; });
+  return o;
+}
 var mcpTokenVisible = false;
 
 var _mcpToastTimer = null;
@@ -494,10 +542,16 @@ function renderMcpTools() {
     ['read_file', 'read'],
     ['write_file', 'write'],
     ['delete_item', 'delete'],
-    ['get_project_info', null]
+    ['get_project_info', null],
+    ['chat_ai', 'chat'],
+    ['deploy_project', 'deploy'],
+    ['deploy_status', 'deploy'],
+    ['get_settings', 'settings'],
+    ['update_settings', 'settings'],
+    ['send_email', 'email']
   ];
   wrap.innerHTML = defs.map(function (d) {
-    var enabled = !d[1] || mcpState.scopes[d[1]] !== false;
+    var enabled = !d[1] || mcpState.scopes[d[1]] === true;
     return '<span class="inline-flex items-center px-2 py-0.5 text-[11px] font-mono rounded-full ' +
       (enabled ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300' : 'bg-gray-100 text-gray-400 dark:bg-slate-800 dark:text-gray-500') +
       '">' + d[0] + (enabled ? '' : ' (nonaktif)') + '</span>';
@@ -545,9 +599,7 @@ function renderMcp() {
       }
     }, null, 2);
   }
-  applyScopeSwitch('read');
-  applyScopeSwitch('write');
-  applyScopeSwitch('delete');
+  MCP_SCOPE_KEYS.forEach(function (k) { applyScopeSwitch(k); });
   renderMcpTools();
 }
 
@@ -566,7 +618,7 @@ async function loadMcp() {
   if (cached && cached.token && _mcpPid()) {
     mcpState.active = true;
     mcpState.token = cached.token;
-    mcpState.scopes = cached.scopes || { read: true, write: false, delete: false };
+    mcpState.scopes = _mcpNormScopes(cached.scopes);
     mcpState.created_at = cached.created_at || null;
     renderMcp();
     // 2) Cegarkan diam-diam: gak ada skeleton, UI gak berkedip.
@@ -576,7 +628,7 @@ async function loadMcp() {
       var r = await mcpRequest('GET');
       if (r && r.token) {
         if (r.token !== mcpState.token) { mcpState.token = r.token; mcpToast('Token diperbarui dari perangkat lain'); }
-        _mcpCacheWrite(r); mcpState.scopes = r.scopes || mcpState.scopes; mcpState.created_at = r.created_at || mcpState.created_at; renderMcp();
+        _mcpCacheWrite(r); mcpState.scopes = _mcpNormScopes(r.scopes); mcpState.created_at = r.created_at || mcpState.created_at; renderMcp();
       }
       else if (r && r.active === false) { _mcpCacheClear(); mcpState.active = false; mcpState.token = ''; mcpState.created_at = null; renderMcp(); }
     } catch (e) { /* offline/lelet: tetap pakai cache */ }
@@ -594,7 +646,7 @@ async function loadMcp() {
   if (d && d.token) {
     mcpState.active = true;
     mcpState.token = d.token;
-    mcpState.scopes = d.scopes || { read: true, write: false, delete: false };
+    mcpState.scopes = _mcpNormScopes(d.scopes);
     mcpState.created_at = d.created_at || null;
     _mcpCacheWrite(d);
   } else {
@@ -613,13 +665,13 @@ async function activateMcp() {
     btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg><span>Mengaktifkan\u2026</span>';
   }
   var d;
-  try { d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: { read: true, write: false, delete: false } }); }
+  try { d = await mcpRequest('POST', { project_id: _mcpPid(), scopes: _mcpNormScopes({ read: true }) }); }
   catch (e) { d = null; }
   if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = orig; }
   if (d && d.token) {
     mcpState.active = true;
     mcpState.token = d.token;
-    mcpState.scopes = d.scopes || mcpState.scopes;
+    mcpState.scopes = _mcpNormScopes(d.scopes);
     mcpState.created_at = d.created_at || mcpState.created_at;
     _mcpCacheWrite(d);
     renderMcp();
@@ -636,7 +688,7 @@ async function regenerateMcp() {
   catch (e) { d = null; }
   if (d && d.token) {
     mcpState.token = d.token;
-    mcpState.scopes = d.scopes || mcpState.scopes;
+    mcpState.scopes = _mcpNormScopes(d.scopes);
     _mcpCacheWrite(d);
     mcpTokenVisible = true;
     renderMcp();
@@ -667,7 +719,7 @@ async function revokeMcp() {
 async function toggleScope(key) {
   if (!mcpState.active) return;
   var next = {};
-  ['read', 'write', 'delete'].forEach(function (k) { next[k] = k === key ? mcpState.scopes[k] === false : mcpState.scopes[k] !== false; });
+  MCP_SCOPE_KEYS.forEach(function (k) { next[k] = k === key ? mcpState.scopes[k] === false : mcpState.scopes[k] === true; });
   var prev = mcpState.scopes;
   mcpState.scopes = next;
   renderMcp();
